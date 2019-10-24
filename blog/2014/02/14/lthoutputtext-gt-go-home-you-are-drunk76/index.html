@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
 
   
-  <title>&amp;lt;h:outputText/&amp;gt; go home you are drunk!</title>
+  <title>&lt;h:outputText/&gt; go home you are drunk!</title>
 
   
   
@@ -33,7 +33,7 @@ While working on a JSF (Java Server Faces) test case recently I had one of those
   
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@pwntester">
-    <meta name="twitter:title" content="&amp;lt;h:outputText/&amp;gt; go home you are drunk!">
+    <meta name="twitter:title" content="&lt;h:outputText/&gt; go home you are drunk!">
     <meta name="twitter:description" content="This is just a copy of the post I wrote in the HP corporate blog, but just wanted to post it as well to spread the word:
 While working on a JSF (Java Server Faces) test case recently I had one of those WAT?!?! moments - where something you take for granted starts behaving in a completely different way from how you expect. In this case it was even worse, since the behavior I was observing was breaking my application security and undermining the trust I place on libraries and frameworks as a developer.">
     <meta name="twitter:image" content="/images/avatar.jpeg">
@@ -41,7 +41,7 @@ While working on a JSF (Java Server Faces) test case recently I had one of those
 
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="&amp;lt;h:outputText/&amp;gt; go home you are drunk!">
+  <meta property="og:title" content="&lt;h:outputText/&gt; go home you are drunk!">
   <meta property="og:description" content="This is just a copy of the post I wrote in the HP corporate blog, but just wanted to post it as well to spread the word:
 While working on a JSF (Java Server Faces) test case recently I had one of those WAT?!?! moments - where something you take for granted starts behaving in a completely different way from how you expect. In this case it was even worse, since the behavior I was observing was breaking my application security and undermining the trust I place on libraries and frameworks as a developer.">
   <meta property="og:url" content="http://www.pwntester.com/blog/2014/02/14/lthoutputtext-gt-go-home-you-are-drunk76/">
@@ -201,14 +201,16 @@ While working on a JSF (Java Server Faces) test case recently I had one of those
 
   <section class="main post-detail">
     <header class="post-header">
-      <h1 class="post-title">&amp;lt;h:outputText/&amp;gt; go home you are drunk!</h1>
+      <h1 class="post-title">&lt;h:outputText/&gt; go home you are drunk!</h1>
       <p class="post-meta">@pwntester · Feb 14, 2014 · 4 min read</p>
     </header>
-    <article class="post-content"><p>This is just a copy of the post I wrote in the <a href="http://h30499.www3.hp.com/t5/HP-Security-Research-Blog/JSF-outputText-tag-the-good-the-bad-and-the-ugly/ba-p/6368011">HP corporate blog</a>, but just wanted to post it as well to spread the word:</p>
+    <article class="post-content">
+
+<p>This is just a copy of the post I wrote in the <a href="http://h30499.www3.hp.com/t5/HP-Security-Research-Blog/JSF-outputText-tag-the-good-the-bad-and-the-ugly/ba-p/6368011">HP corporate blog</a>, but just wanted to post it as well to spread the word:</p>
 
 <p>While working on a JSF (Java Server Faces) test case recently I had one of those WAT?!?! moments - where something you take for granted starts behaving in a completely different way from how you expect. In this case it was even worse, since the behavior I was observing was breaking my application security and undermining the trust I place on libraries and frameworks as a developer.</p>
 
-<p>##The good</p>
+<h2 id="the-good">The good</h2>
 
 <p>The <a href="http://java.sun.com/jsf/html/outputText">http://java.sun.com/jsf/html/outputText</a> tag renders basic text on your JSF page. You can customize the appearance of the text using CSS styles, in which case the generated text is wrapped in an HTML &lt;span&gt; element. What developers know and trust is that by default the &lt;h:outputText&gt; tag encodes the rendered text if it contains sensitive HTML and XML characters, making it safe for an HTML context.</p>
 
@@ -225,7 +227,7 @@ While working on a JSF (Java Server Faces) test case recently I had one of those
 &lt;/html&gt;
 </code></pre>
 
-<p>##The bad</p>
+<h2 id="the-bad">The bad</h2>
 
 <p>What is less known - and undocumented - is that within &lt;script&gt; and &lt;style&gt; blocks, &lt;h:outputText&gt; and other similar tags like &lt;h:outputLabel&gt; disable their HTML encoding, making the following example XSS vulnerable:</p>
 
@@ -244,7 +246,7 @@ While working on a JSF (Java Server Faces) test case recently I had one of those
 
 <p>This can be dangerous if developers are not aware of this behavior and trust &lt;h:outputText&gt; encoding beyond its own capabilities.</p>
 
-<p>##The ugly</p>
+<h2 id="the-ugly">The ugly</h2>
 
 <p>The HP Software Security Research Group found that &lt;h:outputText&gt; tags immediately following &lt;script&gt; or &lt;style&gt; blocks are not encoded either making the following example XSS vulnerable:</p>
 
@@ -296,13 +298,13 @@ While working on a JSF (Java Server Faces) test case recently I had one of those
 
 <p>CVE Id assigned is CVE-2013-5855.</p>
 
-<p>##Workaround</p>
+<h2 id="workaround">Workaround</h2>
 
 <p>JSF won’t escape raw EL expressions or the &lt;h:outputText&gt; tag family within &lt;script&gt; or &lt;style&gt; blocks, so manual encoding is required if untrusted data is used in these contexts. We recommend using Javascript context encoders like the one in OWASP ESAPI</p>
 
 <p>Also, make sure you are either using a patched JSF version, or that every &lt;/script&gt; element has at least one intervening markup element present between it and the next EL expression, either embedded in the page, or on the right hand side of an attribute in a JSF UI Component Tag.</p>
 
-<p>##Conclusion</p>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>As developers we trust the libraries and frameworks we use to build our applications, and since we depend on them so strongly we don’t really have a choice. This puts the risk and responsibility on us to monitor the component projects we use and make sure we update to the latest versions when serious quality or security issues are found.</p>
 </article>

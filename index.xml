@@ -230,7 +230,7 @@ When you run the binary, it begins listening in port 31415 (pi!) but if we try t
     </item>
     
     <item>
-      <title>&amp;lt;h:outputText/&amp;gt; go home you are drunk!</title>
+      <title>&lt;h:outputText/&gt; go home you are drunk!</title>
       <link>http://www.pwntester.com/blog/2014/02/14/lthoutputtext-gt-go-home-you-are-drunk76/</link>
       <pubDate>Fri, 14 Feb 2014 17:43:00 +0000</pubDate>
       
