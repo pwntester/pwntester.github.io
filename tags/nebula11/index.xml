@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nebula11 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/nebula11/</link>
+    <description>Recent content in nebula11 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 27 Nov 2013 17:30:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/nebula11/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nebula level11 revisited</title>
+      <link>http://pwntester.com/blog/2013/11/27/nebula-level11-revisited/</link>
+      <pubDate>Wed, 27 Nov 2013 17:30:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/27/nebula-level11-revisited/</guid>
+      <description>After reading this great post by Dan Rosenberg, I learned about using LD_PRELOAD to pre-populate uninitializaed variables with arbitrary contents. The details are explained in the article, I just wanted to show how it can be used to solve challange 11.
+Ok, so we are going to try to fill the uninitialized buffer used in the process function with a string containing the commands to be be run:
+level11@nebula:/home/flag11$ export LD_PRELOAD=`python -c &#39;print(&amp;quot;\x0a/bin/getflag&amp;quot;*80)&#39;`  Now we can go and execute our binary and see if it works:</description>
+    </item>
+    
+    <item>
+      <title>Nebula level11 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/</link>
+      <pubDate>Sun, 24 Nov 2013 17:54:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/</guid>
+      <description>In Level11 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/mman.h&amp;gt; /* * Return a random, non predictable file, and return the file descriptor for it. */ int getrand(char **path) { char *tmp; int pid; int fd; srandom(time(NULL)); tmp = getenv(&amp;quot;TEMP&amp;quot;); pid = getpid(); asprintf(path, &amp;quot;%s/%d.%c%c%c%c%c%c&amp;quot;, tmp, pid, &#39;A&#39; + (random() % 26), &#39;0&#39; + (random() % 10), &#39;a&#39; + (random() % 26), &#39;A&#39; + (random() % 26), &#39;0&#39; + (random() % 10), &#39;a&#39; + (random() % 26)); fd = open(*path, O_CREAT|O_RDWR, 0600); unlink(*path); return fd; } void process(char *buffer, int length) { unsigned int key; int i; key = length &amp;amp; 0xff; for(i = 0; i &amp;lt; length; i++) { buffer[i] ^= key; key -= buffer[i]; } system(buffer); } #define CL &amp;quot;Content-Length: &amp;quot; int main(int argc, char **argv) { char line[256]; char buf[1024]; char *mem; int length; int fd; char *path; if(fgets(line, sizeof(line), stdin) == NULL) { errx(1, &amp;quot;reading from stdin&amp;quot;); } if(strncmp(line, CL, strlen(CL)) !</description>
+    </item>
+    
+  </channel>
+</rss>

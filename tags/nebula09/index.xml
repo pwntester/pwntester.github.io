@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nebula09 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/nebula09/</link>
+    <description>Recent content in nebula09 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Nov 2013 16:19:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/nebula09/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nebula level09 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/22/nebula-level09-write-up/</link>
+      <pubDate>Fri, 22 Nov 2013 16:19:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/22/nebula-level09-write-up/</guid>
+      <description>In Level09 we are given the following PHP code and are said that it is execute with a SUID wrapper:
+function spam($email) { $email = preg_replace(&amp;quot;/\./&amp;quot;, &amp;quot; dot &amp;quot;, $email); $email = preg_replace(&amp;quot;/@/&amp;quot;, &amp;quot; AT &amp;quot;, $email); return $email; } function markup($filename, $use_me) { $contents = file_get_contents($filename); $contents = preg_replace(&amp;quot;/(\[email (.*)\])/e&amp;quot;, &amp;quot;spam(\&amp;quot;\\2\&amp;quot;)&amp;quot;, $contents); $contents = preg_replace(&amp;quot;/\[/&amp;quot;, &amp;quot;&amp;lt;&amp;quot;, $contents); $contents = preg_replace(&amp;quot;/\]/&amp;quot;, &amp;quot;&amp;gt;&amp;quot;, $contents); return $contents; } $output = markup($argv[1], $argv[2]); print $output;  This code takes two arguments, the first one is a file containing email address in the format:</description>
+    </item>
+    
+  </channel>
+</rss>

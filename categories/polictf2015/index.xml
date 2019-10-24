@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>polictf2015 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/polictf2015/</link>
+    <description>Recent content in polictf2015 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 12 Jul 2015 09:56:12 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/polictf2015/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PoliCTF 2015. Web350 - Magic Chall</title>
+      <link>http://pwntester.com/blog/2015/07/12/polictf-2015-web350-magic-chall/</link>
+      <pubDate>Sun, 12 Jul 2015 09:56:12 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/polictf-2015-web350-magic-chall/</guid>
+      <description>We are presented with a web that allows us to register an account, then log in and be surprised with random disturbing videos xDDD. The web uses a page parameter to reference and include other pages and its vulnerable to LFI. For example, instead of going to http://magic.polictf.it/magic_things.php we can include it in index.php with http://magic.polictf.it/index.php?page=magic_things. So it seems that we can include any file ending in .php since we cannot seem to discard the extension using a null byte.</description>
+    </item>
+    
+    <item>
+      <title>PoliCTF 2015. Web150 - John The Referee</title>
+      <link>http://pwntester.com/blog/2015/07/12/polictf-150/</link>
+      <pubDate>Sun, 12 Jul 2015 09:55:56 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/polictf-150/</guid>
+      <description>We are presented with an online shop to buy Referee t-shirts: They have ids from 1-8 and then 10 (skipping 9).
+There is also a search form that seems to escape some characters: The search submission is somehow weird. Our search is submitted to server that returns a hash that we submit back to get the actual results. So either way the hash is an encrypted version of our search query that is decrypted and executed in the server or its a hash that represents the query and its mapped to our query in the server sesssion.</description>
+    </item>
+    
+    <item>
+      <title>PoliCTF 2015. Web100 - John The Traveller</title>
+      <link>http://pwntester.com/blog/2015/07/12/picoctf-web100/</link>
+      <pubDate>Sun, 12 Jul 2015 09:55:35 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/picoctf-web100/</guid>
+      <description>Holidays are here! But John still hasn&amp;rsquo;t decided where to spend them and time is running out: flights are overbooked and prices are rising every second. Fortunately, John just discovered a website where he can book last second flight to all the European capitals; however, there&amp;rsquo;s no time to waste, so he just grabs his suitcase and thanks to his new smartphone he looks the city of his choice up while rushing to the airport.</description>
+    </item>
+    
+    <item>
+      <title>PoliCTF 2015. Crypto100 - And the prophet said</title>
+      <link>http://pwntester.com/blog/2015/07/12/polictf-2015-crypto100-and-the-prophet-said/</link>
+      <pubDate>Sun, 12 Jul 2015 09:55:16 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/polictf-2015-crypto100-and-the-prophet-said/</guid>
+      <description>We are given a text that looks like base64, so we decode it and find a gzip file that contains a text file with 296 phrases from the bible. These phrases are repited so we assigned a random character to each line and got something like:
+abccde fagh iajccbklb gh mbno bjho ghkpf gfq gpr fnogkl fd sngfb j cdkl rbhhjlb hd hfjfghfgih sgcc abct odu sgfa fab cbffbn vnbwubkigbhx yuf gpr kdf nbjcco lddz jf fajfx d0 fajfph bkdulae jajae gpr gk cdmb sgfa hgrtcb cdsbnijhb vcjlh sgfaduf htjibh jkz hfnjklb horydchx vcjl1cyafyllumvhokfyywsyd2  Using a substitution decipher and a little bit of manual correction we get:</description>
+    </item>
+    
+    <item>
+      <title>PoliCTF 2015. Forensics100 - John In The Middle</title>
+      <link>http://pwntester.com/blog/2015/07/12/polictf-forensics100/</link>
+      <pubDate>Sun, 12 Jul 2015 09:54:02 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/polictf-forensics100/</guid>
+      <description>We are given a pcap with the traffic generated to an old version of http://polictf.it. We can use NetworkMiner or similar tools to extract all files and compare them with the originals. logo.png differs from original and using StegoSolve we can find the secret flag: </description>
+    </item>
+    
+  </channel>
+</rss>

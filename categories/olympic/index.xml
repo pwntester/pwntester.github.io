@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Olympic on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/olympic/</link>
+    <description>Recent content in Olympic on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 14 Feb 2014 16:29:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/olympic/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Olympic CTF CURLing500 Write Up</title>
+      <link>http://pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/</link>
+      <pubDate>Fri, 14 Feb 2014 16:29:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/</guid>
+      <description>We didnt have time to finish this task during the game since we decided to finish Freestyle 400 (scored in the last minute) but as I foound out later, we were close to finish it.
+In this level we were presented with a login form vulnerable to user enumeration. It was easy to see that admin was a valid user but we could not guess the password. After trying with other &amp;ldquo;normal&amp;rdquo; accounts like guest, dev and so on, we found that debug was a valid account and the password was debug.</description>
+    </item>
+    
+  </channel>
+</rss>

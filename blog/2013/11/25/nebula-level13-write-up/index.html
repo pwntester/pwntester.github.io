@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Nebula level13 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In Level13 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;string.h&amp;gt; #define FAKEUID 1000 int main(int argc, char **argv, char **envp) { int c; char token[256]; if(getuid() != FAKEUID) { printf(&amp;quot;Security failure detected. UID %d started us, we expect %d\n&amp;quot;, getuid(), FAKEUID); printf(&amp;quot;The system administrators will be notified of this violation\n&amp;quot;); exit(EXIT_FAILURE); } // snip, sorry :) printf(&amp;quot;your token is %s\n&amp;quot;, token); }  Well the code is missing the token but it is clear that is reading the user UID anc comparing it with 1000, so the only way to get our token is to fake that our UID is 1000.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Nebula level13 write-up">
+    <meta name="twitter:description" content="In Level13 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;string.h&amp;gt; #define FAKEUID 1000 int main(int argc, char **argv, char **envp) { int c; char token[256]; if(getuid() != FAKEUID) { printf(&amp;quot;Security failure detected. UID %d started us, we expect %d\n&amp;quot;, getuid(), FAKEUID); printf(&amp;quot;The system administrators will be notified of this violation\n&amp;quot;); exit(EXIT_FAILURE); } // snip, sorry :) printf(&amp;quot;your token is %s\n&amp;quot;, token); }  Well the code is missing the token but it is clear that is reading the user UID anc comparing it with 1000, so the only way to get our token is to fake that our UID is 1000.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Nebula level13 write-up">
+  <meta property="og:description" content="In Level13 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;string.h&amp;gt; #define FAKEUID 1000 int main(int argc, char **argv, char **envp) { int c; char token[256]; if(getuid() != FAKEUID) { printf(&amp;quot;Security failure detected. UID %d started us, we expect %d\n&amp;quot;, getuid(), FAKEUID); printf(&amp;quot;The system administrators will be notified of this violation\n&amp;quot;); exit(EXIT_FAILURE); } // snip, sorry :) printf(&amp;quot;your token is %s\n&amp;quot;, token); }  Well the code is missing the token but it is clear that is reading the user UID anc comparing it with 1000, so the only way to get our token is to fake that our UID is 1000.">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/11/25/nebula-level13-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/11/25/nebula-level13-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Nebula level13 write-up</h1>
+      <p class="post-meta">@pwntester · Nov 25, 2013 · 3 min read</p>
+    </header>
+    <article class="post-content"><p>In <a href="http://exploit-exercises.com/nebula/level13">Level13</a> we are given the following code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;string.h&gt;
+#define FAKEUID 1000
+int main(int argc, char **argv, char **envp)
+{
+  int c;
+  char token[256];
+  if(getuid() != FAKEUID) {
+    printf(&quot;Security failure detected. UID %d started us, we expect %d\n&quot;, getuid(), FAKEUID);
+    printf(&quot;The system administrators will be notified of this violation\n&quot;);
+    exit(EXIT_FAILURE);
+  }
+  // snip, sorry :)
+  printf(&quot;your token is %s\n&quot;, token);
+
+}
+</code></pre>
+
+<p>Well the code is missing the token but it is clear that is reading the user <strong>UID</strong> anc comparing it with <strong>1000</strong>, so the only way to get our token is to fake that our UID is 1000.</p>
+
+<p>You can run <strong>strings</strong> on the binary and get the encrypted token <strong>8mjomjh8wml;bwnh8jwbbnnwi;&gt;;88?o;9ob</strong> but this is not about crypto, so lets use a different approach.</p>
+
+<p>I used <strong>Hopper</strong> to dissasmble the ELF binary and look for the UID comparision:</p>
+
+<p>{% img /images/flag13hopper.png %}</p>
+
+<p>The code is calling <strong>getuid()</strong> and comparing the result stored in <strong>EAX</strong> with <strong>0x3e8</strong> that is 1000 in decimal. All we need to do is change the value using a debugger:</p>
+
+<pre><code class="language-lang-bash">level13@nebula:/home/flag13$ gdb flag13  -q
+Reading symbols from /home/flag13/flag13...(no debugging symbols found)...done.
+(gdb) break main
+Breakpoint 1 at 0x80484c9
+(gdb) run
+Starting program: /home/flag13/flag13
+
+Breakpoint 1, 0x080484c9 in main ()
+(gdb) x/20i main
+(gdb) x/20i main
+   0x80484c4 &lt;main&gt;:	push   %ebp
+   0x80484c5 &lt;main+1&gt;:	mov    %esp,%ebp
+   0x80484c7 &lt;main+3&gt;:	push   %edi
+   0x80484c8 &lt;main+4&gt;:	push   %ebx
+=&gt; 0x80484c9 &lt;main+5&gt;:	and    $0xfffffff0,%esp
+   0x80484cc &lt;main+8&gt;:	sub    $0x130,%esp
+   0x80484d2 &lt;main+14&gt;:	mov    0xc(%ebp),%eax
+   0x80484d5 &lt;main+17&gt;:	mov    %eax,0x1c(%esp)
+   0x80484d9 &lt;main+21&gt;:	mov    0x10(%ebp),%eax
+   0x80484dc &lt;main+24&gt;:	mov    %eax,0x18(%esp)
+   0x80484e0 &lt;main+28&gt;:	mov    %gs:0x14,%eax
+   0x80484e6 &lt;main+34&gt;:	mov    %eax,0x12c(%esp)
+   0x80484ed &lt;main+41&gt;:	xor    %eax,%eax
+   0x80484ef &lt;main+43&gt;:	call   0x80483c0 &lt;getuid@plt&gt;
+   0x80484f4 &lt;main+48&gt;:	cmp    $0x3e8,%eax
+   0x80484f9 &lt;main+53&gt;:	je     0x8048531 &lt;main+109&gt;
+   0x80484fb &lt;main+55&gt;:	call   0x80483c0 &lt;getuid@plt&gt;
+   0x8048500 &lt;main+60&gt;:	mov    $0x80486d0,%edx
+   0x8048505 &lt;main+65&gt;:	movl   $0x3e8,0x8(%esp)
+   0x804850d &lt;main+73&gt;:	mov    %eax,0x4(%esp)
+(gdb) break *main + 48
+Breakpoint 2 at 0x80484f4
+(gdb) cont
+Continuing.
+
+Breakpoint 2, 0x080484f4 in main ()
+(gdb) p $eax
+$1 = 1014
+(gdb) set $eax = 1000
+(gdb) p $eax
+$2 = 1000
+(gdb) cont
+Continuing.
+your token is b705702b-76a8-42b0-8844-3adabbe5ac58
+[Inferior 1 (process 1572) exited with code 063]
+</code></pre>
+
+<p>And there we go, the token is <strong>b705702b-76a8-42b0-8844-3adabbe5ac58</strong>. We can now log in as flag13 user:</p>
+
+<pre><code class="language-lang-bash">alvaro@nebula ~&gt; ssh flag13@nebula
+
+      _   __     __          __
+     / | / /__  / /_  __  __/ /___ _
+    /  |/ / _ \/ __ \/ / / / / __ `/
+   / /|  /  __/ /_/ / /_/ / / /_/ /
+  /_/ |_/\___/_.___/\__,_/_/\__,_/
+
+    exploit-exercises.com/nebula
+
+
+For level descriptions, please see the above URL.
+
+To log in, use the username of &quot;levelXX&quot; and password &quot;levelXX&quot;, where
+XX is the level number.
+
+Currently there are 20 levels (00 - 19).
+
+
+flag13@nebula's password:
+Welcome to Ubuntu 11.10 (GNU/Linux 3.0.0-12-generic i686)
+
+ * Documentation:  https://help.ubuntu.com/
+Your Ubuntu release is not supported anymore.
+For upgrade information, please visit:
+http://www.ubuntu.com/releaseendoflife
+
+New release '12.04.3 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+flag13@nebula:~$ id
+uid=986(flag13) gid=986(flag13) groups=986(flag13)
+flag13@nebula:~$ getflag
+You have successfully executed getflag on a target account
+</code></pre>
+
+<p>Voila!!</p>
+
+<p>A different approach is using crypto, the token is encrypted using XOR and as we can see in the disassembly, the key is <strong>0x5a</strong> (dec 90)</p>
+
+<p>{% img /images/flag13main.png %}</p>
+
+<p>The following script will decrypt it for us:</p>
+
+<pre><code class="language-lang-python">def xor_string_int(s, i):
+	array = []
+	for c in s:
+		array.append(chr(ord(c) ^ i))
+	xored = &quot;&quot;.join(array)
+	print xored
+
+xor_string_int(&quot;8mjomjh8wml;bwnh8jwbbnnwi;&gt;;88?o;9ob&quot;, 90)
+</code></pre>
+
+<pre><code class="language-lang-bash">alvaro@winterfell ~/Desktop&gt; python xor.py
+b705702b-76a8-42b0-8844-3adabbe5ac58
+</code></pre>
+
+<p>-.-</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/nebula13"><span class="tag">Nebula13</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2159</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

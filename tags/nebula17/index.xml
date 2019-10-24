@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nebula17 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/nebula17/</link>
+    <description>Recent content in nebula17 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 26 Nov 2013 20:15:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/nebula17/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nebula level17 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/</link>
+      <pubDate>Tue, 26 Nov 2013 20:15:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/</guid>
+      <description>In Level 17 we are given a vulnerable python server:
+#!/usr/bin/python import os import pickle import time import socket import signal signal.signal(signal.SIGCHLD, signal.SIG_IGN) def server(skt): line = skt.recv(1024) obj = pickle.loads(line) for i in obj: clnt.send(&amp;quot;why did you send me &amp;quot; + i + &amp;quot;?\n&amp;quot;) skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) skt.bind((&#39;0.0.0.0&#39;, 10007)) skt.listen(10) while True: clnt, addr = skt.accept() if(os.fork() == 0): clnt.send(&amp;quot;Accepted connection from %s:%d&amp;quot; % (addr[0], addr[1])) server(clnt) exit(1)  The only part of the application that processes our data is:</description>
+    </item>
+    
+  </channel>
+</rss>

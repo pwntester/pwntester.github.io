@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Remote code execution and XML Entity Expansion injection vulnerabilities in the Restlet framework</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="This blog was published in the HP Security research blog but publishing it here for greater dissemination:
+Advisory overview Restlet is a lightweight Java framework for building RESTful APIs. It comes in different flavors (Java SE, Java EE, Android, Google Web Toolkit and Google App Engine) and is composed of a core API and different extensions that provide additional functionality.
+While adding support for the Restlet API to HP Fortify SCA, the Software Security Research group discovered that the XStream extension prior to 2.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Remote code execution and XML Entity Expansion injection vulnerabilities in the Restlet framework">
+    <meta name="twitter:description" content="This blog was published in the HP Security research blog but publishing it here for greater dissemination:
+Advisory overview Restlet is a lightweight Java framework for building RESTful APIs. It comes in different flavors (Java SE, Java EE, Android, Google Web Toolkit and Google App Engine) and is composed of a core API and different extensions that provide additional functionality.
+While adding support for the Restlet API to HP Fortify SCA, the Software Security Research group discovered that the XStream extension prior to 2.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Remote code execution and XML Entity Expansion injection vulnerabilities in the Restlet framework">
+  <meta property="og:description" content="This blog was published in the HP Security research blog but publishing it here for greater dissemination:
+Advisory overview Restlet is a lightweight Java framework for building RESTful APIs. It comes in different flavors (Java SE, Java EE, Android, Google Web Toolkit and Google App Engine) and is composed of a core API and different extensions that provide additional functionality.
+While adding support for the Restlet API to HP Fortify SCA, the Software Security Research group discovered that the XStream extension prior to 2.">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Remote code execution and XML Entity Expansion injection vulnerabilities in the Restlet framework</h1>
+      <p class="post-meta">@pwntester · Mar 26, 2014 · 5 min read</p>
+    </header>
+    <article class="post-content">
+
+<p>This blog was published in the <a href="http://h30499.www3.hp.com/t5/HP-Security-Research-Blog/Remote-code-execution-and-XML-Entity-Expansion-injection/ba-p/6403370"><strong>HP Security research blog</strong></a> but publishing it here for greater dissemination:</p>
+
+<h2 id="advisory-overview">Advisory overview</h2>
+
+<p>Restlet is a lightweight Java framework for building RESTful APIs. It comes in different flavors (Java SE, Java EE, Android, Google Web Toolkit and Google App Engine) and is composed of a core API and different extensions that provide additional functionality.</p>
+
+<p>While adding support for the Restlet API to HP Fortify SCA, the Software Security Research group discovered that the XStream extension prior to 2.2 RC3 is susceptible to Remote Code Execution (RCE) via unsafe deserialization of XML messages. Also, versions prior to 2.1.7 and 2.2 RC1 contain APIs susceptible to XML Entity Expansion (XEE) injection, including the default extension to handle XML messages (JAXB).</p>
+
+<p>## Remote code execution via unsafe XStream deserialization</p>
+
+<p>RESTful APIs normally deal with JSON or XML Messages. If the latter is used, a broad set of XML data binding options are available for the developer to choose from; JAXB, JiBX and XStream amongst others. XStream is unique because it allows more than simple Java POJOs to be serialized. In particular, it allows the serialization of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Proxy.html">Java Dynamic Proxies</a>. If the application is configured to use the XStream extension to handle XML messages, an attacker can easily abuse it by sending specially crafted XML messages that use Dynamic Proxy serialization to execute arbitrary code on the server side. HP SSR previously identified a similar vulnerability in the core XStream library and the frameworks using it (such as SpringMVC, for example).</p>
+
+<h3 id="details">Details</h3>
+
+<p>A dynamic proxy  can intercept calls to any method declared in the interface it implements.</p>
+
+<p>Dynamic proxy deserialization allows an attacker to send a serialized object that invokes dynamic proxy methods during its initialization, the simplest case being a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html">java.util.SortedSet</a> that includes a regular object like a String and an object that proxifies the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html">java.lang.Comparable</a> interface. During the deserialization of the SortedSet, the “compare” method of each object in the set is invoked in order to sort the set and the proxified object will replace the original call to “compare” with the attacker’s custom payload.</p>
+
+<p>When the Restlet controller receives a malicious XML payload, it attempts to de-serialize it using XStream, effectively executing the malicious payload. Since the application would not normally be expecting a SortedSet, it throws an exception as soon as the SortedSet is cast to the expected type but the payload has already executed.</p>
+
+<h3 id="mitigation">Mitigation</h3>
+
+<p>If your application relies on the use of XStream, make sure it uses at least Restlet <a href="https://github.com/restlet/restlet-framework-java/wiki/XStream-security-enhancements">2.2 RC3 where a whitelist feature</a> has been added to prevent the deserialization of unexpected objects.</p>
+
+<p>## XML Entity Expansion (XEE) injection</p>
+
+<p>The core API uses JAXB to unmarshall XML messages on both client and server code by default. Restlet failed to disable local entity resolution, enabling attackers to run XEE (XML Entity Expansion) attacks &ndash; attackers could perform Denial of Service (DOS) attacks on Restlet-based web services.</p>
+
+<p>This is not the first time we’ve found this type of problem in RESTful frameworks. Last August we found that all SpringMVC/JAXB-based web services were vulnerable to XXE (XML External Entity) attacks as described in <a href="http://www.gopivotal.com/security/cve-2013-4152">CVE-2013-4152</a> (details published by the SpringMVC team).</p>
+
+<p>If you are not familiar with these types of vulnerabilities, you can learn how <a href="http://h30499.www3.hp.com/t5/HP-Security-Research-Blog/HP-Security-Research-Threat-Intelligence-Briefing-Episode-6/ba-p/6156265#.Uvz_OV7-S-g">XXE and XEE attacks work in our XML Entity based attacks post</a>.</p>
+
+<p>In this case, Restlet APIs were correctly configured to disable external entity resolution by default and were not vulnerable to XXE attacks. However, Doctype blocks (DTD) processing and local entity resolution were allowed and, more importantly, could not be disabled by any configuration property, making all the Restlet-based web services consuming XML messages vulnerable to this attack.</p>
+
+<h3 id="details-1">Details</h3>
+
+<p>The following snippet describes a simplified Restlet Server Resource consuming XML messages sent by clients to create Contacts:</p>
+
+<pre><code class="language-lang-bash">import org.restlet.resource.Post;
+import org.restlet.resource.ServerResource;
+import org.restlet.ext.xml.XmlRepresentation;
+
+public class XMLResource extends ServerResource {
+    @Post(&quot;xml&quot;)
+    public Contact createContact(Contact c) {
+        System.out.println(&quot;Contact received: &quot; + c.getName());
+        return c;
+    }
+}
+</code></pre>
+
+<p>Since Restlet versions prior to version 2.1.7 and 2.2 RC1 do not disable local entity resolution, an attacker could send a contact like this:</p>
+
+<pre><code class="language-lang-bash">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;!DOCTYPE root [
+  &lt;!ENTITY lol &quot;lol&quot;&gt;
+  &lt;!ENTITY lol2 &quot;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&quot;&gt;
+  &lt;!ENTITY lol3 &quot;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&quot;&gt;
+  &lt;!ENTITY lol4 &quot;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&quot;&gt;
+  &lt;!ENTITY lol5 &quot;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&quot;&gt;
+  &lt;!ENTITY lol6 &quot;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&quot;&gt;
+  &lt;!ENTITY lol7 &quot;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&quot;&gt;
+  &lt;!ENTITY lol8 &quot;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&quot;&gt;
+  &lt;!ENTITY lol9 &quot;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&quot;&gt;
+]&gt;
+&lt;contact&gt;
+    &lt;name&gt;&amp;lol9;&lt;/name&gt;
+    &lt;lastName&gt;test&lt;/lastName&gt;
+&lt;/contact&gt;
+</code></pre>
+
+<p>When processed internally by the Restlet XML processor (that uses JAXB by default) for instantiating a Contact object, the name of the contact unfolds into more than 1 billion “lol” strings - using almost 3GB of memory and crashing the Java Virtual Machine (JVM) on the server. This attack is also known as the <a href="http://en.wikipedia.org/wiki/Billion_laughs">Billion laughs attack</a>.</p>
+
+<p>The Restlet components affected by this vulnerability are:</p>
+
+<ul>
+<li>&ldquo;xml&rdquo; extension,</li>
+<li>&ldquo;atom&rdquo;, &ldquo;javamail&rdquo;, &ldquo;lucene&rdquo;, &ldquo;odata&rdquo;, &ldquo;openid&rdquo;, &ldquo;rdf&rdquo;, &ldquo;wadl&rdquo;, &ldquo;xdb&rdquo; that directly depends on the &ldquo;xml&rdquo; extension.</li>
+<li>&ldquo;jackson&rdquo;, &ldquo;jaxb&rdquo;, &ldquo;jibx&rdquo;, &ldquo;xstream&rdquo;, &ldquo;rome&rdquo; that provides automatic converters.</li>
+</ul>
+
+<p>### Mitigation</p>
+
+<p>Update to Restlet versions 2.1.7, 2.2 RC1 and above that disable local entity resolution by default.</p>
+
+<p>More technical details can be found in the <a href="https://github.com/restlet/restlet-framework-java/wiki/XEE-security-enhancements">Restlet technical note</a>.</p>
+
+<p>## CVEs</p>
+
+<ul>
+<li>Remote Code Execution via XStream deserialization - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-2228">CVE-2014-2228</a>.</li>
+<li>XML Entity Expand (XEE) Injection - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1868">CVE-2014-1868</a>.</li>
+</ul>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/post"><span class="tag">Post</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2038</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

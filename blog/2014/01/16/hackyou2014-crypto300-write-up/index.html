@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>#hackyou2014 Crypto300 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In this level we are presented with a crypto system based on Matrix operations:
+#!/usr/bin/python import random from struct import pack def Str2matrix(s): #convert string to 4x4 matrix return [map(lambda x : ord(x), list(s[i:i&#43;4])) for i in xrange(0, len(s), 4)] def Matrix2str(m): #convert matrix to string return &#39;&#39;.join(map(lambda x : &#39;&#39;.join(map(lambda y : pack(&#39;!H&#39;, y), x)), m)) def Generate(password): #generate key matrix random.seed(password) return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)] def Multiply(A,B): #multiply two 4x4 matrix C = [[0 for i in xrange(4)] for j in xrange(4)] for i in xrange(4): for j in xrange(4): for k in xrange(4): C[i][j] &#43;= A[i][k] * B[k][j] return C def Encrypt(fname): #encrypt file key = Generate(&#39;&#39;) data = open(fname, &#39;rb&#39;).">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="#hackyou2014 Crypto300 write-up">
+    <meta name="twitter:description" content="In this level we are presented with a crypto system based on Matrix operations:
+#!/usr/bin/python import random from struct import pack def Str2matrix(s): #convert string to 4x4 matrix return [map(lambda x : ord(x), list(s[i:i&#43;4])) for i in xrange(0, len(s), 4)] def Matrix2str(m): #convert matrix to string return &#39;&#39;.join(map(lambda x : &#39;&#39;.join(map(lambda y : pack(&#39;!H&#39;, y), x)), m)) def Generate(password): #generate key matrix random.seed(password) return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)] def Multiply(A,B): #multiply two 4x4 matrix C = [[0 for i in xrange(4)] for j in xrange(4)] for i in xrange(4): for j in xrange(4): for k in xrange(4): C[i][j] &#43;= A[i][k] * B[k][j] return C def Encrypt(fname): #encrypt file key = Generate(&#39;&#39;) data = open(fname, &#39;rb&#39;).">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="#hackyou2014 Crypto300 write-up">
+  <meta property="og:description" content="In this level we are presented with a crypto system based on Matrix operations:
+#!/usr/bin/python import random from struct import pack def Str2matrix(s): #convert string to 4x4 matrix return [map(lambda x : ord(x), list(s[i:i&#43;4])) for i in xrange(0, len(s), 4)] def Matrix2str(m): #convert matrix to string return &#39;&#39;.join(map(lambda x : &#39;&#39;.join(map(lambda y : pack(&#39;!H&#39;, y), x)), m)) def Generate(password): #generate key matrix random.seed(password) return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)] def Multiply(A,B): #multiply two 4x4 matrix C = [[0 for i in xrange(4)] for j in xrange(4)] for i in xrange(4): for j in xrange(4): for k in xrange(4): C[i][j] &#43;= A[i][k] * B[k][j] return C def Encrypt(fname): #encrypt file key = Generate(&#39;&#39;) data = open(fname, &#39;rb&#39;).">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">#hackyou2014 Crypto300 write-up</h1>
+      <p class="post-meta">@pwntester · Jan 16, 2014 · 4 min read</p>
+    </header>
+    <article class="post-content"><p>In this <a href="http://hackyou.ctf.su/tasks/crypto300">level</a> we are presented with a crypto system based on Matrix operations:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/python
+import random
+from struct import pack
+
+def Str2matrix(s):
+    #convert string to 4x4 matrix
+    return [map(lambda x : ord(x), list(s[i:i+4])) for i in xrange(0, len(s), 4)]
+
+def Matrix2str(m):
+    #convert matrix to string
+    return ''.join(map(lambda x : ''.join(map(lambda y : pack('!H', y), x)), m))
+
+def Generate(password):
+    #generate key matrix
+    random.seed(password)
+    return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)]
+
+def Multiply(A,B):
+    #multiply two 4x4 matrix
+    C = [[0 for i in xrange(4)] for j in xrange(4)]
+    for i in xrange(4):
+        for j in xrange(4):
+            for k in xrange(4):
+                C[i][j] += A[i][k] * B[k][j]
+    return C
+
+def Encrypt(fname):
+    #encrypt file
+    key = Generate('')
+    data = open(fname, 'rb').read()
+    length = pack('!I', len(data))
+    while len(data) % 16 != 0:
+        data += '\x00'
+    out = open(fname + '.out', 'wb')
+    out.write(length)
+    for i in xrange(0, len(data), 16):
+        cipher = Multiply(Str2matrix(data[i:i+16]), key)
+        out.write(Matrix2str(cipher))
+    out.close()
+
+Encrypt('flag.wmv')
+</code></pre>
+
+<p>The <strong>Encrypt()</strong> function generates a 4x4 matrix based on a seed not providen. This matrix is used to encrypt a byte array. Here is how:</p>
+
+<ul>
+<li>File to be encrypted is padded with 0 until its a factor of 16.</li>
+<li>Then it is split in 16 bytes chunks that are reordened as 4x4 lists</li>
+<li>Each of this 4x4 matrix is multiplied by the key matrix</li>
+<li>The encrypted file is generated by appending the length of the encrpyted data and the encrypted bytes</li>
+</ul>
+
+<p>Matrix multiplications are reversible using inverse matrixes so if <strong>E = P * K</strong> then <strong>P.I * E = P.I * P * K</strong> so <strong>K = P.I * E</strong> where:</p>
+
+<ul>
+<li><strong>P</strong> is a plaintext matrix</li>
+<li><strong>E</strong> is a encrypted matrix of plaintext matrix</li>
+<li><strong>P.I</strong> is the inverse of P</li>
+</ul>
+
+<p>So if we want to extract the key we need to know at least one plaintext 4x4 matrix (P). Fortunately for us the file we need to decrypt is &ldquo;flag.wmv.out&rdquo; sounds like it is a WMV file and we know that its magic number is:</p>
+
+<pre><code class="language-lang-bash">3026b2758e66cf11a6d900aa0062ce6c
+</code></pre>
+
+<p>Thats exactly 16 bytes :D So to extract the key:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/python
+import random
+from struct import pack
+from struct import unpack
+from numpy import *
+
+def Str2matrix(s):
+    return [map(lambda x : ord(x), list(s[i:i+4])) for i in xrange(0, len(s), 4)]
+
+def DecStr2matrix(s):
+    matrix = []
+    row = []
+    rowcount = 0
+    for i in xrange(0, len(s), 2):
+        item = int(s[i:i+2].encode(&quot;hex&quot;),16)
+        row.append(item)
+        rowcount += 1
+        if rowcount==4:
+            rowcount=0
+            matrix.append(row)
+            row=[]
+    return matrix
+
+def Matrix2str(m):
+    return ''.join(map(lambda x : ''.join(map(lambda y : pack('!H', y), x)), m))
+
+def DecMatrix2str(m):
+    return ''.join(map(lambda x : ''.join(map(lambda y : pack('!B', y), x)), m))
+
+def Generate(password):
+    random.seed(password)
+    return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)]
+
+def Multiply(A,B):
+    C = [[0 for i in xrange(4)] for j in xrange(4)]
+    for i in xrange(4):
+        for j in xrange(4):
+            for k in xrange(4):
+                C[i][j] += A[i][k] * B[k][j]
+    return C
+
+def Encrypt(fname,mkey):
+    key = Generate(5)
+    data = open(fname, 'rb').read()
+    length = pack('!I', len(data))
+    while len(data) % 16 != 0:
+        data += '\x00'
+    out = open(fname + '.out', 'wb')
+    out.write(length)
+    for i in xrange(0, len(data), 16):
+        cipher = Multiply(Str2matrix(data[i:i+16]), key)
+        mclear = matrix(Str2matrix(data[i:i+16]))
+        mcipher = matrix(cipher)
+        mcipher = mclear*mkey
+        out.write(Matrix2str(cipher))
+    out.close()
+    return cipher
+
+def Decrypt(fname,key):
+    data = open(fname, 'rb').read()
+    length = int(unpack('!I', data[0:4])[0])
+    data = data[4:]
+    out = open(fname + '.orig', 'wb')
+    for i in xrange(0, len(data), 32):
+        mdata = DecStr2matrix(data[i:i+32])
+        clear = matrix(mdata)*key.I
+        m = clear.round().tolist()
+        m = [[int(item) for item in row] for row in m]
+        out.write(DecMatrix2str(m))
+    out.close()
+    return clear
+
+def ExtractKey(fname, clearstring):
+    data = open(fname, 'rb').read()
+    cipher = data[4:36]
+    clear = clearstring.decode(&quot;hex&quot;)
+    mclear = matrix(Str2matrix(clear))
+    mcipher = matrix(DecStr2matrix(cipher))
+    mkey = mclear.I*mcipher
+    return mkey
+
+#Encrypt('flag.wmv')
+ourkey = matrix(Generate(5))
+print&quot;[+] Extract key&quot;
+key = ExtractKey(&quot;flag.wmv.out&quot;, &quot;3026b2758e66cf11a6d900aa0062ce6c&quot;)
+print(&quot;[+] Key:\n{0}&quot;.format(key))
+print&quot;[+] Decrypt video&quot;
+clear = Decrypt(&quot;flag.wmv.out&quot;,key)
+</code></pre>
+
+<p>So running the script gets the vide decrypted:</p>
+
+<pre><code class="language-lang-bash">alvaro@winterfell ~/D/h/crypto300&gt; python crack2.py
+[+] Extract key
+[+] Key:
+[[ 31.  51.  20.   0.]
+ [ 53.  10.   6.  45.]
+ [  3.  13.   3.  49.]
+ [ 17.  48.  56.  31.]]
+[+] Decrypt video
+</code></pre>
+
+<p><img src="/images/octopress/crypto300.png" alt="" /></p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/hackyou2014"><span class="tag">HackYou2014</span></a></li>
+        
+          <li><a href="/tags/crypto"><span class="tag">Crypto</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2106</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

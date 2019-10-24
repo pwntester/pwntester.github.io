@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SSRF on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/ssrf/</link>
+    <description>Recent content in SSRF on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jan 2014 13:03:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/ssrf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>#hackyou2014 Web400 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</link>
+      <pubDate>Fri, 17 Jan 2014 13:03:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</guid>
+      <description>I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
+We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:</description>
+    </item>
+    
+  </channel>
+</rss>

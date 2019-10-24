@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>More on XStream RCE: SpringMVC WS</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="Continuing my previous post where I mentioned that the XStream RCE issue issue also affected SpringMVC RESTful WebServices using the XStream SpringOXM wrapper, I wanted to share a POC server. The code is quite simple and can be found in the XStreamServer GitHub Repo. It contains a WebService defined by the ContactController:
+@Controller @RequestMapping(&amp;quot;/contacts&amp;quot;) public class ContactController { @Autowired private ContactRepository contactRepository; @RequestMapping( value = &amp;quot;/{id}&amp;quot;, method = RequestMethod.GET ) @ResponseStatus(HttpStatus.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="More on XStream RCE: SpringMVC WS">
+    <meta name="twitter:description" content="Continuing my previous post where I mentioned that the XStream RCE issue issue also affected SpringMVC RESTful WebServices using the XStream SpringOXM wrapper, I wanted to share a POC server. The code is quite simple and can be found in the XStreamServer GitHub Repo. It contains a WebService defined by the ContactController:
+@Controller @RequestMapping(&amp;quot;/contacts&amp;quot;) public class ContactController { @Autowired private ContactRepository contactRepository; @RequestMapping( value = &amp;quot;/{id}&amp;quot;, method = RequestMethod.GET ) @ResponseStatus(HttpStatus.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="More on XStream RCE: SpringMVC WS">
+  <meta property="og:description" content="Continuing my previous post where I mentioned that the XStream RCE issue issue also affected SpringMVC RESTful WebServices using the XStream SpringOXM wrapper, I wanted to share a POC server. The code is quite simple and can be found in the XStreamServer GitHub Repo. It contains a WebService defined by the ContactController:
+@Controller @RequestMapping(&amp;quot;/contacts&amp;quot;) public class ContactController { @Autowired private ContactRepository contactRepository; @RequestMapping( value = &amp;quot;/{id}&amp;quot;, method = RequestMethod.GET ) @ResponseStatus(HttpStatus.">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">More on XStream RCE: SpringMVC WS</h1>
+      <p class="post-meta">@pwntester · Dec 24, 2013 · 3 min read</p>
+    </header>
+    <article class="post-content">
+
+<p>Continuing my previous post where I mentioned that the <a href="http://www.pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization/">XStream RCE issue</a> issue also affected SpringMVC RESTful WebServices using the XStream SpringOXM wrapper, I  wanted to share a POC server. The code is quite simple and can be found in the <a href="https://github.com/pwntester/XStreamServer">XStreamServer GitHub Repo</a>. It contains a WebService defined by the <strong>ContactController</strong>:</p>
+
+<pre><code class="language-lang-java">@Controller
+@RequestMapping(&quot;/contacts&quot;)
+public class ContactController {
+
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @RequestMapping( value = &quot;/{id}&quot;, method = RequestMethod.GET )
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public final Contact get( @PathVariable( &quot;id&quot; ) final Long contactId ){
+        System.out.println(&quot;get&quot;);
+        return contactRepository.findOne(contactId);
+    }
+
+    @RequestMapping( method = RequestMethod.POST )
+    @ResponseStatus( HttpStatus.CREATED )
+    @ResponseBody
+    public final String create( @RequestBody final Contact contact ){
+        System.out.println(&quot;Contact name: &quot; + contact.getFirstName());
+        contactRepository.save((ContactImpl) contact);
+        return &quot;OK&quot;;
+    }
+}
+</code></pre>
+
+<p>The <strong>create</strong> method binds an incoming XML message with a <strong>Contact</strong> instance. This application is configured to use <strong>XStream</strong> as its binding library as shown here:</p>
+
+<pre><code class="language-lang-markup">&lt;!-- Marshaller configuration --&gt;
+&lt;bean id=&quot;marshallingHttpMessageConverter&quot; class=&quot;org.springframework.http.converter.xml.MarshallingHttpMessageConverter&quot;&gt;
+    &lt;property name=&quot;marshaller&quot; ref=&quot;xstreamMarshaller&quot;/&gt;
+    &lt;property name=&quot;unmarshaller&quot; ref=&quot;xstreamMarshaller&quot;/&gt;
+&lt;/bean&gt;
+
+&lt;bean id=&quot;xstreamMarshaller&quot; class=&quot;org.springframework.oxm.xstream.XStreamMarshaller&quot;&gt;
+    &lt;property name=&quot;aliases&quot;&gt;
+        &lt;props&gt;
+            &lt;prop key=&quot;contact&quot;&gt;org.pwntester.springserver.ContactImpl&lt;/prop&gt;
+        &lt;/props&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>So SpringMVC will handle the XML document to the SpringOXM wrapper for unmarshalling. SpringOXM uses the <strong>XStreamMarshaller</strong> so it will simply call <strong>XStream</strong> in order to unmarshall the <strong>Contact</strong> object. At this point and with the details provided in the <a href="http://www.pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization/">XStream RCE post</a> its game over.</p>
+
+<p>Use maven and jetty to start the server:</p>
+
+<pre><code class="language-lang-bash">mvn -Djetty.port=8080 -DDebug clean jetty:run
+</code></pre>
+
+<p>Expected use:</p>
+
+<pre><code class="language-lang-bash">curl --header &quot;content-type: application/xml&quot; --data @contact.xml &quot;http://localhost:8080/contacts&quot;
+</code></pre>
+
+<p>Exploit knowing the interface:</p>
+
+<pre><code class="language-lang-bash">curl --header &quot;content-type: application/xml&quot; --data @exploit.xml &quot;http://localhost:8080/contacts&quot;
+</code></pre>
+
+<p>Generic Exploit:</p>
+
+<pre><code class="language-lang-bash">curl --header &quot;content-type: application/xml&quot; --data @exploit2.xml &quot;http://localhost:8080/contacts&quot;
+</code></pre>
+
+<h2 id="what-to-do-about-it">What to do about it</h2>
+
+<p>When I reported the issue to the Spring Security Team they updated their documentation and they added a CatchAllConverter for the users to use if they wish:</p>
+
+<p>Documentation changes:</p>
+
+<ul>
+<li><a href="https://github.com/SpringSource/spring-framework/commit/4da7e304b86c9528d05b51b02459ee071b65e68a#spring-oxm/src/main/java/org/springframework/oxm/xstream/XStreamMarshaller.java">https://github.com/SpringSource/spring-framework/commit/4da7e304b86c9528d05b51b02459ee071b65e68a#spring-oxm/src/main/java/org/springframework/oxm/xstream/XStreamMarshaller.java</a></li>
+<li><a href="https://github.com/SpringSource/spring-framework/commit/5311e84c64cb453e3779a4f235c5030b7c569edd#spring-oxm/src/main/java/org/springframework/oxm/xstream">https://github.com/SpringSource/spring-framework/commit/5311e84c64cb453e3779a4f235c5030b7c569edd#spring-oxm/src/main/java/org/springframework/oxm/xstream</a></li>
+<li><a href="https://github.com/SpringSource/spring-framework/commit/d9bfac393bc8f2df93a29cf685e7d81c222a59e7#spring-oxm/src/main/java/org/springframework/oxm/xstream">https://github.com/SpringSource/spring-framework/commit/d9bfac393bc8f2df93a29cf685e7d81c222a59e7#spring-oxm/src/main/java/org/springframework/oxm/xstream</a></li>
+</ul>
+
+<p>Jira ticket to create a new <strong>CatchAllConverter</strong>:</p>
+
+<ul>
+<li><a href="https://jira.springsource.org/browse/SPR-10821?page=com.googlecode.jira-suite-utilities:transitions-summary-tabpanel">https://jira.springsource.org/browse/SPR-10821?page=com.googlecode.jira-suite-utilities:transitions-summary-tabpanel</a></li>
+</ul>
+
+<blockquote>
+<p>The main purpose of the catch-all converter class is to register itself as a catchall last converter with normal (or higher) priority, after converters that support specific domain classes. That way default XStream converters with lower priorities and <strong>possible security vulnerabilities</strong> do not get invoked.</p>
+</blockquote>
+
+<p>They added the catch-all converter which is great but they did not register it by default so unless your XStreamMarshaller config looks the following, you will be in trouble:</p>
+
+<pre><code class="language-lang-markup">&lt;!-- Marshaller configuration --&gt;
+&lt;bean id=&quot;marshallingHttpMessageConverter&quot; class=&quot;org.springframework.http.converter.xml.MarshallingHttpMessageConverter&quot;&gt;
+    &lt;property name=&quot;marshaller&quot; ref=&quot;xstreamMarshaller&quot;/&gt;
+    &lt;property name=&quot;unmarshaller&quot; ref=&quot;xstreamMarshaller&quot;/&gt;
+&lt;/bean&gt;
+
+&lt;bean id=&quot;xstreamMarshaller&quot; class=&quot;org.springframework.oxm.xstream.XStreamMarshaller&quot;&gt;
+    &lt;property name=&quot;aliases&quot;&gt;
+        &lt;props&gt;
+            &lt;prop key=&quot;contact&quot;&gt;org.pwntester.springserver.ContactImpl&lt;/prop&gt;
+        &lt;/props&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;converters&quot;&gt;
+        &lt;list&gt;
+            &lt;bean class=&quot;org.springframework.oxm.xstream.CatchAllConverter&quot;/&gt;
+            &lt;bean class=&quot;org.pwntester.springserver.ContactConverter&quot;/&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>Please note that Spring documentation is wrong and the &ldquo;CatchAllConverter&rdquo; needs to be registered in the first place so it gets lower priority as showed in the <a href="http://grepcode.com/file/repo1.maven.org/maven2/org.springframework.ws/spring-ws/1.5.10/org/springframework/oxm/xstream/XStreamMarshaller.java#XStreamMarshaller.setConverters%28org.springframework.oxm.xstream.ConverterMatcher[]%29">XStreamMarshaller.setConverters</a> code and not in the last place as suggested by the documentation:</p>
+
+<pre><code class="language-lang-java">    public void  [More ...] setConverters(ConverterMatcher[] converters) {
+        for (int i = 0; i &lt; converters.length; i++) {
+            if (converters[i] instanceof Converter) {
+                getXStream().registerConverter((Converter) converters[i], i);
+            }
+            else if (converters[i] instanceof SingleValueConverter) {
+                getXStream().registerConverter((SingleValueConverter) converters[i], i);
+            }
+            else {
+                throw new IllegalArgumentException(&quot;Invalid ConverterMatcher [&quot; + converters[i] + &quot;]&quot;);
+            }
+        }
+    }
+</code></pre>
+
+<p>So summing up, if you are using XStream marshaller in your SpringMVC web service and havent set any Catch-All Converter, you are screwed. But it has an easy (undocumented) solution:</p>
+
+<ul>
+<li>Write a custom converter for each of the classes you are expecting</li>
+<li>Register a <strong>CatchAllConverter</strong> followed by your custom converters in the <strong>XStreamMarshaller</strong> configuration.</li>
+</ul>
+
+<p>Thanks for reading!</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/springmvc"><span class="tag">SpringMVC</span></a></li>
+        
+          <li><a href="/tags/java"><span class="tag">Java</span></a></li>
+        
+          <li><a href="/tags/rce"><span class="tag">RCE</span></a></li>
+        
+          <li><a href="/tags/xstream"><span class="tag">XStream</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2130</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

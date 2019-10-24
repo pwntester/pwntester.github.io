@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spring on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/spring/</link>
+    <description>Recent content in Spring on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 16 Dec 2013 20:04:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/spring/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CVE-2011-2894: Deserialization Spring RCE</title>
+      <link>http://pwntester.com/blog/2013/12/16/cve-2011-2894-deserialization-spring-rce/</link>
+      <pubDate>Mon, 16 Dec 2013 20:04:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/16/cve-2011-2894-deserialization-spring-rce/</guid>
+      <description>This post is about an old RCE vulnerability in applications deserializing streams from untrusted sources and having Spring on their classpaths. I wrote an exploit for it some time ago to learn about this kind of serializing vulnerabilities and decided to make it public since I recently read an study by WhiteSource Software saying that this vulneravility is in the top 5 vulnerabilities that are more prevalent due to a lack of Open Source component update.</description>
+    </item>
+    
+  </channel>
+</rss>

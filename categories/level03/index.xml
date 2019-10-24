@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>level03 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/level03/</link>
+    <description>Recent content in level03 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 31 Dec 2013 17:34:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/level03/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Fusion level03 write-up</title>
+      <link>http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/</link>
+      <pubDate>Tue, 31 Dec 2013 17:34:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/</guid>
+      <description>Fusion level03 In this level we have to bypass ASLR and NX again:
+Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.
+HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;len);  The application is calculating the MAC of whatever is stored in &amp;ldquo;gRequest&amp;rdquo; (token+JSON request) using SHA1 as the hashing algorithm, &amp;ldquo;token&amp;rdquo; as the encryption key and store the MAC in the memory pointed by &amp;ldquo;result&amp;rdquo;.</description>
+    </item>
+    
+  </channel>
+</rss>

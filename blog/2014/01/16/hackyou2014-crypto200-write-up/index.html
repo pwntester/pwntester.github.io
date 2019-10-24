@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>#hackyou2014 Crypto200 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In this level we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777 We are given the following source code:
+#!/usr/bin/python from math import sin from urlparse import parse_qs from base64 import b64encode from base64 import b64decode from re import match SALT = &#39;&#39; USERS = set() KEY = &#39;&#39;.decode(&#39;hex&#39;) def xor(a, b): return &#39;&#39;.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100))) def hashme(s): #my secure hash function def F(X,Y,Z): return ((~X &amp;amp; Z) | (~X &amp;amp; Z)) &amp;amp; 0xFFFFFFFF def G(X,Y,Z): return ((X &amp;amp; Z) | (~Z &amp;amp; Y)) &amp;amp; 0xFFFFFFFF def H(X,Y,Z): return (X ^ Y ^ Y) &amp;amp; 0xFFFFFFFF def I(X,Y,Z): return (Y ^ (~Z | X)) &amp;amp; 0xFFFFFFFF def ROL(X,Y): return (X &amp;lt;&amp;lt; Y | X &amp;gt;&amp;gt; (32 - Y)) &amp;amp; 0xFFFFFFFF A = 0x67452301 B = 0xEFCDAB89 C = 0x98BADCFE D = 0x10325476 X = [int(0xFFFFFFFF * sin(i)) &amp;amp; 0xFFFFFFFF for i in xrange(256)] for i,ch in enumerate(s): k, l = ord(ch), i &amp;amp; 0x1f A = (B &#43; ROL(A &#43; F(B,C,D) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF B = (C &#43; ROL(B &#43; G(C,D,A) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF C = (D &#43; ROL(C &#43; H(D,A,B) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF D = (A &#43; ROL(D &#43; I(A,B,C) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF return &#39;&#39;.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="#hackyou2014 Crypto200 write-up">
+    <meta name="twitter:description" content="In this level we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777 We are given the following source code:
+#!/usr/bin/python from math import sin from urlparse import parse_qs from base64 import b64encode from base64 import b64decode from re import match SALT = &#39;&#39; USERS = set() KEY = &#39;&#39;.decode(&#39;hex&#39;) def xor(a, b): return &#39;&#39;.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100))) def hashme(s): #my secure hash function def F(X,Y,Z): return ((~X &amp;amp; Z) | (~X &amp;amp; Z)) &amp;amp; 0xFFFFFFFF def G(X,Y,Z): return ((X &amp;amp; Z) | (~Z &amp;amp; Y)) &amp;amp; 0xFFFFFFFF def H(X,Y,Z): return (X ^ Y ^ Y) &amp;amp; 0xFFFFFFFF def I(X,Y,Z): return (Y ^ (~Z | X)) &amp;amp; 0xFFFFFFFF def ROL(X,Y): return (X &amp;lt;&amp;lt; Y | X &amp;gt;&amp;gt; (32 - Y)) &amp;amp; 0xFFFFFFFF A = 0x67452301 B = 0xEFCDAB89 C = 0x98BADCFE D = 0x10325476 X = [int(0xFFFFFFFF * sin(i)) &amp;amp; 0xFFFFFFFF for i in xrange(256)] for i,ch in enumerate(s): k, l = ord(ch), i &amp;amp; 0x1f A = (B &#43; ROL(A &#43; F(B,C,D) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF B = (C &#43; ROL(B &#43; G(C,D,A) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF C = (D &#43; ROL(C &#43; H(D,A,B) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF D = (A &#43; ROL(D &#43; I(A,B,C) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF return &#39;&#39;.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="#hackyou2014 Crypto200 write-up">
+  <meta property="og:description" content="In this level we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777 We are given the following source code:
+#!/usr/bin/python from math import sin from urlparse import parse_qs from base64 import b64encode from base64 import b64decode from re import match SALT = &#39;&#39; USERS = set() KEY = &#39;&#39;.decode(&#39;hex&#39;) def xor(a, b): return &#39;&#39;.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100))) def hashme(s): #my secure hash function def F(X,Y,Z): return ((~X &amp;amp; Z) | (~X &amp;amp; Z)) &amp;amp; 0xFFFFFFFF def G(X,Y,Z): return ((X &amp;amp; Z) | (~Z &amp;amp; Y)) &amp;amp; 0xFFFFFFFF def H(X,Y,Z): return (X ^ Y ^ Y) &amp;amp; 0xFFFFFFFF def I(X,Y,Z): return (Y ^ (~Z | X)) &amp;amp; 0xFFFFFFFF def ROL(X,Y): return (X &amp;lt;&amp;lt; Y | X &amp;gt;&amp;gt; (32 - Y)) &amp;amp; 0xFFFFFFFF A = 0x67452301 B = 0xEFCDAB89 C = 0x98BADCFE D = 0x10325476 X = [int(0xFFFFFFFF * sin(i)) &amp;amp; 0xFFFFFFFF for i in xrange(256)] for i,ch in enumerate(s): k, l = ord(ch), i &amp;amp; 0x1f A = (B &#43; ROL(A &#43; F(B,C,D) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF B = (C &#43; ROL(B &#43; G(C,D,A) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF C = (D &#43; ROL(C &#43; H(D,A,B) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF D = (A &#43; ROL(D &#43; I(A,B,C) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF return &#39;&#39;.">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">#hackyou2014 Crypto200 write-up</h1>
+      <p class="post-meta">@pwntester · Jan 16, 2014 · 7 min read</p>
+    </header>
+    <article class="post-content">
+
+<p>In this <a href="http://hackyou.ctf.su/tasks/crypto200">level</a> we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777
+We are given the following source code:</p>
+
+<pre><code class="language-lang-python">#!/usr/bin/python
+from math import sin
+from urlparse import parse_qs
+from base64 import b64encode
+from base64 import b64decode
+from re import match
+
+SALT = ''
+USERS = set()
+KEY = ''.decode('hex')
+
+def xor(a, b):
+    return ''.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100)))
+
+def hashme(s):
+    #my secure hash function
+    def F(X,Y,Z):
+        return ((~X &amp; Z) | (~X &amp; Z)) &amp; 0xFFFFFFFF
+    def G(X,Y,Z):
+        return ((X &amp; Z) | (~Z &amp; Y)) &amp; 0xFFFFFFFF
+    def H(X,Y,Z):
+        return (X ^ Y ^ Y) &amp; 0xFFFFFFFF
+    def I(X,Y,Z):
+        return (Y ^ (~Z | X)) &amp; 0xFFFFFFFF
+    def ROL(X,Y):
+        return (X &lt;&lt; Y | X &gt;&gt; (32 - Y)) &amp; 0xFFFFFFFF
+
+    A = 0x67452301
+    B = 0xEFCDAB89
+    C = 0x98BADCFE
+    D = 0x10325476
+    X = [int(0xFFFFFFFF * sin(i)) &amp; 0xFFFFFFFF for i in xrange(256)]
+
+    for i,ch in enumerate(s):
+        k, l = ord(ch), i &amp; 0x1f
+        A = (B + ROL(A + F(B,C,D) + X[k], l)) &amp; 0xFFFFFFFF
+        B = (C + ROL(B + G(C,D,A) + X[k], l)) &amp; 0xFFFFFFFF
+        C = (D + ROL(C + H(D,A,B) + X[k], l)) &amp; 0xFFFFFFFF
+        D = (A + ROL(D + I(A,B,C) + X[k], l)) &amp; 0xFFFFFFFF
+
+    return ''.join(map(lambda x : hex(x)[2:].strip('L').rjust(8, '0'), [B, A, D, C]))
+
+def gen_cert(login):
+    global SALT, KEY
+    s = 'login=%s&amp;role=anonymous' % login
+    s += hashme(SALT + s)
+    print(&quot;decrypted cert: %s&quot; % s)
+    s = b64encode(xor(s, KEY))
+    print(&quot;encrypted cert: %s&quot; % s)
+    return s
+
+def register():
+    global USERS
+    login = raw_input('Your login: ').strip()
+    if not match('^[\w]+$', login):
+        print '[-] Wrong login'
+        return
+    if login in USERS:
+        print '[-] Username already exists'
+    else:
+        USERS.add(login)
+        print '[+] OK\nYour auth certificate:\n%s' % gen_cert(login)
+
+def auth():
+    global SALT, KEY
+    cert = raw_input('Provide your certificate:\n').strip()
+    try:
+        cert = xor(b64decode(cert), KEY)
+        print cert
+        auth_str, hashsum = cert[0:-32], cert[-32:]
+        print auth_str
+        print hashsum
+        if hashme(SALT + auth_str) == hashsum:
+            data = parse_qs(auth_str, strict_parsing = True)
+            print '[+] Welcome, %s!' % data['login'][0]
+            if 'administrator' in data['role']:
+                flag = open('flag.txt').readline()
+                print flag
+        else:
+            print '[-] Auth failed'
+    except:
+        print '[-] Error'
+
+
+def start():
+    while True:
+        print '======================'
+        print '[0] Register'
+        print '[1] Login'
+        print '======================'
+        num = raw_input().strip()
+        if num == '0':
+            register()
+        elif num == '1':
+            auth()
+
+start()
+</code></pre>
+
+<p>The service generates certificate when you register that you need to present in order to login in.
+The certificate is a XOR encrypted version of the following string:</p>
+
+<pre><code class="language-lang-bash">login=&lt;login&gt;&amp;role=anonymous&lt;salted hash of login+role string&gt;
+</code></pre>
+
+<p>The problem is that we dont know the encryption key nor the hash salt. So let&rsquo;s take it one step at a time:</p>
+
+<h2 id="getting-the-key-to-the-kingdom">Getting the key to the kingdom</h2>
+
+<p>Getting the key was the easy part as the cert is encrypted in an ECB way, we only need to send a login name long enough so that the whole key is xored with our know long login name, so we register the user:</p>
+
+<pre><code class="language-lang-bash">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</code></pre>
+
+<p>And get the cert:</p>
+
+<pre><code class="language-lang-bash">RK5yZMJaRRl8LVBk5mx9xmVfPhXWqPlNObWPakmd6mpMs0qh6p9KVhBr0hqGJCE9tKRpgFRM7SZFGXwtUGTmbH3GZV8+Fdao+U05tY9qSZ3qakyzSqHqn0pWEGvSGoYkIT20pGmAVEztJkUZfC1QZOZsfcZlXz4V1qj5TTm1j2pJnepqTLNKoeqfSlYQa9IahiQhPbSkaYBUTO0mRRl8LVBk5mx9xmVfPhXWqPlNObWPakmd6mpMs0qh6p9KVhBr0hqGJCE9tKRpgFRM7SZFGXwtUGTmbH3GZV8+Fdao+U05tY9qSZ3qakyzSqHqn0pWEGvSGoYkIT20pA6zemHJWmU2UgJoSMhYT7cXe0kyoN7cakrNq0lu7MgSaJYz0p/rb3NpE6FqpgZQ
+</code></pre>
+
+<p>Now if we xor the two together (adding &ldquo;login=&rdquo; before the login name) we get the key and since our login name was long enough we can extract the key that is repeated several times:</p>
+
+<pre><code class="language-lang-bash">28c1150dac6704583d6c1125a72d3c87241e7f5497e9b80c78f4ce2b08dcab2b0df20be0abde0b17512a935bc765607cf5e5
+</code></pre>
+
+<p>Now we can decrypt our cert and extrack the login string and hashsum:</p>
+
+<pre><code class="language-lang-bash">[+] Credentials: login=pwntester&amp;role=anonymous
+[+] Hashsum: 3e4d482fd5ce578af79312466b50b8f6
+</code></pre>
+
+<h2 id="putting-some-salt">Putting some salt</h2>
+
+<p>Our goal is to submit an &ldquo;administrator&rdquo; version of the string so we need to know the <strong>salt</strong> in order to produce the right hash that is going to be checked in the server &hellip; or not?
+Well, actually, the hashing function is not reversible and no collisions are found easy, but there is still hope in the way of <a href="http://en.wikipedia.org/wiki/Length_extension_attack">Length extension attacks</a>. Actually is even simpler since we dont have to care about the padding!
+Ok, so here is the idea.</p>
+
+<ul>
+<li>The Hashing state machine starts in a initial state (that we know, check A,B,C,D in the hashme function)</li>
+<li>The hashing machine iterates over all the characters (abcd) and ends in a different state that is returned as the hashsum</li>
+<li>If we extend the original characters (abcd1234) and pass it to the hash function, we can do two things:
+
+<ul>
+<li>Start from scratch, reset the hash FSM, and calculate process it till there are no more characters and we return the last state in the form of a hashsum</li>
+<li>Since we already hashed some characters and know the machine state, we can modify the hash FSM so its initial state is the one returned when we hashed (abcd) and then just continue from that state with the new characters (1234) until there are no more characters and we return the state in the form of a hashsum</li>
+</ul></li>
+</ul>
+
+<p>Well, the server is going to do the first approach, but we can do the second without knowing the Salt!! So we know that &ldquo;login=pwntester&amp;role=anonymous&rdquo; hash is 3e4d482fd5ce578af79312466b50b8f6.</p>
+
+<p>Lets say we want to calculate the hash of &ldquo;login=pwntester&amp;role=anonymousNEWSTUFFHERE&rdquo;, we can reset the Hash machine so its initial state is 3e4d482fd5ce578af79312466b50b8f6 and then just hash the &ldquo;NEWSTUFFHERE&rdquo;, the result will be the same hash as hashing the whole string.</p>
+
+<p>Now, if we focus on the auth() method:</p>
+
+<pre><code class="language-lang-python">def auth():
+    global SALT, KEY
+    cert = raw_input('Provide your certificate:\n').strip()
+    try:
+        cert = xor(b64decode(cert), KEY)
+        print cert
+        auth_str, hashsum = cert[0:-32], cert[-32:]
+        print auth_str
+        print hashsum
+        if hashme(SALT + auth_str) == hashsum:
+            data = parse_qs(auth_str, strict_parsing = True)
+            print '[+] Welcome, %s!' % data['login'][0]
+            if 'administrator' in data['role']:
+                flag = open('flag.txt').readline()
+                print flag
+        else:
+            print '[-] Auth failed'
+    except:
+        print '[-] Error'
+</code></pre>
+
+<p>We can see that the auth string is parsed as a query string (parse_qs) so if we pass different parameters with the same name, they will be treated as an array.
+Then the &ldquo;if &lsquo;administrator&rsquo; in data[&lsquo;role&rsquo;]&rdquo; will pass if one of them is <strong>administrator</strong></p>
+
+<p>So now we know what we need to hash:</p>
+
+<pre><code class="language-lang-bash">login=pwntester&amp;role=anonymous&amp;role=administrator
+</code></pre>
+
+<p>This is the function I wrote to hash from a given state:</p>
+
+<pre><code class="language-lang-python">def hashmeFromState(s,hash,init):
+    #my secure hash function
+    def F(X,Y,Z):
+        return ((~X &amp; Z) | (~X &amp; Z)) &amp; 0xFFFFFFFF
+    def G(X,Y,Z):
+        return ((X &amp; Z) | (~Z &amp; Y)) &amp; 0xFFFFFFFF
+    def H(X,Y,Z):
+        return (X ^ Y ^ Y) &amp; 0xFFFFFFFF
+    def I(X,Y,Z):
+        return (Y ^ (~Z | X)) &amp; 0xFFFFFFFF
+    def ROL(X,Y):
+        return (X &lt;&lt; Y | X &gt;&gt; (32 - Y)) &amp; 0xFFFFFFFF
+
+
+    B = int(hash[0:8], 16)
+    A = int(hash[8:16], 16)
+    D = int(hash[16:24], 16)
+    C = int(hash[24:32], 16)
+
+    X = [int(0xFFFFFFFF * sin(i)) &amp; 0xFFFFFFFF for i in xrange(256)]
+
+    i = init
+    for j,ch in enumerate(s):
+        # We add the length of the previous state (we dont know secret length so we have to brute force it) to restaurate the state
+        k, l = ord(ch), i &amp; 0x1f
+        if j==0:
+            print(&quot;hashmeext pos:{0} char:{1} l:{2}&quot;.format(j,ch,l))
+        A = (B + ROL(A + F(B,C,D) + X[k], l)) &amp; 0xFFFFFFFF
+        B = (C + ROL(B + G(C,D,A) + X[k], l)) &amp; 0xFFFFFFFF
+        C = (D + ROL(C + H(D,A,B) + X[k], l)) &amp; 0xFFFFFFFF
+        D = (A + ROL(D + I(A,B,C) + X[k], l)) &amp; 0xFFFFFFFF
+        i += 1
+
+    return ''.join(map(lambda x : hex(x)[2:].strip('L').rjust(8, '0'), [B, A, D, C]))
+</code></pre>
+
+<p>Note that we dont know the length of the Salt, so we need to brute force it to initialize the hash FST in the right state. After running the script against the live service, we get that the right length is 18:</p>
+
+<pre><code class="language-lang-bash">alvaro@winterfell ~/D/h/crypto200&gt; python crack.py
+[+] Concatenated key (250 bytes): 28c1150dac6704583d6c1125a72d3c87241e7f5497e9b80c78f4ce2b08dcab2b0df20be0abde0b17512a935bc765607cf5e528c1150dac6704583d6c1125a72d3c87241e7f5497e9b80c78f4ce2b08dcab2b0df20be0abde0b17512a935bc765607cf5e528c1150dac6704583d6c1125a72d3c87241e7f5497e9b80c78f4ce2b08dcab2b0df20be0abde0b17512a935bc765607cf5e528c1150dac6704583d6c1125a72d3c87241e7f5497e9b80c78f4ce2b08dcab2b0df20be0abde0b17512a935bc765607cf5e528c1150dac6704583d6c1125a72d3c87241e7f5497e9b80c78f4ce2b08dcab2b0df20be0abde0b17512a935bc765607cf5e5
+[+] Key: 28c1150dac6704583d6c1125a72d3c87241e7f5497e9b80c78f4ce2b08dcab2b0df20be0abde0b17512a935bc765607cf5e5
+[+] Credentials: login=pwntester&amp;role=anonymous
+[+] Hashsum: 3e4d482fd5ce578af79312466b50b8f6
+[+] User Credentials: login=pwntester&amp;role=anonymous3e4d482fd5ce578af79312466b50b8f6
+[+] User Cert: RK5yZMJadC9TGHRW00hOoVZxEzGqiNZjFo2jRH2vmE45lj/YmbhvIjJPpmz/BAZLzNYZ8yE7mgUxaF9UdxM=
+[-] Auth failed
+hashmeext pos:0 char:&amp; l:1
+[+] Admin Credentials (secret length=1: login=pwntester&amp;role=anonymous&amp;role=administrator72d2e3d8de7b390f146cc6b5e8552ea8)
+[+] Admin Cert (secret length=1: RK5yZMJadC9TGHRW00hOoVZxEzGqiNZjFo2jRH2vjVlinm7dyrpmfj9D4C+1BBQTh9IapSdonwM8PFhbcxaeHVq2ECgcN6GLjWlAwfsZbb2T)
+[+] Admin Cert decoded (secret length=1: login=pwntester&amp;role=anonymous&amp;role=administrator72d2e3d8de7b390f146cc6b5e8552ea8)
+
+...
+...
+...
+
+[-] Auth failed
+hashmeext pos:0 char:&amp; l:18
+[+] Admin Credentials (secret length=18: login=pwntester&amp;role=anonymous&amp;role=administrator6ca059630c51cb32e3d791aeca560eae)
+[+] Admin Cert (secret length=18: RK5yZMJadC9TGHRW00hOoVZxEzGqiNZjFo2jRH2vjVlinm7dyrpmfj9D4C+1BBQTh9NLoCU4lVE3aF5ZIEbFHg7iF3pIbaaI3W8Zwfgbbb3O)
+[+] Admin Cert decoded (secret length=18: login=pwntester&amp;role=anonymous&amp;role=administrator6ca059630c51cb32e3d791aeca560eae)
+
+[+] Welcome
+Eureka!!
+</code></pre>
+
+<p>Now we can use the cert to login and get the flag:</p>
+
+<pre><code class="language-lang-bash">RK5yZMJadC9TGHRW00hOoVZxEzGqiNZjFo2jRH2vjVlinm7dyrpmfj9D4C+1BBQTh9NLoCU4lVE3aF5ZIEbFHg7iF3pIbaaI3W8Zwfgbbb3O
+</code></pre>
+
+<pre><code class="language-lang-bash">alvaro@winterfell ~/D/h/crypto200&gt; nc hackyou2014tasks.ctf.su 7777                                                                                                                                                                                                            1
+======================
+[0] Register
+[1] Login
+======================
+1
+Provide your certificate:
+RK5yZMJadC9TGHRW00hOoVZxEzGqiNZjFo2jRH2vjVlinm7dyrpmfj9D4C+1BBQTh9NLoCU4lVE3aF5ZIEbFHg7iF3pIbaaI3W8Zwfgbbb3O
+[+] Welcome, pwntester!
+CTF{40712b12d4be002e20f51424309a068c}
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/hackyou2014"><span class="tag">HackYou2014</span></a></li>
+        
+          <li><a href="/tags/crypto"><span class="tag">Crypto</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2106</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

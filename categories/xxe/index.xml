@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>XXE on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/xxe/</link>
+    <description>Recent content in XXE on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jan 2014 13:03:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/xxe/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>#hackyou2014 Web400 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</link>
+      <pubDate>Fri, 17 Jan 2014 13:03:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</guid>
+      <description>I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
+We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:</description>
+    </item>
+    
+    <item>
+      <title>Abusing jar:// downloads</title>
+      <link>http://pwntester.com/blog/2013/11/28/abusing-jar-downloads/</link>
+      <pubDate>Thu, 28 Nov 2013 20:45:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/28/abusing-jar-downloads/</guid>
+      <description>Recently I saw Timothy Morgan (@ecbftw) presentation on OWASP AppSec USA&amp;rsquo;13 (Video) where he explained a clever trick to exploit a XXE or SSRF vulnerability fooling the server to fetch a file for us using the jar:// protocol. The trick is to serve the file but keep the connection opened, so our file is effectively uploaded to the victim server and stored on a temporary location until we close the connection.</description>
+    </item>
+    
+    <item>
+      <title>SpringMVC vulnerable to XXE</title>
+      <link>http://pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/</link>
+      <pubDate>Fri, 23 Aug 2013 08:34:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/</guid>
+      <description>While researching SpringMVC Restful APIs, I found out that any RESTful webservice built with SpringMVC and using JAXB as mashalling library to convert XML object representations to Java objects, was vulnerable to XML eXternal Entity Injection (XXE) attacks since the JAXB was configured to resolve external entities by default and it could not be configured to not do so.
+SpringMVC uses SpringOXM (Object to XML Mapper) to automatically convert XML messages into Java objects so developers dont need to process the XML message and instantiate their own class instances, they just need to declare what type they are expecting in their controller method.</description>
+    </item>
+    
+  </channel>
+</rss>

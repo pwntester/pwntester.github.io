@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>XSS on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/xss/</link>
+    <description>Recent content in XSS on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 06 Apr 2014 10:29:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/xss/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NuitDuHack 2014 Web Write Ups</title>
+      <link>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</link>
+      <pubDate>Sun, 06 Apr 2014 10:29:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</guid>
+      <description>Web 100: Abitol This is a simple web app where you can register and login to see an articles page, a photo gallery, a flag page and an admin contact page.
+Visiting the flag page give us a Nice try, did you really think it would be that easy? ;) but the photo gallery is vulnerable to XSS:
+http://abitbol.nuitduhack.com/zoom.php?image=1%3E%3Cscript%3Ealert%281%29%3C/script%3E
+Now, we dont know how the admin contact will be visualized in the viewer page, but we can try to send him a message with an iframe pointing to the vulnerable page so we can send his session ID to our cookie catcher or use XHR to request the flag.</description>
+    </item>
+    
+    <item>
+      <title>escape.alf.nu XSS Challenges Write-ups (Part 2)</title>
+      <link>http://pwntester.com/blog/2014/01/08/escape-alf-nu-xss-challenges-write-ups-part-257/</link>
+      <pubDate>Wed, 08 Jan 2014 08:59:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/08/escape-alf-nu-xss-challenges-write-ups-part-257/</guid>
+      <description>These are my solutions to Erling Ellingsen escape.alf.nu XSS challenges. I found them very interesting and I learnt a lot from them (especially from the last ones published in this post). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.
+My suggestion, if you havent done it so far, is to go and try to solve them by yourselves&amp;hellip;.</description>
+    </item>
+    
+    <item>
+      <title>escape.alf.nu XSS Challenges Write-ups (Part 1)</title>
+      <link>http://pwntester.com/blog/2014/01/06/escape-alf-nu-xss-challenges-write-ups-part-148/</link>
+      <pubDate>Mon, 06 Jan 2014 21:58:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/06/escape-alf-nu-xss-challenges-write-ups-part-148/</guid>
+      <description>These are my solutions to Erling Ellingsen escape.alf.nu XSS challenges. I found them very interesting and I learnt a lot from them (especially from the last ones to be published in Part 2). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.
+My suggestion, if you havent done it so far, is to go and try to solve them by yourselves&amp;hellip;.</description>
+    </item>
+    
+  </channel>
+</rss>

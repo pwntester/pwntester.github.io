@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nebula12 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/nebula12/</link>
+    <description>Recent content in nebula12 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 24 Nov 2013 20:37:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/nebula12/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nebula level12 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/24/nebula-level12-write-up/</link>
+      <pubDate>Sun, 24 Nov 2013 20:37:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/24/nebula-level12-write-up/</guid>
+      <description>In Level12 we are given the following code:
+local socket = require(&amp;quot;socket&amp;quot;) local server = assert(socket.bind(&amp;quot;127.0.0.1&amp;quot;, 50001)) function hash(password) prog = io.popen(&amp;quot;echo &amp;quot;..password..&amp;quot; | sha1sum&amp;quot;, &amp;quot;r&amp;quot;) data = prog:read(&amp;quot;*all&amp;quot;) prog:close() data = string.sub(data, 1, 40) return data end while 1 do local client = server:accept() client:send(&amp;quot;Password: &amp;quot;) client:settimeout(60) local line, err = client:receive() if not err then print(&amp;quot;trying &amp;quot; .. line) -- log from where ;\ local h = hash(line) if h ~= &amp;quot;4754a4f4bd5787accd33de887b9250a0691dd198&amp;quot; then client:send(&amp;quot;Better luck next time\n&amp;quot;); else client:send(&amp;quot;Congrats, your token is 413**CARRIER LOST**\n&amp;quot;) end end client:close() end  We have a command injection as the password variable can be controlled by the user and it is used to create a command that will be run in the system.</description>
+    </item>
+    
+  </channel>
+</rss>

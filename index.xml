@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>&lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/</link>
+    <description>Recent content on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 12 Jul 2015 09:56:12 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PoliCTF 2015. Web350 - Magic Chall</title>
+      <link>http://pwntester.com/blog/2015/07/12/polictf-2015-web350-magic-chall/</link>
+      <pubDate>Sun, 12 Jul 2015 09:56:12 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/polictf-2015-web350-magic-chall/</guid>
+      <description>We are presented with a web that allows us to register an account, then log in and be surprised with random disturbing videos xDDD. The web uses a page parameter to reference and include other pages and its vulnerable to LFI. For example, instead of going to http://magic.polictf.it/magic_things.php we can include it in index.php with http://magic.polictf.it/index.php?page=magic_things. So it seems that we can include any file ending in .php since we cannot seem to discard the extension using a null byte.</description>
+    </item>
+    
+    <item>
+      <title>PoliCTF 2015. Web150 - John The Referee</title>
+      <link>http://pwntester.com/blog/2015/07/12/polictf-150/</link>
+      <pubDate>Sun, 12 Jul 2015 09:55:56 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/polictf-150/</guid>
+      <description>We are presented with an online shop to buy Referee t-shirts: They have ids from 1-8 and then 10 (skipping 9).
+There is also a search form that seems to escape some characters: The search submission is somehow weird. Our search is submitted to server that returns a hash that we submit back to get the actual results. So either way the hash is an encrypted version of our search query that is decrypted and executed in the server or its a hash that represents the query and its mapped to our query in the server sesssion.</description>
+    </item>
+    
+    <item>
+      <title>PoliCTF 2015. Web100 - John The Traveller</title>
+      <link>http://pwntester.com/blog/2015/07/12/picoctf-web100/</link>
+      <pubDate>Sun, 12 Jul 2015 09:55:35 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/picoctf-web100/</guid>
+      <description>Holidays are here! But John still hasn&amp;rsquo;t decided where to spend them and time is running out: flights are overbooked and prices are rising every second. Fortunately, John just discovered a website where he can book last second flight to all the European capitals; however, there&amp;rsquo;s no time to waste, so he just grabs his suitcase and thanks to his new smartphone he looks the city of his choice up while rushing to the airport.</description>
+    </item>
+    
+    <item>
+      <title>PoliCTF 2015. Crypto100 - And the prophet said</title>
+      <link>http://pwntester.com/blog/2015/07/12/polictf-2015-crypto100-and-the-prophet-said/</link>
+      <pubDate>Sun, 12 Jul 2015 09:55:16 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/polictf-2015-crypto100-and-the-prophet-said/</guid>
+      <description>We are given a text that looks like base64, so we decode it and find a gzip file that contains a text file with 296 phrases from the bible. These phrases are repited so we assigned a random character to each line and got something like:
+abccde fagh iajccbklb gh mbno bjho ghkpf gfq gpr fnogkl fd sngfb j cdkl rbhhjlb hd hfjfghfgih sgcc abct odu sgfa fab cbffbn vnbwubkigbhx yuf gpr kdf nbjcco lddz jf fajfx d0 fajfph bkdulae jajae gpr gk cdmb sgfa hgrtcb cdsbnijhb vcjlh sgfaduf htjibh jkz hfnjklb horydchx vcjl1cyafyllumvhokfyywsyd2  Using a substitution decipher and a little bit of manual correction we get:</description>
+    </item>
+    
+    <item>
+      <title>PoliCTF 2015. Forensics100 - John In The Middle</title>
+      <link>http://pwntester.com/blog/2015/07/12/polictf-forensics100/</link>
+      <pubDate>Sun, 12 Jul 2015 09:54:02 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/07/12/polictf-forensics100/</guid>
+      <description>We are given a pcap with the traffic generated to an old version of http://polictf.it. We can use NetworkMiner or similar tools to extract all files and compare them with the originals. logo.png differs from original and using StegoSolve we can find the secret flag: </description>
+    </item>
+    
+    <item>
+      <title>0CTF 2015 - mislead (web 300)</title>
+      <link>http://pwntester.com/blog/2015/03/30/0ctf-2015-mislead-web-300/</link>
+      <pubDate>Mon, 30 Mar 2015 21:41:46 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/03/30/0ctf-2015-mislead-web-300/</guid>
+      <description>We are welcomed with a login page where we can register a new account and log in with it. After logging to the application we received a:
+Hello pwntester. Try to login as 0ops!  The first thing I looked for was for SQL injection in the register and login forms. The register one turned to be injectable and we can use Duplicate entry technique to dump the DB:
+Get the DB:</description>
+    </item>
+    
+    <item>
+      <title>0CTF 2015 - Golden Mac 2 (web 300)</title>
+      <link>http://pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-2-web-300/</link>
+      <pubDate>Mon, 30 Mar 2015 18:51:06 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-2-web-300/</guid>
+      <description>While playing Golden Mac 1 I found the ./bash_history for user salt that looked like:
+whoami pwd ls sudo nmap -sS 202.112.26.1/24 -p 22,80,3306 curl http://202.112.26.103/secret_blog/?id=1 msfconsole curl https://twitter.com/_SaxX_/status/580376290525650944 python -c &amp;quot;exec &#39;&#39;.join([chr(ord(i)^0x46) for i in &#39;/+6)42f)5}f)5h5?52#+nd4+fk4 f8ido&#39;])&amp;quot;&amp;lt;br /&amp;gt; shit! exit  While the SaxX tweet was funny, the secret_blog looked promising. The IP was not accessible from the outside but we could leverage our XXE injection into a SSRF vulnerability and visit the blog.</description>
+    </item>
+    
+    <item>
+      <title>0CTF 2015 - X-Y-Z (misc 300)</title>
+      <link>http://pwntester.com/blog/2015/03/30/0ctf-2015-x-y-z/</link>
+      <pubDate>Mon, 30 Mar 2015 17:34:40 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/03/30/0ctf-2015-x-y-z/</guid>
+      <description>We are given thousands of 3D coordinates in a text file:
+-4.751373,-2.622809,2.428588;-4.435134,-3.046589,2.406030;-4.788052,-2.661979,2.464709 -4.692748,-2.599611,2.629112;-4.656070,-2.560445,2.592991;-4.788052,-2.661979,2.464709 -4.692748,-2.599611,2.629112;-4.788052,-2.661979,2.464709;-4.435134,-3.046589,2.406030 -4.656070,-2.560445,2.592991;-4.516017,-2.714652,2.570303;-4.751373,-2.622809,2.428588 -4.656070,-2.560445,2.592991;-4.751373,-2.622809,2.428588;-4.788052,-2.661979,2.464709 -4.611258,-2.777269,2.405960;-4.435134,-3.046589,2.406030;-4.751373,-2.622809,2.428588 -4.572725,-2.644557,2.333280;-4.603014,-2.680354,2.364417;-4.592222,-2.663824,2.351891 -4.571442,-2.773632,2.381504;-4.564917,-2.826000,2.397583;-4.611258,-2.777269,2.405960 -4.571436,-2.742115,2.369542;-4.571442,-2.773632,2.381504;-4.611258,-2.777269,2.405960 -4.571436,-2.742115,2.369542;-4.611258,-2.777269,2.405960;-4.567214,-2.723559,2.360054 -4.567214,-2.723559,2.360054;-4.611258,-2.777269,2.405960;-4.560604,-2.711404,2.351613 -4.564917,-2.826000,2.397583;-4.435134,-3.046589,2.406030;-4.611258,-2.777269,2.405960 -4.560604,-2.711404,2.351613;-4.611258,-2.777269,2.405960;-4.614635,-2.748184,2.396883 ... ...  If we represent them with matplotlib using somrthing like:
+from matplotlib import pyplot import pylab from mpl_toolkits.mplot3d import Axes3D x_vals = [] y_vals = [] z_vals = [] data = open(&amp;quot;x-y-z&amp;quot;, &amp;quot;r&amp;quot;).readlines() i = 0 for line in data: points = line.split(&amp;quot;;&amp;quot;) for point in points: point = point.</description>
+    </item>
+    
+    <item>
+      <title>0CTF 2015 - Golden Mac 1 (web 300)</title>
+      <link>http://pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/</link>
+      <pubDate>Mon, 30 Mar 2015 17:26:04 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/03/30/0ctf-2015-golden-mac-1-web-300/</guid>
+      <description>In the description and task title, it states that the developer uses a Mac Book Pro. So we looked for the .DS_Store in the application root directory and found one whose contents we can read with this simple python script:
+from ds_store import DSStore with DSStore.open(&#39;DS_Store&#39;, &#39;r+&#39;) as d: for i in d: print i  Output:
+&amp;lt;index.php Iloc&amp;gt; &amp;lt;parse.class.php Iloc&amp;gt; &amp;lt;u_can_not_guess_this_haha.php Iloc&amp;gt;  It seems the flag is in u_can_not_guess_this_haha.</description>
+    </item>
+    
+    <item>
+      <title>0CTF 2015 - Lily (web 200)</title>
+      <link>http://pwntester.com/blog/2015/03/30/lily-web-200/</link>
+      <pubDate>Mon, 30 Mar 2015 17:25:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/03/30/lily-web-200/</guid>
+      <description>A simple web where we can register and login in. Once logged in, we can change our password. The home page shows a message from Tales from two cities and the email we used for log in.
+There is a SQL injection affecting the UPDATE statement sent with the Modify password feature. The idea is to modify the statement to change also the email (that we can read in the home page):</description>
+    </item>
+    
+    <item>
+      <title>0CTF 2015 - Forward (web 250)</title>
+      <link>http://pwntester.com/blog/2015/03/30/0ctf-short-write-ups/</link>
+      <pubDate>Mon, 30 Mar 2015 17:13:30 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2015/03/30/0ctf-short-write-ups/</guid>
+      <description>We are given access to a page and its source code:
+&amp;lt;?php if (isset($_GET[&#39;view-source&#39;])) { show_source(__FILE__); exit(); } include(&amp;quot;./inc.php&amp;quot;); // key &amp;amp; database config function err($str){ die(&amp;quot;&amp;lt;script&amp;gt;alert(\&amp;quot;$str\&amp;quot;);window.location.href=&#39;./&#39;;&amp;lt;/script&amp;gt;&amp;quot;); } $nonce = mt_rand(); extract($_GET); // this is my backdoor :) if (empty($_POST[&#39;key&#39;])) { err(&amp;quot;Parameter Missing!&amp;quot;); } if ($_POST[&#39;key&#39;] !== $key) { err(&amp;quot;You Are Not Authorized!&amp;quot;); } $conn = mysql_connect($host, $user, $pass); if (!$conn) { err(&amp;quot;Database Error, Please Contact with GameMaster!&amp;quot;); } $query = isset($_POST[&#39;query&#39;]) ?</description>
+    </item>
+    
+    <item>
+      <title>DragonSector Crypto 100</title>
+      <link>http://pwntester.com/blog/2014/04/27/dragonsector-crypto-100/</link>
+      <pubDate>Sun, 27 Apr 2014 18:50:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/04/27/dragonsector-crypto-100/</guid>
+      <description>In this task we have to win a lottery game:
+Basically each coupon costs $5 and we have $100 to spend. If we try to withdraw our money we get the amount of money we need to get our flag:
+To show they are playing fairly, the give you a verification id that its the value you have to guess concatenated with a random salt to reach the AES 16 bytes block that is used to encrypt the string.</description>
+    </item>
+    
+    <item>
+      <title>DragonSector PDF Stegano 50</title>
+      <link>http://pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/</link>
+      <pubDate>Sun, 27 Apr 2014 16:47:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/</guid>
+      <description>This was the task that most player solved (89). We were given a PDF with a Lorem ipsum text. Using PeePDF from @EternalTodo we can easily analyze the PDF.
+The info command shows two suspicious sectors:
+But the metadata one shows more interesting stuff:
+It seems there may be a morse code hidden in the PDF. Looking around different PFD objects we see something interesting in object 8:
+If we treat A&amp;rsquo;s and B&amp;rsquo;s as dots and dashes we get the following texts:</description>
+    </item>
+    
+    <item>
+      <title>Struts2 0day in the wild</title>
+      <link>http://pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/</link>
+      <pubDate>Thu, 24 Apr 2014 11:52:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/</guid>
+      <description>Remote code execution 0 day in up-to-date Struts 2 applications: Some months ago Struts2 announced a security vulnerability S2-020 that allowed ClassLoader manipulation and that could be used to get Remote Code Execution on certain application servers like Tomcat 8. The fix for this vulnerability was to forbid the (.*\.|^)class\..* regex from action parameters. However a bypass was made public that basically consists in changing the dot notation for the square bracket notation.</description>
+    </item>
+    
+    <item>
+      <title>Crowd-Solving Fusion level05</title>
+      <link>http://pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/</link>
+      <pubDate>Sun, 20 Apr 2014 10:57:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/</guid>
+      <description>I played with Fusion level05 for a couple of days last Xmas and although I found how to smash the stack, I couldn&amp;rsquo;t find any reliable way of leaking the .text base address to bypass PIE protection so I left it there. Yesterday, a tweet from @Newlog_ got me thinking it could be a good idea to post what I&amp;rsquo;ve done so far in case anyone wants to pick it from there and help solving the level.</description>
+    </item>
+    
+    <item>
+      <title>NuitDuHack 2014 Crypto Write Ups</title>
+      <link>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/</link>
+      <pubDate>Sun, 06 Apr 2014 20:00:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/</guid>
+      <description>Carbonara We are given the following ciphertext:
+%96 7=28 7@C E9:D 492= :D iQx&amp;gt;A6C2E@C xF=:FD r26D2C s:GFDQ]
+A simple shift shows interesting results:
+ciphertext = &amp;quot;%96 7=28 7@C E9:D 492= :D iQx&amp;gt;A6C2E@C xF=:FD r26D2C s:GFDQ]&amp;quot; size = len(ciphertext) for i in range(0,100): result=&amp;quot;&amp;quot; for c in ciphertext: if ord(c) &amp;gt; 126 or ord(c) &amp;lt; 33: result += c else: first = ord(c)+i if first &amp;gt; 90: first = 64 + (first - 90) result += chr(first) print(result)  Here is were the history classes prove valuable, flag is:</description>
+    </item>
+    
+    <item>
+      <title>NuitDuHack 2014 Web Write Ups</title>
+      <link>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</link>
+      <pubDate>Sun, 06 Apr 2014 10:29:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</guid>
+      <description>Web 100: Abitol This is a simple web app where you can register and login to see an articles page, a photo gallery, a flag page and an admin contact page.
+Visiting the flag page give us a Nice try, did you really think it would be that easy? ;) but the photo gallery is vulnerable to XSS:
+http://abitbol.nuitduhack.com/zoom.php?image=1%3E%3Cscript%3Ealert%281%29%3C/script%3E
+Now, we dont know how the admin contact will be visualized in the viewer page, but we can try to send him a message with an iframe pointing to the vulnerable page so we can send his session ID to our cookie catcher or use XHR to request the flag.</description>
+    </item>
+    
+    <item>
+      <title>Remote code execution and XML Entity Expansion injection vulnerabilities in the Restlet framework</title>
+      <link>http://pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/</link>
+      <pubDate>Wed, 26 Mar 2014 18:05:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/</guid>
+      <description>This blog was published in the HP Security research blog but publishing it here for greater dissemination:
+Advisory overview Restlet is a lightweight Java framework for building RESTful APIs. It comes in different flavors (Java SE, Java EE, Android, Google Web Toolkit and Google App Engine) and is composed of a core API and different extensions that provide additional functionality.
+While adding support for the Restlet API to HP Fortify SCA, the Software Security Research group discovered that the XStream extension prior to 2.</description>
+    </item>
+    
+    <item>
+      <title>Codegate 2k14 4stone (Pwnable 300) Write Up</title>
+      <link>http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</link>
+      <pubDate>Sun, 23 Mar 2014 11:38:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</guid>
+      <description>In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: DHHDLLDHDDDLDD
+Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the you win and you lose exit strings and actually, after priting the you win string we can find an interesting piece of code before the call to exit()</description>
+    </item>
+    
+    <item>
+      <title>Codegate 2k14 AngryDoraemon (pwnable 250) write up</title>
+      <link>http://pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/</link>
+      <pubDate>Fri, 21 Mar 2014 22:09:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/</guid>
+      <description>This is an easy pwnable level but very interesting since there are many ways to exploit it so lets start checking the binary protections:
+Not bad, ASLR and NX enabled and the stack is protected with a Canary. Lets analyze what does it do &amp;hellip; Running the binary opens a socket in port 8888 which we can connect to and receive a menu with options to attack Doraemon:
+Normally I play with the binary and try to get a crash which is simple in this case, but this time I decided to do some Reversing that payed off very well, I found the following vulnerabilities:</description>
+    </item>
+    
+    <item>
+      <title>Ghost in the Shellcode: TI-1337 Pwnable</title>
+      <link>http://pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/</link>
+      <pubDate>Sat, 15 Mar 2014 18:51:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/</guid>
+      <description>In this level we were presented with an ELF 64bits executable, a good oportunity to exercise linux exploiting on 64bits systems and try Hopper for the first time :)
+When you run the binary, it begins listening in port 31415 (pi!) but if we try to connect, it complains about a missing user &amp;ldquo;gambino&amp;rdquo;. So we have to create the user. Once created, if we try to connect to the service we get nothing.</description>
+    </item>
+    
+    <item>
+      <title>&amp;lt;h:outputText/&amp;gt; go home you are drunk!</title>
+      <link>http://pwntester.com/blog/2014/02/14/lthoutputtext-gt-go-home-you-are-drunk76/</link>
+      <pubDate>Fri, 14 Feb 2014 17:43:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/02/14/lthoutputtext-gt-go-home-you-are-drunk76/</guid>
+      <description>This is just a copy of the post I wrote in the HP corporate blog, but just wanted to post it as well to spread the word:
+While working on a JSF (Java Server Faces) test case recently I had one of those WAT?!?! moments - where something you take for granted starts behaving in a completely different way from how you expect. In this case it was even worse, since the behavior I was observing was breaking my application security and undermining the trust I place on libraries and frameworks as a developer.</description>
+    </item>
+    
+    <item>
+      <title>Olympic CTF CURLing500 Write Up</title>
+      <link>http://pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/</link>
+      <pubDate>Fri, 14 Feb 2014 16:29:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/</guid>
+      <description>We didnt have time to finish this task during the game since we decided to finish Freestyle 400 (scored in the last minute) but as I foound out later, we were close to finish it.
+In this level we were presented with a login form vulnerable to user enumeration. It was easy to see that admin was a valid user but we could not guess the password. After trying with other &amp;ldquo;normal&amp;rdquo; accounts like guest, dev and so on, we found that debug was a valid account and the password was debug.</description>
+    </item>
+    
+    <item>
+      <title>Olympic CTF Freestyle 400: Make similar Write Up</title>
+      <link>http://pwntester.com/blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/</link>
+      <pubDate>Mon, 10 Feb 2014 14:27:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/</guid>
+      <description>In this task we were presented an audio file (similar.ogg) containg a signal that sounded like a Fax machine. Actually a Hint later published read 129 LPM (Lines per minute) so it looked like a RadioFax or HF Fax transmission. So we could use RadioFax software to extract the image being transmitted.
+We tried different tools like MultiPSK, MIXW and SeaTTY and finally got some &amp;ldquo;clear enough&amp;rdquo; images:
+and
+We saw the contents of a file being transmitted in something that looked like UUencoding:</description>
+    </item>
+    
+    <item>
+      <title>Olympic CTF CURLing tasks</title>
+      <link>http://pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/</link>
+      <pubDate>Sun, 09 Feb 2014 16:54:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/</guid>
+      <description>I had the honour to participate with int3pids in the #Olympic CTF and these are the write ups of the Web tasks we solved.
+CURLing 200: Xnginx In this level we were presented with a simple web site where we could check some news
+First thing to notice is that the news URL is vulnerable to path transversal:
+http://109.233.61.11:27280/news/?f=31-12-2013  http://109.233.61.11:27280/news/?f=../../../../../etc/passwd  Since the name of the task was xnginx I looked for the nginx configuration file:</description>
+    </item>
+    
+    <item>
+      <title>Struts 2 devmode: An OGNL backdoor</title>
+      <link>http://pwntester.com/blog/2014/01/21/struts-2-devmode-an-ognl-backdoor/</link>
+      <pubDate>Tue, 21 Jan 2014 19:10:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/21/struts-2-devmode-an-ognl-backdoor/</guid>
+      <description>There are many Struts 2 developers familiar with the Struts 2 development mode on which more verbose logs are produced and handy resource reloading is done on a request basis to avoid restarting the server every time we change a property, validator and so on. What it is not so well known (actually it doesn’t even appear in the Struts 2 devmode site) is that it enables a OGNL injection backdoor allowing the developers to check their Value Stacks with ease and from a handy OGNL console or request parameter.</description>
+    </item>
+    
+    <item>
+      <title>Time to update your OGNL payloads</title>
+      <link>http://pwntester.com/blog/2014/01/20/time-to-update-your-ognl-payloads/</link>
+      <pubDate>Mon, 20 Jan 2014 15:39:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/20/time-to-update-your-ognl-payloads/</guid>
+      <description>OGNL is an expression language for getting and setting properties of Java objects, plus other extras such as list projection, selection, lambda expressions and method invocation. So if attackers can provide the OGNL engine with arbitrary OGNL expressions, they will be able to execute arbitrary code on the application server and/or access and modify any value stored in the Struts 2 value stack.
+Struts 2 provided an addition layer of protection by disabling static method invocation so that methods like java.</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Crypto400 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/</link>
+      <pubDate>Fri, 17 Jan 2014 18:14:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/</guid>
+      <description>In this level we are said that:
+ We have intercepted communication in a private network. It is used a strange protocol based on RSA cryptosystem.
+Can you still prove that it is not secure enough and get the flag?
+ We are given a pcap file with a bunch of transmissions generated with this script:
+#!/usr/bin/python import sys import struct import zlib import socket class Client: def __init__(self, ip): #init self.</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Web400 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</link>
+      <pubDate>Fri, 17 Jan 2014 13:03:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</guid>
+      <description>I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
+We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Crypto300 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/</link>
+      <pubDate>Thu, 16 Jan 2014 22:24:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/</guid>
+      <description>In this level we are presented with a crypto system based on Matrix operations:
+#!/usr/bin/python import random from struct import pack def Str2matrix(s): #convert string to 4x4 matrix return [map(lambda x : ord(x), list(s[i:i+4])) for i in xrange(0, len(s), 4)] def Matrix2str(m): #convert matrix to string return &#39;&#39;.join(map(lambda x : &#39;&#39;.join(map(lambda y : pack(&#39;!H&#39;, y), x)), m)) def Generate(password): #generate key matrix random.seed(password) return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)] def Multiply(A,B): #multiply two 4x4 matrix C = [[0 for i in xrange(4)] for j in xrange(4)] for i in xrange(4): for j in xrange(4): for k in xrange(4): C[i][j] += A[i][k] * B[k][j] return C def Encrypt(fname): #encrypt file key = Generate(&#39;&#39;) data = open(fname, &#39;rb&#39;).</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Crypto200 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/</link>
+      <pubDate>Thu, 16 Jan 2014 20:43:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/</guid>
+      <description>In this level we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777 We are given the following source code:
+#!/usr/bin/python from math import sin from urlparse import parse_qs from base64 import b64encode from base64 import b64decode from re import match SALT = &#39;&#39; USERS = set() KEY = &#39;&#39;.decode(&#39;hex&#39;) def xor(a, b): return &#39;&#39;.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100))) def hashme(s): #my secure hash function def F(X,Y,Z): return ((~X &amp;amp; Z) | (~X &amp;amp; Z)) &amp;amp; 0xFFFFFFFF def G(X,Y,Z): return ((X &amp;amp; Z) | (~Z &amp;amp; Y)) &amp;amp; 0xFFFFFFFF def H(X,Y,Z): return (X ^ Y ^ Y) &amp;amp; 0xFFFFFFFF def I(X,Y,Z): return (Y ^ (~Z | X)) &amp;amp; 0xFFFFFFFF def ROL(X,Y): return (X &amp;lt;&amp;lt; Y | X &amp;gt;&amp;gt; (32 - Y)) &amp;amp; 0xFFFFFFFF A = 0x67452301 B = 0xEFCDAB89 C = 0x98BADCFE D = 0x10325476 X = [int(0xFFFFFFFF * sin(i)) &amp;amp; 0xFFFFFFFF for i in xrange(256)] for i,ch in enumerate(s): k, l = ord(ch), i &amp;amp; 0x1f A = (B + ROL(A + F(B,C,D) + X[k], l)) &amp;amp; 0xFFFFFFFF B = (C + ROL(B + G(C,D,A) + X[k], l)) &amp;amp; 0xFFFFFFFF C = (D + ROL(C + H(D,A,B) + X[k], l)) &amp;amp; 0xFFFFFFFF D = (A + ROL(D + I(A,B,C) + X[k], l)) &amp;amp; 0xFFFFFFFF return &#39;&#39;.</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Crypto100 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/</link>
+      <pubDate>Thu, 16 Jan 2014 20:26:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/</guid>
+      <description>In this level we are asked to break a code and decrypt msg002.enc. We are given the encryptor code without the key:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main(int argc, char **argv) { if (argc != 3) { printf(&amp;quot;USAGE: %s INPUT OUTPUT\n&amp;quot;, argv[0]); return 0; } FILE* input = fopen(argv[1], &amp;quot;rb&amp;quot;); FILE* output = fopen(argv[2], &amp;quot;wb&amp;quot;); if (!input || !output) { printf(&amp;quot;Error\n&amp;quot;); return 0; } char k[] = &amp;quot;CENSORED&amp;quot;; char c, p, t = 0; int i = 0; while ((p = fgetc(input)) !</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Web100 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/</link>
+      <pubDate>Wed, 15 Jan 2014 23:52:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/</guid>
+      <description>In this level we are presented with some logos we can vote.
+If we look at the source code we can see an interesting comment:
+... &amp;lt;!-- TODO: remove index.phps --&amp;gt; ...  We can grab the source code:
+&amp;lt;?php include &#39;db.php&#39;; session_start(); if (!isset($_SESSION[&#39;login&#39;])) { $_SESSION[&#39;login&#39;] = &#39;guest&#39;.mt_rand(1e5, 1e6); } $login = $_SESSION[&#39;login&#39;]; if (isset($_POST[&#39;submit&#39;])) { if (!isset($_POST[&#39;id&#39;], $_POST[&#39;vote&#39;]) || !is_numeric($_POST[&#39;id&#39;])) die(&#39;Hacking attempt!&#39;); $id = $_POST[&#39;id&#39;]; $vote = (int)$_POST[&#39;vote&#39;]; if ($vote &amp;gt; 5 || $vote &amp;lt; 1) $vote = 1; $q = mysql_query(&amp;quot;INSERT INTO vote VALUES ({$id}, {$vote}, &#39;{$login}&#39;)&amp;quot;); $q = mysql_query(&amp;quot;SELECT id FROM vote WHERE user = &#39;{$login}&#39; GROUP BY id&amp;quot;); echo &#39;&amp;lt;p&amp;gt;&amp;lt;b&amp;gt;Thank you!</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Web200 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/</link>
+      <pubDate>Wed, 15 Jan 2014 22:35:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/</guid>
+      <description>In this level we are presented with a typical Snake game.
+I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the X-Forwarded-For header. That was pretty much it until the CTF was about to finish when I was given the hint: &amp;ldquo;../&amp;rdquo;. I could use it to locate a LFI vulnerability that was affecting the index.</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Web300 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/</link>
+      <pubDate>Wed, 15 Jan 2014 18:33:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/</guid>
+      <description>In this [level]() we were presented with an online shop:
+The task name was &amp;ldquo;AngryBird&amp;rdquo; and this was very relevant to solve the challange! It actually comes down to two parts:
+ Finding a hidden admin area Exploiting a blind SQLi to get credentials  Finding the hidden admin area We were given the following description:
+ Some web-developers still host their sites on Windows platform, and think that it is secure enough</description>
+    </item>
+    
+    <item>
+      <title>escape.alf.nu XSS Challenges Write-ups (Part 2)</title>
+      <link>http://pwntester.com/blog/2014/01/08/escape-alf-nu-xss-challenges-write-ups-part-257/</link>
+      <pubDate>Wed, 08 Jan 2014 08:59:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/08/escape-alf-nu-xss-challenges-write-ups-part-257/</guid>
+      <description>These are my solutions to Erling Ellingsen escape.alf.nu XSS challenges. I found them very interesting and I learnt a lot from them (especially from the last ones published in this post). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.
+My suggestion, if you havent done it so far, is to go and try to solve them by yourselves&amp;hellip;.</description>
+    </item>
+    
+    <item>
+      <title>escape.alf.nu XSS Challenges Write-ups (Part 1)</title>
+      <link>http://pwntester.com/blog/2014/01/06/escape-alf-nu-xss-challenges-write-ups-part-148/</link>
+      <pubDate>Mon, 06 Jan 2014 21:58:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/06/escape-alf-nu-xss-challenges-write-ups-part-148/</guid>
+      <description>These are my solutions to Erling Ellingsen escape.alf.nu XSS challenges. I found them very interesting and I learnt a lot from them (especially from the last ones to be published in Part 2). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.
+My suggestion, if you havent done it so far, is to go and try to solve them by yourselves&amp;hellip;.</description>
+    </item>
+    
+    <item>
+      <title>Fusion level04 write-up</title>
+      <link>http://pwntester.com/blog/2013/12/31/fusion-level04-write-up/</link>
+      <pubDate>Tue, 31 Dec 2013 19:00:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/31/fusion-level04-write-up/</guid>
+      <description>In this level we have to bypass a bunch of protections:
+The stack based vulnerability is easy to find. It is in the base64_decode() function. It takes the output buffer length as an argument, but the it overwrites it with a new value based on the input buffer length. So we are going to be able to control how many bytes we want to write in the output buffer:
+*output_length = input_length / 4 * 3;  Now in order to send a valid request we need to provide a password the server generates when it loads but then it reuses for every connection.</description>
+    </item>
+    
+    <item>
+      <title>Fusion level03 write-up</title>
+      <link>http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/</link>
+      <pubDate>Tue, 31 Dec 2013 17:34:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/</guid>
+      <description>Fusion level03 In this level we have to bypass ASLR and NX again:
+Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.
+HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;len);  The application is calculating the MAC of whatever is stored in &amp;ldquo;gRequest&amp;rdquo; (token+JSON request) using SHA1 as the hashing algorithm, &amp;ldquo;token&amp;rdquo; as the encryption key and store the MAC in the memory pointed by &amp;ldquo;result&amp;rdquo;.</description>
+    </item>
+    
+    <item>
+      <title>Fusion level02 write-up</title>
+      <link>http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/</link>
+      <pubDate>Mon, 30 Dec 2013 16:35:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/</guid>
+      <description>Fusion level02 This level has the following protections:
+And the code looks like:
+#include &amp;quot;../common/common.c&amp;quot; #define XORSZ 32 void cipher(unsigned char *blah, size_t len) { static int keyed; static unsigned int keybuf[XORSZ]; int blocks; unsigned int *blahi, j; if(keyed == 0) { int fd; fd = open(&amp;quot;/dev/urandom&amp;quot;, O_RDONLY); if(read(fd, &amp;amp;keybuf, sizeof(keybuf)) != sizeof(keybuf)) exit(EXIT_FAILURE); close(fd); keyed = 1; } blahi = (unsigned int *)(blah); blocks = (len / 4); if(len &amp;amp; 3) blocks += 1; for(j = 0; j &amp;lt; blocks; j++) { blahi[j] ^= keybuf[j % XORSZ]; } } void encrypt_file() { // http://thedailywtf.</description>
+    </item>
+    
+    <item>
+      <title>Fusion level01 write-up</title>
+      <link>http://pwntester.com/blog/2013/12/29/fusion-level01-write-up/</link>
+      <pubDate>Sun, 29 Dec 2013 10:14:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/29/fusion-level01-write-up/</guid>
+      <description>Fusion level01 This level implements stack/heap/mmap ASLR but the stack is still executable:
+The code provided is exactly the same but there is no info leak this time.
+We start off overwriting EIP to crash the application and taking a look:
+python -c &#39;print &amp;quot;GET &amp;quot; + &amp;quot;A&amp;quot;*139 + &amp;quot;DDDD&amp;quot; + &amp;quot; HTTP/1.1&amp;quot; + &amp;quot;\x90&amp;quot;*16 + &amp;quot;B&amp;quot;*80&#39;| nc localhost 20001  Monitoring with gdb we get:
+(gdb) attach 1521 Attaching to program: /opt/fusion/bin/level01, process 1521 Reading symbols from /lib/i386-linux-gnu/libc.</description>
+    </item>
+    
+    <item>
+      <title>Fusion level00 write-up</title>
+      <link>http://pwntester.com/blog/2013/12/27/fusion-level00-write-up/</link>
+      <pubDate>Fri, 27 Dec 2013 17:45:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/27/fusion-level00-write-up/</guid>
+      <description>Fusion level00 This level has no protections at all:
+The code looks like:
+#include &amp;quot;../common/common.c&amp;quot; int fix_path(char *path) { char resolved[128]; if(realpath(path, resolved) == NULL) return 1; // can&#39;t access path. will error trying to open strcpy(path, resolved); } char *parse_http_request() { char buffer[1024]; char *path; char *q; // printf(&amp;quot;[debug] buffer is at 0x%08x :-)\n&amp;quot;, buffer); :D if(read(0, buffer, sizeof(buffer)) &amp;lt;= 0) errx(0, &amp;quot;Failed to read from remote host&amp;quot;); if(memcmp(buffer, &amp;quot;GET &amp;quot;, 4) !</description>
+    </item>
+    
+    <item>
+      <title>Protostar Final0-3 write-ups</title>
+      <link>http://pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</link>
+      <pubDate>Thu, 26 Dec 2013 09:07:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</guid>
+      <description>Final0 The application is expecting a username and then returns it in Upper case
+$ nc localhost 2995 alvaro No such user ALVARO  The buffer is 512 bytes long but we need to look for the EIP overwrite offset since the compiler can change the buffer size to align it or other nasty reasons. We start trying to segfault the program till we get it with:
+echo `python -c &#39;print &amp;quot;A&amp;quot;*532 + &amp;quot;DDDD&amp;quot;&#39;` | nc localhost 2995  We can verify it with gdb and the core dump:</description>
+    </item>
+    
+    <item>
+      <title>More on XStream RCE: SpringMVC WS</title>
+      <link>http://pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/</link>
+      <pubDate>Tue, 24 Dec 2013 10:25:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/</guid>
+      <description>Continuing my previous post where I mentioned that the XStream RCE issue issue also affected SpringMVC RESTful WebServices using the XStream SpringOXM wrapper, I wanted to share a POC server. The code is quite simple and can be found in the XStreamServer GitHub Repo. It contains a WebService defined by the ContactController:
+@Controller @RequestMapping(&amp;quot;/contacts&amp;quot;) public class ContactController { @Autowired private ContactRepository contactRepository; @RequestMapping( value = &amp;quot;/{id}&amp;quot;, method = RequestMethod.GET ) @ResponseStatus(HttpStatus.</description>
+    </item>
+    
+    <item>
+      <title>RCE via XStream object deserialization</title>
+      <link>http://pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/</link>
+      <pubDate>Mon, 23 Dec 2013 10:15:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/</guid>
+      <description>When researching SpringMVC RESTful APIs and their XXE vulnerabilities I found that XStream was not vulnerable to XXE because it ignored the &amp;lt;DOCTYPE /&amp;gt; blocks. Curious about it I decided to took a deeper look at XStream and found out that its not just a simple marshalling library as JAXB but a much more powerful serializing library capable of serializing to an XML representation really complex types and not just POJOs.</description>
+    </item>
+    
+    <item>
+      <title>Protostar net0-3 write-ups</title>
+      <link>http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</link>
+      <pubDate>Sat, 21 Dec 2013 13:28:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</guid>
+      <description>Net 0 In this level we are presented with an integer and we have to reply the server with a little endian version of the integer. We use python and the struct module to do the conversion for us:
+from socket import * from struct import * s = socket(AF_INET, SOCK_STREAM) s.connect((&amp;quot;localhost&amp;quot;, 2999)) challange = s.recv(1024) start = challange.find(&amp;quot;&#39;&amp;quot;) + 1 end = challange.find(&amp;quot;&#39;&amp;quot;, start) num = int(challange[start:end]) print &amp;quot;Challange: &amp;quot; + str(num) li = pack(&amp;quot;&amp;lt;I&amp;quot;, num) s.</description>
+    </item>
+    
+    <item>
+      <title>Protostar heap0-4 write-ups</title>
+      <link>http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</link>
+      <pubDate>Fri, 20 Dec 2013 09:32:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</guid>
+      <description>Heap0 In Heap0 we are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; struct data { char name[64]; }; struct fp { int (*fp)(); }; void winner() { printf(&amp;quot;level passed\n&amp;quot;); } void nowinner() { printf(&amp;quot;level has not been passed\n&amp;quot;); } int main(int argc, char **argv) { struct data *d; struct fp *f; d = malloc(sizeof(struct data)); f = malloc(sizeof(struct fp)); f-&amp;gt;fp = nowinner; printf(&amp;quot;data is at %p, fp is at %p\n&amp;quot;, d, f); strcpy(d-&amp;gt;name, argv[1]); f-&amp;gt;fp(); }  From a quick peek to the source code, we can see that our first argument can overflow the d-&amp;gt;name buffer (64bytes) and so overwrite the f-&amp;gt;fp pointer.</description>
+    </item>
+    
+    <item>
+      <title>Protostar format0-4 write-ups</title>
+      <link>http://pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/</link>
+      <pubDate>Thu, 19 Dec 2013 17:29:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/</guid>
+      <description>Format0 In Format0 we are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; void vuln(char *string) { volatile int target; char buffer[64]; target = 0; sprintf(buffer, string); if(target == 0xdeadbeef) { printf(&amp;quot;you have hit the target correctly :)\n&amp;quot;); } } int main(int argc, char **argv) { vuln(argv[1]); }  This is not really a format string vulnerability, our argument is going to be written in buffer with no size checks and buffer is just above target so we can overwrite it:</description>
+    </item>
+    
+    <item>
+      <title>Protostar stack0-7 write-up</title>
+      <link>http://pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/</link>
+      <pubDate>Tue, 17 Dec 2013 20:39:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/</guid>
+      <description>Stack0 In Stack0 we need to exploit the following program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv) { volatile int modified; char buffer[64]; modified = 0; gets(buffer); if(modified != 0) { printf(&amp;quot;you have changed the &#39;modified&#39; variable\n&amp;quot;); } else { printf(&amp;quot;Try again?\n&amp;quot;); } }  Since modified variable is between saved EBP and buffer any character overflowing buffer will change modified:
+user@protostar:~$ echo `python -c &#39;print(&amp;quot;A&amp;quot;*64)&#39;` | /opt/protostar/bin/stack0 Try again?</description>
+    </item>
+    
+    <item>
+      <title>CVE-2011-2894: Deserialization Spring RCE</title>
+      <link>http://pwntester.com/blog/2013/12/16/cve-2011-2894-deserialization-spring-rce/</link>
+      <pubDate>Mon, 16 Dec 2013 20:04:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/16/cve-2011-2894-deserialization-spring-rce/</guid>
+      <description>This post is about an old RCE vulnerability in applications deserializing streams from untrusted sources and having Spring on their classpaths. I wrote an exploit for it some time ago to learn about this kind of serializing vulnerabilities and decided to make it public since I recently read an study by WhiteSource Software saying that this vulneravility is in the top 5 vulnerabilities that are more prevalent due to a lack of Open Source component update.</description>
+    </item>
+    
+    <item>
+      <title>Abusing jar:// downloads</title>
+      <link>http://pwntester.com/blog/2013/11/28/abusing-jar-downloads/</link>
+      <pubDate>Thu, 28 Nov 2013 20:45:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/28/abusing-jar-downloads/</guid>
+      <description>Recently I saw Timothy Morgan (@ecbftw) presentation on OWASP AppSec USA&amp;rsquo;13 (Video) where he explained a clever trick to exploit a XXE or SSRF vulnerability fooling the server to fetch a file for us using the jar:// protocol. The trick is to serve the file but keep the connection opened, so our file is effectively uploaded to the victim server and stored on a temporary location until we close the connection.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level19 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/28/nebula-level19-write-up/</link>
+      <pubDate>Thu, 28 Nov 2013 19:04:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/28/nebula-level19-write-up/</guid>
+      <description>In Level 19 we are given the source code of a vulnerable program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;sys/stat.h&amp;gt; int main(int argc, char **argv, char **envp) { pid_t pid; char buf[256]; struct stat statbuf; /* Get the parent&#39;s /proc entry, so we can verify its user id */ snprintf(buf, sizeof(buf)-1, &amp;quot;/proc/%d&amp;quot;, getppid()); /* stat() it */ if(stat(buf, &amp;amp;statbuf) == -1) { printf(&amp;quot;Unable to check parent process\n&amp;quot;); exit(EXIT_FAILURE); } /* check the owner id */ if(statbuf.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level11 revisited</title>
+      <link>http://pwntester.com/blog/2013/11/27/nebula-level11-revisited/</link>
+      <pubDate>Wed, 27 Nov 2013 17:30:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/27/nebula-level11-revisited/</guid>
+      <description>After reading this great post by Dan Rosenberg, I learned about using LD_PRELOAD to pre-populate uninitializaed variables with arbitrary contents. The details are explained in the article, I just wanted to show how it can be used to solve challange 11.
+Ok, so we are going to try to fill the uninitialized buffer used in the process function with a string containing the commands to be be run:
+level11@nebula:/home/flag11$ export LD_PRELOAD=`python -c &#39;print(&amp;quot;\x0a/bin/getflag&amp;quot;*80)&#39;`  Now we can go and execute our binary and see if it works:</description>
+    </item>
+    
+    <item>
+      <title>Nebula level18 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/</link>
+      <pubDate>Wed, 27 Nov 2013 10:11:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/</guid>
+      <description>In Level 18 we are given the code of a vulnerable program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;getopt.h&amp;gt; struct { FILE *debugfile; int verbose; int loggedin; } globals; #define dprintf(...) if(globals.debugfile) \ fprintf(globals.debugfile, __VA_ARGS__) #define dvprintf(num, ...) if(globals.debugfile &amp;amp;&amp;amp; globals.verbose &amp;gt;= num) \ fprintf(globals.debugfile, __VA_ARGS__) #define PWFILE &amp;quot;/home/flag18/password&amp;quot; void login(char *pw) { FILE *fp; fp = fopen(PWFILE, &amp;quot;r&amp;quot;); if(fp) { char file[64]; if(fgets(file, sizeof(file) - 1, fp) == NULL) { dprintf(&amp;quot;Unable to read password file %s\n&amp;quot;, PWFILE); return; } fclose(fp); if(strcmp(pw, file) !</description>
+    </item>
+    
+    <item>
+      <title>Nebula level17 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/</link>
+      <pubDate>Tue, 26 Nov 2013 20:15:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/</guid>
+      <description>In Level 17 we are given a vulnerable python server:
+#!/usr/bin/python import os import pickle import time import socket import signal signal.signal(signal.SIGCHLD, signal.SIG_IGN) def server(skt): line = skt.recv(1024) obj = pickle.loads(line) for i in obj: clnt.send(&amp;quot;why did you send me &amp;quot; + i + &amp;quot;?\n&amp;quot;) skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) skt.bind((&#39;0.0.0.0&#39;, 10007)) skt.listen(10) while True: clnt, addr = skt.accept() if(os.fork() == 0): clnt.send(&amp;quot;Accepted connection from %s:%d&amp;quot; % (addr[0], addr[1])) server(clnt) exit(1)  The only part of the application that processes our data is:</description>
+    </item>
+    
+    <item>
+      <title>Nebula level16 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/26/nebula-level16-write-up/</link>
+      <pubDate>Tue, 26 Nov 2013 17:34:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/26/nebula-level16-write-up/</guid>
+      <description>In [Level 16]() we are given the following perl CGI:
+#!/usr/bin/env perl use CGI qw{param}; print &amp;quot;Content-type: text/html\n\n&amp;quot;; sub login { $username = $_[0]; $password = $_[1]; $username =~ tr/a-z/A-Z/; # conver to uppercase $username =~ s/\s.*//; # strip everything after a space @output = `egrep &amp;quot;^$username&amp;quot; /home/flag16/userdb.txt 2&amp;gt;&amp;amp;1`; foreach $line (@output) { ($usr, $pw) = split(/:/, $line); if($pw =~ $password) { return 1; } } return 0; } sub htmlz { print(&amp;quot;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;Login resuls&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;quot;); if($_[0] == 1) { print(&amp;quot;Your login was accepted&amp;lt;br/&amp;gt;&amp;quot;); } else { print(&amp;quot;Your login failed&amp;lt;br/&amp;gt;&amp;quot;); } print(&amp;quot;Would you like a cookie?</description>
+    </item>
+    
+    <item>
+      <title>Nebula level15 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/26/nebula-level15-write-up/</link>
+      <pubDate>Tue, 26 Nov 2013 15:42:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/26/nebula-level15-write-up/</guid>
+      <description>In Level 15 we are given the following description:
+ strace the binary at /home/flag15/flag15 and see if you spot anything out of the ordinary. You may wish to review how to &amp;ldquo;compile a shared library in linux&amp;rdquo; and how the libraries are loaded and processed by reviewing the dlopen manpage in depth. Clean up after yourself :)
+ As suggested by the challange, we execute strace:
+level15@nebula:/home/flag15$ strace ./flag15 execve(&amp;quot;.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level14 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/25/nebula-level14-write-up/</link>
+      <pubDate>Mon, 25 Nov 2013 16:14:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/25/nebula-level14-write-up/</guid>
+      <description>In Level14 we are given an encrypted token: 857:g67?5ABBo:BtDA?tIvLDKL{MQPSRQWW. and the cipher.
+We can try to reverse the cipher but lets play with it and see if we can find out the encryption routine:
+level14@nebula:/home/flag14$ ./flag14 -e aaaaaaaaaaaaaaaaa abcdefghijklmnopq  level14@nebula:/home/flag14$ ./flag14 -e abcdefg acegikm  Ok, so it looks pretty simple, we shift a given characters a number of positions in the ASCII table where the key is the position of the character to encrypt.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level13 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/25/nebula-level13-write-up/</link>
+      <pubDate>Mon, 25 Nov 2013 14:16:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/25/nebula-level13-write-up/</guid>
+      <description>In Level13 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;string.h&amp;gt; #define FAKEUID 1000 int main(int argc, char **argv, char **envp) { int c; char token[256]; if(getuid() != FAKEUID) { printf(&amp;quot;Security failure detected. UID %d started us, we expect %d\n&amp;quot;, getuid(), FAKEUID); printf(&amp;quot;The system administrators will be notified of this violation\n&amp;quot;); exit(EXIT_FAILURE); } // snip, sorry :) printf(&amp;quot;your token is %s\n&amp;quot;, token); }  Well the code is missing the token but it is clear that is reading the user UID anc comparing it with 1000, so the only way to get our token is to fake that our UID is 1000.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level12 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/24/nebula-level12-write-up/</link>
+      <pubDate>Sun, 24 Nov 2013 20:37:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/24/nebula-level12-write-up/</guid>
+      <description>In Level12 we are given the following code:
+local socket = require(&amp;quot;socket&amp;quot;) local server = assert(socket.bind(&amp;quot;127.0.0.1&amp;quot;, 50001)) function hash(password) prog = io.popen(&amp;quot;echo &amp;quot;..password..&amp;quot; | sha1sum&amp;quot;, &amp;quot;r&amp;quot;) data = prog:read(&amp;quot;*all&amp;quot;) prog:close() data = string.sub(data, 1, 40) return data end while 1 do local client = server:accept() client:send(&amp;quot;Password: &amp;quot;) client:settimeout(60) local line, err = client:receive() if not err then print(&amp;quot;trying &amp;quot; .. line) -- log from where ;\ local h = hash(line) if h ~= &amp;quot;4754a4f4bd5787accd33de887b9250a0691dd198&amp;quot; then client:send(&amp;quot;Better luck next time\n&amp;quot;); else client:send(&amp;quot;Congrats, your token is 413**CARRIER LOST**\n&amp;quot;) end end client:close() end  We have a command injection as the password variable can be controlled by the user and it is used to create a command that will be run in the system.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level11 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/</link>
+      <pubDate>Sun, 24 Nov 2013 17:54:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/</guid>
+      <description>In Level11 we are given the following code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/mman.h&amp;gt; /* * Return a random, non predictable file, and return the file descriptor for it. */ int getrand(char **path) { char *tmp; int pid; int fd; srandom(time(NULL)); tmp = getenv(&amp;quot;TEMP&amp;quot;); pid = getpid(); asprintf(path, &amp;quot;%s/%d.%c%c%c%c%c%c&amp;quot;, tmp, pid, &#39;A&#39; + (random() % 26), &#39;0&#39; + (random() % 10), &#39;a&#39; + (random() % 26), &#39;A&#39; + (random() % 26), &#39;0&#39; + (random() % 10), &#39;a&#39; + (random() % 26)); fd = open(*path, O_CREAT|O_RDWR, 0600); unlink(*path); return fd; } void process(char *buffer, int length) { unsigned int key; int i; key = length &amp;amp; 0xff; for(i = 0; i &amp;lt; length; i++) { buffer[i] ^= key; key -= buffer[i]; } system(buffer); } #define CL &amp;quot;Content-Length: &amp;quot; int main(int argc, char **argv) { char line[256]; char buf[1024]; char *mem; int length; int fd; char *path; if(fgets(line, sizeof(line), stdin) == NULL) { errx(1, &amp;quot;reading from stdin&amp;quot;); } if(strncmp(line, CL, strlen(CL)) !</description>
+    </item>
+    
+    <item>
+      <title>Nebula level10 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/23/nebula-level10-write-up/</link>
+      <pubDate>Sat, 23 Nov 2013 11:35:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/23/nebula-level10-write-up/</guid>
+      <description>In Level10 we are given a vulnerable piece of code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;errno.h&amp;gt; #include &amp;lt;sys/socket.h&amp;gt; #include &amp;lt;netinet/in.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main(int argc, char **argv) { char *file; char *host; if(argc &amp;lt; 3) { printf(&amp;quot;%s file host\n\tsends file to host if you have access to it\n&amp;quot;, argv[0]); exit(1); } file = argv[1]; host = argv[2]; if(access(argv[1], R_OK) == 0) { int fd; int ffd; int rc; struct sockaddr_in sin; char buffer[4096]; printf(&amp;quot;Connecting to %s:18211 .</description>
+    </item>
+    
+    <item>
+      <title>Nebula level09 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/22/nebula-level09-write-up/</link>
+      <pubDate>Fri, 22 Nov 2013 16:19:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/22/nebula-level09-write-up/</guid>
+      <description>In Level09 we are given the following PHP code and are said that it is execute with a SUID wrapper:
+function spam($email) { $email = preg_replace(&amp;quot;/\./&amp;quot;, &amp;quot; dot &amp;quot;, $email); $email = preg_replace(&amp;quot;/@/&amp;quot;, &amp;quot; AT &amp;quot;, $email); return $email; } function markup($filename, $use_me) { $contents = file_get_contents($filename); $contents = preg_replace(&amp;quot;/(\[email (.*)\])/e&amp;quot;, &amp;quot;spam(\&amp;quot;\\2\&amp;quot;)&amp;quot;, $contents); $contents = preg_replace(&amp;quot;/\[/&amp;quot;, &amp;quot;&amp;lt;&amp;quot;, $contents); $contents = preg_replace(&amp;quot;/\]/&amp;quot;, &amp;quot;&amp;gt;&amp;quot;, $contents); return $contents; } $output = markup($argv[1], $argv[2]); print $output;  This code takes two arguments, the first one is a file containing email address in the format:</description>
+    </item>
+    
+    <item>
+      <title>Nebula level08 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/22/nebula-level08-write-up/</link>
+      <pubDate>Fri, 22 Nov 2013 11:05:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/22/nebula-level08-write-up/</guid>
+      <description>In Level08 we are given a network capture file: capture.pcap. If we open it with Wireshark we will only find one TCP Stream. We will use Follow TCP Stream to visualize it:
+{% img /images/tcpstream.png 500 %}
+We can see that the user was trying to login into the wwwbugs server and the login failed. We can assume that it was the flag08 user trying to log in and sending his flag08 password by mistake&amp;hellip; Yep, I know it is assuming too much, but anyway, that all we got.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level07 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/</link>
+      <pubDate>Thu, 21 Nov 2013 17:13:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/</guid>
+      <description>In Level07 we are given the source code of a perl script:
+#!/usr/bin/perl use CGI qw{param}; print &amp;quot;Content-type: text/html\n\n&amp;quot;; sub ping { $host = $_[0]; print(&amp;quot;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;Ping results&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;pre&amp;gt;&amp;quot;); @output = `ping -c 3 $host 2&amp;gt;&amp;amp;1`; foreach $line (@output) { print &amp;quot;$line&amp;quot;; } print(&amp;quot;&amp;lt;/pre&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;quot;); } # check if Host set. if not, display normal page, etc ping(param(&amp;quot;Host&amp;quot;));  It looks like its vulnerable to command injection on line 12. Bit how and where is it deployed.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level06 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/21/nebula-level06-write-up/</link>
+      <pubDate>Thu, 21 Nov 2013 14:47:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/21/nebula-level06-write-up/</guid>
+      <description>In Level06 all we are said is that flag06 user comes from a legacy unix system. There is nothing special in his home folder. Lets take a look at the /etc/passwd file:
+level06@nebula:/home/flag06$ cat /etc/passwd root:x:0:0:root:/root:/bin/bash daemon:x:1:1:daemon:/usr/sbin:/bin/sh bin:x:2:2:bin:/bin:/bin/sh sys:x:3:3:sys:/dev:/bin/sh sync:x:4:65534:sync:/bin:/bin/sync games:x:5:60:games:/usr/games:/bin/sh man:x:6:12:man:/var/cache/man:/bin/sh lp:x:7:7:lp:/var/spool/lpd:/bin/sh mail:x:8:8:mail:/var/mail:/bin/sh news:x:9:9:news:/var/spool/news:/bin/sh uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh proxy:x:13:13:proxy:/bin:/bin/sh www-data:x:33:33:www-data:/var/www:/bin/sh backup:x:34:34:backup:/var/backups:/bin/sh list:x:38:38:Mailing List Manager:/var/list:/bin/sh irc:x:39:39:ircd:/var/run/ircd:/bin/sh gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh nobody:x:65534:65534:nobody:/nonexistent:/bin/sh libuuid:x:100:101::/var/lib/libuuid:/bin/sh syslog:x:101:103::/home/syslog:/bin/false messagebus:x:102:104::/var/run/dbus:/bin/false nebula:x:1000:1000:nebula,,,:/home/nebula:/bin/bash sshd:x:103:65534::/var/run/sshd:/usr/sbin/nologin level00:x:1001:1001::/home/level00:/bin/sh flag00:x:999:999::/home/flag00:/bin/sh level01:x:1002:1002::/home/level01:/bin/sh flag01:x:998:998::/home/flag01:/bin/sh level02:x:1003:1003::/home/level02:/bin/sh flag02:x:997:997::/home/flag02:/bin/sh level03:x:1004:1004::/home/level03:/bin/sh flag03:x:996:996::/home/flag03:/bin/sh level04:x:1005:1005::/home/level04:/bin/sh flag04:x:995:995::/home/flag04:/bin/sh level05:x:1006:1006::/home/level05:/bin/sh flag05:x:994:994::/home/flag05:/bin/sh level06:x:1007:1007::/home/level06:/bin/sh flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh level07:x:1008:1008::/home/level07:/bin/sh flag07:x:992:992::/home/flag07:/bin/sh level08:x:1009:1009::/home/level08:/bin/sh flag08:x:991:991::/home/flag08:/bin/sh level09:x:1010:1010::/home/level09:/bin/sh flag09:x:990:990::/home/flag09:/bin/sh level10:x:1011:1011::/home/level10:/bin/sh flag10:x:989:989::/home/flag10:/bin/sh level11:x:1012:1012::/home/level11:/bin/sh flag11:x:988:988::/home/flag11:/bin/sh level12:x:1013:1013::/home/level12:/bin/sh flag12:x:987:987::/home/flag12:/bin/sh level13:x:1014:1014::/home/level13:/bin/sh flag13:x:986:986::/home/flag13:/bin/sh level14:x:1015:1015::/home/level14:/bin/sh flag14:x:985:985::/home/flag14:/bin/sh level15:x:1016:1016::/home/level15:/bin/sh flag15:x:984:984::/home/flag15:/bin/sh level16:x:1017:1017::/home/level16:/bin/sh flag16:x:983:983::/home/flag16:/bin/sh level17:x:1018:1018::/home/level17:/bin/sh flag17:x:982:982::/home/flag17:/bin/sh level18:x:1019:1019::/home/level18:/bin/sh flag18:x:981:981::/home/flag18:/bin/sh level19:x:1020:1020::/home/level19:/bin/sh flag19:x:980:980::/home/flag19:/bin/sh  Nice, we can try to crack it with John the Ripper (this remainds me my collage days &amp;hellip;).</description>
+    </item>
+    
+    <item>
+      <title>Nebula level05 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/21/nebula-level05-write-up/</link>
+      <pubDate>Thu, 21 Nov 2013 00:29:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/21/nebula-level05-write-up/</guid>
+      <description>In Level05 we are pointed to the flag05 user directory. There we can find a .ssh directory so we can assume that flag05 uses ssh keys to login into his account and also a .backup folder:
+level05@nebula:~$ ls -la /home/flag05 total 36 drwxr-x--- 5 flag05 level05 4096 Nov 20 16:49 . drwxr-xr-x 43 root root 4096 Nov 20 2011 .. drwxr-xr-x 2 flag05 flag05 4096 Nov 20 2011 .backup -rw------- 1 flag05 flag05 8 Nov 20 16:49 .</description>
+    </item>
+    
+    <item>
+      <title>Nebula level04 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/21/nebula-level04-write-up/</link>
+      <pubDate>Thu, 21 Nov 2013 00:01:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/21/nebula-level04-write-up/</guid>
+      <description>In Level04 we are given the code of a program owned by flag04 user:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; int main(int argc, char **argv, char **envp) { char buf[1024]; int fd, rc; if(argc == 1) { printf(&amp;quot;%s [file to read]\n&amp;quot;, argv[0]); exit(EXIT_FAILURE); } if(strstr(argv[1], &amp;quot;token&amp;quot;) != NULL) { printf(&amp;quot;You may not access &#39;%s&#39;\n&amp;quot;, argv[1]); exit(EXIT_FAILURE); } fd = open(argv[1], O_RDONLY); if(fd == -1) { err(EXIT_FAILURE, &amp;quot;Unable to open %s&amp;quot;, argv[1]); } rc = read(fd, buf, sizeof(buf)); if(rc == -1) { err(EXIT_FAILURE, &amp;quot;Unable to read fd %d&amp;quot;, fd); } write(1, buf, rc); }  The program opens a file passed as first argument if the name does not contain the token string so we cannot use it to open our target token file &amp;hellip; or can we?</description>
+    </item>
+    
+    <item>
+      <title>Nebula level03 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/</link>
+      <pubDate>Wed, 20 Nov 2013 18:36:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/</guid>
+      <description>In Level03 we are said that the program on /flag03 is run by cron every X minutes. If we have a look at the code we can see that it will execute the files in the writable.d directory and then remove them:
+level03@nebula:/home/flag03$ cat writable.sh #!/bin/sh for i in /home/flag03/writable.d/* ; do (ulimit -t 5; bash -x &amp;quot;$i&amp;quot;) rm -f &amp;quot;$i&amp;quot; done  Ok, so whatever we put in writable.d will be execute by someone else &amp;hellip; but who?</description>
+    </item>
+    
+    <item>
+      <title>Nebula level02 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/20/nebula-level02-write-up/</link>
+      <pubDate>Wed, 20 Nov 2013 11:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/20/nebula-level02-write-up/</guid>
+      <description>Level02 is about command injection. We are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv, char **envp) { char *buffer; gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); buffer = NULL; asprintf(&amp;amp;buffer, &amp;quot;/bin/echo %s is cool&amp;quot;, getenv(&amp;quot;USER&amp;quot;)); printf(&amp;quot;about to call system(\&amp;quot;%s\&amp;quot;)\n&amp;quot;, buffer); system(buffer); }  As shown in the code, the program will use the USER environment variable to build the command executed by system so all we need to do is inject our getflag command:</description>
+    </item>
+    
+    <item>
+      <title>Nebula level01 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/</link>
+      <pubDate>Wed, 20 Nov 2013 09:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/</guid>
+      <description>In Level01 , we are given the following vulnerable c program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv, char **envp) { gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); system(&amp;quot;/usr/bin/env echo and now what?&amp;quot;); }  This is the code of the /home/flag01/flag01 program that runs as flag01 user
+level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 Nov 20 2011 /home/flag01/flag01  As setresuid sets the Real, Effective and Saved uids to the effective one (flag01), the following call to system will effectively run as flag01.</description>
+    </item>
+    
+    <item>
+      <title>Nebula level00 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/20/nebula-level00-write-up/</link>
+      <pubDate>Wed, 20 Nov 2013 08:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/20/nebula-level00-write-up/</guid>
+      <description>I decided to improve my exploiting skillz and try the Exploit-Exercises levels. First levels are quite easy but I decided to catch them&#39;all!
+Ok, so Level00 is about finding a executable owned by flag00 user and that has the setuid flag, easy as:
+level00@nebula:~$ find / -executable -user flag00 -perm -4000 2&amp;gt; /dev/null /bin/.../flag00 level00@nebula:~$cd /bin/... level00@nebula:/bin/...$ ./flag00 Congrats, now run getflag to get your flag! flag00@nebula:/bin/...$ getflag You have successfully executed getflag on a target account  </description>
+    </item>
+    
+    <item>
+      <title>SpringMVC vulnerable to XXE</title>
+      <link>http://pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/</link>
+      <pubDate>Fri, 23 Aug 2013 08:34:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/</guid>
+      <description>While researching SpringMVC Restful APIs, I found out that any RESTful webservice built with SpringMVC and using JAXB as mashalling library to convert XML object representations to Java objects, was vulnerable to XML eXternal Entity Injection (XXE) attacks since the JAXB was configured to resolve external entities by default and it could not be configured to not do so.
+SpringMVC uses SpringOXM (Object to XML Mapper) to automatically convert XML messages into Java objects so developers dont need to process the XML message and instantiate their own class instances, they just need to declare what type they are expecting in their controller method.</description>
+    </item>
+    
+    <item>
+      <title>XML Entities based attacks</title>
+      <link>http://pwntester.com/blog/2013/08/02/xml-entities-based-attacks/</link>
+      <pubDate>Fri, 02 Aug 2013 10:25:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/08/02/xml-entities-based-attacks/</guid>
+      <description>&amp;ldquo;Wait, I&amp;rsquo;m not clear on what&amp;rsquo;s happening here. Is this even possible? Just by giving an application a single piece of XML, you can cause it to steal other files for you?&amp;rdquo;
+ Those were a customer’s words when an XML External Entity injection vulnerability was reported on one of his applications and although these kinds of attacks are known since the early 2000s I&amp;rsquo;m still under the impression that they are not known and tested enough by application developers and security auditors.</description>
+    </item>
+    
+    <item>
+      <title>FourGoats Vulnerabilities: Intent Spoofing</title>
+      <link>http://pwntester.com/blog/2012/11/17/fourgoats-vulnerabilities-intent-spoofing/</link>
+      <pubDate>Sat, 17 Nov 2012 09:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2012/11/17/fourgoats-vulnerabilities-intent-spoofing/</guid>
+      <description>The Android platform enables an inter application communication that can cause side effects in the security of our application. If a component allows any application to send him intents, we can end up being a puppet on any malware hands.
+In order to prevent this situation, the Android platform enables two controls to limit who can talk to you application components. These controls are:
+ Permissions Intents types  The first one is obvious, the component can request the calling application to present a specific permission in order to call your application.</description>
+    </item>
+    
+    <item>
+      <title>RootedCon Arena 2012: WriteUp</title>
+      <link>http://pwntester.com/blog/2012/11/09/rootedcon-arena-2012-writeup/</link>
+      <pubDate>Fri, 09 Nov 2012 09:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2012/11/09/rootedcon-arena-2012-writeup/</guid>
+      <description>Better late than never. Here is my write-up for the RootedArena 2012 CTF [Spanish]
+ writeup.pdf     </description>
+    </item>
+    
+    <item>
+      <title>FourGoats Vulnerabilities: Promiscuous SSL HostName Verifier</title>
+      <link>http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/</link>
+      <pubDate>Mon, 05 Nov 2012 09:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/</guid>
+      <description>Continuing the previous post &amp;hellip;
+RestClient was getting an HttpClient instance using the CustomSSLSocketFactory.getNewHttpClient static method:
+public static HttpClient getNewHttpClient() { try { KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType()); trustStore.load(null, null); SSLSocketFactory sf = new CustomSSLSocketFactory(trustStore); sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER); HttpParams params = new BasicHttpParams(); SchemeRegistry registry = new SchemeRegistry(); registry.register(new Scheme(&amp;quot;http&amp;quot;, PlainSocketFactory.getSocketFactory(), 80)); registry.register(new Scheme(&amp;quot;https&amp;quot;, sf, 443)); ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry); return new DefaultHttpClient(ccm, params); } catch (Exception e) { return new DefaultHttpClient(); } }  Can you spot another, related, vulnerability?</description>
+    </item>
+    
+    <item>
+      <title>FourGoats Vulnerabilities: Promiscuous SSL TrustManager</title>
+      <link>http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-trustmanager/</link>
+      <pubDate>Mon, 05 Nov 2012 09:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-trustmanager/</guid>
+      <description>The login activity uses an asynchronous task to validate the user credentials. The ValidateCredsAsyncTask performs this validation
+private class ValidateCredsAsyncTask extends AsyncTask&amp;lt;Void, Void, HashMap&amp;lt;String, String&amp;gt;&amp;gt; { Login mActivity; public ValidateCredsAsyncTask(Login activity) { mActivity = activity; } @Override protected HashMap&amp;lt;String, String&amp;gt; doInBackground(Void... params) { LoginRequest client = new LoginRequest(context); String userName = userNameEditText.getText().toString(); String password = passwordEditText.getText().toString(); boolean rememberMe = rememberMeCheckBox.isChecked(); HashMap&amp;lt;String, String&amp;gt; userInfo = new HashMap&amp;lt;String, String&amp;gt;(); if (allFieldsCompleted(userName, password)) { UserInfoDBHelper dbHelper = new UserInfoDBHelper(context); try { userInfo = client.</description>
+    </item>
+    
+    <item>
+      <title>FourGoats Vulnerabilities: Hardcoded Backdoor</title>
+      <link>http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/</link>
+      <pubDate>Tue, 30 Oct 2012 09:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/</guid>
+      <description>If we keep on reading the Login activity, we will soon spot an asynchronous task used to validate the user credentials in the server and we will see that there is a harcoded user/password pair that will set up the admin property and so it will enable us to access the AdminHome Activity:
+if (userName.equals(&amp;quot;customerservice&amp;quot;) &amp;amp;&amp;amp; password.equals(&amp;quot;Acc0uNTM@n@g3mEnT&amp;quot;)) userInfo.put(&amp;quot;isAdmin&amp;quot;, &amp;quot;true&amp;quot;);  If we enter these credentials (and the user is registered in the backend), we will be able to access the AdminHome Activity:</description>
+    </item>
+    
+    <item>
+      <title>FourGoats Vulnerabilities: Information Leakage through SharedPreferences</title>
+      <link>http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/</link>
+      <pubDate>Tue, 30 Oct 2012 09:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/</guid>
+      <description>OK, so let start reviewing the FourGoats App. First, If you havent done yet, clone the ForGoats repo from github to get the source code.
+Try to get an idea of how does the app work, install it in your device and/or emulator and get familiar with the different activities and application flow.
+Open the Main activity and check what its doing. Basically, its looking for a sessionToken and if she cannot find it, it will start the Login Activity, otherwise it will take the user to the Home or AdminHome activities.</description>
+    </item>
+    
+    <item>
+      <title>Kicking off the blog</title>
+      <link>http://pwntester.com/blog/2012/10/29/kicking-off-the-blog/</link>
+      <pubDate>Mon, 29 Oct 2012 09:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2012/10/29/kicking-off-the-blog/</guid>
+      <description>I have been thinking about starting a blog for a while but never got something to say that could not be found googling around (or that was too secret to tell in public :) ). Anyway, Ive being doing some research lately on secure coding on Android applications and I found OWASP goatDroid very instructive and formative but although the source code is freely available here. I could not find a comprehensive list of vulnerabilities present in the code so I decided to start a serie of posts about Android vulnerabilities using goatdroid to show them off.</description>
+    </item>
+    
+  </channel>
+</rss>

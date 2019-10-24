@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>xor on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/categories/xor/</link>
+    <description>Recent content in xor on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 06 Apr 2014 20:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/categories/xor/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NuitDuHack 2014 Crypto Write Ups</title>
+      <link>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/</link>
+      <pubDate>Sun, 06 Apr 2014 20:00:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/</guid>
+      <description>Carbonara We are given the following ciphertext:
+%96 7=28 7@C E9:D 492= :D iQx&amp;gt;A6C2E@C xF=:FD r26D2C s:GFDQ]
+A simple shift shows interesting results:
+ciphertext = &amp;quot;%96 7=28 7@C E9:D 492= :D iQx&amp;gt;A6C2E@C xF=:FD r26D2C s:GFDQ]&amp;quot; size = len(ciphertext) for i in range(0,100): result=&amp;quot;&amp;quot; for c in ciphertext: if ord(c) &amp;gt; 126 or ord(c) &amp;lt; 33: result += c else: first = ord(c)+i if first &amp;gt; 90: first = 64 + (first - 90) result += chr(first) print(result)  Here is were the history classes prove valuable, flag is:</description>
+    </item>
+    
+  </channel>
+</rss>

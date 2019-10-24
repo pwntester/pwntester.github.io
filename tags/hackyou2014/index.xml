@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HackYou2014 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/hackyou2014/</link>
+    <description>Recent content in HackYou2014 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jan 2014 18:14:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/hackyou2014/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>#hackyou2014 Crypto400 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/</link>
+      <pubDate>Fri, 17 Jan 2014 18:14:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/</guid>
+      <description>In this level we are said that:
+ We have intercepted communication in a private network. It is used a strange protocol based on RSA cryptosystem.
+Can you still prove that it is not secure enough and get the flag?
+ We are given a pcap file with a bunch of transmissions generated with this script:
+#!/usr/bin/python import sys import struct import zlib import socket class Client: def __init__(self, ip): #init self.</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Web400 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</link>
+      <pubDate>Fri, 17 Jan 2014 13:03:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</guid>
+      <description>I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
+We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Crypto300 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/</link>
+      <pubDate>Thu, 16 Jan 2014 22:24:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/</guid>
+      <description>In this level we are presented with a crypto system based on Matrix operations:
+#!/usr/bin/python import random from struct import pack def Str2matrix(s): #convert string to 4x4 matrix return [map(lambda x : ord(x), list(s[i:i+4])) for i in xrange(0, len(s), 4)] def Matrix2str(m): #convert matrix to string return &#39;&#39;.join(map(lambda x : &#39;&#39;.join(map(lambda y : pack(&#39;!H&#39;, y), x)), m)) def Generate(password): #generate key matrix random.seed(password) return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)] def Multiply(A,B): #multiply two 4x4 matrix C = [[0 for i in xrange(4)] for j in xrange(4)] for i in xrange(4): for j in xrange(4): for k in xrange(4): C[i][j] += A[i][k] * B[k][j] return C def Encrypt(fname): #encrypt file key = Generate(&#39;&#39;) data = open(fname, &#39;rb&#39;).</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Crypto200 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/</link>
+      <pubDate>Thu, 16 Jan 2014 20:43:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/</guid>
+      <description>In this level we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777 We are given the following source code:
+#!/usr/bin/python from math import sin from urlparse import parse_qs from base64 import b64encode from base64 import b64decode from re import match SALT = &#39;&#39; USERS = set() KEY = &#39;&#39;.decode(&#39;hex&#39;) def xor(a, b): return &#39;&#39;.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100))) def hashme(s): #my secure hash function def F(X,Y,Z): return ((~X &amp;amp; Z) | (~X &amp;amp; Z)) &amp;amp; 0xFFFFFFFF def G(X,Y,Z): return ((X &amp;amp; Z) | (~Z &amp;amp; Y)) &amp;amp; 0xFFFFFFFF def H(X,Y,Z): return (X ^ Y ^ Y) &amp;amp; 0xFFFFFFFF def I(X,Y,Z): return (Y ^ (~Z | X)) &amp;amp; 0xFFFFFFFF def ROL(X,Y): return (X &amp;lt;&amp;lt; Y | X &amp;gt;&amp;gt; (32 - Y)) &amp;amp; 0xFFFFFFFF A = 0x67452301 B = 0xEFCDAB89 C = 0x98BADCFE D = 0x10325476 X = [int(0xFFFFFFFF * sin(i)) &amp;amp; 0xFFFFFFFF for i in xrange(256)] for i,ch in enumerate(s): k, l = ord(ch), i &amp;amp; 0x1f A = (B + ROL(A + F(B,C,D) + X[k], l)) &amp;amp; 0xFFFFFFFF B = (C + ROL(B + G(C,D,A) + X[k], l)) &amp;amp; 0xFFFFFFFF C = (D + ROL(C + H(D,A,B) + X[k], l)) &amp;amp; 0xFFFFFFFF D = (A + ROL(D + I(A,B,C) + X[k], l)) &amp;amp; 0xFFFFFFFF return &#39;&#39;.</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Crypto100 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/</link>
+      <pubDate>Thu, 16 Jan 2014 20:26:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/</guid>
+      <description>In this level we are asked to break a code and decrypt msg002.enc. We are given the encryptor code without the key:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main(int argc, char **argv) { if (argc != 3) { printf(&amp;quot;USAGE: %s INPUT OUTPUT\n&amp;quot;, argv[0]); return 0; } FILE* input = fopen(argv[1], &amp;quot;rb&amp;quot;); FILE* output = fopen(argv[2], &amp;quot;wb&amp;quot;); if (!input || !output) { printf(&amp;quot;Error\n&amp;quot;); return 0; } char k[] = &amp;quot;CENSORED&amp;quot;; char c, p, t = 0; int i = 0; while ((p = fgetc(input)) !</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Web100 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/</link>
+      <pubDate>Wed, 15 Jan 2014 23:52:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/</guid>
+      <description>In this level we are presented with some logos we can vote.
+If we look at the source code we can see an interesting comment:
+... &amp;lt;!-- TODO: remove index.phps --&amp;gt; ...  We can grab the source code:
+&amp;lt;?php include &#39;db.php&#39;; session_start(); if (!isset($_SESSION[&#39;login&#39;])) { $_SESSION[&#39;login&#39;] = &#39;guest&#39;.mt_rand(1e5, 1e6); } $login = $_SESSION[&#39;login&#39;]; if (isset($_POST[&#39;submit&#39;])) { if (!isset($_POST[&#39;id&#39;], $_POST[&#39;vote&#39;]) || !is_numeric($_POST[&#39;id&#39;])) die(&#39;Hacking attempt!&#39;); $id = $_POST[&#39;id&#39;]; $vote = (int)$_POST[&#39;vote&#39;]; if ($vote &amp;gt; 5 || $vote &amp;lt; 1) $vote = 1; $q = mysql_query(&amp;quot;INSERT INTO vote VALUES ({$id}, {$vote}, &#39;{$login}&#39;)&amp;quot;); $q = mysql_query(&amp;quot;SELECT id FROM vote WHERE user = &#39;{$login}&#39; GROUP BY id&amp;quot;); echo &#39;&amp;lt;p&amp;gt;&amp;lt;b&amp;gt;Thank you!</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Web200 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/</link>
+      <pubDate>Wed, 15 Jan 2014 22:35:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/</guid>
+      <description>In this level we are presented with a typical Snake game.
+I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the X-Forwarded-For header. That was pretty much it until the CTF was about to finish when I was given the hint: &amp;ldquo;../&amp;rdquo;. I could use it to locate a LFI vulnerability that was affecting the index.</description>
+    </item>
+    
+    <item>
+      <title>#hackyou2014 Web300 write-up</title>
+      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/</link>
+      <pubDate>Wed, 15 Jan 2014 18:33:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/</guid>
+      <description>In this [level]() we were presented with an online shop:
+The task name was &amp;ldquo;AngryBird&amp;rdquo; and this was very relevant to solve the challange! It actually comes down to two parts:
+ Finding a hidden admin area Exploiting a blind SQLi to get credentials  Finding the hidden admin area We were given the following description:
+ Some web-developers still host their sites on Windows platform, and think that it is secure enough</description>
+    </item>
+    
+  </channel>
+</rss>

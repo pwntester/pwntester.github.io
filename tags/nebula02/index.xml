@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nebula02 on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/nebula02/</link>
+    <description>Recent content in nebula02 on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Nov 2013 11:18:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/nebula02/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nebula level02 write-up</title>
+      <link>http://pwntester.com/blog/2013/11/20/nebula-level02-write-up/</link>
+      <pubDate>Wed, 20 Nov 2013 11:18:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/11/20/nebula-level02-write-up/</guid>
+      <description>Level02 is about command injection. We are given the following vulnerable code:
+#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv, char **envp) { char *buffer; gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); buffer = NULL; asprintf(&amp;amp;buffer, &amp;quot;/bin/echo %s is cool&amp;quot;, getenv(&amp;quot;USER&amp;quot;)); printf(&amp;quot;about to call system(\&amp;quot;%s\&amp;quot;)\n&amp;quot;, buffer); system(buffer); }  As shown in the code, the program will use the USER environment variable to build the command executed by system so all we need to do is inject our getflag command:</description>
+    </item>
+    
+  </channel>
+</rss>

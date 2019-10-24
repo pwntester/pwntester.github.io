@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OlympicCTF on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/olympicctf/</link>
+    <description>Recent content in OlympicCTF on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 09 Feb 2014 16:54:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/olympicctf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Olympic CTF CURLing tasks</title>
+      <link>http://pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/</link>
+      <pubDate>Sun, 09 Feb 2014 16:54:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/</guid>
+      <description>I had the honour to participate with int3pids in the #Olympic CTF and these are the write ups of the Web tasks we solved.
+CURLing 200: Xnginx In this level we were presented with a simple web site where we could check some news
+First thing to notice is that the news URL is vulnerable to path transversal:
+http://109.233.61.11:27280/news/?f=31-12-2013  http://109.233.61.11:27280/news/?f=../../../../../etc/passwd  Since the name of the task was xnginx I looked for the nginx configuration file:</description>
+    </item>
+    
+  </channel>
+</rss>

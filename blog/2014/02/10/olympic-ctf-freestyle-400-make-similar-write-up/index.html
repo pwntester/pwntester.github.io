@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Olympic CTF Freestyle 400: Make similar Write Up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="In this task we were presented an audio file (similar.ogg) containg a signal that sounded like a Fax machine. Actually a Hint later published read 129 LPM (Lines per minute) so it looked like a RadioFax or HF Fax transmission. So we could use RadioFax software to extract the image being transmitted.
+We tried different tools like MultiPSK, MIXW and SeaTTY and finally got some &amp;ldquo;clear enough&amp;rdquo; images:
+and
+We saw the contents of a file being transmitted in something that looked like UUencoding:">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Olympic CTF Freestyle 400: Make similar Write Up">
+    <meta name="twitter:description" content="In this task we were presented an audio file (similar.ogg) containg a signal that sounded like a Fax machine. Actually a Hint later published read 129 LPM (Lines per minute) so it looked like a RadioFax or HF Fax transmission. So we could use RadioFax software to extract the image being transmitted.
+We tried different tools like MultiPSK, MIXW and SeaTTY and finally got some &amp;ldquo;clear enough&amp;rdquo; images:
+and
+We saw the contents of a file being transmitted in something that looked like UUencoding:">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Olympic CTF Freestyle 400: Make similar Write Up">
+  <meta property="og:description" content="In this task we were presented an audio file (similar.ogg) containg a signal that sounded like a Fax machine. Actually a Hint later published read 129 LPM (Lines per minute) so it looked like a RadioFax or HF Fax transmission. So we could use RadioFax software to extract the image being transmitted.
+We tried different tools like MultiPSK, MIXW and SeaTTY and finally got some &amp;ldquo;clear enough&amp;rdquo; images:
+and
+We saw the contents of a file being transmitted in something that looked like UUencoding:">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Olympic CTF Freestyle 400: Make similar Write Up</h1>
+      <p class="post-meta">@pwntester · Feb 10, 2014 · 3 min read</p>
+    </header>
+    <article class="post-content"><p>In this task we were presented an audio file (similar.ogg) containg a signal that sounded like a Fax machine. Actually a Hint later published read 129 LPM (Lines per minute) so it looked like a <a href="http://en.wikipedia.org/wiki/Radiofax">RadioFax or HF Fax</a> transmission. So we could use RadioFax software to extract the image being transmitted.</p>
+
+<p>We tried different tools like MultiPSK, MIXW and SeaTTY and finally got some &ldquo;clear enough&rdquo; images:</p>
+
+<p><img src="/images/octopress/cdb5d866d94a2e16ccc5fc757133da.png" alt="" /></p>
+
+<p>and</p>
+
+<p><img src="/images/octopress/692728e94a92c8ba7af7211f032818.jpg" alt="" /></p>
+
+<p>We saw the contents of a file being transmitted in something that looked like UUencoding:</p>
+
+<p><img src="/images/octopress/9957ab5614d5c161a5a452770de56a14.png" alt="" /></p>
+
+<p>After a tedious manual OCR trying to tell the &ldquo;1&rdquo; and &ldquo;l&rdquo; apart, we came with the following text:</p>
+
+<pre><code class="language-lang-bash">begin 644 rfax_man
+h5sg60BSxwp62+57aMLVTPK3i9b-t+5pGLKyPA-FxxuysvFs+BT8+o0dVsM24
+hcZHRaWYEHRBGFGtqk-cMV7oqqQRzbobGRB9Kwc-pTHzCDSSMJorR8d-pxdqd
+hLWpvQWRv-N33mFwEicqz+UFkDYsbDvrfOC7tko5g1JrrSX0swhn64neLsohr
+h26K1mSxnS+TF1Cta8GHHQ-t1Cfp7nh-oZeFuVi5MEynqyzX8kMtXcAynSLQx
+hg4o56Pu4YUZHMqDGtczKeCwXU8PZEc4lY0FbDfFfgZpJFC-a-sHGLtGJgCMZ
+hksr6XNTedEUdVJqxOO5VaReoH68eEPJ2m6d9mKhlhVE7zw4Yru4DUWRCJH28
+hyeth+l2IOgPnEfrTLwAc+-TPS0YKYY3K0np58gVPgdAN8RY7+rQfRDin9JSa
+hOG32WG7-rTl3uthvrnDO-wD09GDIRCniuoefs8UsfiWZOLq+0awOrQxAPM+C
+hxLwOJ9VUKwdn7dJduLn1KhBucvL1pr5lGiBFfUbL79cFFex+G27kT+fsQ7X5
+h87mgPivWhDSQHKPXqpKGniDkYsIYpg66ZWbHp4PfcgtPukElDWENlQPSuNAQ
+hnboE4Bd8kyyokt67GgfGvBVS45sMFPtlgKRlG-QPFSgbMHujA3qYemxnuqGx
+hp97aXpdKpvAE8zx-oUzazoVFz32X3OxAuiWJhKEjaYKpM7f95yvlS62v+k++
++
+end
+</code></pre>
+
+<p>We tried to UUdecode it with no luck until we realized it was no <a href="http://en.wikipedia.org/wiki/Uuencode">UUEncoding</a> but <a href="http://en.wikipedia.org/wiki/Xxencoding">XXEncoding</a> that only uses alpha characters and the &ldquo;+&rdquo; symbol and that you can easily recognize for the lines starting with &ldquo;h&rdquo;s.</p>
+
+<p>Based on the info on the wikipedia, I wrote this simple script to decode it:</p>
+
+<pre><code class="language-lang-python"># XXdecoding
+decoded = &quot;&quot;
+for line in encoded.split('\n'):
+    line = line [1:]
+    for char in line:
+        ref = xxset.index(char)
+        binref = str(bin(ref))[2:]
+        binref = &quot;0&quot; * (6-len(binref)) + binref
+        decoded += binref
+data = hex(int(decoded, 2))[2:-1].decode(&quot;hex&quot;)
+</code></pre>
+
+<p>The resulting bytes were identified as a gzipped archive and can be unarchived even if corrupted bytes are present (thing we were sure about since the manual OCR was hard).</p>
+
+<pre><code class="language-lang-bash">alvaro@winterfell ~/D/O/Freestyle400_Make similar&gt; file fax
+fax: gzip compressed data, was &quot;rfax_man.py&quot;, from FAT filesystem (MS-DOS, OS/2, NT), last modified: Thu Feb  6 17:52:39 2014, max speed
+</code></pre>
+
+<p>Full script to get xxencoded file contents:</p>
+
+<pre><code class="language-lang-python">import zlib
+
+xxset = &quot;+-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;
+encoded = &quot;&quot;&quot;h5sg60BSxwp62+57aMLVTPK3i9b-t+5pGLKyPA-FxxuysvFs+BT8+o0dVsM24
+hcZHRaWYEHRBGFGtqk-cMV7oqqQRzbobGRB9Kwc-pTHzCDSSMJorR8d-pxdqd
+hLWpvQWRv-N33mFwEicqz+UFkDYsbDvrfOC7tko5g1JrrSX0swhn64neLsohr
+h26K1mSxnS+TF1Cta8GHHQ-t1Cfp7nh-oZeFuVi5MEynqyzX8kMtXcAynSLQx
+hg4o56Pu4YUZHMqDGtczKeCwXU8PZEc4lY0FbDfFfgZpJFC-a-sHGLtGJgCMZ
+hksr6XNTedEUdVJqxOO5VaReoH68eEPJ2m6d9mKhlhVE7zw4Yru4DUWRCJH28
+hyeth+l2IOgPnEfrTLwAc+-TPS0YKYY3K0np58gVPgdAN8RY7+rQfRDin9JSa
+hOG32WG7-rTl3uthvrnDO-wD09GDIRCniuoefs8UsfiWZOLq+0awOrQxAPM+C
+hxLwOJ9VUKwdn7dJduLn1KhBucvL1pr5lGiBFfUbL79cFFex+G27kT+fsQ7X5
+h87mgPivWhDSQHKPXqpKGniDkYsIYpg66ZWbHp4PfcgtPukElDWENlQPSuNAQ
+hnboE4Bd8kyyokt67GgfGvBVS45sMFPtlgKRlG-QPFSgbMHujA3qYemxnuqGx
+hp97aXpdKpvAE8zx-oUzazoVFz32X3OxAuiWJhKEjaYKpM7f95yvlS62v+k++&quot;&quot;&quot;
+
+# XXdecoding
+decoded = &quot;&quot;
+for line in encoded.split('\n'):
+    line = line [1:]
+    for char in line:
+        ref = xxset.index(char)
+        binref = str(bin(ref))[2:]
+        binref = &quot;0&quot; * (6-len(binref)) + binref
+        decoded += binref
+data = hex(int(decoded, 2))[2:-1].decode(&quot;hex&quot;)
+
+# unziping
+try:
+    z = zlib.decompressobj(-15)
+    print z.decompress(data[22:])  # skip the gzip header
+except:
+    pass
+</code></pre>
+
+<p>The result is a python script with some corrupted chars but the Flag is Ok and can be read it:</p>
+
+<pre><code class="language-lang-python">import socket,os,sys,hashlib
+
+KEY  = &quot;CTF{4BDF4498E4922B88642D4915C528DA8F}&quot; # DO NOT SHARE THIS!
+HOST = '109.233.61.11'
+PORT = 8001
+
+if len(sys.argv)&lt;3:
+  print 'Usage: rfax_man.py add|del file.png'
+  print '\nAdd your pictures to transmission!\nSizes: 800&lt;=width&lt;=3200 and oeight/width &lt;= 2.0.\nUse contrast grayscale pictures.'
+  sys.exit(()
+
+data=open(sys.argv[2],'rb').read(100000()
+
+m=hashlib.md5(); m.update(KEY); KEYH=m.hexdigest().upper()
+m=hashlib.md5(); m.update(data); h=m.hexdigest().upper()
+print 'File hash',h
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((HOST, PORT))
+print 'Connected.'
+
+if sys.argv[1]=='add':
+  s.sendall(KEYH+':ADD:'+data)
+  s.shutdown(socket.SHUT_WR)
+  print s.recv(1024)
+elif sys.argv[1]=='del':
+  s.sendall(KEYH+':DEL:'+h)
+  print s.recv(1024)
+
+s.close()
+print 'Done.'
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/post"><span class="tag">Post</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2082</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

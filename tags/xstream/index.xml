@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>XStream on &lt;/pwntester&gt;</title>
+    <link>http://pwntester.com/tags/xstream/</link>
+    <description>Recent content in XStream on &lt;/pwntester&gt;</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 24 Dec 2013 10:25:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://pwntester.com/tags/xstream/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>More on XStream RCE: SpringMVC WS</title>
+      <link>http://pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/</link>
+      <pubDate>Tue, 24 Dec 2013 10:25:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/</guid>
+      <description>Continuing my previous post where I mentioned that the XStream RCE issue issue also affected SpringMVC RESTful WebServices using the XStream SpringOXM wrapper, I wanted to share a POC server. The code is quite simple and can be found in the XStreamServer GitHub Repo. It contains a WebService defined by the ContactController:
+@Controller @RequestMapping(&amp;quot;/contacts&amp;quot;) public class ContactController { @Autowired private ContactRepository contactRepository; @RequestMapping( value = &amp;quot;/{id}&amp;quot;, method = RequestMethod.GET ) @ResponseStatus(HttpStatus.</description>
+    </item>
+    
+    <item>
+      <title>RCE via XStream object deserialization</title>
+      <link>http://pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/</link>
+      <pubDate>Mon, 23 Dec 2013 10:15:00 +0000</pubDate>
+      
+      <guid>http://pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/</guid>
+      <description>When researching SpringMVC RESTful APIs and their XXE vulnerabilities I found that XStream was not vulnerable to XXE because it ignored the &amp;lt;DOCTYPE /&amp;gt; blocks. Curious about it I decided to took a deeper look at XStream and found out that its not just a simple marshalling library as JAXB but a much more powerful serializing library capable of serializing to an XML representation really complex types and not just POJOs.</description>
+    </item>
+    
+  </channel>
+</rss>
