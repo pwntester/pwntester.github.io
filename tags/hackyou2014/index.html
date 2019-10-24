@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/hackyou2014/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/hackyou2014/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/hackyou2014/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/hackyou2014/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/hackyou2014/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/hackyou2014/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,7 +202,7 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/" class="post-link">#hackyou2014 Crypto400 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/" class="post-link">#hackyou2014 Crypto400 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 17, 2014 · 6 min read</p>
   </header>
   
@@ -212,70 +212,70 @@ Can you still prove that it is not secure enough and get the flag?
  We are given a pcap file with a bunch of transmissions generated with this script:
 #!/usr/bin/python import sys import struct import zlib import socket class Client: def __init__(self, ip): #init self.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/" class="post-link">#hackyou2014 Web400 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/" class="post-link">#hackyou2014 Web400 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 17, 2014 · 10 min read</p>
   </header>
   
   <p class="post-summary">I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
 We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/" class="post-link">#hackyou2014 Crypto300 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/" class="post-link">#hackyou2014 Crypto300 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 16, 2014 · 4 min read</p>
   </header>
   
   <p class="post-summary">In this level we are presented with a crypto system based on Matrix operations:
 #!/usr/bin/python import random from struct import pack def Str2matrix(s): #convert string to 4x4 matrix return [map(lambda x : ord(x), list(s[i:i&#43;4])) for i in xrange(0, len(s), 4)] def Matrix2str(m): #convert matrix to string return &#39;&#39;.join(map(lambda x : &#39;&#39;.join(map(lambda y : pack(&#39;!H&#39;, y), x)), m)) def Generate(password): #generate key matrix random.seed(password) return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)] def Multiply(A,B): #multiply two 4x4 matrix C = [[0 for i in xrange(4)] for j in xrange(4)] for i in xrange(4): for j in xrange(4): for k in xrange(4): C[i][j] &#43;= A[i][k] * B[k][j] return C def Encrypt(fname): #encrypt file key = Generate(&#39;&#39;) data = open(fname, &#39;rb&#39;).</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/" class="post-link">#hackyou2014 Crypto200 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/" class="post-link">#hackyou2014 Crypto200 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 16, 2014 · 7 min read</p>
   </header>
   
   <p class="post-summary">In this level we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777 We are given the following source code:
 #!/usr/bin/python from math import sin from urlparse import parse_qs from base64 import b64encode from base64 import b64decode from re import match SALT = &#39;&#39; USERS = set() KEY = &#39;&#39;.decode(&#39;hex&#39;) def xor(a, b): return &#39;&#39;.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100))) def hashme(s): #my secure hash function def F(X,Y,Z): return ((~X &amp; Z) | (~X &amp; Z)) &amp; 0xFFFFFFFF def G(X,Y,Z): return ((X &amp; Z) | (~Z &amp; Y)) &amp; 0xFFFFFFFF def H(X,Y,Z): return (X ^ Y ^ Y) &amp; 0xFFFFFFFF def I(X,Y,Z): return (Y ^ (~Z | X)) &amp; 0xFFFFFFFF def ROL(X,Y): return (X &lt;&lt; Y | X &gt;&gt; (32 - Y)) &amp; 0xFFFFFFFF A = 0x67452301 B = 0xEFCDAB89 C = 0x98BADCFE D = 0x10325476 X = [int(0xFFFFFFFF * sin(i)) &amp; 0xFFFFFFFF for i in xrange(256)] for i,ch in enumerate(s): k, l = ord(ch), i &amp; 0x1f A = (B &#43; ROL(A &#43; F(B,C,D) &#43; X[k], l)) &amp; 0xFFFFFFFF B = (C &#43; ROL(B &#43; G(C,D,A) &#43; X[k], l)) &amp; 0xFFFFFFFF C = (D &#43; ROL(C &#43; H(D,A,B) &#43; X[k], l)) &amp; 0xFFFFFFFF D = (A &#43; ROL(D &#43; I(A,B,C) &#43; X[k], l)) &amp; 0xFFFFFFFF return &#39;&#39;.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/" class="post-link">#hackyou2014 Crypto100 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/" class="post-link">#hackyou2014 Crypto100 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 16, 2014 · 3 min read</p>
   </header>
   
   <p class="post-summary">In this level we are asked to break a code and decrypt msg002.enc. We are given the encryptor code without the key:
 #include &lt;stdlib.h&gt; #include &lt;stdio.h&gt; #include &lt;string.h&gt; int main(int argc, char **argv) { if (argc != 3) { printf(&#34;USAGE: %s INPUT OUTPUT\n&#34;, argv[0]); return 0; } FILE* input = fopen(argv[1], &#34;rb&#34;); FILE* output = fopen(argv[2], &#34;wb&#34;); if (!input || !output) { printf(&#34;Error\n&#34;); return 0; } char k[] = &#34;CENSORED&#34;; char c, p, t = 0; int i = 0; while ((p = fgetc(input)) !</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/" class="post-link">#hackyou2014 Web100 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/" class="post-link">#hackyou2014 Web100 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 15, 2014 · 2 min read</p>
   </header>
   
@@ -284,28 +284,28 @@ If we look at the source code we can see an interesting comment:
 ... &lt;!-- TODO: remove index.phps --&gt; ...  We can grab the source code:
 &lt;?php include &#39;db.php&#39;; session_start(); if (!isset($_SESSION[&#39;login&#39;])) { $_SESSION[&#39;login&#39;] = &#39;guest&#39;.mt_rand(1e5, 1e6); } $login = $_SESSION[&#39;login&#39;]; if (isset($_POST[&#39;submit&#39;])) { if (!isset($_POST[&#39;id&#39;], $_POST[&#39;vote&#39;]) || !is_numeric($_POST[&#39;id&#39;])) die(&#39;Hacking attempt!&#39;); $id = $_POST[&#39;id&#39;]; $vote = (int)$_POST[&#39;vote&#39;]; if ($vote &gt; 5 || $vote &lt; 1) $vote = 1; $q = mysql_query(&#34;INSERT INTO vote VALUES ({$id}, {$vote}, &#39;{$login}&#39;)&#34;); $q = mysql_query(&#34;SELECT id FROM vote WHERE user = &#39;{$login}&#39; GROUP BY id&#34;); echo &#39;&lt;p&gt;&lt;b&gt;Thank you!</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/" class="post-link">#hackyou2014 Web200 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/" class="post-link">#hackyou2014 Web200 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 15, 2014 · 2 min read</p>
   </header>
   
   <p class="post-summary">In this level we are presented with a typical Snake game.
 I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the X-Forwarded-For header. That was pretty much it until the CTF was about to finish when I was given the hint: “../”. I could use it to locate a LFI vulnerability that was affecting the index.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/" class="post-link">#hackyou2014 Web300 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/" class="post-link">#hackyou2014 Web300 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 15, 2014 · 2 min read</p>
   </header>
   
@@ -314,7 +314,7 @@ The task name was “AngryBird” and this was very relevant to solve the challa
  Finding a hidden admin area Exploiting a blind SQLi to get credentials  Finding the hidden admin area We were given the following description:
  Some web-developers still host their sites on Windows platform, and think that it is secure enough</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/">Read More →</a>
   </footer>
 </article>
 

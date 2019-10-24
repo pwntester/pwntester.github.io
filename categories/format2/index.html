@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/categories/format2/">
+  <meta property="og:url" content="http://www.pwntester.com/categories/format2/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/categories/format2/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/categories/format2/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/categories/format2/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/categories/format2/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/" class="post-link">Protostar format0-4 write-ups</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/" class="post-link">Protostar format0-4 write-ups</a></h3>
     <p class="post-meta">@pwntester · Dec 19, 2013 · 6 min read</p>
   </header>
   
   <p class="post-summary">Format0 In Format0 we are given the following vulnerable code:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;stdio.h&gt; #include &lt;string.h&gt; void vuln(char *string) { volatile int target; char buffer[64]; target = 0; sprintf(buffer, string); if(target == 0xdeadbeef) { printf(&#34;you have hit the target correctly :)\n&#34;); } } int main(int argc, char **argv) { vuln(argv[1]); }  This is not really a format string vulnerability, our argument is going to be written in buffer with no size checks and buffer is just above target so we can overwrite it:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/">Read More →</a>
   </footer>
 </article>
 

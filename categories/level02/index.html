@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/categories/level02/">
+  <meta property="og:url" content="http://www.pwntester.com/categories/level02/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/categories/level02/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/categories/level02/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/categories/level02/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/categories/level02/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,7 +202,7 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/" class="post-link">Fusion level02 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/" class="post-link">Fusion level02 write-up</a></h3>
     <p class="post-meta">@pwntester · Dec 30, 2013 · 20 min read</p>
   </header>
   
@@ -210,7 +210,7 @@
 And the code looks like:
 #include &#34;../common/common.c&#34; #define XORSZ 32 void cipher(unsigned char *blah, size_t len) { static int keyed; static unsigned int keybuf[XORSZ]; int blocks; unsigned int *blahi, j; if(keyed == 0) { int fd; fd = open(&#34;/dev/urandom&#34;, O_RDONLY); if(read(fd, &amp;keybuf, sizeof(keybuf)) != sizeof(keybuf)) exit(EXIT_FAILURE); close(fd); keyed = 1; } blahi = (unsigned int *)(blah); blocks = (len / 4); if(len &amp; 3) blocks &#43;= 1; for(j = 0; j &lt; blocks; j&#43;&#43;) { blahi[j] ^= keybuf[j % XORSZ]; } } void encrypt_file() { // http://thedailywtf.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/">Read More →</a>
   </footer>
 </article>
 

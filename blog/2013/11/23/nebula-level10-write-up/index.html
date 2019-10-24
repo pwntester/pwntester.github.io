@@ -44,7 +44,7 @@
   <meta property="og:title" content="Nebula level10 write-up">
   <meta property="og:description" content="In Level10 we are given a vulnerable piece of code:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;errno.h&amp;gt; #include &amp;lt;sys/socket.h&amp;gt; #include &amp;lt;netinet/in.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main(int argc, char **argv) { char *file; char *host; if(argc &amp;lt; 3) { printf(&amp;quot;%s file host\n\tsends file to host if you have access to it\n&amp;quot;, argv[0]); exit(1); } file = argv[1]; host = argv[2]; if(access(argv[1], R_OK) == 0) { int fd; int ffd; int rc; struct sockaddr_in sin; char buffer[4096]; printf(&amp;quot;Connecting to %s:18211 .">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/11/23/nebula-level10-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/11/23/nebula-level10-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/11/23/nebula-level10-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/11/23/nebula-level10-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

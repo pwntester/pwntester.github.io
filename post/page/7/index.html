@@ -42,7 +42,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/post/">
+  <meta property="og:url" content="http://www.pwntester.com/post/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -51,8 +51,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/post/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/post/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/post/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/post/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -132,9 +132,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -201,49 +201,49 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/" class="post-link">Nebula level11 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/24/nebula-level11-write-up/" class="post-link">Nebula level11 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 24, 2013 · 6 min read</p>
   </header>
   
   <p class="post-summary">In Level11 we are given the following code:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;fcntl.h&gt; #include &lt;stdio.h&gt; #include &lt;sys/mman.h&gt; /* * Return a random, non predictable file, and return the file descriptor for it. */ int getrand(char **path) { char *tmp; int pid; int fd; srandom(time(NULL)); tmp = getenv(&#34;TEMP&#34;); pid = getpid(); asprintf(path, &#34;%s/%d.%c%c%c%c%c%c&#34;, tmp, pid, &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26), &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26)); fd = open(*path, O_CREAT|O_RDWR, 0600); unlink(*path); return fd; } void process(char *buffer, int length) { unsigned int key; int i; key = length &amp; 0xff; for(i = 0; i &lt; length; i&#43;&#43;) { buffer[i] ^= key; key -= buffer[i]; } system(buffer); } #define CL &#34;Content-Length: &#34; int main(int argc, char **argv) { char line[256]; char buf[1024]; char *mem; int length; int fd; char *path; if(fgets(line, sizeof(line), stdin) == NULL) { errx(1, &#34;reading from stdin&#34;); } if(strncmp(line, CL, strlen(CL)) !</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/24/nebula-level11-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/23/nebula-level10-write-up/" class="post-link">Nebula level10 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/23/nebula-level10-write-up/" class="post-link">Nebula level10 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 23, 2013 · 4 min read</p>
   </header>
   
   <p class="post-summary">In Level10 we are given a vulnerable piece of code:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; #include &lt;fcntl.h&gt; #include &lt;errno.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/in.h&gt; #include &lt;string.h&gt; int main(int argc, char **argv) { char *file; char *host; if(argc &lt; 3) { printf(&#34;%s file host\n\tsends file to host if you have access to it\n&#34;, argv[0]); exit(1); } file = argv[1]; host = argv[2]; if(access(argv[1], R_OK) == 0) { int fd; int ffd; int rc; struct sockaddr_in sin; char buffer[4096]; printf(&#34;Connecting to %s:18211 .</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/23/nebula-level10-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/23/nebula-level10-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/22/nebula-level09-write-up/" class="post-link">Nebula level09 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/22/nebula-level09-write-up/" class="post-link">Nebula level09 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 22, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level09 we are given the following PHP code and are said that it is execute with a SUID wrapper:
 function spam($email) { $email = preg_replace(&#34;/\./&#34;, &#34; dot &#34;, $email); $email = preg_replace(&#34;/@/&#34;, &#34; AT &#34;, $email); return $email; } function markup($filename, $use_me) { $contents = file_get_contents($filename); $contents = preg_replace(&#34;/(\[email (.*)\])/e&#34;, &#34;spam(\&#34;\\2\&#34;)&#34;, $contents); $contents = preg_replace(&#34;/\[/&#34;, &#34;&lt;&#34;, $contents); $contents = preg_replace(&#34;/\]/&#34;, &#34;&gt;&#34;, $contents); return $contents; } $output = markup($argv[1], $argv[2]); print $output;  This code takes two arguments, the first one is a file containing email address in the format:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/22/nebula-level09-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/22/nebula-level09-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/22/nebula-level08-write-up/" class="post-link">Nebula level08 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/22/nebula-level08-write-up/" class="post-link">Nebula level08 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 22, 2013 · 2 min read</p>
   </header>
   
@@ -251,91 +251,91 @@ function spam($email) { $email = preg_replace(&#34;/\./&#34;, &#34; dot &#34;, $
 {% img /images/tcpstream.png 500 %}
 We can see that the user was trying to login into the wwwbugs server and the login failed. We can assume that it was the flag08 user trying to log in and sending his flag08 password by mistake… Yep, I know it is assuming too much, but anyway, that all we got.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/22/nebula-level08-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/22/nebula-level08-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/" class="post-link">Nebula level07 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/21/nebula-level07-write-up/" class="post-link">Nebula level07 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 21, 2013 · 5 min read</p>
   </header>
   
   <p class="post-summary">In Level07 we are given the source code of a perl script:
 #!/usr/bin/perl use CGI qw{param}; print &#34;Content-type: text/html\n\n&#34;; sub ping { $host = $_[0]; print(&#34;&lt;html&gt;&lt;head&gt;&lt;title&gt;Ping results&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;pre&gt;&#34;); @output = `ping -c 3 $host 2&gt;&amp;1`; foreach $line (@output) { print &#34;$line&#34;; } print(&#34;&lt;/pre&gt;&lt;/body&gt;&lt;/html&gt;&#34;); } # check if Host set. if not, display normal page, etc ping(param(&#34;Host&#34;));  It looks like its vulnerable to command injection on line 12. Bit how and where is it deployed.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/21/nebula-level07-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/21/nebula-level06-write-up/" class="post-link">Nebula level06 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/21/nebula-level06-write-up/" class="post-link">Nebula level06 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 21, 2013 · 3 min read</p>
   </header>
   
   <p class="post-summary">In Level06 all we are said is that flag06 user comes from a legacy unix system. There is nothing special in his home folder. Lets take a look at the /etc/passwd file:
 level06@nebula:/home/flag06$ cat /etc/passwd root:x:0:0:root:/root:/bin/bash daemon:x:1:1:daemon:/usr/sbin:/bin/sh bin:x:2:2:bin:/bin:/bin/sh sys:x:3:3:sys:/dev:/bin/sh sync:x:4:65534:sync:/bin:/bin/sync games:x:5:60:games:/usr/games:/bin/sh man:x:6:12:man:/var/cache/man:/bin/sh lp:x:7:7:lp:/var/spool/lpd:/bin/sh mail:x:8:8:mail:/var/mail:/bin/sh news:x:9:9:news:/var/spool/news:/bin/sh uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh proxy:x:13:13:proxy:/bin:/bin/sh www-data:x:33:33:www-data:/var/www:/bin/sh backup:x:34:34:backup:/var/backups:/bin/sh list:x:38:38:Mailing List Manager:/var/list:/bin/sh irc:x:39:39:ircd:/var/run/ircd:/bin/sh gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh nobody:x:65534:65534:nobody:/nonexistent:/bin/sh libuuid:x:100:101::/var/lib/libuuid:/bin/sh syslog:x:101:103::/home/syslog:/bin/false messagebus:x:102:104::/var/run/dbus:/bin/false nebula:x:1000:1000:nebula,,,:/home/nebula:/bin/bash sshd:x:103:65534::/var/run/sshd:/usr/sbin/nologin level00:x:1001:1001::/home/level00:/bin/sh flag00:x:999:999::/home/flag00:/bin/sh level01:x:1002:1002::/home/level01:/bin/sh flag01:x:998:998::/home/flag01:/bin/sh level02:x:1003:1003::/home/level02:/bin/sh flag02:x:997:997::/home/flag02:/bin/sh level03:x:1004:1004::/home/level03:/bin/sh flag03:x:996:996::/home/flag03:/bin/sh level04:x:1005:1005::/home/level04:/bin/sh flag04:x:995:995::/home/flag04:/bin/sh level05:x:1006:1006::/home/level05:/bin/sh flag05:x:994:994::/home/flag05:/bin/sh level06:x:1007:1007::/home/level06:/bin/sh flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh level07:x:1008:1008::/home/level07:/bin/sh flag07:x:992:992::/home/flag07:/bin/sh level08:x:1009:1009::/home/level08:/bin/sh flag08:x:991:991::/home/flag08:/bin/sh level09:x:1010:1010::/home/level09:/bin/sh flag09:x:990:990::/home/flag09:/bin/sh level10:x:1011:1011::/home/level10:/bin/sh flag10:x:989:989::/home/flag10:/bin/sh level11:x:1012:1012::/home/level11:/bin/sh flag11:x:988:988::/home/flag11:/bin/sh level12:x:1013:1013::/home/level12:/bin/sh flag12:x:987:987::/home/flag12:/bin/sh level13:x:1014:1014::/home/level13:/bin/sh flag13:x:986:986::/home/flag13:/bin/sh level14:x:1015:1015::/home/level14:/bin/sh flag14:x:985:985::/home/flag14:/bin/sh level15:x:1016:1016::/home/level15:/bin/sh flag15:x:984:984::/home/flag15:/bin/sh level16:x:1017:1017::/home/level16:/bin/sh flag16:x:983:983::/home/flag16:/bin/sh level17:x:1018:1018::/home/level17:/bin/sh flag17:x:982:982::/home/flag17:/bin/sh level18:x:1019:1019::/home/level18:/bin/sh flag18:x:981:981::/home/flag18:/bin/sh level19:x:1020:1020::/home/level19:/bin/sh flag19:x:980:980::/home/flag19:/bin/sh  Nice, we can try to crack it with John the Ripper (this remainds me my collage days …).</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/21/nebula-level06-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/21/nebula-level06-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/21/nebula-level05-write-up/" class="post-link">Nebula level05 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/21/nebula-level05-write-up/" class="post-link">Nebula level05 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 21, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level05 we are pointed to the flag05 user directory. There we can find a .ssh directory so we can assume that flag05 uses ssh keys to login into his account and also a .backup folder:
 level05@nebula:~$ ls -la /home/flag05 total 36 drwxr-x--- 5 flag05 level05 4096 Nov 20 16:49 . drwxr-xr-x 43 root root 4096 Nov 20 2011 .. drwxr-xr-x 2 flag05 flag05 4096 Nov 20 2011 .backup -rw------- 1 flag05 flag05 8 Nov 20 16:49 .</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/21/nebula-level05-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/21/nebula-level05-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/21/nebula-level04-write-up/" class="post-link">Nebula level04 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/21/nebula-level04-write-up/" class="post-link">Nebula level04 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 21, 2013 · 1 min read</p>
   </header>
   
   <p class="post-summary">In Level04 we are given the code of a program owned by flag04 user:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; #include &lt;fcntl.h&gt; int main(int argc, char **argv, char **envp) { char buf[1024]; int fd, rc; if(argc == 1) { printf(&#34;%s [file to read]\n&#34;, argv[0]); exit(EXIT_FAILURE); } if(strstr(argv[1], &#34;token&#34;) != NULL) { printf(&#34;You may not access &#39;%s&#39;\n&#34;, argv[1]); exit(EXIT_FAILURE); } fd = open(argv[1], O_RDONLY); if(fd == -1) { err(EXIT_FAILURE, &#34;Unable to open %s&#34;, argv[1]); } rc = read(fd, buf, sizeof(buf)); if(rc == -1) { err(EXIT_FAILURE, &#34;Unable to read fd %d&#34;, fd); } write(1, buf, rc); }  The program opens a file passed as first argument if the name does not contain the token string so we cannot use it to open our target token file … or can we?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/21/nebula-level04-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/21/nebula-level04-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/" class="post-link">Nebula level03 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/20/nebula-level03-write-up/" class="post-link">Nebula level03 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 20, 2013 · 1 min read</p>
   </header>
   
   <p class="post-summary">In Level03 we are said that the program on /flag03 is run by cron every X minutes. If we have a look at the code we can see that it will execute the files in the writable.d directory and then remove them:
 level03@nebula:/home/flag03$ cat writable.sh #!/bin/sh for i in /home/flag03/writable.d/* ; do (ulimit -t 5; bash -x &#34;$i&#34;) rm -f &#34;$i&#34; done  Ok, so whatever we put in writable.d will be execute by someone else … but who?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/20/nebula-level03-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/20/nebula-level02-write-up/" class="post-link">Nebula level02 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/20/nebula-level02-write-up/" class="post-link">Nebula level02 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 20, 2013 · 1 min read</p>
   </header>
   
   <p class="post-summary">Level02 is about command injection. We are given the following vulnerable code:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; int main(int argc, char **argv, char **envp) { char *buffer; gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); buffer = NULL; asprintf(&amp;buffer, &#34;/bin/echo %s is cool&#34;, getenv(&#34;USER&#34;)); printf(&#34;about to call system(\&#34;%s\&#34;)\n&#34;, buffer); system(buffer); }  As shown in the code, the program will use the USER environment variable to build the command executed by system so all we need to do is inject our getflag command:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/20/nebula-level02-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/20/nebula-level02-write-up/">Read More →</a>
   </footer>
 </article>
 

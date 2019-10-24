@@ -44,7 +44,7 @@
   <meta property="og:title" content="Nebula level07 write-up">
   <meta property="og:description" content="In Level07 we are given the source code of a perl script:
 #!/usr/bin/perl use CGI qw{param}; print &amp;quot;Content-type: text/html\n\n&amp;quot;; sub ping { $host = $_[0]; print(&amp;quot;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;Ping results&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;pre&amp;gt;&amp;quot;); @output = `ping -c 3 $host 2&amp;gt;&amp;amp;1`; foreach $line (@output) { print &amp;quot;$line&amp;quot;; } print(&amp;quot;&amp;lt;/pre&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;quot;); } # check if Host set. if not, display normal page, etc ping(param(&amp;quot;Host&amp;quot;));  It looks like its vulnerable to command injection on line 12. Bit how and where is it deployed.">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/11/21/nebula-level07-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/11/21/nebula-level07-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

@@ -42,7 +42,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/post/">
+  <meta property="og:url" content="http://www.pwntester.com/post/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -51,8 +51,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/post/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/post/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/post/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/post/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -132,9 +132,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -201,7 +201,7 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/" class="post-link">Nebula level01 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/20/nebula-level01-write-up/" class="post-link">Nebula level01 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 20, 2013 · 1 min read</p>
   </header>
   
@@ -209,14 +209,14 @@
 #include &lt;stdlib.h&gt; #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; int main(int argc, char **argv, char **envp) { gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); system(&#34;/usr/bin/env echo and now what?&#34;); }  This is the code of the /home/flag01/flag01 program that runs as flag01 user
 level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 Nov 20 2011 /home/flag01/flag01  As setresuid sets the Real, Effective and Saved uids to the effective one (flag01), the following call to system will effectively run as flag01.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/20/nebula-level01-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/20/nebula-level00-write-up/" class="post-link">Nebula level00 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/20/nebula-level00-write-up/" class="post-link">Nebula level00 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 20, 2013 · 1 min read</p>
   </header>
   
@@ -224,42 +224,42 @@ level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 No
 Ok, so Level00 is about finding a executable owned by flag00 user and that has the setuid flag, easy as:
 level00@nebula:~$ find / -executable -user flag00 -perm -4000 2&gt; /dev/null /bin/.../flag00 level00@nebula:~$cd /bin/... level00@nebula:/bin/...$ ./flag00 Congrats, now run getflag to get your flag! flag00@nebula:/bin/...$ getflag You have successfully executed getflag on a target account  </p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/20/nebula-level00-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/20/nebula-level00-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/" class="post-link">SpringMVC vulnerable to XXE</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/" class="post-link">SpringMVC vulnerable to XXE</a></h3>
     <p class="post-meta">@pwntester · Aug 23, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">While researching SpringMVC Restful APIs, I found out that any RESTful webservice built with SpringMVC and using JAXB as mashalling library to convert XML object representations to Java objects, was vulnerable to XML eXternal Entity Injection (XXE) attacks since the JAXB was configured to resolve external entities by default and it could not be configured to not do so.
 SpringMVC uses SpringOXM (Object to XML Mapper) to automatically convert XML messages into Java objects so developers dont need to process the XML message and instantiate their own class instances, they just need to declare what type they are expecting in their controller method.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/08/23/springmvc-vulnerable-to-xxe/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/08/02/xml-entities-based-attacks/" class="post-link">XML Entities based attacks</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/08/02/xml-entities-based-attacks/" class="post-link">XML Entities based attacks</a></h3>
     <p class="post-meta">@pwntester · Aug 2, 2013 · 1 min read</p>
   </header>
   
   <p class="post-summary">“Wait, I’m not clear on what’s happening here. Is this even possible? Just by giving an application a single piece of XML, you can cause it to steal other files for you?”
  Those were a customer’s words when an XML External Entity injection vulnerability was reported on one of his applications and although these kinds of attacks are known since the early 2000s I’m still under the impression that they are not known and tested enough by application developers and security auditors.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/08/02/xml-entities-based-attacks/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/08/02/xml-entities-based-attacks/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2012/11/17/fourgoats-vulnerabilities-intent-spoofing/" class="post-link">FourGoats Vulnerabilities: Intent Spoofing</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2012/11/17/fourgoats-vulnerabilities-intent-spoofing/" class="post-link">FourGoats Vulnerabilities: Intent Spoofing</a></h3>
     <p class="post-meta">@pwntester · Nov 17, 2012 · 3 min read</p>
   </header>
   
@@ -267,42 +267,42 @@ SpringMVC uses SpringOXM (Object to XML Mapper) to automatically convert XML mes
 In order to prevent this situation, the Android platform enables two controls to limit who can talk to you application components. These controls are:
  Permissions Intents types  The first one is obvious, the component can request the calling application to present a specific permission in order to call your application.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2012/11/17/fourgoats-vulnerabilities-intent-spoofing/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2012/11/17/fourgoats-vulnerabilities-intent-spoofing/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2012/11/09/rootedcon-arena-2012-writeup/" class="post-link">RootedCon Arena 2012: WriteUp</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2012/11/09/rootedcon-arena-2012-writeup/" class="post-link">RootedCon Arena 2012: WriteUp</a></h3>
     <p class="post-meta">@pwntester · Nov 9, 2012 · 1 min read</p>
   </header>
   
   <p class="post-summary">Better late than never. Here is my write-up for the RootedArena 2012 CTF [Spanish]
  writeup.pdf     </p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2012/11/09/rootedcon-arena-2012-writeup/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2012/11/09/rootedcon-arena-2012-writeup/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-trustmanager/" class="post-link">FourGoats Vulnerabilities: Promiscuous SSL TrustManager</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-trustmanager/" class="post-link">FourGoats Vulnerabilities: Promiscuous SSL TrustManager</a></h3>
     <p class="post-meta">@pwntester · Nov 5, 2012 · 4 min read</p>
   </header>
   
   <p class="post-summary">The login activity uses an asynchronous task to validate the user credentials. The ValidateCredsAsyncTask performs this validation
 private class ValidateCredsAsyncTask extends AsyncTask&lt;Void, Void, HashMap&lt;String, String&gt;&gt; { Login mActivity; public ValidateCredsAsyncTask(Login activity) { mActivity = activity; } @Override protected HashMap&lt;String, String&gt; doInBackground(Void... params) { LoginRequest client = new LoginRequest(context); String userName = userNameEditText.getText().toString(); String password = passwordEditText.getText().toString(); boolean rememberMe = rememberMeCheckBox.isChecked(); HashMap&lt;String, String&gt; userInfo = new HashMap&lt;String, String&gt;(); if (allFieldsCompleted(userName, password)) { UserInfoDBHelper dbHelper = new UserInfoDBHelper(context); try { userInfo = client.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-trustmanager/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-trustmanager/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/" class="post-link">FourGoats Vulnerabilities: Promiscuous SSL HostName Verifier</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/" class="post-link">FourGoats Vulnerabilities: Promiscuous SSL HostName Verifier</a></h3>
     <p class="post-meta">@pwntester · Nov 5, 2012 · 1 min read</p>
   </header>
   
@@ -310,14 +310,14 @@ private class ValidateCredsAsyncTask extends AsyncTask&lt;Void, Void, HashMap&lt
 RestClient was getting an HttpClient instance using the CustomSSLSocketFactory.getNewHttpClient static method:
 public static HttpClient getNewHttpClient() { try { KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType()); trustStore.load(null, null); SSLSocketFactory sf = new CustomSSLSocketFactory(trustStore); sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER); HttpParams params = new BasicHttpParams(); SchemeRegistry registry = new SchemeRegistry(); registry.register(new Scheme(&#34;http&#34;, PlainSocketFactory.getSocketFactory(), 80)); registry.register(new Scheme(&#34;https&#34;, sf, 443)); ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry); return new DefaultHttpClient(ccm, params); } catch (Exception e) { return new DefaultHttpClient(); } }  Can you spot another, related, vulnerability?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/" class="post-link">FourGoats Vulnerabilities: Information Leakage through SharedPreferences</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/" class="post-link">FourGoats Vulnerabilities: Information Leakage through SharedPreferences</a></h3>
     <p class="post-meta">@pwntester · Oct 30, 2012 · 2 min read</p>
   </header>
   
@@ -325,21 +325,21 @@ public static HttpClient getNewHttpClient() { try { KeyStore trustStore = KeySto
 Try to get an idea of how does the app work, install it in your device and/or emulator and get familiar with the different activities and application flow.
 Open the Main activity and check what its doing. Basically, its looking for a sessionToken and if she cannot find it, it will start the Login Activity, otherwise it will take the user to the Home or AdminHome activities.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/" class="post-link">FourGoats Vulnerabilities: Hardcoded Backdoor</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/" class="post-link">FourGoats Vulnerabilities: Hardcoded Backdoor</a></h3>
     <p class="post-meta">@pwntester · Oct 30, 2012 · 1 min read</p>
   </header>
   
   <p class="post-summary">If we keep on reading the Login activity, we will soon spot an asynchronous task used to validate the user credentials in the server and we will see that there is a harcoded user/password pair that will set up the admin property and so it will enable us to access the AdminHome Activity:
 if (userName.equals(&#34;customerservice&#34;) &amp;&amp; password.equals(&#34;Acc0uNTM@n@g3mEnT&#34;)) userInfo.put(&#34;isAdmin&#34;, &#34;true&#34;);  If we enter these credentials (and the user is registered in the backend), we will be able to access the AdminHome Activity:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/">Read More →</a>
   </footer>
 </article>
 

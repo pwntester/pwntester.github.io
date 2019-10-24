@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula05 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/nebula05/</link>
+    <link>http://www.pwntester.com/categories/nebula05/</link>
     <description>Recent content in nebula05 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 21 Nov 2013 00:29:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/nebula05/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/nebula05/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level05 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/21/nebula-level05-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/21/nebula-level05-write-up/</link>
       <pubDate>Thu, 21 Nov 2013 00:29:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/21/nebula-level05-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/21/nebula-level05-write-up/</guid>
       <description>In Level05 we are pointed to the flag05 user directory. There we can find a .ssh directory so we can assume that flag05 uses ssh keys to login into his account and also a .backup folder:
 level05@nebula:~$ ls -la /home/flag05 total 36 drwxr-x--- 5 flag05 level05 4096 Nov 20 16:49 . drwxr-xr-x 43 root root 4096 Nov 20 2011 .. drwxr-xr-x 2 flag05 flag05 4096 Nov 20 2011 .backup -rw------- 1 flag05 flag05 8 Nov 20 16:49 .</description>
     </item>

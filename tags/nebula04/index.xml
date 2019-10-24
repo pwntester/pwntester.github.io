@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula04 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/nebula04/</link>
+    <link>http://www.pwntester.com/tags/nebula04/</link>
     <description>Recent content in nebula04 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 21 Nov 2013 00:01:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/nebula04/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/nebula04/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level04 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/21/nebula-level04-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/21/nebula-level04-write-up/</link>
       <pubDate>Thu, 21 Nov 2013 00:01:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/21/nebula-level04-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/21/nebula-level04-write-up/</guid>
       <description>In Level04 we are given the code of a program owned by flag04 user:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; int main(int argc, char **argv, char **envp) { char buf[1024]; int fd, rc; if(argc == 1) { printf(&amp;quot;%s [file to read]\n&amp;quot;, argv[0]); exit(EXIT_FAILURE); } if(strstr(argv[1], &amp;quot;token&amp;quot;) != NULL) { printf(&amp;quot;You may not access &#39;%s&#39;\n&amp;quot;, argv[1]); exit(EXIT_FAILURE); } fd = open(argv[1], O_RDONLY); if(fd == -1) { err(EXIT_FAILURE, &amp;quot;Unable to open %s&amp;quot;, argv[1]); } rc = read(fd, buf, sizeof(buf)); if(rc == -1) { err(EXIT_FAILURE, &amp;quot;Unable to read fd %d&amp;quot;, fd); } write(1, buf, rc); }  The program opens a file passed as first argument if the name does not contain the token string so we cannot use it to open our target token file &amp;hellip; or can we?</description>
     </item>

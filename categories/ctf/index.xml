@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>CTF on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/ctf/</link>
+    <link>http://www.pwntester.com/categories/ctf/</link>
     <description>Recent content in CTF on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 06 Apr 2014 20:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/ctf/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/ctf/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>NuitDuHack 2014 Crypto Write Ups</title>
-      <link>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/</link>
       <pubDate>Sun, 06 Apr 2014 20:00:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/</guid>
       <description>Carbonara We are given the following ciphertext:
 %96 7=28 7@C E9:D 492= :D iQx&amp;gt;A6C2E@C xF=:FD r26D2C s:GFDQ]
 A simple shift shows interesting results:
@@ -25,10 +25,10 @@ ciphertext = &amp;quot;%96 7=28 7@C E9:D 492= :D iQx&amp;gt;A6C2E@C xF=:FD r26D2
     
     <item>
       <title>NuitDuHack 2014 Web Write Ups</title>
-      <link>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</link>
       <pubDate>Sun, 06 Apr 2014 10:29:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</guid>
       <description>Web 100: Abitol This is a simple web app where you can register and login to see an articles page, a photo gallery, a flag page and an admin contact page.
 Visiting the flag page give us a Nice try, did you really think it would be that easy? ;) but the photo gallery is vulnerable to XSS:
 http://abitbol.nuitduhack.com/zoom.php?image=1%3E%3Cscript%3Ealert%281%29%3C/script%3E
@@ -37,40 +37,40 @@ Now, we dont know how the admin contact will be visualized in the viewer page, b
     
     <item>
       <title>Codegate 2k14 4stone (Pwnable 300) Write Up</title>
-      <link>http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</link>
       <pubDate>Sun, 23 Mar 2014 11:38:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</guid>
       <description>In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: DHHDLLDHDDDLDD
 Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the you win and you lose exit strings and actually, after priting the you win string we can find an interesting piece of code before the call to exit()</description>
     </item>
     
     <item>
       <title>Ghost in the Shellcode: TI-1337 Pwnable</title>
-      <link>http://pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/</link>
+      <link>http://www.pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/</link>
       <pubDate>Sat, 15 Mar 2014 18:51:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/</guid>
+      <guid>http://www.pwntester.com/blog/2014/03/15/ghost-in-the-shellcode-ti-1337-pwnable/</guid>
       <description>In this level we were presented with an ELF 64bits executable, a good oportunity to exercise linux exploiting on 64bits systems and try Hopper for the first time :)
 When you run the binary, it begins listening in port 31415 (pi!) but if we try to connect, it complains about a missing user &amp;ldquo;gambino&amp;rdquo;. So we have to create the user. Once created, if we try to connect to the service we get nothing.</description>
     </item>
     
     <item>
       <title>Olympic CTF CURLing500 Write Up</title>
-      <link>http://pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/</link>
       <pubDate>Fri, 14 Feb 2014 16:29:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/02/14/olympic-ctf-curling500-write-up/</guid>
       <description>We didnt have time to finish this task during the game since we decided to finish Freestyle 400 (scored in the last minute) but as I foound out later, we were close to finish it.
 In this level we were presented with a login form vulnerable to user enumeration. It was easy to see that admin was a valid user but we could not guess the password. After trying with other &amp;ldquo;normal&amp;rdquo; accounts like guest, dev and so on, we found that debug was a valid account and the password was debug.</description>
     </item>
     
     <item>
       <title>Olympic CTF CURLing tasks</title>
-      <link>http://pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/</link>
+      <link>http://www.pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/</link>
       <pubDate>Sun, 09 Feb 2014 16:54:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/</guid>
+      <guid>http://www.pwntester.com/blog/2014/02/09/olympic-ctf-curling-tasks/</guid>
       <description>I had the honour to participate with int3pids in the #Olympic CTF and these are the write ups of the Web tasks we solved.
 CURLing 200: Xnginx In this level we were presented with a simple web site where we could check some news
 First thing to notice is that the news URL is vulnerable to path transversal:
@@ -79,10 +79,10 @@ http://109.233.61.11:27280/news/?f=31-12-2013  http://109.233.61.11:27280/news/?
     
     <item>
       <title>#hackyou2014 Crypto400 write-up</title>
-      <link>http://pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/</link>
       <pubDate>Fri, 17 Jan 2014 18:14:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/17/hackyou2014-crypto400-write-up/</guid>
       <description>In this level we are said that:
  We have intercepted communication in a private network. It is used a strange protocol based on RSA cryptosystem.
 Can you still prove that it is not secure enough and get the flag?
@@ -92,50 +92,50 @@ Can you still prove that it is not secure enough and get the flag?
     
     <item>
       <title>#hackyou2014 Web400 write-up</title>
-      <link>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</link>
       <pubDate>Fri, 17 Jan 2014 13:03:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/</guid>
       <description>I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
 We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:</description>
     </item>
     
     <item>
       <title>#hackyou2014 Crypto300 write-up</title>
-      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/</link>
       <pubDate>Thu, 16 Jan 2014 22:24:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto300-write-up/</guid>
       <description>In this level we are presented with a crypto system based on Matrix operations:
 #!/usr/bin/python import random from struct import pack def Str2matrix(s): #convert string to 4x4 matrix return [map(lambda x : ord(x), list(s[i:i+4])) for i in xrange(0, len(s), 4)] def Matrix2str(m): #convert matrix to string return &#39;&#39;.join(map(lambda x : &#39;&#39;.join(map(lambda y : pack(&#39;!H&#39;, y), x)), m)) def Generate(password): #generate key matrix random.seed(password) return [[random.randint(0,64) for i in xrange(4)] for j in xrange(4)] def Multiply(A,B): #multiply two 4x4 matrix C = [[0 for i in xrange(4)] for j in xrange(4)] for i in xrange(4): for j in xrange(4): for k in xrange(4): C[i][j] += A[i][k] * B[k][j] return C def Encrypt(fname): #encrypt file key = Generate(&#39;&#39;) data = open(fname, &#39;rb&#39;).</description>
     </item>
     
     <item>
       <title>#hackyou2014 Crypto200 write-up</title>
-      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/</link>
       <pubDate>Thu, 16 Jan 2014 20:43:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/</guid>
       <description>In this level we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777 We are given the following source code:
 #!/usr/bin/python from math import sin from urlparse import parse_qs from base64 import b64encode from base64 import b64decode from re import match SALT = &#39;&#39; USERS = set() KEY = &#39;&#39;.decode(&#39;hex&#39;) def xor(a, b): return &#39;&#39;.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100))) def hashme(s): #my secure hash function def F(X,Y,Z): return ((~X &amp;amp; Z) | (~X &amp;amp; Z)) &amp;amp; 0xFFFFFFFF def G(X,Y,Z): return ((X &amp;amp; Z) | (~Z &amp;amp; Y)) &amp;amp; 0xFFFFFFFF def H(X,Y,Z): return (X ^ Y ^ Y) &amp;amp; 0xFFFFFFFF def I(X,Y,Z): return (Y ^ (~Z | X)) &amp;amp; 0xFFFFFFFF def ROL(X,Y): return (X &amp;lt;&amp;lt; Y | X &amp;gt;&amp;gt; (32 - Y)) &amp;amp; 0xFFFFFFFF A = 0x67452301 B = 0xEFCDAB89 C = 0x98BADCFE D = 0x10325476 X = [int(0xFFFFFFFF * sin(i)) &amp;amp; 0xFFFFFFFF for i in xrange(256)] for i,ch in enumerate(s): k, l = ord(ch), i &amp;amp; 0x1f A = (B + ROL(A + F(B,C,D) + X[k], l)) &amp;amp; 0xFFFFFFFF B = (C + ROL(B + G(C,D,A) + X[k], l)) &amp;amp; 0xFFFFFFFF C = (D + ROL(C + H(D,A,B) + X[k], l)) &amp;amp; 0xFFFFFFFF D = (A + ROL(D + I(A,B,C) + X[k], l)) &amp;amp; 0xFFFFFFFF return &#39;&#39;.</description>
     </item>
     
     <item>
       <title>#hackyou2014 Crypto100 write-up</title>
-      <link>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/</link>
       <pubDate>Thu, 16 Jan 2014 20:26:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto100-write-up/</guid>
       <description>In this level we are asked to break a code and decrypt msg002.enc. We are given the encryptor code without the key:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main(int argc, char **argv) { if (argc != 3) { printf(&amp;quot;USAGE: %s INPUT OUTPUT\n&amp;quot;, argv[0]); return 0; } FILE* input = fopen(argv[1], &amp;quot;rb&amp;quot;); FILE* output = fopen(argv[2], &amp;quot;wb&amp;quot;); if (!input || !output) { printf(&amp;quot;Error\n&amp;quot;); return 0; } char k[] = &amp;quot;CENSORED&amp;quot;; char c, p, t = 0; int i = 0; while ((p = fgetc(input)) !</description>
     </item>
     
     <item>
       <title>#hackyou2014 Web100 write-up</title>
-      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/</link>
       <pubDate>Wed, 15 Jan 2014 23:52:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/</guid>
       <description>In this level we are presented with some logos we can vote.
 If we look at the source code we can see an interesting comment:
 ... &amp;lt;!-- TODO: remove index.phps --&amp;gt; ...  We can grab the source code:
@@ -144,20 +144,20 @@ If we look at the source code we can see an interesting comment:
     
     <item>
       <title>#hackyou2014 Web200 write-up</title>
-      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/</link>
       <pubDate>Wed, 15 Jan 2014 22:35:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/</guid>
       <description>In this level we are presented with a typical Snake game.
 I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the X-Forwarded-For header. That was pretty much it until the CTF was about to finish when I was given the hint: &amp;ldquo;../&amp;rdquo;. I could use it to locate a LFI vulnerability that was affecting the index.</description>
     </item>
     
     <item>
       <title>#hackyou2014 Web300 write-up</title>
-      <link>http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/</link>
       <pubDate>Wed, 15 Jan 2014 18:33:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/</guid>
       <description>In this [level]() we were presented with an online shop:
 The task name was &amp;ldquo;AngryBird&amp;rdquo; and this was very relevant to solve the challange! It actually comes down to two parts:
  Finding a hidden admin area Exploiting a blind SQLi to get credentials  Finding the hidden admin area We were given the following description:
@@ -166,10 +166,10 @@ The task name was &amp;ldquo;AngryBird&amp;rdquo; and this was very relevant to 
     
     <item>
       <title>Fusion level04 write-up</title>
-      <link>http://pwntester.com/blog/2013/12/31/fusion-level04-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/12/31/fusion-level04-write-up/</link>
       <pubDate>Tue, 31 Dec 2013 19:00:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/31/fusion-level04-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/31/fusion-level04-write-up/</guid>
       <description>In this level we have to bypass a bunch of protections:
 The stack based vulnerability is easy to find. It is in the base64_decode() function. It takes the output buffer length as an argument, but the it overwrites it with a new value based on the input buffer length. So we are going to be able to control how many bytes we want to write in the output buffer:
 *output_length = input_length / 4 * 3;  Now in order to send a valid request we need to provide a password the server generates when it loads but then it reuses for every connection.</description>
@@ -177,10 +177,10 @@ The stack based vulnerability is easy to find. It is in the base64_decode() func
     
     <item>
       <title>Fusion level03 write-up</title>
-      <link>http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/12/31/fusion-level03-write-up/</link>
       <pubDate>Tue, 31 Dec 2013 17:34:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/31/fusion-level03-write-up/</guid>
       <description>Fusion level03 In this level we have to bypass ASLR and NX again:
 Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.
 HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;len);  The application is calculating the MAC of whatever is stored in &amp;ldquo;gRequest&amp;rdquo; (token+JSON request) using SHA1 as the hashing algorithm, &amp;ldquo;token&amp;rdquo; as the encryption key and store the MAC in the memory pointed by &amp;ldquo;result&amp;rdquo;.</description>
@@ -188,10 +188,10 @@ HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;
     
     <item>
       <title>Fusion level02 write-up</title>
-      <link>http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/</link>
       <pubDate>Mon, 30 Dec 2013 16:35:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/</guid>
       <description>Fusion level02 This level has the following protections:
 And the code looks like:
 #include &amp;quot;../common/common.c&amp;quot; #define XORSZ 32 void cipher(unsigned char *blah, size_t len) { static int keyed; static unsigned int keybuf[XORSZ]; int blocks; unsigned int *blahi, j; if(keyed == 0) { int fd; fd = open(&amp;quot;/dev/urandom&amp;quot;, O_RDONLY); if(read(fd, &amp;amp;keybuf, sizeof(keybuf)) != sizeof(keybuf)) exit(EXIT_FAILURE); close(fd); keyed = 1; } blahi = (unsigned int *)(blah); blocks = (len / 4); if(len &amp;amp; 3) blocks += 1; for(j = 0; j &amp;lt; blocks; j++) { blahi[j] ^= keybuf[j % XORSZ]; } } void encrypt_file() { // http://thedailywtf.</description>
@@ -199,10 +199,10 @@ And the code looks like:
     
     <item>
       <title>Fusion level01 write-up</title>
-      <link>http://pwntester.com/blog/2013/12/29/fusion-level01-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/12/29/fusion-level01-write-up/</link>
       <pubDate>Sun, 29 Dec 2013 10:14:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/29/fusion-level01-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/29/fusion-level01-write-up/</guid>
       <description>Fusion level01 This level implements stack/heap/mmap ASLR but the stack is still executable:
 The code provided is exactly the same but there is no info leak this time.
 We start off overwriting EIP to crash the application and taking a look:
@@ -212,10 +212,10 @@ python -c &#39;print &amp;quot;GET &amp;quot; + &amp;quot;A&amp;quot;*139 + &amp
     
     <item>
       <title>Fusion level00 write-up</title>
-      <link>http://pwntester.com/blog/2013/12/27/fusion-level00-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/12/27/fusion-level00-write-up/</link>
       <pubDate>Fri, 27 Dec 2013 17:45:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/27/fusion-level00-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/27/fusion-level00-write-up/</guid>
       <description>Fusion level00 This level has no protections at all:
 The code looks like:
 #include &amp;quot;../common/common.c&amp;quot; int fix_path(char *path) { char resolved[128]; if(realpath(path, resolved) == NULL) return 1; // can&#39;t access path. will error trying to open strcpy(path, resolved); } char *parse_http_request() { char buffer[1024]; char *path; char *q; // printf(&amp;quot;[debug] buffer is at 0x%08x :-)\n&amp;quot;, buffer); :D if(read(0, buffer, sizeof(buffer)) &amp;lt;= 0) errx(0, &amp;quot;Failed to read from remote host&amp;quot;); if(memcmp(buffer, &amp;quot;GET &amp;quot;, 4) !</description>
@@ -223,10 +223,10 @@ The code looks like:
     
     <item>
       <title>Protostar Final0-3 write-ups</title>
-      <link>http://pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</link>
       <pubDate>Thu, 26 Dec 2013 09:07:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</guid>
       <description>Final0 The application is expecting a username and then returns it in Upper case
 $ nc localhost 2995 alvaro No such user ALVARO  The buffer is 512 bytes long but we need to look for the EIP overwrite offset since the compiler can change the buffer size to align it or other nasty reasons. We start trying to segfault the program till we get it with:
 echo `python -c &#39;print &amp;quot;A&amp;quot;*532 + &amp;quot;DDDD&amp;quot;&#39;` | nc localhost 2995  We can verify it with gdb and the core dump:</description>

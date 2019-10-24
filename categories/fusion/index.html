@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/categories/fusion/">
+  <meta property="og:url" content="http://www.pwntester.com/categories/fusion/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/categories/fusion/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/categories/fusion/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/categories/fusion/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/categories/fusion/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,7 +202,7 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/31/fusion-level04-write-up/" class="post-link">Fusion level04 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/31/fusion-level04-write-up/" class="post-link">Fusion level04 write-up</a></h3>
     <p class="post-meta">@pwntester · Dec 31, 2013 · 17 min read</p>
   </header>
   
@@ -210,14 +210,14 @@
 The stack based vulnerability is easy to find. It is in the base64_decode() function. It takes the output buffer length as an argument, but the it overwrites it with a new value based on the input buffer length. So we are going to be able to control how many bytes we want to write in the output buffer:
 *output_length = input_length / 4 * 3;  Now in order to send a valid request we need to provide a password the server generates when it loads but then it reuses for every connection.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/31/fusion-level04-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/31/fusion-level04-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/" class="post-link">Fusion level03 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/31/fusion-level03-write-up/" class="post-link">Fusion level03 write-up</a></h3>
     <p class="post-meta">@pwntester · Dec 31, 2013 · 13 min read</p>
   </header>
   
@@ -225,14 +225,14 @@ The stack based vulnerability is easy to find. It is in the base64_decode() func
 Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.
 HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;len);  The application is calculating the MAC of whatever is stored in “gRequest” (token&#43;JSON request) using SHA1 as the hashing algorithm, “token” as the encryption key and store the MAC in the memory pointed by “result”.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/31/fusion-level03-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/" class="post-link">Fusion level02 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/" class="post-link">Fusion level02 write-up</a></h3>
     <p class="post-meta">@pwntester · Dec 30, 2013 · 20 min read</p>
   </header>
   
@@ -240,14 +240,14 @@ HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;len)
 And the code looks like:
 #include &#34;../common/common.c&#34; #define XORSZ 32 void cipher(unsigned char *blah, size_t len) { static int keyed; static unsigned int keybuf[XORSZ]; int blocks; unsigned int *blahi, j; if(keyed == 0) { int fd; fd = open(&#34;/dev/urandom&#34;, O_RDONLY); if(read(fd, &amp;keybuf, sizeof(keybuf)) != sizeof(keybuf)) exit(EXIT_FAILURE); close(fd); keyed = 1; } blahi = (unsigned int *)(blah); blocks = (len / 4); if(len &amp; 3) blocks &#43;= 1; for(j = 0; j &lt; blocks; j&#43;&#43;) { blahi[j] ^= keybuf[j % XORSZ]; } } void encrypt_file() { // http://thedailywtf.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/29/fusion-level01-write-up/" class="post-link">Fusion level01 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/29/fusion-level01-write-up/" class="post-link">Fusion level01 write-up</a></h3>
     <p class="post-meta">@pwntester · Dec 29, 2013 · 4 min read</p>
   </header>
   
@@ -257,14 +257,14 @@ We start off overwriting EIP to crash the application and taking a look:
 python -c &#39;print &#34;GET &#34; &#43; &#34;A&#34;*139 &#43; &#34;DDDD&#34; &#43; &#34; HTTP/1.1&#34; &#43; &#34;\x90&#34;*16 &#43; &#34;B&#34;*80&#39;| nc localhost 20001  Monitoring with gdb we get:
 (gdb) attach 1521 Attaching to program: /opt/fusion/bin/level01, process 1521 Reading symbols from /lib/i386-linux-gnu/libc.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/29/fusion-level01-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/29/fusion-level01-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/27/fusion-level00-write-up/" class="post-link">Fusion level00 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/27/fusion-level00-write-up/" class="post-link">Fusion level00 write-up</a></h3>
     <p class="post-meta">@pwntester · Dec 27, 2013 · 3 min read</p>
   </header>
   
@@ -272,7 +272,7 @@ python -c &#39;print &#34;GET &#34; &#43; &#34;A&#34;*139 &#43; &#34;DDDD&#34; &
 The code looks like:
 #include &#34;../common/common.c&#34; int fix_path(char *path) { char resolved[128]; if(realpath(path, resolved) == NULL) return 1; // can&#39;t access path. will error trying to open strcpy(path, resolved); } char *parse_http_request() { char buffer[1024]; char *path; char *q; // printf(&#34;[debug] buffer is at 0x%08x :-)\n&#34;, buffer); :D if(read(0, buffer, sizeof(buffer)) &lt;= 0) errx(0, &#34;Failed to read from remote host&#34;); if(memcmp(buffer, &#34;GET &#34;, 4) !</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/27/fusion-level00-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/27/fusion-level00-write-up/">Read More →</a>
   </footer>
 </article>
 

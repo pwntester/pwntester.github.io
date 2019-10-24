@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/xstream/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/xstream/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/xstream/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/xstream/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/xstream/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/xstream/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,27 +202,27 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/" class="post-link">More on XStream RCE: SpringMVC WS</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/" class="post-link">More on XStream RCE: SpringMVC WS</a></h3>
     <p class="post-meta">@pwntester · Dec 24, 2013 · 3 min read</p>
   </header>
   
   <p class="post-summary">Continuing my previous post where I mentioned that the XStream RCE issue issue also affected SpringMVC RESTful WebServices using the XStream SpringOXM wrapper, I wanted to share a POC server. The code is quite simple and can be found in the XStreamServer GitHub Repo. It contains a WebService defined by the ContactController:
 @Controller @RequestMapping(&#34;/contacts&#34;) public class ContactController { @Autowired private ContactRepository contactRepository; @RequestMapping( value = &#34;/{id}&#34;, method = RequestMethod.GET ) @ResponseStatus(HttpStatus.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/24/more-on-xstream-rce-springmvc-ws/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/" class="post-link">RCE via XStream object deserialization</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/" class="post-link">RCE via XStream object deserialization</a></h3>
     <p class="post-meta">@pwntester · Dec 23, 2013 · 8 min read</p>
   </header>
   
   <p class="post-summary">When researching SpringMVC RESTful APIs and their XXE vulnerabilities I found that XStream was not vulnerable to XXE because it ignored the &lt;DOCTYPE /&gt; blocks. Curious about it I decided to took a deeper look at XStream and found out that its not just a simple marshalling library as JAXB but a much more powerful serializing library capable of serializing to an XML representation really complex types and not just POJOs.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/">Read More →</a>
   </footer>
 </article>
 

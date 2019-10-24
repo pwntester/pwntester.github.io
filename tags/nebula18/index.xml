@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula18 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/nebula18/</link>
+    <link>http://www.pwntester.com/tags/nebula18/</link>
     <description>Recent content in nebula18 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 27 Nov 2013 10:11:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/nebula18/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/nebula18/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level18 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/27/nebula-level18-write-up/</link>
       <pubDate>Wed, 27 Nov 2013 10:11:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/27/nebula-level18-write-up/</guid>
       <description>In Level 18 we are given the code of a vulnerable program:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;getopt.h&amp;gt; struct { FILE *debugfile; int verbose; int loggedin; } globals; #define dprintf(...) if(globals.debugfile) \ fprintf(globals.debugfile, __VA_ARGS__) #define dvprintf(num, ...) if(globals.debugfile &amp;amp;&amp;amp; globals.verbose &amp;gt;= num) \ fprintf(globals.debugfile, __VA_ARGS__) #define PWFILE &amp;quot;/home/flag18/password&amp;quot; void login(char *pw) { FILE *fp; fp = fopen(PWFILE, &amp;quot;r&amp;quot;); if(fp) { char file[64]; if(fgets(file, sizeof(file) - 1, fp) == NULL) { dprintf(&amp;quot;Unable to read password file %s\n&amp;quot;, PWFILE); return; } fclose(fp); if(strcmp(pw, file) !</description>
     </item>

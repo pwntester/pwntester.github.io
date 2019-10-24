@@ -44,7 +44,7 @@ from socket import * from struct import * s = socket(AF_INET, SOCK_STREAM) s.con
   <meta property="og:title" content="Protostar net0-3 write-ups">
   <meta property="og:description" content="Net 0 In this level we are presented with an integer and we have to reply the server with a little endian version of the integer. We use python and the struct module to do the conversion for us:
 from socket import * from struct import * s = socket(AF_INET, SOCK_STREAM) s.connect((&amp;quot;localhost&amp;quot;, 2999)) challange = s.recv(1024) start = challange.find(&amp;quot;&#39;&amp;quot;) &#43; 1 end = challange.find(&amp;quot;&#39;&amp;quot;, start) num = int(challange[start:end]) print &amp;quot;Challange: &amp;quot; &#43; str(num) li = pack(&amp;quot;&amp;lt;I&amp;quot;, num) s.">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@ from socket import * from struct import * s = socket(AF_INET, SOCK_STREAM) s.con
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@ from socket import * from struct import * s = socket(AF_INET, SOCK_STREAM) s.con
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

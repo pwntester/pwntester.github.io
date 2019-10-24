@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>loader on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/loader/</link>
+    <link>http://www.pwntester.com/categories/loader/</link>
     <description>Recent content in loader on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 23 Mar 2014 11:38:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/loader/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/loader/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Codegate 2k14 4stone (Pwnable 300) Write Up</title>
-      <link>http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</link>
       <pubDate>Sun, 23 Mar 2014 11:38:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/</guid>
       <description>In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: DHHDLLDHDDDLDD
 Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the you win and you lose exit strings and actually, after priting the you win string we can find an interesting piece of code before the call to exit()</description>
     </item>

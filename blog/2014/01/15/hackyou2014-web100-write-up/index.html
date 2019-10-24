@@ -50,7 +50,7 @@ If we look at the source code we can see an interesting comment:
 If we look at the source code we can see an interesting comment:
 ... &amp;lt;!-- TODO: remove index.phps --&amp;gt; ...  We can grab the source code:
 &amp;lt;?php include &#39;db.php&#39;; session_start(); if (!isset($_SESSION[&#39;login&#39;])) { $_SESSION[&#39;login&#39;] = &#39;guest&#39;.mt_rand(1e5, 1e6); } $login = $_SESSION[&#39;login&#39;]; if (isset($_POST[&#39;submit&#39;])) { if (!isset($_POST[&#39;id&#39;], $_POST[&#39;vote&#39;]) || !is_numeric($_POST[&#39;id&#39;])) die(&#39;Hacking attempt!&#39;); $id = $_POST[&#39;id&#39;]; $vote = (int)$_POST[&#39;vote&#39;]; if ($vote &amp;gt; 5 || $vote &amp;lt; 1) $vote = 1; $q = mysql_query(&amp;quot;INSERT INTO vote VALUES ({$id}, {$vote}, &#39;{$login}&#39;)&amp;quot;); $q = mysql_query(&amp;quot;SELECT id FROM vote WHERE user = &#39;{$login}&#39; GROUP BY id&amp;quot;); echo &#39;&amp;lt;p&amp;gt;&amp;lt;b&amp;gt;Thank you!">
-  <meta property="og:url" content="http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -59,7 +59,7 @@ If we look at the source code we can see an interesting comment:
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -145,9 +145,9 @@ If we look at the source code we can see an interesting comment:
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

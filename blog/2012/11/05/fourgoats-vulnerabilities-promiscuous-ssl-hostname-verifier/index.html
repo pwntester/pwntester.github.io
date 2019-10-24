@@ -47,7 +47,7 @@ public static HttpClient getNewHttpClient() { try { KeyStore trustStore = KeySto
   <meta property="og:description" content="Continuing the previous post &amp;hellip;
 RestClient was getting an HttpClient instance using the CustomSSLSocketFactory.getNewHttpClient static method:
 public static HttpClient getNewHttpClient() { try { KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType()); trustStore.load(null, null); SSLSocketFactory sf = new CustomSSLSocketFactory(trustStore); sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER); HttpParams params = new BasicHttpParams(); SchemeRegistry registry = new SchemeRegistry(); registry.register(new Scheme(&amp;quot;http&amp;quot;, PlainSocketFactory.getSocketFactory(), 80)); registry.register(new Scheme(&amp;quot;https&amp;quot;, sf, 443)); ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry); return new DefaultHttpClient(ccm, params); } catch (Exception e) { return new DefaultHttpClient(); } }  Can you spot another, related, vulnerability?">
-  <meta property="og:url" content="http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -56,7 +56,7 @@ public static HttpClient getNewHttpClient() { try { KeyStore trustStore = KeySto
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2012/11/05/fourgoats-vulnerabilities-promiscuous-ssl-hostname-verifier/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -142,9 +142,9 @@ public static HttpClient getNewHttpClient() { try { KeyStore trustStore = KeySto
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

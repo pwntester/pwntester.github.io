@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/net0/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/net0/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/net0/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/net0/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/net0/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/net0/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/" class="post-link">Protostar net0-3 write-ups</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/" class="post-link">Protostar net0-3 write-ups</a></h3>
     <p class="post-meta">@pwntester · Dec 21, 2013 · 5 min read</p>
   </header>
   
   <p class="post-summary">Net 0 In this level we are presented with an integer and we have to reply the server with a little endian version of the integer. We use python and the struct module to do the conversion for us:
 from socket import * from struct import * s = socket(AF_INET, SOCK_STREAM) s.connect((&#34;localhost&#34;, 2999)) challange = s.recv(1024) start = challange.find(&#34;&#39;&#34;) &#43; 1 end = challange.find(&#34;&#39;&#34;, start) num = int(challange[start:end]) print &#34;Challange: &#34; &#43; str(num) li = pack(&#34;&lt;I&#34;, num) s.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/">Read More →</a>
   </footer>
 </article>
 

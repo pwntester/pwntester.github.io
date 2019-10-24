@@ -2,39 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>post on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/post/</link>
+    <link>http://www.pwntester.com/categories/post/</link>
     <description>Recent content in post on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 24 Apr 2014 11:52:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Struts2 0day in the wild</title>
-      <link>http://pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/</link>
+      <link>http://www.pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/</link>
       <pubDate>Thu, 24 Apr 2014 11:52:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/</guid>
+      <guid>http://www.pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/</guid>
       <description>Remote code execution 0 day in up-to-date Struts 2 applications: Some months ago Struts2 announced a security vulnerability S2-020 that allowed ClassLoader manipulation and that could be used to get Remote Code Execution on certain application servers like Tomcat 8. The fix for this vulnerability was to forbid the (.*\.|^)class\..* regex from action parameters. However a bypass was made public that basically consists in changing the dot notation for the square bracket notation.</description>
     </item>
     
     <item>
       <title>Crowd-Solving Fusion level05</title>
-      <link>http://pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/</link>
+      <link>http://www.pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/</link>
       <pubDate>Sun, 20 Apr 2014 10:57:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/</guid>
+      <guid>http://www.pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/</guid>
       <description>I played with Fusion level05 for a couple of days last Xmas and although I found how to smash the stack, I couldn&amp;rsquo;t find any reliable way of leaking the .text base address to bypass PIE protection so I left it there. Yesterday, a tweet from @Newlog_ got me thinking it could be a good idea to post what I&amp;rsquo;ve done so far in case anyone wants to pick it from there and help solving the level.</description>
     </item>
     
     <item>
       <title>Remote code execution and XML Entity Expansion injection vulnerabilities in the Restlet framework</title>
-      <link>http://pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/</link>
+      <link>http://www.pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/</link>
       <pubDate>Wed, 26 Mar 2014 18:05:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/</guid>
+      <guid>http://www.pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/</guid>
       <description>This blog was published in the HP Security research blog but publishing it here for greater dissemination:
 Advisory overview Restlet is a lightweight Java framework for building RESTful APIs. It comes in different flavors (Java SE, Java EE, Android, Google Web Toolkit and Google App Engine) and is composed of a core API and different extensions that provide additional functionality.
 While adding support for the Restlet API to HP Fortify SCA, the Software Security Research group discovered that the XStream extension prior to 2.</description>
@@ -42,10 +42,10 @@ While adding support for the Restlet API to HP Fortify SCA, the Software Securit
     
     <item>
       <title>Olympic CTF Freestyle 400: Make similar Write Up</title>
-      <link>http://pwntester.com/blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/</link>
+      <link>http://www.pwntester.com/blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/</link>
       <pubDate>Mon, 10 Feb 2014 14:27:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2014/02/10/olympic-ctf-freestyle-400-make-similar-write-up/</guid>
       <description>In this task we were presented an audio file (similar.ogg) containg a signal that sounded like a Fax machine. Actually a Hint later published read 129 LPM (Lines per minute) so it looked like a RadioFax or HF Fax transmission. So we could use RadioFax software to extract the image being transmitted.
 We tried different tools like MultiPSK, MIXW and SeaTTY and finally got some &amp;ldquo;clear enough&amp;rdquo; images:
 and
@@ -54,30 +54,30 @@ We saw the contents of a file being transmitted in something that looked like UU
     
     <item>
       <title>XML Entities based attacks</title>
-      <link>http://pwntester.com/blog/2013/08/02/xml-entities-based-attacks/</link>
+      <link>http://www.pwntester.com/blog/2013/08/02/xml-entities-based-attacks/</link>
       <pubDate>Fri, 02 Aug 2013 10:25:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/08/02/xml-entities-based-attacks/</guid>
+      <guid>http://www.pwntester.com/blog/2013/08/02/xml-entities-based-attacks/</guid>
       <description>&amp;ldquo;Wait, I&amp;rsquo;m not clear on what&amp;rsquo;s happening here. Is this even possible? Just by giving an application a single piece of XML, you can cause it to steal other files for you?&amp;rdquo;
  Those were a customer’s words when an XML External Entity injection vulnerability was reported on one of his applications and although these kinds of attacks are known since the early 2000s I&amp;rsquo;m still under the impression that they are not known and tested enough by application developers and security auditors.</description>
     </item>
     
     <item>
       <title>FourGoats Vulnerabilities: Hardcoded Backdoor</title>
-      <link>http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/</link>
+      <link>http://www.pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/</link>
       <pubDate>Tue, 30 Oct 2012 09:18:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/</guid>
+      <guid>http://www.pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-hardcoded-backdoor/</guid>
       <description>If we keep on reading the Login activity, we will soon spot an asynchronous task used to validate the user credentials in the server and we will see that there is a harcoded user/password pair that will set up the admin property and so it will enable us to access the AdminHome Activity:
 if (userName.equals(&amp;quot;customerservice&amp;quot;) &amp;amp;&amp;amp; password.equals(&amp;quot;Acc0uNTM@n@g3mEnT&amp;quot;)) userInfo.put(&amp;quot;isAdmin&amp;quot;, &amp;quot;true&amp;quot;);  If we enter these credentials (and the user is registered in the backend), we will be able to access the AdminHome Activity:</description>
     </item>
     
     <item>
       <title>FourGoats Vulnerabilities: Information Leakage through SharedPreferences</title>
-      <link>http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/</link>
+      <link>http://www.pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/</link>
       <pubDate>Tue, 30 Oct 2012 09:18:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/</guid>
+      <guid>http://www.pwntester.com/blog/2012/10/30/fourgoats-vulnerabilities-information-leakage-through-sharedpreferences/</guid>
       <description>OK, so let start reviewing the FourGoats App. First, If you havent done yet, clone the ForGoats repo from github to get the source code.
 Try to get an idea of how does the app work, install it in your device and/or emulator and get familiar with the different activities and application flow.
 Open the Main activity and check what its doing. Basically, its looking for a sessionToken and if she cannot find it, it will start the Login Activity, otherwise it will take the user to the Home or AdminHome activities.</description>
@@ -85,10 +85,10 @@ Open the Main activity and check what its doing. Basically, its looking for a se
     
     <item>
       <title>Kicking off the blog</title>
-      <link>http://pwntester.com/blog/2012/10/29/kicking-off-the-blog/</link>
+      <link>http://www.pwntester.com/blog/2012/10/29/kicking-off-the-blog/</link>
       <pubDate>Mon, 29 Oct 2012 09:18:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2012/10/29/kicking-off-the-blog/</guid>
+      <guid>http://www.pwntester.com/blog/2012/10/29/kicking-off-the-blog/</guid>
       <description>I have been thinking about starting a blog for a while but never got something to say that could not be found googling around (or that was too secret to tell in public :) ). Anyway, Ive being doing some research lately on secure coding on Android applications and I found OWASP goatDroid very instructive and formative but although the source code is freely available here. I could not find a comprehensive list of vulnerabilities present in the code so I decided to start a serie of posts about Android vulnerabilities using goatdroid to show them off.</description>
     </item>
     

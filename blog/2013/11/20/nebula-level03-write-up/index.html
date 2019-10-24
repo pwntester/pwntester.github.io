@@ -44,7 +44,7 @@ level03@nebula:/home/flag03$ cat writable.sh #!/bin/sh for i in /home/flag03/wri
   <meta property="og:title" content="Nebula level03 write-up">
   <meta property="og:description" content="In Level03 we are said that the program on /flag03 is run by cron every X minutes. If we have a look at the code we can see that it will execute the files in the writable.d directory and then remove them:
 level03@nebula:/home/flag03$ cat writable.sh #!/bin/sh for i in /home/flag03/writable.d/* ; do (ulimit -t 5; bash -x &amp;quot;$i&amp;quot;) rm -f &amp;quot;$i&amp;quot; done  Ok, so whatever we put in writable.d will be execute by someone else &amp;hellip; but who?">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/11/20/nebula-level03-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@ level03@nebula:/home/flag03$ cat writable.sh #!/bin/sh for i in /home/flag03/wri
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/11/20/nebula-level03-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@ level03@nebula:/home/flag03$ cat writable.sh #!/bin/sh for i in /home/flag03/wri
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

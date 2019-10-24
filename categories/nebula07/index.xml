@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula07 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/nebula07/</link>
+    <link>http://www.pwntester.com/categories/nebula07/</link>
     <description>Recent content in nebula07 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 21 Nov 2013 17:13:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/nebula07/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/nebula07/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level07 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/21/nebula-level07-write-up/</link>
       <pubDate>Thu, 21 Nov 2013 17:13:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/21/nebula-level07-write-up/</guid>
       <description>In Level07 we are given the source code of a perl script:
 #!/usr/bin/perl use CGI qw{param}; print &amp;quot;Content-type: text/html\n\n&amp;quot;; sub ping { $host = $_[0]; print(&amp;quot;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;Ping results&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;pre&amp;gt;&amp;quot;); @output = `ping -c 3 $host 2&amp;gt;&amp;amp;1`; foreach $line (@output) { print &amp;quot;$line&amp;quot;; } print(&amp;quot;&amp;lt;/pre&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;quot;); } # check if Host set. if not, display normal page, etc ping(param(&amp;quot;Host&amp;quot;));  It looks like its vulnerable to command injection on line 12. Bit how and where is it deployed.</description>
     </item>

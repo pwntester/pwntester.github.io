@@ -44,7 +44,7 @@
   <meta property="og:title" content="Nebula level18 write-up">
   <meta property="og:description" content="In Level 18 we are given the code of a vulnerable program:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;getopt.h&amp;gt; struct { FILE *debugfile; int verbose; int loggedin; } globals; #define dprintf(...) if(globals.debugfile) \ fprintf(globals.debugfile, __VA_ARGS__) #define dvprintf(num, ...) if(globals.debugfile &amp;amp;&amp;amp; globals.verbose &amp;gt;= num) \ fprintf(globals.debugfile, __VA_ARGS__) #define PWFILE &amp;quot;/home/flag18/password&amp;quot; void login(char *pw) { FILE *fp; fp = fopen(PWFILE, &amp;quot;r&amp;quot;); if(fp) { char file[64]; if(fgets(file, sizeof(file) - 1, fp) == NULL) { dprintf(&amp;quot;Unable to read password file %s\n&amp;quot;, PWFILE); return; } fclose(fp); if(strcmp(pw, file) !">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/11/27/nebula-level18-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/11/27/nebula-level18-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

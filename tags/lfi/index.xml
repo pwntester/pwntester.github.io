@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>LFI on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/lfi/</link>
+    <link>http://www.pwntester.com/tags/lfi/</link>
     <description>Recent content in LFI on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 06 Apr 2014 10:29:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/lfi/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/lfi/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>NuitDuHack 2014 Web Write Ups</title>
-      <link>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</link>
       <pubDate>Sun, 06 Apr 2014 10:29:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/</guid>
       <description>Web 100: Abitol This is a simple web app where you can register and login to see an articles page, a photo gallery, a flag page and an admin contact page.
 Visiting the flag page give us a Nice try, did you really think it would be that easy? ;) but the photo gallery is vulnerable to XSS:
 http://abitbol.nuitduhack.com/zoom.php?image=1%3E%3Cscript%3Ealert%281%29%3C/script%3E

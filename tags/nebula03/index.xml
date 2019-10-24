@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula03 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/nebula03/</link>
+    <link>http://www.pwntester.com/tags/nebula03/</link>
     <description>Recent content in nebula03 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 20 Nov 2013 18:36:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/nebula03/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/nebula03/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level03 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/20/nebula-level03-write-up/</link>
       <pubDate>Wed, 20 Nov 2013 18:36:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/20/nebula-level03-write-up/</guid>
       <description>In Level03 we are said that the program on /flag03 is run by cron every X minutes. If we have a look at the code we can see that it will execute the files in the writable.d directory and then remove them:
 level03@nebula:/home/flag03$ cat writable.sh #!/bin/sh for i in /home/flag03/writable.d/* ; do (ulimit -t 5; bash -x &amp;quot;$i&amp;quot;) rm -f &amp;quot;$i&amp;quot; done  Ok, so whatever we put in writable.d will be execute by someone else &amp;hellip; but who?</description>
     </item>

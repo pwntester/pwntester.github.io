@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/nebula07/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/nebula07/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/nebula07/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/nebula07/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/nebula07/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/nebula07/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/" class="post-link">Nebula level07 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/21/nebula-level07-write-up/" class="post-link">Nebula level07 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 21, 2013 · 5 min read</p>
   </header>
   
   <p class="post-summary">In Level07 we are given the source code of a perl script:
 #!/usr/bin/perl use CGI qw{param}; print &#34;Content-type: text/html\n\n&#34;; sub ping { $host = $_[0]; print(&#34;&lt;html&gt;&lt;head&gt;&lt;title&gt;Ping results&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;pre&gt;&#34;); @output = `ping -c 3 $host 2&gt;&amp;1`; foreach $line (@output) { print &#34;$line&#34;; } print(&#34;&lt;/pre&gt;&lt;/body&gt;&lt;/html&gt;&#34;); } # check if Host set. if not, display normal page, etc ping(param(&#34;Host&#34;));  It looks like its vulnerable to command injection on line 12. Bit how and where is it deployed.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/21/nebula-level07-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/21/nebula-level07-write-up/">Read More →</a>
   </footer>
 </article>
 

@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/categories/nebula16/">
+  <meta property="og:url" content="http://www.pwntester.com/categories/nebula16/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/categories/nebula16/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/categories/nebula16/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/categories/nebula16/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/categories/nebula16/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/26/nebula-level16-write-up/" class="post-link">Nebula level16 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/26/nebula-level16-write-up/" class="post-link">Nebula level16 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 26, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In [Level 16]() we are given the following perl CGI:
 #!/usr/bin/env perl use CGI qw{param}; print &#34;Content-type: text/html\n\n&#34;; sub login { $username = $_[0]; $password = $_[1]; $username =~ tr/a-z/A-Z/; # conver to uppercase $username =~ s/\s.*//; # strip everything after a space @output = `egrep &#34;^$username&#34; /home/flag16/userdb.txt 2&gt;&amp;1`; foreach $line (@output) { ($usr, $pw) = split(/:/, $line); if($pw =~ $password) { return 1; } } return 0; } sub htmlz { print(&#34;&lt;html&gt;&lt;head&gt;&lt;title&gt;Login resuls&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&#34;); if($_[0] == 1) { print(&#34;Your login was accepted&lt;br/&gt;&#34;); } else { print(&#34;Your login failed&lt;br/&gt;&#34;); } print(&#34;Would you like a cookie?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/26/nebula-level16-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/26/nebula-level16-write-up/">Read More →</a>
   </footer>
 </article>
 

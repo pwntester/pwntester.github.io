@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/nebula03/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/nebula03/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/nebula03/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/nebula03/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/nebula03/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/nebula03/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/" class="post-link">Nebula level03 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/20/nebula-level03-write-up/" class="post-link">Nebula level03 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 20, 2013 · 1 min read</p>
   </header>
   
   <p class="post-summary">In Level03 we are said that the program on /flag03 is run by cron every X minutes. If we have a look at the code we can see that it will execute the files in the writable.d directory and then remove them:
 level03@nebula:/home/flag03$ cat writable.sh #!/bin/sh for i in /home/flag03/writable.d/* ; do (ulimit -t 5; bash -x &#34;$i&#34;) rm -f &#34;$i&#34; done  Ok, so whatever we put in writable.d will be execute by someone else … but who?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/20/nebula-level03-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/20/nebula-level03-write-up/">Read More →</a>
   </footer>
 </article>
 

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula08 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/nebula08/</link>
+    <link>http://www.pwntester.com/categories/nebula08/</link>
     <description>Recent content in nebula08 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 22 Nov 2013 11:05:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/nebula08/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/nebula08/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level08 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/22/nebula-level08-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/22/nebula-level08-write-up/</link>
       <pubDate>Fri, 22 Nov 2013 11:05:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/22/nebula-level08-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/22/nebula-level08-write-up/</guid>
       <description>In Level08 we are given a network capture file: capture.pcap. If we open it with Wireshark we will only find one TCP Stream. We will use Follow TCP Stream to visualize it:
 {% img /images/tcpstream.png 500 %}
 We can see that the user was trying to login into the wwwbugs server and the login failed. We can assume that it was the flag08 user trying to log in and sending his flag08 password by mistake&amp;hellip; Yep, I know it is assuming too much, but anyway, that all we got.</description>

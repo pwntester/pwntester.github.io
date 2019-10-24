@@ -44,7 +44,7 @@
   <meta property="og:title" content="Protostar heap0-4 write-ups">
   <meta property="og:description" content="Heap0 In Heap0 we are given the following vulnerable code:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; struct data { char name[64]; }; struct fp { int (*fp)(); }; void winner() { printf(&amp;quot;level passed\n&amp;quot;); } void nowinner() { printf(&amp;quot;level has not been passed\n&amp;quot;); } int main(int argc, char **argv) { struct data *d; struct fp *f; d = malloc(sizeof(struct data)); f = malloc(sizeof(struct fp)); f-&amp;gt;fp = nowinner; printf(&amp;quot;data is at %p, fp is at %p\n&amp;quot;, d, f); strcpy(d-&amp;gt;name, argv[1]); f-&amp;gt;fp(); }  From a quick peek to the source code, we can see that our first argument can overflow the d-&amp;gt;name buffer (64bytes) and so overwrite the f-&amp;gt;fp pointer.">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

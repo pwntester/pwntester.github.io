@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/nebula02/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/nebula02/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/nebula02/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/nebula02/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/nebula02/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/nebula02/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/20/nebula-level02-write-up/" class="post-link">Nebula level02 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/20/nebula-level02-write-up/" class="post-link">Nebula level02 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 20, 2013 · 1 min read</p>
   </header>
   
   <p class="post-summary">Level02 is about command injection. We are given the following vulnerable code:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; int main(int argc, char **argv, char **envp) { char *buffer; gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); buffer = NULL; asprintf(&amp;buffer, &#34;/bin/echo %s is cool&#34;, getenv(&#34;USER&#34;)); printf(&#34;about to call system(\&#34;%s\&#34;)\n&#34;, buffer); system(buffer); }  As shown in the code, the program will use the USER environment variable to build the command executed by system so all we need to do is inject our getflag command:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/20/nebula-level02-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/20/nebula-level02-write-up/">Read More →</a>
   </footer>
 </article>
 

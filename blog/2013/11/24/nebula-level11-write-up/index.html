@@ -44,7 +44,7 @@
   <meta property="og:title" content="Nebula level11 write-up">
   <meta property="og:description" content="In Level11 we are given the following code:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/mman.h&amp;gt; /* * Return a random, non predictable file, and return the file descriptor for it. */ int getrand(char **path) { char *tmp; int pid; int fd; srandom(time(NULL)); tmp = getenv(&amp;quot;TEMP&amp;quot;); pid = getpid(); asprintf(path, &amp;quot;%s/%d.%c%c%c%c%c%c&amp;quot;, tmp, pid, &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26), &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26)); fd = open(*path, O_CREAT|O_RDWR, 0600); unlink(*path); return fd; } void process(char *buffer, int length) { unsigned int key; int i; key = length &amp;amp; 0xff; for(i = 0; i &amp;lt; length; i&#43;&#43;) { buffer[i] ^= key; key -= buffer[i]; } system(buffer); } #define CL &amp;quot;Content-Length: &amp;quot; int main(int argc, char **argv) { char line[256]; char buf[1024]; char *mem; int length; int fd; char *path; if(fgets(line, sizeof(line), stdin) == NULL) { errx(1, &amp;quot;reading from stdin&amp;quot;); } if(strncmp(line, CL, strlen(CL)) !">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/11/24/nebula-level11-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/11/24/nebula-level11-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

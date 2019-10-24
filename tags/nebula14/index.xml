@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula14 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/nebula14/</link>
+    <link>http://www.pwntester.com/tags/nebula14/</link>
     <description>Recent content in nebula14 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 25 Nov 2013 16:14:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/nebula14/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/nebula14/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level14 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/25/nebula-level14-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/25/nebula-level14-write-up/</link>
       <pubDate>Mon, 25 Nov 2013 16:14:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/25/nebula-level14-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/25/nebula-level14-write-up/</guid>
       <description>In Level14 we are given an encrypted token: 857:g67?5ABBo:BtDA?tIvLDKL{MQPSRQWW. and the cipher.
 We can try to reverse the cipher but lets play with it and see if we can find out the encryption routine:
 level14@nebula:/home/flag14$ ./flag14 -e aaaaaaaaaaaaaaaaa abcdefghijklmnopq  level14@nebula:/home/flag14$ ./flag14 -e abcdefg acegikm  Ok, so it looks pretty simple, we shift a given characters a number of positions in the ASCII table where the key is the position of the character to encrypt.</description>

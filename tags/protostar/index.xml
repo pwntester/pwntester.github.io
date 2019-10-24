@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Protostar on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/protostar/</link>
-    <description>Recent content in Protostar on &lt;/pwntester&gt;</description>
+    <title>protostar on &lt;/pwntester&gt;</title>
+    <link>http://www.pwntester.com/tags/protostar/</link>
+    <description>Recent content in protostar on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 26 Dec 2013 09:07:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/protostar/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/protostar/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Protostar Final0-3 write-ups</title>
-      <link>http://pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</link>
       <pubDate>Thu, 26 Dec 2013 09:07:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/26/protostar-final0-3-write-ups/</guid>
       <description>Final0 The application is expecting a username and then returns it in Upper case
 $ nc localhost 2995 alvaro No such user ALVARO  The buffer is 512 bytes long but we need to look for the EIP overwrite offset since the compiler can change the buffer size to align it or other nasty reasons. We start trying to segfault the program till we get it with:
 echo `python -c &#39;print &amp;quot;A&amp;quot;*532 + &amp;quot;DDDD&amp;quot;&#39;` | nc localhost 2995  We can verify it with gdb and the core dump:</description>
@@ -24,40 +24,40 @@ echo `python -c &#39;print &amp;quot;A&amp;quot;*532 + &amp;quot;DDDD&amp;quot;&
     
     <item>
       <title>Protostar net0-3 write-ups</title>
-      <link>http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</link>
       <pubDate>Sat, 21 Dec 2013 13:28:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</guid>
       <description>Net 0 In this level we are presented with an integer and we have to reply the server with a little endian version of the integer. We use python and the struct module to do the conversion for us:
 from socket import * from struct import * s = socket(AF_INET, SOCK_STREAM) s.connect((&amp;quot;localhost&amp;quot;, 2999)) challange = s.recv(1024) start = challange.find(&amp;quot;&#39;&amp;quot;) + 1 end = challange.find(&amp;quot;&#39;&amp;quot;, start) num = int(challange[start:end]) print &amp;quot;Challange: &amp;quot; + str(num) li = pack(&amp;quot;&amp;lt;I&amp;quot;, num) s.</description>
     </item>
     
     <item>
       <title>Protostar heap0-4 write-ups</title>
-      <link>http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</link>
       <pubDate>Fri, 20 Dec 2013 09:32:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</guid>
       <description>Heap0 In Heap0 we are given the following vulnerable code:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; struct data { char name[64]; }; struct fp { int (*fp)(); }; void winner() { printf(&amp;quot;level passed\n&amp;quot;); } void nowinner() { printf(&amp;quot;level has not been passed\n&amp;quot;); } int main(int argc, char **argv) { struct data *d; struct fp *f; d = malloc(sizeof(struct data)); f = malloc(sizeof(struct fp)); f-&amp;gt;fp = nowinner; printf(&amp;quot;data is at %p, fp is at %p\n&amp;quot;, d, f); strcpy(d-&amp;gt;name, argv[1]); f-&amp;gt;fp(); }  From a quick peek to the source code, we can see that our first argument can overflow the d-&amp;gt;name buffer (64bytes) and so overwrite the f-&amp;gt;fp pointer.</description>
     </item>
     
     <item>
       <title>Protostar format0-4 write-ups</title>
-      <link>http://pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/</link>
       <pubDate>Thu, 19 Dec 2013 17:29:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/19/protostar-format0-4-write-ups/</guid>
       <description>Format0 In Format0 we are given the following vulnerable code:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; void vuln(char *string) { volatile int target; char buffer[64]; target = 0; sprintf(buffer, string); if(target == 0xdeadbeef) { printf(&amp;quot;you have hit the target correctly :)\n&amp;quot;); } } int main(int argc, char **argv) { vuln(argv[1]); }  This is not really a format string vulnerability, our argument is going to be written in buffer with no size checks and buffer is just above target so we can overwrite it:</description>
     </item>
     
     <item>
       <title>Protostar stack0-7 write-up</title>
-      <link>http://pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/</link>
       <pubDate>Tue, 17 Dec 2013 20:39:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/</guid>
       <description>Stack0 In Stack0 we need to exploit the following program:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv) { volatile int modified; char buffer[64]; modified = 0; gets(buffer); if(modified != 0) { printf(&amp;quot;you have changed the &#39;modified&#39; variable\n&amp;quot;); } else { printf(&amp;quot;Try again?\n&amp;quot;); } }  Since modified variable is between saved EBP and buffer any character overflowing buffer will change modified:
 user@protostar:~$ echo `python -c &#39;print(&amp;quot;A&amp;quot;*64)&#39;` | /opt/protostar/bin/stack0 Try again?</description>

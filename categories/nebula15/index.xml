@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula15 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/nebula15/</link>
+    <link>http://www.pwntester.com/categories/nebula15/</link>
     <description>Recent content in nebula15 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 26 Nov 2013 15:42:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/nebula15/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/nebula15/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level15 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/26/nebula-level15-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/26/nebula-level15-write-up/</link>
       <pubDate>Tue, 26 Nov 2013 15:42:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/26/nebula-level15-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/26/nebula-level15-write-up/</guid>
       <description>In Level 15 we are given the following description:
  strace the binary at /home/flag15/flag15 and see if you spot anything out of the ordinary. You may wish to review how to &amp;ldquo;compile a shared library in linux&amp;rdquo; and how the libraries are loaded and processed by reviewing the dlopen manpage in depth. Clean up after yourself :)
  As suggested by the challange, we execute strace:

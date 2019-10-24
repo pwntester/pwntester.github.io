@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/php/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/php/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/php/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/php/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/php/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/php/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,7 +202,7 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/" class="post-link">NuitDuHack 2014 Web Write Ups</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/" class="post-link">NuitDuHack 2014 Web Write Ups</a></h3>
     <p class="post-meta">@pwntester · Apr 6, 2014 · 3 min read</p>
   </header>
   
@@ -211,28 +211,28 @@ Visiting the flag page give us a Nice try, did you really think it would be that
 http://abitbol.nuitduhack.com/zoom.php?image=1%3E%3Cscript%3Ealert%281%29%3C/script%3E
 Now, we dont know how the admin contact will be visualized in the viewer page, but we can try to send him a message with an iframe pointing to the vulnerable page so we can send his session ID to our cookie catcher or use XHR to request the flag.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/" class="post-link">#hackyou2014 Web400 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/" class="post-link">#hackyou2014 Web400 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 17, 2014 · 10 min read</p>
   </header>
   
   <p class="post-summary">I did not solve this level during the CTF, but found it so interesting reading Xelenonz write-up that I couldnt help trying it myself just for the fun and since this blog is my personal notes, I decided to write it here for future reference, but all credits go to Xelenonz.
 We are given the code of a Image hostig web app. Reading the code we see how it handle the requests:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/17/hackyou2014-web400-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/" class="post-link">#hackyou2014 Web100 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/" class="post-link">#hackyou2014 Web100 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 15, 2014 · 2 min read</p>
   </header>
   
@@ -241,28 +241,28 @@ If we look at the source code we can see an interesting comment:
 ... &lt;!-- TODO: remove index.phps --&gt; ...  We can grab the source code:
 &lt;?php include &#39;db.php&#39;; session_start(); if (!isset($_SESSION[&#39;login&#39;])) { $_SESSION[&#39;login&#39;] = &#39;guest&#39;.mt_rand(1e5, 1e6); } $login = $_SESSION[&#39;login&#39;]; if (isset($_POST[&#39;submit&#39;])) { if (!isset($_POST[&#39;id&#39;], $_POST[&#39;vote&#39;]) || !is_numeric($_POST[&#39;id&#39;])) die(&#39;Hacking attempt!&#39;); $id = $_POST[&#39;id&#39;]; $vote = (int)$_POST[&#39;vote&#39;]; if ($vote &gt; 5 || $vote &lt; 1) $vote = 1; $q = mysql_query(&#34;INSERT INTO vote VALUES ({$id}, {$vote}, &#39;{$login}&#39;)&#34;); $q = mysql_query(&#34;SELECT id FROM vote WHERE user = &#39;{$login}&#39; GROUP BY id&#34;); echo &#39;&lt;p&gt;&lt;b&gt;Thank you!</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web100-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/" class="post-link">#hackyou2014 Web200 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/" class="post-link">#hackyou2014 Web200 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 15, 2014 · 2 min read</p>
   </header>
   
   <p class="post-summary">In this level we are presented with a typical Snake game.
 I spent a couple of hours deofuscating the javascript code until I was capable of submitting any score. Nice but useless. I also found out that I could fake the IP associated to the score using the X-Forwarded-For header. That was pretty much it until the CTF was about to finish when I was given the hint: “../”. I could use it to locate a LFI vulnerability that was affecting the index.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web200-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/" class="post-link">#hackyou2014 Web300 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/" class="post-link">#hackyou2014 Web300 write-up</a></h3>
     <p class="post-meta">@pwntester · Jan 15, 2014 · 2 min read</p>
   </header>
   
@@ -271,7 +271,7 @@ The task name was “AngryBird” and this was very relevant to solve the challa
  Finding a hidden admin area Exploiting a blind SQLi to get credentials  Finding the hidden admin area We were given the following description:
  Some web-developers still host their sites on Windows platform, and think that it is secure enough</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/01/15/hackyou2014-web300-write-up/">Read More →</a>
   </footer>
 </article>
 

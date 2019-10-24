@@ -47,7 +47,7 @@ And the code looks like:
   <meta property="og:description" content="Fusion level02 This level has the following protections:
 And the code looks like:
 #include &amp;quot;../common/common.c&amp;quot; #define XORSZ 32 void cipher(unsigned char *blah, size_t len) { static int keyed; static unsigned int keybuf[XORSZ]; int blocks; unsigned int *blahi, j; if(keyed == 0) { int fd; fd = open(&amp;quot;/dev/urandom&amp;quot;, O_RDONLY); if(read(fd, &amp;amp;keybuf, sizeof(keybuf)) != sizeof(keybuf)) exit(EXIT_FAILURE); close(fd); keyed = 1; } blahi = (unsigned int *)(blah); blocks = (len / 4); if(len &amp;amp; 3) blocks &#43;= 1; for(j = 0; j &amp;lt; blocks; j&#43;&#43;) { blahi[j] ^= keybuf[j % XORSZ]; } } void encrypt_file() { // http://thedailywtf.">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -56,7 +56,7 @@ And the code looks like:
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/12/30/fusion-level02-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/12/30/fusion-level02-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -142,9 +142,9 @@ And the code looks like:
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

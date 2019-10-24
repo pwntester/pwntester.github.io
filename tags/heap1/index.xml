@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>heap1 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/heap1/</link>
+    <link>http://www.pwntester.com/tags/heap1/</link>
     <description>Recent content in heap1 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 20 Dec 2013 09:32:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/heap1/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/heap1/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Protostar heap0-4 write-ups</title>
-      <link>http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</link>
       <pubDate>Fri, 20 Dec 2013 09:32:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/20/protostar-heap0-4-write-ups/</guid>
       <description>Heap0 In Heap0 we are given the following vulnerable code:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; struct data { char name[64]; }; struct fp { int (*fp)(); }; void winner() { printf(&amp;quot;level passed\n&amp;quot;); } void nowinner() { printf(&amp;quot;level has not been passed\n&amp;quot;); } int main(int argc, char **argv) { struct data *d; struct fp *f; d = malloc(sizeof(struct data)); f = malloc(sizeof(struct fp)); f-&amp;gt;fp = nowinner; printf(&amp;quot;data is at %p, fp is at %p\n&amp;quot;, d, f); strcpy(d-&amp;gt;name, argv[1]); f-&amp;gt;fp(); }  From a quick peek to the source code, we can see that our first argument can overflow the d-&amp;gt;name buffer (64bytes) and so overwrite the f-&amp;gt;fp pointer.</description>
     </item>

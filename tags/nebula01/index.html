@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/nebula01/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/nebula01/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/nebula01/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/nebula01/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/nebula01/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/nebula01/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,7 +202,7 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/" class="post-link">Nebula level01 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/20/nebula-level01-write-up/" class="post-link">Nebula level01 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 20, 2013 · 1 min read</p>
   </header>
   
@@ -210,7 +210,7 @@
 #include &lt;stdlib.h&gt; #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; int main(int argc, char **argv, char **envp) { gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); system(&#34;/usr/bin/env echo and now what?&#34;); }  This is the code of the /home/flag01/flag01 program that runs as flag01 user
 level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 Nov 20 2011 /home/flag01/flag01  As setresuid sets the Real, Effective and Saved uids to the effective one (flag01), the following call to system will effectively run as flag01.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/20/nebula-level01-write-up/">Read More →</a>
   </footer>
 </article>
 

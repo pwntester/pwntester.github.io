@@ -47,7 +47,7 @@ level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 No
   <meta property="og:description" content="In Level01 , we are given the following vulnerable c program:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv, char **envp) { gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); system(&amp;quot;/usr/bin/env echo and now what?&amp;quot;); }  This is the code of the /home/flag01/flag01 program that runs as flag01 user
 level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 Nov 20 2011 /home/flag01/flag01  As setresuid sets the Real, Effective and Saved uids to the effective one (flag01), the following call to system will effectively run as flag01.">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/11/20/nebula-level01-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -56,7 +56,7 @@ level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 No
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/11/20/nebula-level01-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -142,9 +142,9 @@ level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 No
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

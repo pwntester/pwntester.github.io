@@ -44,7 +44,7 @@
   <meta property="og:title" content="Nebula level17 write-up">
   <meta property="og:description" content="In Level 17 we are given a vulnerable python server:
 #!/usr/bin/python import os import pickle import time import socket import signal signal.signal(signal.SIGCHLD, signal.SIG_IGN) def server(skt): line = skt.recv(1024) obj = pickle.loads(line) for i in obj: clnt.send(&amp;quot;why did you send me &amp;quot; &#43; i &#43; &amp;quot;?\n&amp;quot;) skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) skt.bind((&#39;0.0.0.0&#39;, 10007)) skt.listen(10) while True: clnt, addr = skt.accept() if(os.fork() == 0): clnt.send(&amp;quot;Accepted connection from %s:%d&amp;quot; % (addr[0], addr[1])) server(clnt) exit(1)  The only part of the application that processes our data is:">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/11/26/nebula-level17-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/11/26/nebula-level17-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

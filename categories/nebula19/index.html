@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/categories/nebula19/">
+  <meta property="og:url" content="http://www.pwntester.com/categories/nebula19/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/categories/nebula19/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/categories/nebula19/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/categories/nebula19/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/categories/nebula19/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/28/nebula-level19-write-up/" class="post-link">Nebula level19 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/28/nebula-level19-write-up/" class="post-link">Nebula level19 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 28, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level 19 we are given the source code of a vulnerable program:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; #include &lt;fcntl.h&gt; #include &lt;sys/stat.h&gt; int main(int argc, char **argv, char **envp) { pid_t pid; char buf[256]; struct stat statbuf; /* Get the parent&#39;s /proc entry, so we can verify its user id */ snprintf(buf, sizeof(buf)-1, &#34;/proc/%d&#34;, getppid()); /* stat() it */ if(stat(buf, &amp;statbuf) == -1) { printf(&#34;Unable to check parent process\n&#34;); exit(EXIT_FAILURE); } /* check the owner id */ if(statbuf.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/28/nebula-level19-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/28/nebula-level19-write-up/">Read More →</a>
   </footer>
 </article>
 

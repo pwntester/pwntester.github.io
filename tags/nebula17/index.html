@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/nebula17/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/nebula17/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/nebula17/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/nebula17/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/nebula17/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/nebula17/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/" class="post-link">Nebula level17 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/26/nebula-level17-write-up/" class="post-link">Nebula level17 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 26, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level 17 we are given a vulnerable python server:
 #!/usr/bin/python import os import pickle import time import socket import signal signal.signal(signal.SIGCHLD, signal.SIG_IGN) def server(skt): line = skt.recv(1024) obj = pickle.loads(line) for i in obj: clnt.send(&#34;why did you send me &#34; &#43; i &#43; &#34;?\n&#34;) skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) skt.bind((&#39;0.0.0.0&#39;, 10007)) skt.listen(10) while True: clnt, addr = skt.accept() if(os.fork() == 0): clnt.send(&#34;Accepted connection from %s:%d&#34; % (addr[0], addr[1])) server(clnt) exit(1)  The only part of the application that processes our data is:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/26/nebula-level17-write-up/">Read More →</a>
   </footer>
 </article>
 

@@ -44,7 +44,7 @@
   <meta property="og:title" content="#hackyou2014 Crypto200 write-up">
   <meta property="og:description" content="In this level we are said that our challange is login with administrator role in a service listening on hackyou2014tasks.ctf.su 7777 We are given the following source code:
 #!/usr/bin/python from math import sin from urlparse import parse_qs from base64 import b64encode from base64 import b64decode from re import match SALT = &#39;&#39; USERS = set() KEY = &#39;&#39;.decode(&#39;hex&#39;) def xor(a, b): return &#39;&#39;.join(map(lambda x : chr(ord(x[0]) ^ ord(x[1])), zip(a, b * 100))) def hashme(s): #my secure hash function def F(X,Y,Z): return ((~X &amp;amp; Z) | (~X &amp;amp; Z)) &amp;amp; 0xFFFFFFFF def G(X,Y,Z): return ((X &amp;amp; Z) | (~Z &amp;amp; Y)) &amp;amp; 0xFFFFFFFF def H(X,Y,Z): return (X ^ Y ^ Y) &amp;amp; 0xFFFFFFFF def I(X,Y,Z): return (Y ^ (~Z | X)) &amp;amp; 0xFFFFFFFF def ROL(X,Y): return (X &amp;lt;&amp;lt; Y | X &amp;gt;&amp;gt; (32 - Y)) &amp;amp; 0xFFFFFFFF A = 0x67452301 B = 0xEFCDAB89 C = 0x98BADCFE D = 0x10325476 X = [int(0xFFFFFFFF * sin(i)) &amp;amp; 0xFFFFFFFF for i in xrange(256)] for i,ch in enumerate(s): k, l = ord(ch), i &amp;amp; 0x1f A = (B &#43; ROL(A &#43; F(B,C,D) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF B = (C &#43; ROL(B &#43; G(C,D,A) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF C = (D &#43; ROL(C &#43; H(D,A,B) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF D = (A &#43; ROL(D &#43; I(A,B,C) &#43; X[k], l)) &amp;amp; 0xFFFFFFFF return &#39;&#39;.">
-  <meta property="og:url" content="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2014/01/16/hackyou2014-crypto200-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

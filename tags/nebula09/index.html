@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/nebula09/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/nebula09/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/nebula09/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/nebula09/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/nebula09/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/nebula09/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/22/nebula-level09-write-up/" class="post-link">Nebula level09 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/22/nebula-level09-write-up/" class="post-link">Nebula level09 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 22, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level09 we are given the following PHP code and are said that it is execute with a SUID wrapper:
 function spam($email) { $email = preg_replace(&#34;/\./&#34;, &#34; dot &#34;, $email); $email = preg_replace(&#34;/@/&#34;, &#34; AT &#34;, $email); return $email; } function markup($filename, $use_me) { $contents = file_get_contents($filename); $contents = preg_replace(&#34;/(\[email (.*)\])/e&#34;, &#34;spam(\&#34;\\2\&#34;)&#34;, $contents); $contents = preg_replace(&#34;/\[/&#34;, &#34;&lt;&#34;, $contents); $contents = preg_replace(&#34;/\]/&#34;, &#34;&gt;&#34;, $contents); return $contents; } $output = markup($argv[1], $argv[2]); print $output;  This code takes two arguments, the first one is a file containing email address in the format:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/22/nebula-level09-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/22/nebula-level09-write-up/">Read More →</a>
   </footer>
 </article>
 

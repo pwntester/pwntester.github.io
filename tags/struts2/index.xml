@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Struts2 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/struts2/</link>
+    <link>http://www.pwntester.com/tags/struts2/</link>
     <description>Recent content in Struts2 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 21 Jan 2014 19:10:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/struts2/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/struts2/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Struts 2 devmode: An OGNL backdoor</title>
-      <link>http://pwntester.com/blog/2014/01/21/struts-2-devmode-an-ognl-backdoor/</link>
+      <link>http://www.pwntester.com/blog/2014/01/21/struts-2-devmode-an-ognl-backdoor/</link>
       <pubDate>Tue, 21 Jan 2014 19:10:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/01/21/struts-2-devmode-an-ognl-backdoor/</guid>
+      <guid>http://www.pwntester.com/blog/2014/01/21/struts-2-devmode-an-ognl-backdoor/</guid>
       <description>There are many Struts 2 developers familiar with the Struts 2 development mode on which more verbose logs are produced and handy resource reloading is done on a request basis to avoid restarting the server every time we change a property, validator and so on. What it is not so well known (actually it doesn’t even appear in the Struts 2 devmode site) is that it enables a OGNL injection backdoor allowing the developers to check their Value Stacks with ease and from a handy OGNL console or request parameter.</description>
     </item>
     

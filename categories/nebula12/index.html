@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/categories/nebula12/">
+  <meta property="og:url" content="http://www.pwntester.com/categories/nebula12/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/categories/nebula12/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/categories/nebula12/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/categories/nebula12/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/categories/nebula12/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/24/nebula-level12-write-up/" class="post-link">Nebula level12 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/24/nebula-level12-write-up/" class="post-link">Nebula level12 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 24, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level12 we are given the following code:
 local socket = require(&#34;socket&#34;) local server = assert(socket.bind(&#34;127.0.0.1&#34;, 50001)) function hash(password) prog = io.popen(&#34;echo &#34;..password..&#34; | sha1sum&#34;, &#34;r&#34;) data = prog:read(&#34;*all&#34;) prog:close() data = string.sub(data, 1, 40) return data end while 1 do local client = server:accept() client:send(&#34;Password: &#34;) client:settimeout(60) local line, err = client:receive() if not err then print(&#34;trying &#34; .. line) -- log from where ;\ local h = hash(line) if h ~= &#34;4754a4f4bd5787accd33de887b9250a0691dd198&#34; then client:send(&#34;Better luck next time\n&#34;); else client:send(&#34;Congrats, your token is 413**CARRIER LOST**\n&#34;) end end client:close() end  We have a command injection as the password variable can be controlled by the user and it is used to create a command that will be run in the system.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/24/nebula-level12-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/24/nebula-level12-write-up/">Read More →</a>
   </footer>
 </article>
 

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>net3 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/net3/</link>
+    <link>http://www.pwntester.com/categories/net3/</link>
     <description>Recent content in net3 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 21 Dec 2013 13:28:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/net3/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/net3/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Protostar net0-3 write-ups</title>
-      <link>http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</link>
+      <link>http://www.pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</link>
       <pubDate>Sat, 21 Dec 2013 13:28:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</guid>
+      <guid>http://www.pwntester.com/blog/2013/12/21/protostar-net0-3-write-ups/</guid>
       <description>Net 0 In this level we are presented with an integer and we have to reply the server with a little endian version of the integer. We use python and the struct module to do the conversion for us:
 from socket import * from struct import * s = socket(AF_INET, SOCK_STREAM) s.connect((&amp;quot;localhost&amp;quot;, 2999)) challange = s.recv(1024) start = challange.find(&amp;quot;&#39;&amp;quot;) + 1 end = challange.find(&amp;quot;&#39;&amp;quot;, start) num = int(challange[start:end]) print &amp;quot;Challange: &amp;quot; + str(num) li = pack(&amp;quot;&amp;lt;I&amp;quot;, num) s.</description>
     </item>

@@ -39,7 +39,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/">
+  <meta property="og:url" content="http://www.pwntester.com/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -48,8 +48,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -129,9 +129,9 @@
     
      
  <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h1 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h1>
+  <h1 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h1>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -198,21 +198,21 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2015/03/30/0ctf-short-write-ups/" class="post-link">0CTF 2015 - Forward (web 250)</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2015/03/30/0ctf-short-write-ups/" class="post-link">0CTF 2015 - Forward (web 250)</a></h3>
     <p class="post-meta">@pwntester · Mar 30, 2015 · 2 min read</p>
   </header>
   
   <p class="post-summary">We are given access to a page and its source code:
 &lt;?php if (isset($_GET[&#39;view-source&#39;])) { show_source(__FILE__); exit(); } include(&#34;./inc.php&#34;); // key &amp; database config function err($str){ die(&#34;&lt;script&gt;alert(\&#34;$str\&#34;);window.location.href=&#39;./&#39;;&lt;/script&gt;&#34;); } $nonce = mt_rand(); extract($_GET); // this is my backdoor :) if (empty($_POST[&#39;key&#39;])) { err(&#34;Parameter Missing!&#34;); } if ($_POST[&#39;key&#39;] !== $key) { err(&#34;You Are Not Authorized!&#34;); } $conn = mysql_connect($host, $user, $pass); if (!$conn) { err(&#34;Database Error, Please Contact with GameMaster!&#34;); } $query = isset($_POST[&#39;query&#39;]) ?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2015/03/30/0ctf-short-write-ups/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2015/03/30/0ctf-short-write-ups/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/04/27/dragonsector-crypto-100/" class="post-link">DragonSector Crypto 100</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/04/27/dragonsector-crypto-100/" class="post-link">DragonSector Crypto 100</a></h3>
     <p class="post-meta">@pwntester · Apr 27, 2014 · 5 min read</p>
   </header>
   
@@ -220,14 +220,14 @@
 Basically each coupon costs $5 and we have $100 to spend. If we try to withdraw our money we get the amount of money we need to get our flag:
 To show they are playing fairly, the give you a verification id that its the value you have to guess concatenated with a random salt to reach the AES 16 bytes block that is used to encrypt the string.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/04/27/dragonsector-crypto-100/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/04/27/dragonsector-crypto-100/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/" class="post-link">DragonSector PDF Stegano 50</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/" class="post-link">DragonSector PDF Stegano 50</a></h3>
     <p class="post-meta">@pwntester · Apr 27, 2014 · 2 min read</p>
   </header>
   
@@ -237,40 +237,40 @@ But the metadata one shows more interesting stuff:
 It seems there may be a morse code hidden in the PDF. Looking around different PFD objects we see something interesting in object 8:
 If we treat A’s and B’s as dots and dashes we get the following texts:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/" class="post-link">Struts2 0day in the wild</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/" class="post-link">Struts2 0day in the wild</a></h3>
     <p class="post-meta">@pwntester · Apr 24, 2014 · 1 min read</p>
   </header>
   
   <p class="post-summary">Remote code execution 0 day in up-to-date Struts 2 applications: Some months ago Struts2 announced a security vulnerability S2-020 that allowed ClassLoader manipulation and that could be used to get Remote Code Execution on certain application servers like Tomcat 8. The fix for this vulnerability was to forbid the (.*\.|^)class\..* regex from action parameters. However a bypass was made public that basically consists in changing the dot notation for the square bracket notation.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/04/24/struts2-0day-in-the-wild/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/" class="post-link">Crowd-Solving Fusion level05</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/" class="post-link">Crowd-Solving Fusion level05</a></h3>
     <p class="post-meta">@pwntester · Apr 20, 2014 · 9 min read</p>
   </header>
   
   <p class="post-summary">I played with Fusion level05 for a couple of days last Xmas and although I found how to smash the stack, I couldn’t find any reliable way of leaking the .text base address to bypass PIE protection so I left it there. Yesterday, a tweet from @Newlog_ got me thinking it could be a good idea to post what I’ve done so far in case anyone wants to pick it from there and help solving the level.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/04/20/crowd-solving-fusion-level05/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/" class="post-link">NuitDuHack 2014 Crypto Write Ups</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/" class="post-link">NuitDuHack 2014 Crypto Write Ups</a></h3>
     <p class="post-meta">@pwntester · Apr 6, 2014 · 2 min read</p>
   </header>
   
@@ -279,14 +279,14 @@ If we treat A’s and B’s as dots and dashes we get the following texts:</p>
 A simple shift shows interesting results:
 ciphertext = &#34;%96 7=28 7@C E9:D 492= :D iQx&gt;A6C2E@C xF=:FD r26D2C s:GFDQ]&#34; size = len(ciphertext) for i in range(0,100): result=&#34;&#34; for c in ciphertext: if ord(c) &gt; 126 or ord(c) &lt; 33: result &#43;= c else: first = ord(c)&#43;i if first &gt; 90: first = 64 &#43; (first - 90) result &#43;= chr(first) print(result)  Here is were the history classes prove valuable, flag is:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-crypto-write-ups/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/" class="post-link">NuitDuHack 2014 Web Write Ups</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/" class="post-link">NuitDuHack 2014 Web Write Ups</a></h3>
     <p class="post-meta">@pwntester · Apr 6, 2014 · 3 min read</p>
   </header>
   
@@ -295,14 +295,14 @@ Visiting the flag page give us a Nice try, did you really think it would be that
 http://abitbol.nuitduhack.com/zoom.php?image=1%3E%3Cscript%3Ealert%281%29%3C/script%3E
 Now, we dont know how the admin contact will be visualized in the viewer page, but we can try to send him a message with an iframe pointing to the vulnerable page so we can send his session ID to our cookie catcher or use XHR to request the flag.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/04/06/nuitduhack-2014-web-write-ups/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/" class="post-link">Remote code execution and XML Entity Expansion injection vulnerabilities in the Restlet framework</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/" class="post-link">Remote code execution and XML Entity Expansion injection vulnerabilities in the Restlet framework</a></h3>
     <p class="post-meta">@pwntester · Mar 26, 2014 · 5 min read</p>
   </header>
   
@@ -310,28 +310,28 @@ Now, we dont know how the admin contact will be visualized in the viewer page, b
 Advisory overview Restlet is a lightweight Java framework for building RESTful APIs. It comes in different flavors (Java SE, Java EE, Android, Google Web Toolkit and Google App Engine) and is composed of a core API and different extensions that provide additional functionality.
 While adding support for the Restlet API to HP Fortify SCA, the Software Security Research group discovered that the XStream extension prior to 2.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/03/26/remote-code-execution-and-xml-entity-expansion-injection-vulnerabilities-in-the-restlet-framework/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/" class="post-link">Codegate 2k14 4stone (Pwnable 300) Write Up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/" class="post-link">Codegate 2k14 4stone (Pwnable 300) Write Up</a></h3>
     <p class="post-meta">@pwntester · Mar 23, 2014 · 6 min read</p>
   </header>
   
   <p class="post-summary">In this level we are presented with a connect 4 game written with ncurses. After playing a couple of times we find a combination to win: DHHDLLDHDDDLDD
 Nothing happens though so lets fire up Hopper and take a look at the code. A good place to start is by analyzing the code around the you win and you lose exit strings and actually, after priting the you win string we can find an interesting piece of code before the call to exit()</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/03/23/codegate-2k14-4stone-pwnable-300-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/" class="post-link">Codegate 2k14 AngryDoraemon (pwnable 250) write up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/" class="post-link">Codegate 2k14 AngryDoraemon (pwnable 250) write up</a></h3>
     <p class="post-meta">@pwntester · Mar 21, 2014 · 7 min read</p>
   </header>
   
@@ -339,7 +339,7 @@ Nothing happens though so lets fire up Hopper and take a look at the code. A goo
 Not bad, ASLR and NX enabled and the stack is protected with a Canary. Lets analyze what does it do … Running the binary opens a socket in port 8888 which we can connect to and receive a menu with options to attack Doraemon:
 Normally I play with the binary and try to get a crash which is simple in this case, but this time I decided to do some Reversing that payed off very well, I found the following vulnerabilities:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2014/03/21/codegate-2k14-angrydoraemon-pwnable-250-write-up/">Read More →</a>
   </footer>
 </article>
 

@@ -47,7 +47,7 @@ HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;
   <meta property="og:description" content="Fusion level03 In this level we have to bypass ASLR and NX again:
 Before going into the stack overflow details, lets get a valid request to the server. When we connect to the server we are presented with a token that is later used to calculate the MAC code of our request.
 HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;len);  The application is calculating the MAC of whatever is stored in &amp;ldquo;gRequest&amp;rdquo; (token&#43;JSON request) using SHA1 as the hashing algorithm, &amp;ldquo;token&amp;rdquo; as the encryption key and store the MAC in the memory pointed by &amp;ldquo;result&amp;rdquo;.">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/12/31/fusion-level03-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -56,7 +56,7 @@ HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/12/31/fusion-level03-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/12/31/fusion-level03-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -142,9 +142,9 @@ HMAC(EVP_sha1(), token, strlen(token), gRequest, gRequestSize, result, &amp;amp;
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

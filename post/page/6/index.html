@@ -42,7 +42,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/post/">
+  <meta property="og:url" content="http://www.pwntester.com/post/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -51,8 +51,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/post/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/post/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/post/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/post/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -132,9 +132,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -201,34 +201,34 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/28/abusing-jar-downloads/" class="post-link">Abusing jar:// downloads</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/28/abusing-jar-downloads/" class="post-link">Abusing jar:// downloads</a></h3>
     <p class="post-meta">@pwntester · Nov 28, 2013 · 1 min read</p>
   </header>
   
   <p class="post-summary">Recently I saw Timothy Morgan (@ecbftw) presentation on OWASP AppSec USA’13 (Video) where he explained a clever trick to exploit a XXE or SSRF vulnerability fooling the server to fetch a file for us using the jar:// protocol. The trick is to serve the file but keep the connection opened, so our file is effectively uploaded to the victim server and stored on a temporary location until we close the connection.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/28/abusing-jar-downloads/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/28/abusing-jar-downloads/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/28/nebula-level19-write-up/" class="post-link">Nebula level19 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/28/nebula-level19-write-up/" class="post-link">Nebula level19 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 28, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level 19 we are given the source code of a vulnerable program:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; #include &lt;fcntl.h&gt; #include &lt;sys/stat.h&gt; int main(int argc, char **argv, char **envp) { pid_t pid; char buf[256]; struct stat statbuf; /* Get the parent&#39;s /proc entry, so we can verify its user id */ snprintf(buf, sizeof(buf)-1, &#34;/proc/%d&#34;, getppid()); /* stat() it */ if(stat(buf, &amp;statbuf) == -1) { printf(&#34;Unable to check parent process\n&#34;); exit(EXIT_FAILURE); } /* check the owner id */ if(statbuf.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/28/nebula-level19-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/28/nebula-level19-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/27/nebula-level11-revisited/" class="post-link">Nebula level11 revisited</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/27/nebula-level11-revisited/" class="post-link">Nebula level11 revisited</a></h3>
     <p class="post-meta">@pwntester · Nov 27, 2013 · 3 min read</p>
   </header>
   
@@ -236,56 +236,56 @@
 Ok, so we are going to try to fill the uninitialized buffer used in the process function with a string containing the commands to be be run:
 level11@nebula:/home/flag11$ export LD_PRELOAD=`python -c &#39;print(&#34;\x0a/bin/getflag&#34;*80)&#39;`  Now we can go and execute our binary and see if it works:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/27/nebula-level11-revisited/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/27/nebula-level11-revisited/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/" class="post-link">Nebula level18 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/27/nebula-level18-write-up/" class="post-link">Nebula level18 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 27, 2013 · 8 min read</p>
   </header>
   
   <p class="post-summary">In Level 18 we are given the code of a vulnerable program:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;stdio.h&gt; #include &lt;sys/types.h&gt; #include &lt;fcntl.h&gt; #include &lt;getopt.h&gt; struct { FILE *debugfile; int verbose; int loggedin; } globals; #define dprintf(...) if(globals.debugfile) \ fprintf(globals.debugfile, __VA_ARGS__) #define dvprintf(num, ...) if(globals.debugfile &amp;&amp; globals.verbose &gt;= num) \ fprintf(globals.debugfile, __VA_ARGS__) #define PWFILE &#34;/home/flag18/password&#34; void login(char *pw) { FILE *fp; fp = fopen(PWFILE, &#34;r&#34;); if(fp) { char file[64]; if(fgets(file, sizeof(file) - 1, fp) == NULL) { dprintf(&#34;Unable to read password file %s\n&#34;, PWFILE); return; } fclose(fp); if(strcmp(pw, file) !</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/27/nebula-level18-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/27/nebula-level18-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/" class="post-link">Nebula level17 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/26/nebula-level17-write-up/" class="post-link">Nebula level17 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 26, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level 17 we are given a vulnerable python server:
 #!/usr/bin/python import os import pickle import time import socket import signal signal.signal(signal.SIGCHLD, signal.SIG_IGN) def server(skt): line = skt.recv(1024) obj = pickle.loads(line) for i in obj: clnt.send(&#34;why did you send me &#34; &#43; i &#43; &#34;?\n&#34;) skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) skt.bind((&#39;0.0.0.0&#39;, 10007)) skt.listen(10) while True: clnt, addr = skt.accept() if(os.fork() == 0): clnt.send(&#34;Accepted connection from %s:%d&#34; % (addr[0], addr[1])) server(clnt) exit(1)  The only part of the application that processes our data is:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/26/nebula-level17-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/26/nebula-level17-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/26/nebula-level16-write-up/" class="post-link">Nebula level16 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/26/nebula-level16-write-up/" class="post-link">Nebula level16 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 26, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In [Level 16]() we are given the following perl CGI:
 #!/usr/bin/env perl use CGI qw{param}; print &#34;Content-type: text/html\n\n&#34;; sub login { $username = $_[0]; $password = $_[1]; $username =~ tr/a-z/A-Z/; # conver to uppercase $username =~ s/\s.*//; # strip everything after a space @output = `egrep &#34;^$username&#34; /home/flag16/userdb.txt 2&gt;&amp;1`; foreach $line (@output) { ($usr, $pw) = split(/:/, $line); if($pw =~ $password) { return 1; } } return 0; } sub htmlz { print(&#34;&lt;html&gt;&lt;head&gt;&lt;title&gt;Login resuls&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&#34;); if($_[0] == 1) { print(&#34;Your login was accepted&lt;br/&gt;&#34;); } else { print(&#34;Your login failed&lt;br/&gt;&#34;); } print(&#34;Would you like a cookie?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/26/nebula-level16-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/26/nebula-level16-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/26/nebula-level15-write-up/" class="post-link">Nebula level15 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/26/nebula-level15-write-up/" class="post-link">Nebula level15 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 26, 2013 · 9 min read</p>
   </header>
   
@@ -294,14 +294,14 @@ level11@nebula:/home/flag11$ export LD_PRELOAD=`python -c &#39;print(&#34;\x0a/b
  As suggested by the challange, we execute strace:
 level15@nebula:/home/flag15$ strace ./flag15 execve(&#34;.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/26/nebula-level15-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/26/nebula-level15-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/25/nebula-level14-write-up/" class="post-link">Nebula level14 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/25/nebula-level14-write-up/" class="post-link">Nebula level14 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 25, 2013 · 2 min read</p>
   </header>
   
@@ -309,35 +309,35 @@ level15@nebula:/home/flag15$ strace ./flag15 execve(&#34;.</p>
 We can try to reverse the cipher but lets play with it and see if we can find out the encryption routine:
 level14@nebula:/home/flag14$ ./flag14 -e aaaaaaaaaaaaaaaaa abcdefghijklmnopq  level14@nebula:/home/flag14$ ./flag14 -e abcdefg acegikm  Ok, so it looks pretty simple, we shift a given characters a number of positions in the ASCII table where the key is the position of the character to encrypt.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/25/nebula-level14-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/25/nebula-level14-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/25/nebula-level13-write-up/" class="post-link">Nebula level13 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/25/nebula-level13-write-up/" class="post-link">Nebula level13 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 25, 2013 · 3 min read</p>
   </header>
   
   <p class="post-summary">In Level13 we are given the following code:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;stdio.h&gt; #include &lt;sys/types.h&gt; #include &lt;string.h&gt; #define FAKEUID 1000 int main(int argc, char **argv, char **envp) { int c; char token[256]; if(getuid() != FAKEUID) { printf(&#34;Security failure detected. UID %d started us, we expect %d\n&#34;, getuid(), FAKEUID); printf(&#34;The system administrators will be notified of this violation\n&#34;); exit(EXIT_FAILURE); } // snip, sorry :) printf(&#34;your token is %s\n&#34;, token); }  Well the code is missing the token but it is clear that is reading the user UID anc comparing it with 1000, so the only way to get our token is to fake that our UID is 1000.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/25/nebula-level13-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/25/nebula-level13-write-up/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/24/nebula-level12-write-up/" class="post-link">Nebula level12 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/24/nebula-level12-write-up/" class="post-link">Nebula level12 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 24, 2013 · 2 min read</p>
   </header>
   
   <p class="post-summary">In Level12 we are given the following code:
 local socket = require(&#34;socket&#34;) local server = assert(socket.bind(&#34;127.0.0.1&#34;, 50001)) function hash(password) prog = io.popen(&#34;echo &#34;..password..&#34; | sha1sum&#34;, &#34;r&#34;) data = prog:read(&#34;*all&#34;) prog:close() data = string.sub(data, 1, 40) return data end while 1 do local client = server:accept() client:send(&#34;Password: &#34;) client:settimeout(60) local line, err = client:receive() if not err then print(&#34;trying &#34; .. line) -- log from where ;\ local h = hash(line) if h ~= &#34;4754a4f4bd5787accd33de887b9250a0691dd198&#34; then client:send(&#34;Better luck next time\n&#34;); else client:send(&#34;Congrats, your token is 413**CARRIER LOST**\n&#34;) end end client:close() end  We have a command injection as the password variable can be controlled by the user and it is used to create a command that will be run in the system.</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/24/nebula-level12-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/24/nebula-level12-write-up/">Read More →</a>
   </footer>
 </article>
 

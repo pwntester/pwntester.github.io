@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula01 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/categories/nebula01/</link>
+    <link>http://www.pwntester.com/categories/nebula01/</link>
     <description>Recent content in nebula01 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 20 Nov 2013 09:18:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/categories/nebula01/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/categories/nebula01/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level01 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/20/nebula-level01-write-up/</link>
       <pubDate>Wed, 20 Nov 2013 09:18:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/20/nebula-level01-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/20/nebula-level01-write-up/</guid>
       <description>In Level01 , we are given the following vulnerable c program:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; int main(int argc, char **argv, char **envp) { gid_t gid; uid_t uid; gid = getegid(); uid = geteuid(); setresgid(gid, gid, gid); setresuid(uid, uid, uid); system(&amp;quot;/usr/bin/env echo and now what?&amp;quot;); }  This is the code of the /home/flag01/flag01 program that runs as flag01 user
 level01@nebula:~$ ls -la /home/flag01/flag01 -rwsr-x--- 1 flag01 level01 7322 Nov 20 2011 /home/flag01/flag01  As setresuid sets the Real, Effective and Saved uids to the effective one (flag01), the following call to system will effectively run as flag01.</description>

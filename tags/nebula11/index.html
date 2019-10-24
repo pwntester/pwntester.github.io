@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/nebula11/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/nebula11/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/nebula11/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/nebula11/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/nebula11/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/nebula11/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,7 +202,7 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/27/nebula-level11-revisited/" class="post-link">Nebula level11 revisited</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/27/nebula-level11-revisited/" class="post-link">Nebula level11 revisited</a></h3>
     <p class="post-meta">@pwntester · Nov 27, 2013 · 3 min read</p>
   </header>
   
@@ -210,21 +210,21 @@
 Ok, so we are going to try to fill the uninitialized buffer used in the process function with a string containing the commands to be be run:
 level11@nebula:/home/flag11$ export LD_PRELOAD=`python -c &#39;print(&#34;\x0a/bin/getflag&#34;*80)&#39;`  Now we can go and execute our binary and see if it works:</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/27/nebula-level11-revisited/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/27/nebula-level11-revisited/">Read More →</a>
   </footer>
 </article>
 
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/" class="post-link">Nebula level11 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/24/nebula-level11-write-up/" class="post-link">Nebula level11 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 24, 2013 · 6 min read</p>
   </header>
   
   <p class="post-summary">In Level11 we are given the following code:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;fcntl.h&gt; #include &lt;stdio.h&gt; #include &lt;sys/mman.h&gt; /* * Return a random, non predictable file, and return the file descriptor for it. */ int getrand(char **path) { char *tmp; int pid; int fd; srandom(time(NULL)); tmp = getenv(&#34;TEMP&#34;); pid = getpid(); asprintf(path, &#34;%s/%d.%c%c%c%c%c%c&#34;, tmp, pid, &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26), &#39;A&#39; &#43; (random() % 26), &#39;0&#39; &#43; (random() % 10), &#39;a&#39; &#43; (random() % 26)); fd = open(*path, O_CREAT|O_RDWR, 0600); unlink(*path); return fd; } void process(char *buffer, int length) { unsigned int key; int i; key = length &amp; 0xff; for(i = 0; i &lt; length; i&#43;&#43;) { buffer[i] ^= key; key -= buffer[i]; } system(buffer); } #define CL &#34;Content-Length: &#34; int main(int argc, char **argv) { char line[256]; char buf[1024]; char *mem; int length; int fd; char *path; if(fgets(line, sizeof(line), stdin) == NULL) { errx(1, &#34;reading from stdin&#34;); } if(strncmp(line, CL, strlen(CL)) !</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/24/nebula-level11-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/24/nebula-level11-write-up/">Read More →</a>
   </footer>
 </article>
 

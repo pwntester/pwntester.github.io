@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nebula19 on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/nebula19/</link>
+    <link>http://www.pwntester.com/tags/nebula19/</link>
     <description>Recent content in nebula19 on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 28 Nov 2013 19:04:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/nebula19/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/nebula19/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nebula level19 write-up</title>
-      <link>http://pwntester.com/blog/2013/11/28/nebula-level19-write-up/</link>
+      <link>http://www.pwntester.com/blog/2013/11/28/nebula-level19-write-up/</link>
       <pubDate>Thu, 28 Nov 2013 19:04:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2013/11/28/nebula-level19-write-up/</guid>
+      <guid>http://www.pwntester.com/blog/2013/11/28/nebula-level19-write-up/</guid>
       <description>In Level 19 we are given the source code of a vulnerable program:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; #include &amp;lt;sys/stat.h&amp;gt; int main(int argc, char **argv, char **envp) { pid_t pid; char buf[256]; struct stat statbuf; /* Get the parent&#39;s /proc entry, so we can verify its user id */ snprintf(buf, sizeof(buf)-1, &amp;quot;/proc/%d&amp;quot;, getppid()); /* stat() it */ if(stat(buf, &amp;amp;statbuf) == -1) { printf(&amp;quot;Unable to check parent process\n&amp;quot;); exit(EXIT_FAILURE); } /* check the owner id */ if(statbuf.</description>
     </item>

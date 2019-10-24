@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/tags/nebula04/">
+  <meta property="og:url" content="http://www.pwntester.com/tags/nebula04/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/tags/nebula04/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/tags/nebula04/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/tags/nebula04/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/tags/nebula04/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,14 +202,14 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/11/21/nebula-level04-write-up/" class="post-link">Nebula level04 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/11/21/nebula-level04-write-up/" class="post-link">Nebula level04 write-up</a></h3>
     <p class="post-meta">@pwntester · Nov 21, 2013 · 1 min read</p>
   </header>
   
   <p class="post-summary">In Level04 we are given the code of a program owned by flag04 user:
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;string.h&gt; #include &lt;sys/types.h&gt; #include &lt;stdio.h&gt; #include &lt;fcntl.h&gt; int main(int argc, char **argv, char **envp) { char buf[1024]; int fd, rc; if(argc == 1) { printf(&#34;%s [file to read]\n&#34;, argv[0]); exit(EXIT_FAILURE); } if(strstr(argv[1], &#34;token&#34;) != NULL) { printf(&#34;You may not access &#39;%s&#39;\n&#34;, argv[1]); exit(EXIT_FAILURE); } fd = open(argv[1], O_RDONLY); if(fd == -1) { err(EXIT_FAILURE, &#34;Unable to open %s&#34;, argv[1]); } rc = read(fd, buf, sizeof(buf)); if(rc == -1) { err(EXIT_FAILURE, &#34;Unable to read fd %d&#34;, fd); } write(1, buf, rc); }  The program opens a file passed as first argument if the name does not contain the token string so we cannot use it to open our target token file … or can we?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/11/21/nebula-level04-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/11/21/nebula-level04-write-up/">Read More →</a>
   </footer>
 </article>
 

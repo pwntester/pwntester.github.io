@@ -44,7 +44,7 @@
   <meta property="og:title" content="Nebula level13 write-up">
   <meta property="og:description" content="In Level13 we are given the following code:
 #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;string.h&amp;gt; #define FAKEUID 1000 int main(int argc, char **argv, char **envp) { int c; char token[256]; if(getuid() != FAKEUID) { printf(&amp;quot;Security failure detected. UID %d started us, we expect %d\n&amp;quot;, getuid(), FAKEUID); printf(&amp;quot;The system administrators will be notified of this violation\n&amp;quot;); exit(EXIT_FAILURE); } // snip, sorry :) printf(&amp;quot;your token is %s\n&amp;quot;, token); }  Well the code is missing the token but it is clear that is reading the user UID anc comparing it with 1000, so the only way to get our token is to fake that our UID is 1000.">
-  <meta property="og:url" content="http://pwntester.com/blog/2013/11/25/nebula-level13-write-up/">
+  <meta property="og:url" content="http://www.pwntester.com/blog/2013/11/25/nebula-level13-write-up/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/blog/2013/11/25/nebula-level13-write-up/">
+<link rel="canonical" href="http://www.pwntester.com/blog/2013/11/25/nebula-level13-write-up/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -139,9 +139,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>

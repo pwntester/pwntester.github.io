@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>pdf on &lt;/pwntester&gt;</title>
-    <link>http://pwntester.com/tags/pdf/</link>
+    <link>http://www.pwntester.com/tags/pdf/</link>
     <description>Recent content in pdf on &lt;/pwntester&gt;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 27 Apr 2014 16:47:00 +0000</lastBuildDate>
     
-	<atom:link href="http://pwntester.com/tags/pdf/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.pwntester.com/tags/pdf/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>DragonSector PDF Stegano 50</title>
-      <link>http://pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/</link>
+      <link>http://www.pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/</link>
       <pubDate>Sun, 27 Apr 2014 16:47:00 +0000</pubDate>
       
-      <guid>http://pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/</guid>
+      <guid>http://www.pwntester.com/blog/2014/04/27/dragonsector-pdf-stegano-50/</guid>
       <description>This was the task that most player solved (89). We were given a PDF with a Lorem ipsum text. Using PeePDF from @EternalTodo we can easily analyze the PDF.
 The info command shows two suspicious sectors:
 But the metadata one shows more interesting stuff:

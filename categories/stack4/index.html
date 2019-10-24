@@ -43,7 +43,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="&lt;/pwntester&gt;">
   
-  <meta property="og:url" content="http://pwntester.com/categories/stack4/">
+  <meta property="og:url" content="http://www.pwntester.com/categories/stack4/">
   <meta property="og:image" content="/images/avatar.jpeg">
 
 
@@ -52,8 +52,8 @@
 <meta name="generator" content="Hugo 0.59.0">
 
 
-<link rel="canonical" href="http://pwntester.com/categories/stack4/">
-<link rel="alternate" type="application/rss+xml" href="http://pwntester.com/categories/stack4/index.xml" title="</pwntester>">
+<link rel="canonical" href="http://www.pwntester.com/categories/stack4/">
+<link rel="alternate" type="application/rss+xml" href="http://www.pwntester.com/categories/stack4/index.xml" title="</pwntester>">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,9 +133,9 @@
     
     
   <header class="site-header">
-  <a href="http://pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
+  <a href="http://www.pwntester.com/"><img class="avatar" src="/images/avatar.jpeg" alt="Avatar"></a>
   
-  <h2 class="title"><a href="http://pwntester.com/">&lt;/pwntester&gt;</a></h2>
+  <h2 class="title"><a href="http://www.pwntester.com/">&lt;/pwntester&gt;</a></h2>
   
   <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
     <span class="icon icon-menu" aria-hidden="true"></span>
@@ -202,7 +202,7 @@
       
         <article class="post-entry">
   <header class="post-header">
-    <h3 class="post-title"><a href="http://pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/" class="post-link">Protostar stack0-7 write-up</a></h3>
+    <h3 class="post-title"><a href="http://www.pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/" class="post-link">Protostar stack0-7 write-up</a></h3>
     <p class="post-meta">@pwntester · Dec 17, 2013 · 11 min read</p>
   </header>
   
@@ -210,7 +210,7 @@
 #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;stdio.h&gt; int main(int argc, char **argv) { volatile int modified; char buffer[64]; modified = 0; gets(buffer); if(modified != 0) { printf(&#34;you have changed the &#39;modified&#39; variable\n&#34;); } else { printf(&#34;Try again?\n&#34;); } }  Since modified variable is between saved EBP and buffer any character overflowing buffer will change modified:
 user@protostar:~$ echo `python -c &#39;print(&#34;A&#34;*64)&#39;` | /opt/protostar/bin/stack0 Try again?</p>
   <footer class="post-footer">
-    <a class="read-more" href="http://pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/">Read More →</a>
+    <a class="read-more" href="http://www.pwntester.com/blog/2013/12/17/protostar-stack0-7-write-up/">Read More →</a>
   </footer>
 </article>
 
