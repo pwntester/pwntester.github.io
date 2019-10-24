@@ -18,12 +18,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/polictf2015/</loc>
+    <loc>http://www.pwntester.com/tags/polictf2015/</loc>
     <lastmod>2015-07-12T09:56:12+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/polictf2015/</loc>
+    <loc>http://www.pwntester.com/categories/polictf2015/</loc>
     <lastmod>2015-07-12T09:56:12+00:00</lastmod>
   </url>
   
@@ -88,12 +88,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/crypto/</loc>
+    <loc>http://www.pwntester.com/tags/crypto/</loc>
     <lastmod>2014-04-27T18:50:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/crypto/</loc>
+    <loc>http://www.pwntester.com/categories/crypto/</loc>
     <lastmod>2014-04-27T18:50:00+00:00</lastmod>
   </url>
   
@@ -148,22 +148,22 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/caesar/</loc>
-    <lastmod>2014-04-06T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/categories/caesar/</loc>
     <lastmod>2014-04-06T20:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/ctf/</loc>
+    <loc>http://www.pwntester.com/tags/caesar/</loc>
     <lastmod>2014-04-06T20:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/categories/ctf/</loc>
+    <lastmod>2014-04-06T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/tags/ctf/</loc>
     <lastmod>2014-04-06T20:00:00+00:00</lastmod>
   </url>
   
@@ -193,12 +193,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/lfi/</loc>
+    <loc>http://www.pwntester.com/categories/lfi/</loc>
     <lastmod>2014-04-06T10:29:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/lfi/</loc>
+    <loc>http://www.pwntester.com/tags/lfi/</loc>
     <lastmod>2014-04-06T10:29:00+00:00</lastmod>
   </url>
   
@@ -208,17 +208,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/php/</loc>
-    <lastmod>2014-04-06T10:29:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/tags/php/</loc>
     <lastmod>2014-04-06T10:29:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/web/</loc>
+    <loc>http://www.pwntester.com/categories/php/</loc>
     <lastmod>2014-04-06T10:29:00+00:00</lastmod>
   </url>
   
@@ -228,12 +223,17 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/xss/</loc>
+    <loc>http://www.pwntester.com/tags/web/</loc>
     <lastmod>2014-04-06T10:29:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/categories/xss/</loc>
+    <lastmod>2014-04-06T10:29:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/tags/xss/</loc>
     <lastmod>2014-04-06T10:29:00+00:00</lastmod>
   </url>
   
@@ -268,22 +268,22 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/pwnable/</loc>
-    <lastmod>2014-03-23T11:38:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/tags/pwnable/</loc>
     <lastmod>2014-03-23T11:38:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/aslr/</loc>
-    <lastmod>2014-03-21T22:09:00+00:00</lastmod>
+    <loc>http://www.pwntester.com/categories/pwnable/</loc>
+    <lastmod>2014-03-23T11:38:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/categories/aslr/</loc>
+    <lastmod>2014-03-21T22:09:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/tags/aslr/</loc>
     <lastmod>2014-03-21T22:09:00+00:00</lastmod>
   </url>
   
@@ -293,22 +293,22 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/leak/</loc>
-    <lastmod>2014-03-21T22:09:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/categories/leak/</loc>
     <lastmod>2014-03-21T22:09:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nx/</loc>
+    <loc>http://www.pwntester.com/tags/leak/</loc>
     <lastmod>2014-03-21T22:09:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/categories/nx/</loc>
+    <lastmod>2014-03-21T22:09:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/tags/nx/</loc>
     <lastmod>2014-03-21T22:09:00+00:00</lastmod>
   </url>
   
@@ -323,17 +323,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/jsf/</loc>
-    <lastmod>2014-02-14T17:43:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/categories/jsf/</loc>
     <lastmod>2014-02-14T17:43:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/outputtext/</loc>
+    <loc>http://www.pwntester.com/tags/jsf/</loc>
     <lastmod>2014-02-14T17:43:00+00:00</lastmod>
   </url>
   
@@ -343,12 +338,17 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/olympic/</loc>
-    <lastmod>2014-02-14T16:29:00+00:00</lastmod>
+    <loc>http://www.pwntester.com/categories/outputtext/</loc>
+    <lastmod>2014-02-14T17:43:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/tags/olympic/</loc>
+    <lastmod>2014-02-14T16:29:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/categories/olympic/</loc>
     <lastmod>2014-02-14T16:29:00+00:00</lastmod>
   </url>
   
@@ -368,18 +368,13 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/olympicctf/</loc>
-    <lastmod>2014-02-09T16:54:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/tags/olympicctf/</loc>
     <lastmod>2014-02-09T16:54:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/java/</loc>
-    <lastmod>2014-01-21T19:10:00+00:00</lastmod>
+    <loc>http://www.pwntester.com/categories/olympicctf/</loc>
+    <lastmod>2014-02-09T16:54:00+00:00</lastmod>
   </url>
   
   <url>
@@ -388,12 +383,17 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/ognl/</loc>
+    <loc>http://www.pwntester.com/tags/java/</loc>
     <lastmod>2014-01-21T19:10:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/tags/ognl/</loc>
+    <lastmod>2014-01-21T19:10:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/categories/ognl/</loc>
     <lastmod>2014-01-21T19:10:00+00:00</lastmod>
   </url>
   
@@ -438,12 +438,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/rce/</loc>
+    <loc>http://www.pwntester.com/categories/rce/</loc>
     <lastmod>2014-01-17T13:03:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/rce/</loc>
+    <loc>http://www.pwntester.com/tags/rce/</loc>
     <lastmod>2014-01-17T13:03:00+00:00</lastmod>
   </url>
   
@@ -518,22 +518,22 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/exploit/</loc>
-    <lastmod>2013-12-31T19:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/categories/exploit/</loc>
     <lastmod>2013-12-31T19:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/fusion/</loc>
+    <loc>http://www.pwntester.com/tags/exploit/</loc>
     <lastmod>2013-12-31T19:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/tags/fusion/</loc>
+    <lastmod>2013-12-31T19:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/categories/fusion/</loc>
     <lastmod>2013-12-31T19:00:00+00:00</lastmod>
   </url>
   
@@ -558,12 +558,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/level03/</loc>
+    <loc>http://www.pwntester.com/tags/level03/</loc>
     <lastmod>2013-12-31T17:34:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/level03/</loc>
+    <loc>http://www.pwntester.com/categories/level03/</loc>
     <lastmod>2013-12-31T17:34:00+00:00</lastmod>
   </url>
   
@@ -573,12 +573,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/level02/</loc>
+    <loc>http://www.pwntester.com/categories/level02/</loc>
     <lastmod>2013-12-30T16:35:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/level02/</loc>
+    <loc>http://www.pwntester.com/tags/level02/</loc>
     <lastmod>2013-12-30T16:35:00+00:00</lastmod>
   </url>
   
@@ -613,12 +613,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/exploiting/</loc>
+    <loc>http://www.pwntester.com/tags/exploiting/</loc>
     <lastmod>2013-12-26T09:07:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/exploiting/</loc>
+    <loc>http://www.pwntester.com/categories/exploiting/</loc>
     <lastmod>2013-12-26T09:07:00+00:00</lastmod>
   </url>
   
@@ -633,12 +633,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/final1/</loc>
+    <loc>http://www.pwntester.com/categories/final1/</loc>
     <lastmod>2013-12-26T09:07:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/final1/</loc>
+    <loc>http://www.pwntester.com/tags/final1/</loc>
     <lastmod>2013-12-26T09:07:00+00:00</lastmod>
   </url>
   
@@ -673,12 +673,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/springmvc/</loc>
+    <loc>http://www.pwntester.com/tags/springmvc/</loc>
     <lastmod>2013-12-24T10:25:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/springmvc/</loc>
+    <loc>http://www.pwntester.com/categories/springmvc/</loc>
     <lastmod>2013-12-24T10:25:00+00:00</lastmod>
   </url>
   
@@ -698,12 +698,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/net0/</loc>
+    <loc>http://www.pwntester.com/categories/net0/</loc>
     <lastmod>2013-12-21T13:28:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/net0/</loc>
+    <loc>http://www.pwntester.com/tags/net0/</loc>
     <lastmod>2013-12-21T13:28:00+00:00</lastmod>
   </url>
   
@@ -718,22 +718,22 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/net2/</loc>
-    <lastmod>2013-12-21T13:28:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/tags/net2/</loc>
     <lastmod>2013-12-21T13:28:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/net3/</loc>
+    <loc>http://www.pwntester.com/categories/net2/</loc>
     <lastmod>2013-12-21T13:28:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/categories/net3/</loc>
+    <lastmod>2013-12-21T13:28:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/tags/net3/</loc>
     <lastmod>2013-12-21T13:28:00+00:00</lastmod>
   </url>
   
@@ -753,12 +753,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/heap1/</loc>
+    <loc>http://www.pwntester.com/tags/heap1/</loc>
     <lastmod>2013-12-20T09:32:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/heap1/</loc>
+    <loc>http://www.pwntester.com/categories/heap1/</loc>
     <lastmod>2013-12-20T09:32:00+00:00</lastmod>
   </url>
   
@@ -773,12 +773,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/heap3/</loc>
+    <loc>http://www.pwntester.com/tags/heap3/</loc>
     <lastmod>2013-12-20T09:32:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/heap3/</loc>
+    <loc>http://www.pwntester.com/categories/heap3/</loc>
     <lastmod>2013-12-20T09:32:00+00:00</lastmod>
   </url>
   
@@ -818,22 +818,22 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/format3/</loc>
-    <lastmod>2013-12-19T17:29:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/categories/format3/</loc>
     <lastmod>2013-12-19T17:29:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/format4/</loc>
+    <loc>http://www.pwntester.com/tags/format3/</loc>
     <lastmod>2013-12-19T17:29:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/categories/format4/</loc>
+    <lastmod>2013-12-19T17:29:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/tags/format4/</loc>
     <lastmod>2013-12-19T17:29:00+00:00</lastmod>
   </url>
   
@@ -848,17 +848,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/stack0/</loc>
-    <lastmod>2013-12-17T20:39:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://www.pwntester.com/tags/stack0/</loc>
     <lastmod>2013-12-17T20:39:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/stack1/</loc>
+    <loc>http://www.pwntester.com/categories/stack0/</loc>
     <lastmod>2013-12-17T20:39:00+00:00</lastmod>
   </url>
   
@@ -868,7 +863,7 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/stack2/</loc>
+    <loc>http://www.pwntester.com/categories/stack1/</loc>
     <lastmod>2013-12-17T20:39:00+00:00</lastmod>
   </url>
   
@@ -878,12 +873,17 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/stack3/</loc>
+    <loc>http://www.pwntester.com/categories/stack2/</loc>
     <lastmod>2013-12-17T20:39:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.pwntester.com/tags/stack3/</loc>
+    <lastmod>2013-12-17T20:39:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.pwntester.com/categories/stack3/</loc>
     <lastmod>2013-12-17T20:39:00+00:00</lastmod>
   </url>
   
@@ -963,12 +963,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula19/</loc>
+    <loc>http://www.pwntester.com/tags/nebula19/</loc>
     <lastmod>2013-11-28T19:04:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula19/</loc>
+    <loc>http://www.pwntester.com/categories/nebula19/</loc>
     <lastmod>2013-11-28T19:04:00+00:00</lastmod>
   </url>
   
@@ -978,12 +978,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula11/</loc>
+    <loc>http://www.pwntester.com/tags/nebula11/</loc>
     <lastmod>2013-11-27T17:30:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula11/</loc>
+    <loc>http://www.pwntester.com/categories/nebula11/</loc>
     <lastmod>2013-11-27T17:30:00+00:00</lastmod>
   </url>
   
@@ -993,12 +993,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula18/</loc>
+    <loc>http://www.pwntester.com/tags/nebula18/</loc>
     <lastmod>2013-11-27T10:11:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula18/</loc>
+    <loc>http://www.pwntester.com/categories/nebula18/</loc>
     <lastmod>2013-11-27T10:11:00+00:00</lastmod>
   </url>
   
@@ -1008,12 +1008,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula17/</loc>
+    <loc>http://www.pwntester.com/tags/nebula17/</loc>
     <lastmod>2013-11-26T20:15:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula17/</loc>
+    <loc>http://www.pwntester.com/categories/nebula17/</loc>
     <lastmod>2013-11-26T20:15:00+00:00</lastmod>
   </url>
   
@@ -1038,12 +1038,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula15/</loc>
+    <loc>http://www.pwntester.com/categories/nebula15/</loc>
     <lastmod>2013-11-26T15:42:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula15/</loc>
+    <loc>http://www.pwntester.com/tags/nebula15/</loc>
     <lastmod>2013-11-26T15:42:00+00:00</lastmod>
   </url>
   
@@ -1068,12 +1068,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula13/</loc>
+    <loc>http://www.pwntester.com/tags/nebula13/</loc>
     <lastmod>2013-11-25T14:16:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula13/</loc>
+    <loc>http://www.pwntester.com/categories/nebula13/</loc>
     <lastmod>2013-11-25T14:16:00+00:00</lastmod>
   </url>
   
@@ -1083,12 +1083,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula12/</loc>
+    <loc>http://www.pwntester.com/tags/nebula12/</loc>
     <lastmod>2013-11-24T20:37:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula12/</loc>
+    <loc>http://www.pwntester.com/categories/nebula12/</loc>
     <lastmod>2013-11-24T20:37:00+00:00</lastmod>
   </url>
   
@@ -1103,12 +1103,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula10/</loc>
+    <loc>http://www.pwntester.com/tags/nebula10/</loc>
     <lastmod>2013-11-23T11:35:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula10/</loc>
+    <loc>http://www.pwntester.com/categories/nebula10/</loc>
     <lastmod>2013-11-23T11:35:00+00:00</lastmod>
   </url>
   
@@ -1118,12 +1118,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula09/</loc>
+    <loc>http://www.pwntester.com/categories/nebula09/</loc>
     <lastmod>2013-11-22T16:19:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula09/</loc>
+    <loc>http://www.pwntester.com/tags/nebula09/</loc>
     <lastmod>2013-11-22T16:19:00+00:00</lastmod>
   </url>
   
@@ -1133,12 +1133,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula08/</loc>
+    <loc>http://www.pwntester.com/tags/nebula08/</loc>
     <lastmod>2013-11-22T11:05:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula08/</loc>
+    <loc>http://www.pwntester.com/categories/nebula08/</loc>
     <lastmod>2013-11-22T11:05:00+00:00</lastmod>
   </url>
   
@@ -1148,12 +1148,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula07/</loc>
+    <loc>http://www.pwntester.com/categories/nebula07/</loc>
     <lastmod>2013-11-21T17:13:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula07/</loc>
+    <loc>http://www.pwntester.com/tags/nebula07/</loc>
     <lastmod>2013-11-21T17:13:00+00:00</lastmod>
   </url>
   
@@ -1178,12 +1178,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula05/</loc>
+    <loc>http://www.pwntester.com/categories/nebula05/</loc>
     <lastmod>2013-11-21T00:29:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula05/</loc>
+    <loc>http://www.pwntester.com/tags/nebula05/</loc>
     <lastmod>2013-11-21T00:29:00+00:00</lastmod>
   </url>
   
@@ -1193,12 +1193,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula04/</loc>
+    <loc>http://www.pwntester.com/categories/nebula04/</loc>
     <lastmod>2013-11-21T00:01:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula04/</loc>
+    <loc>http://www.pwntester.com/tags/nebula04/</loc>
     <lastmod>2013-11-21T00:01:00+00:00</lastmod>
   </url>
   
@@ -1223,12 +1223,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula02/</loc>
+    <loc>http://www.pwntester.com/categories/nebula02/</loc>
     <lastmod>2013-11-20T11:18:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula02/</loc>
+    <loc>http://www.pwntester.com/tags/nebula02/</loc>
     <lastmod>2013-11-20T11:18:00+00:00</lastmod>
   </url>
   
@@ -1253,12 +1253,12 @@
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/tags/nebula00/</loc>
+    <loc>http://www.pwntester.com/categories/nebula00/</loc>
     <lastmod>2013-11-20T08:18:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.pwntester.com/categories/nebula00/</loc>
+    <loc>http://www.pwntester.com/tags/nebula00/</loc>
     <lastmod>2013-11-20T08:18:00+00:00</lastmod>
   </url>
   
